@@ -1,5 +1,5 @@
 # 2025_1_yabloko
-Фронтенд-репозиторий проекта Delivery Club команды Яблонька
+Фронтенд-репозиторий проекта Delivery Club команды Яблоко
 [Figma](https://www.figma.com/file/) - TBD
 
 ## Деплой
