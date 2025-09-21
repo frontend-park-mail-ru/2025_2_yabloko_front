@@ -45,7 +45,7 @@ git clone https://github.com/frontend-park-mail-ru/yabloko_front.git
 
 ## Полезные ссылки
 
-TBD
+[Kanban доска](https://github.com/orgs/frontend-park-mail-ru/projects/6/views/1)
 
 ## Организация веток
 
