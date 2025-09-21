@@ -1,4 +1,4 @@
-# 2025_1_yablonka
+# 2025_1_yabloko
 Фронтенд-репозиторий проекта Delivery Club команды Яблонька
 [Figma](https://www.figma.com/file/) - TBD
 
