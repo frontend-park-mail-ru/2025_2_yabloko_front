@@ -1,4 +1,4 @@
-export class Card {
+export class Cards {
     #parent
     #lifeTime
     #offset
@@ -43,13 +43,13 @@ export class Card {
 
     #render(content) {
         // TODO активное
-        const template = Handlebars.templates["Card.hbs"];
+        const template = Handlebars.templates["Cards.hbs"];
 
         const items = content.map(({name, id}) => {
-            return {name: name, id: id, cardPadClass: "cardpad", cardClass: "card"};
+            return {name: name, id: id};
         });
 
-        this.#parent.innerHTML += template({items});
+        this.#parent.innerHTML += template({items, cardPadClass: "cardpad", cardClass: "card"});
     }
 
     renderNext() {

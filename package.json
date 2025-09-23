@@ -2,12 +2,12 @@
   "name": "front",
   "version": "1.0.0",
   "description": "",
-  "main": "../apple_frontend/public/index.js",
+  "main": "../yabloko_frontend/public/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prestart": "npm run compile:templates",
-    "start": "DEBUG=* && node ./server.js",
-    "compile:card": "handlebars public/components/Card/Card.hbs -f public/components/Card/Card.precompiled.js",
+    "start": "DEBUG=* && nodemon ./server.js",
+    "compile:card": "handlebars public/components/Cards/Cards.hbs -f public/components/Cards/Cards.precompiled.js",
     "compile:cardHeader": "handlebars public/components/CardHeader/CardHeader.hbs -f public/components/CardHeader/CardHeader.precompiled.js",
     "compile:store": "handlebars public/components/Store/Store.hbs -f public/components/Store/Store.precompiled.js",
     "compile:login": "handlebars public/components/Login/Login.hbs -f public/components/Login/Login.precompiled.js",
@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^5.1.0",
-    "hbs": "^4.2.0"
+    "hbs": "^4.2.0",
+    "nodemon": "^3.1.10"
   }
 }

@@ -1,5 +1,5 @@
 import {CardHeader} from "../components/CardHeader/CardHeader.js";
-import {Card} from "../components/Card/Card.js";
+import {Cards} from "../components/Cards/Cards.js";
 import {Header} from "../components/Header/Header.js";
 import {Footer} from "../components/Footer/Footer.js";
 
@@ -35,27 +35,33 @@ export class MainPage {
         this.state.activeMenu = "main";
 
         this.config.header.object.render();
-        this.config.header.object.setListeners({mainPage: this, loginPage: this.loginPage});
-
         this.config.footer.object.render();
 
         this.config.cardHeader.object.render();
 
-        this.card = new Card({
+        this.card = new Cards({
             parent: document.querySelector(".container"),
             config: this.config,
             lifeTime: 60,
             batchSize: 12,
         });
 
-        this.config.cardHeader.object.setListeners(this.storePage);
-
         this.card.renderNext();
 
-        this.activateScroll();
+        this.setEventListeners();
+        this.setHeaderEventListener();
     }
 
-    activateScroll() {
+    setEventListeners() {
+        this.parent.querySelector(".container").addEventListener("click", (e) => {
+            e.preventDefault();
+
+            if (e.target.classList.item(0) === "card") {
+                this.removeEventListeners();
+                this.storePage.render(e.target.id);
+            }
+        });
+
         window.addEventListener("scroll", () => {
             if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
                 this.card.renderNext();
@@ -63,11 +69,55 @@ export class MainPage {
         });
     }
 
-    deactivateScroll() {
-        window.removeEventListener("scroll", () => {
-            if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-                this.card.renderNext();
+    setHeaderEventListener() {
+        document.querySelector("header .icon").addEventListener("click", (e) => {
+            e.preventDefault();
+
+            this.render();
+        });
+
+        document.querySelector("header .login").addEventListener("click", (e) => {
+            e.preventDefault();
+
+            if (this.state.activeMenu === "login") return;
+
+            if (this.state.activeMenu === "main") {
+                this.removeEventListeners();
+            }
+
+            this.state.prevMenu = this.state.activeMenu;
+            this.state.activeMenu = "login";
+
+            this.loginPage.render();
+        });
+
+        document.querySelector("header .search-bar").addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const inputStr = this.parent.querySelector("input").value.trim();
+            if (inputStr.length > 0) {
+                alert(inputStr);
             }
         });
     }
+
+    removeEventListeners() {
+        this.parent.querySelector(".container").removeEventListener("click", (e) => {
+            e.preventDefault();
+
+            if (e.target.classList.item(0) === "card") {
+                this.storePage.render(e.target.id);
+            }
+        });
+
+        window.removeEventListener("scroll", () => {
+            if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+                this.removeEventListeners();
+                this.card.renderNext();
+            }
+        });
+
+    }
+
+
 }

@@ -1,6 +1,6 @@
 .cards-header {
     width: 100%;
-    margin: 20px 0;
+    margin: 20px 0 40px 0;
 }
 
 .cards-header h2 {
@@ -25,12 +25,16 @@
     border: none;
     background: transparent;
     padding: 8px 15px;
-    border-radius: 20px;
     cursor: pointer;
     font-size: 16px;
 }
 
 .filters button.active {
+    background: white;
+    border: 1px solid whitesmoke;
+}
+
+.filters button:hover {
     background: white;
     border: 1px solid whitesmoke;
 }

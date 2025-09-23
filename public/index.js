@@ -20,5 +20,4 @@ const loginPage = new LoginPage(main, state);
 const storePage = new StorePage(main, state);
 const mainPage = new MainPage(main, state, loginPage, storePage);
 
-
 mainPage.render();

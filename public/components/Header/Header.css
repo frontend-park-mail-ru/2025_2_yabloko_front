@@ -29,8 +29,11 @@ header .left {
     background: orangered;
     color: white;
     padding: 8px 15px;
-    border-radius: 20px;
     cursor: pointer;
+}
+
+.search-bar:hover {
+    border-color: darkorange;
 }
 
 .search-bar button:hover {
@@ -45,7 +48,6 @@ header .right {
 header .login {
     background: orangered;
     border: none;
-    border-radius: 8px;
     color: white;
 
     width: 100px;

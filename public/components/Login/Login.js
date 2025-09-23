@@ -18,7 +18,6 @@ export class Login {
     }
 
     render() {
-        this.parent.style.height = "calc(100vh)";
         const template = Handlebars.templates["Login.hbs"];
 
         const isLogin = this.state.activeMenu === "login";
@@ -54,7 +53,7 @@ export class Login {
     setLoginListeners() {
         const email = this.parent.querySelector("input[name=email]");
         const password = this.parent.querySelector("input[name=password]");
-        const warn = this.parent.querySelector("warning");
+        const warn = this.parent.querySelector("div[class=warning]");
 
         this.parent.querySelector("form").addEventListener("submit", (e) => {
             e.preventDefault();
@@ -63,19 +62,38 @@ export class Login {
             const passwordStr = password.value.trim();
 
             if (emailStr && passwordStr) {
+                warn.classList.remove("active");
                 // TODO login({emailStr, passwordStr});
             } else {
                 password.value = "";
+
+                if (!emailStr) {
+                    email.classList.add("warning");
+                }
+                if (!passwordStr) {
+                    password.classList.add("warning");
+                }
+
                 warn.textContent = "Заполните все поля";
                 warn.classList.add("active");
             }
+        });
+
+        const inputs = this.parent.querySelector("form").querySelectorAll("input");
+        inputs.forEach(input => {
+            input.addEventListener("click", () => {
+                email.classList.remove("warning");
+                password.classList.remove("warning");
+
+                warn.classList.remove("active");
+            });
         });
     }
 
     removeLoginListeners() {
         const email = this.parent.querySelector("input[name=email]");
         const password = this.parent.querySelector("input[name=password]");
-        const warn = this.parent.querySelector("warning");
+        const warn = this.parent.querySelector("div[class=warning]");
 
         this.parent.querySelector("form").removeEventListener("submit", (e) => {
             e.preventDefault();
@@ -84,13 +102,31 @@ export class Login {
             const passwordStr = password.value.trim();
 
             if (emailStr && passwordStr) {
-                // TODO
-                login({emailStr, passwordStr});
+                warn.classList.remove("active");
+                // TODO login({emailStr, passwordStr});
             } else {
                 password.value = "";
+
+                if (!emailStr) {
+                    email.classList.add("warning");
+                }
+                if (!passwordStr) {
+                    password.classList.add("warning");
+                }
+
                 warn.textContent = "Заполните все поля";
                 warn.classList.add("active");
             }
+        });
+
+        const inputs = this.parent.querySelector("form").querySelectorAll("input");
+        inputs.forEach(input => {
+            input.removeEventListener("click", () => {
+                email.classList.remove("warning");
+                password.classList.remove("warning");
+
+                warn.classList.remove("active");
+            });
         });
     }
 
@@ -99,24 +135,21 @@ export class Login {
         const password = this.parent.querySelector("input[name=password]");
         const rePassword = this.parent.querySelector("input[name=repassword]");
 
-        const warnEmail = this.parent.querySelector("warning[id=email]");
-        const warnPassword = this.parent.querySelector("warning[id=password]");
-        const warnRePass = this.parent.querySelector("warning[id=repassword]");
-        const warnSignup = this.parent.querySelector("warning[id=signup]");
+        const warnEmail = this.parent.querySelector("div[id=email]");
+        const warnPassword = this.parent.querySelector("div[id=password]");
+        const warnRePass = this.parent.querySelector("div[id=repassword]");
+        const warnSignup = this.parent.querySelector("div[id=signup]");
 
         const inputs = this.parent.querySelector("form").querySelectorAll("input");
-        const checkFieldsFilled = () => {
-            const allFilled = Array.from(inputs).every(input => input.value.trim() !== "");
-
-            if (allFilled) {
-                warnSignup.classList.remove("active");
-            } else {
-                warnSignup.classList.add("active");
-            }
-        };
-
         inputs.forEach(input => {
-            input.addEventListener("input", checkFieldsFilled);
+            input.addEventListener("click", () => {
+                warnSignup.classList.remove("active");
+
+                email.classList.remove("warning");
+                warnEmail.classList.remove("active");
+                password.classList.remove("warning");
+                rePassword.classList.remove("warning");
+            });
         });
 
         this.parent.querySelector("form").addEventListener("submit", (e) => {
@@ -138,7 +171,7 @@ export class Login {
                     email.classList.add("warning");
                 }
 
-                const errors = validPassword(password);
+                const errors = validPassword(passwordStr);
                 if (errors.length > 0) {
                     warnPassword.textContent = errors[0];
                     warnPassword.classList.add("active");
@@ -152,6 +185,15 @@ export class Login {
                 }
 
             } else {
+                if (!validEmail(emailStr)) {
+                    email.classList.add("warning");
+                }
+                if (!passwordStr) {
+                    password.classList.add("warning");
+                }
+                if (!rePasswordStr) {
+                    rePassword.classList.add("warning");
+                }
                 warnSignup.textContent = "Заполните все поля корректно";
                 warnSignup.classList.add("active");
             }
@@ -170,54 +212,13 @@ export class Login {
             } else {
                 password.classList.add("warning");
                 rePassword.classList.add("warning");
-                warnRePass.textContent = "Пароли не совпадают";
                 warnRePass.classList.add("active");
+                warnRePass.textContent = "Пароли не совпадают";
             }
         };
 
         password.addEventListener("input", () => checkPasswordsMatch());
-
         rePassword.addEventListener("input", () => checkPasswordsMatch());
-
-        email.addEventListener("input", () => {
-            const emailStr = email.value.trim();
-
-            if (emailStr === "") {
-                warnEmail.classList.remove("active");
-                email.classList.remove("warning");
-                return;
-            }
-
-            if (!validEmail(emailStr)) {
-                warnEmail.classList.add("active");
-                email.classList.add("warning");
-            } else {
-                warnEmail.classList.remove("active");
-                email.classList.remove("warning");
-            }
-        });
-
-        password.addEventListener("input", () => {
-            const passwordStr = password.value.trim();
-
-            if (passwordStr === "") {
-                warnPassword.textContent = "";
-                warnPassword.classList.remove("active");
-                password.classList.remove("warning");
-                return;
-            }
-
-            const errors = validPassword(passwordStr);
-
-            if (errors.length > 0) {
-                warnPassword.textContent = errors[0];
-                warnPassword.classList.add("active");
-                password.classList.add("warning");
-            } else {
-                warnPassword.classList.remove("active");
-                password.classList.remove("warning");
-            }
-        });
     }
 
     removeSignupListeners() {
@@ -225,24 +226,21 @@ export class Login {
         const password = this.parent.querySelector("input[name=password]");
         const rePassword = this.parent.querySelector("input[name=repassword]");
 
-        const warnEmail = this.parent.querySelector("warning[id=email]");
-        const warnPassword = this.parent.querySelector("warning[id=password]");
-        const warnRePass = this.parent.querySelector("warning[id=repassword]");
-        const warnSignup = this.parent.querySelector("warning[id=signup]");
+        const warnEmail = this.parent.querySelector("div[id=email]");
+        const warnPassword = this.parent.querySelector("div[id=password]");
+        const warnRePass = this.parent.querySelector("div[id=repassword]");
+        const warnSignup = this.parent.querySelector("div[id=signup]");
 
         const inputs = this.parent.querySelector("form").querySelectorAll("input");
-        const checkFieldsFilled = () => {
-            const allFilled = Array.from(inputs).every(input => input.value.trim() !== "");
-
-            if (allFilled) {
-                warnSignup.classList.remove("active");
-            } else {
-                warnSignup.classList.add("active");
-            }
-        };
-
         inputs.forEach(input => {
-            input.removeEventListener("input", checkFieldsFilled);
+            input.removeEventListener("click", () => {
+                warnSignup.classList.remove("active");
+
+                email.classList.remove("warning");
+                warnEmail.classList.remove("active");
+                password.classList.remove("warning");
+                rePassword.classList.remove("warning");
+            });
         });
 
         this.parent.querySelector("form").removeEventListener("submit", (e) => {
@@ -302,26 +300,7 @@ export class Login {
         };
 
         password.removeEventListener("input", () => checkPasswordsMatch());
-
         rePassword.removeEventListener("input", () => checkPasswordsMatch());
-
-        email.removeEventListener("input", () => {
-            const emailStr = email.value.trim();
-
-            if (emailStr === "") {
-                warnEmail.classList.remove("active");
-                email.classList.remove("warning");
-                return;
-            }
-
-            if (!validEmail(emailStr)) {
-                warnEmail.classList.add("active");
-                email.classList.add("warning");
-            } else {
-                warnEmail.classList.remove("active");
-                email.classList.remove("warning");
-            }
-        });
 
         password.removeEventListener("input", () => {
             const passwordStr = password.value.trim();

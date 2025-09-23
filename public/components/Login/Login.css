@@ -18,7 +18,7 @@
 .login-form input {
     padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 15px;
+    border-radius: 20px;
     font-size: 16px;
     width: 100%;
     box-sizing: border-box;
@@ -31,23 +31,23 @@
 .login-form button {
     padding: 12px;
     font-size: 16px;
-    border-radius: 15px;
     width: 100%;
     background-color: orangered;
     color: white;
     transition: 0.2s;
+    border: none;
 }
 
 .login-form button:hover {
     background-color: darkorange;
 }
 
-warning {
+.login-form div.warning {
     font-size: 15px;
     color: red;
     display: none;
 }
 
-warning.active {
+.login-form div.warning.active {
     display: block;
 }

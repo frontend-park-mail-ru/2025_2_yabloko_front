@@ -1,4 +1,4 @@
-@import "components/Card/Card.css";
+@import "components/Cards/Cards.css";
 @import "components/Store/Store.css";
 @import "components/Header/Header.css";
 @import "components/Login/Login.css";
@@ -11,6 +11,10 @@
     text-align: center;
     color: black;
     text-decoration: none;
+}
+
+button {
+    border-radius: 20px;
 }
 
 header {
@@ -39,7 +43,7 @@ main {
     box-sizing: border-box;
 
     width: 100vw;
-    min-height: 0;
+    min-height: 100vh;
 
     padding: 85px 10vw 0 10vw;
 
@@ -55,6 +59,6 @@ footer {
     flex-shrink: 0;
     background-color: lightgray;
 
-    border-radius: 15px;
+    border-radius: 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
