@@ -1,0 +1,10 @@
+.store {
+    display: flex;
+    height: 100vh;
+}
+
+.column {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}

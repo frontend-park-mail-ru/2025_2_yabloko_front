@@ -1,0 +1,19 @@
+<form class="login-form" novalidate>
+    {{#each inputs}}
+        <div>
+            <input type="{{this.type}}" placeholder="{{this.placeholder}}" name="{{this.name}}">
+            {{#unless ../isLogin}} <warning id="{{this.name}}">{{this.warn}}</warning> {{/unless}}
+        </div>
+    {{/each}}
+
+    {{#if isLogin}}
+        <warning></warning>
+        <button type="submit">Войти</button>
+        <a href="/signup">
+            <button name="signup">Зарегестрироваться</button>
+        </a>
+    {{else}}
+        <warning id="signup"></warning>
+        <button name="signup" {{#unless isLogin}} type="submit" {{/unless}}>Зарегестрироваться</button>
+    {{/if}}
+</form>

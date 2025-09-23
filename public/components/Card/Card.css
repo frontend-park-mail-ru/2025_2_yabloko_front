@@ -1,0 +1,37 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    justify-items: center;
+
+    width: 100%;
+    min-height: 0;
+}
+
+.cardpad {
+    display: inline-block;
+    flex: 0 0 auto;
+
+    width: 20%;
+    height: 180px;
+    min-width: 200px;
+
+    margin-bottom: 3%;
+    padding: 0 1.5%;
+}
+
+.card {
+    display: flex;
+
+    cursor: pointer;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: mediumvioletred;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}

@@ -1,0 +1,58 @@
+header .left {
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    height: 40px;
+    margin-right: 15px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    border: 1px solid orangered;
+    border-radius: 20px;
+    background-color: whitesmoke;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    padding: 8px 10px;
+
+    background-color: transparent;
+}
+
+.search-bar button {
+    border: none;
+    background: orangered;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background-color: darkorange;
+}
+
+header .right {
+    display: flex;
+    align-items: center;
+}
+
+header .login {
+    background: orangered;
+    border: none;
+    border-radius: 8px;
+    color: white;
+
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+}
+
+header .login:hover {
+    background-color: darkorange;
+}
