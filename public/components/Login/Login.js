@@ -5,315 +5,202 @@ export class Login {
         this.state = state;
         this.parent = parent;
 
-        this.fields = new Map();
-        this.fields.set("login", [
-            {placeholder: "Email", type: "email", name: "email"},
-            {placeholder: "Пароль", type: "password", name: "password"}
-        ]);
-        this.fields.set("signup", [
+        this.fields = [
             {placeholder: "Email", type: "email", name: "email", warn: "Введите корректный Email"},
             {placeholder: "Пароль", type: "password", name: "password", warn: ""},
             {placeholder: "Повторите пароль", type: "password", name: "repassword", warn: "Пароли не совпадают"}
-        ]);
+        ];
     }
 
     render() {
         const template = Handlebars.templates["Login.hbs"];
 
-        const isLogin = this.state.activeMenu === "login";
-        const inputs = this.fields.get(this.state.activeMenu);
+        const curIsLogin = this.state.activeMenu === "login";
+        const curIsSignup = this.state.activeMenu === "signup";
+        const prevIsLogin = this.state.prevMenu === "login";
+        const prevIsSignup = this.state.prevMenu === "signup";
 
-        this.parent.innerHTML = template({inputs, isLogin});
+        // Если переход из мейн страницы в логин
+        if (curIsLogin && !prevIsSignup) {
+            this.parent.innerHTML = template({inputs: this.fields});
 
-        if (this.state.activeMenu === "login") {
-            if (this.state.prevMenu === "signup") {
-                this.removeSignupListeners();
-            }
+            const rePassword = this.parent.querySelector("div[id=repassword]");
+            rePassword.classList.add("inactive");
+
+            this.setSwitchListener();
             this.setLoginListeners();
-        } else {
-            if (this.state.prevMenu === "login") {
-                this.removeLoginListeners();
-            }
+        } else if (prevIsLogin && curIsSignup) {
+            // Переход из логина в регу
+            this.loginToSignup();
+
+            this.removeLoginListeners();
             this.setSignupListeners();
+        } else if (prevIsSignup && curIsLogin) {
+            // Переход из реги в логин
+            this.signupToLogin();
+
+            this.removeSignupListeners();
+            this.setLoginListeners();
         }
     }
 
-    setListeners() {
+    loginToSignup() {
+        this.#removeLoginWarn();
+        const {password, rePassword} = this.#getAllElements();
+        password.value = "";
 
-        this.parent.querySelector("button[name=signup]").addEventListener("click", (e) => {
-            e.preventDefault();
+        rePassword.classList.remove("inactive");
 
-            this.state.prevMenu = this.state.activeMenu;
-            this.state.activeMenu = "signup";
-            this.removeLoginListeners();
-            this.render();
-        });
+        const login = this.parent.querySelector("div[id=login]");
+        login.classList.add("inactive");
+
+        const signupButton = this.parent.querySelector("button[id=signup]");
+        signupButton.removeAttribute("type");
+
+        this.removeSwitchListener();
+    }
+
+    signupToLogin() {
+        this.#removeSignupWarns();
+        const {email, password, rePassword} = this.#getAllElements();
+        email.value = "";
+        password.value = "";
+
+        rePassword.classList.add("inactive");
+
+        const login = this.parent.querySelector("div[id=login]");
+        login.classList.remove("inactive");
+
+        const signupButton = this.parent.querySelector("button[id=signup]");
+        signupButton.style.type
+
+        this.setSwitchListener();
+    }
+
+    #switchListener = (e) => {
+        e.preventDefault();
+
+        this.state.prevMenu = this.state.activeMenu;
+        this.state.activeMenu = "signup";
+        this.removeLoginListeners();
+        this.render();
+    }
+
+    setSwitchListener() {
+        this.parent.querySelector("button[id=signup]").addEventListener("click", this.#switchListener);
+    }
+
+    removeSwitchListener() {
+        this.parent.querySelector("button[id=signup]").removeEventListener("click", this.#switchListener);
+    }
+
+    #submitLogin = (e) => {
+        e.preventDefault();
+
+        const {email, password} = this.#getAllElements();
+        const warn = this.parent.querySelector("div[id=warn_login]");
+
+        const emailStr = email.value.trim();
+        const passwordStr = password.value.trim();
+
+        if (emailStr && passwordStr && validEmail(emailStr)) {
+            warn.classList.remove("active");
+            // TODO login({emailStr, passwordStr});
+        } else {
+            password.value = "";
+
+            if (!emailStr) {
+                email.classList.add("warning");
+            }
+            if (!passwordStr) {
+                password.classList.add("warning");
+            }
+
+            warn.textContent = "Заполните все поля корректно";
+            warn.classList.add("active");
+        }
+    }
+
+    #removeLoginWarn = () => {
+        const {email, password} = this.#getAllElements();
+        const warn = this.parent.querySelector("div[id=warn_login]");
+
+        email.classList.remove("warning");
+        password.classList.remove("warning");
+
+        warn.classList.remove("active");
     }
 
     setLoginListeners() {
-        const email = this.parent.querySelector("input[name=email]");
-        const password = this.parent.querySelector("input[name=password]");
-        const warn = this.parent.querySelector("div[class=warning]");
-
-        this.parent.querySelector("form").addEventListener("submit", (e) => {
-            e.preventDefault();
-
-            const emailStr = email.value.trim();
-            const passwordStr = password.value.trim();
-
-            if (emailStr && passwordStr) {
-                warn.classList.remove("active");
-                // TODO login({emailStr, passwordStr});
-            } else {
-                password.value = "";
-
-                if (!emailStr) {
-                    email.classList.add("warning");
-                }
-                if (!passwordStr) {
-                    password.classList.add("warning");
-                }
-
-                warn.textContent = "Заполните все поля";
-                warn.classList.add("active");
-            }
-        });
+        this.parent.querySelector("form").addEventListener("submit", this.#submitLogin);
 
         const inputs = this.parent.querySelector("form").querySelectorAll("input");
         inputs.forEach(input => {
-            input.addEventListener("click", () => {
-                email.classList.remove("warning");
-                password.classList.remove("warning");
-
-                warn.classList.remove("active");
-            });
+            input.addEventListener("click", this.#removeLoginWarn);
         });
     }
 
     removeLoginListeners() {
-        const email = this.parent.querySelector("input[name=email]");
-        const password = this.parent.querySelector("input[name=password]");
-        const warn = this.parent.querySelector("div[class=warning]");
-
-        this.parent.querySelector("form").removeEventListener("submit", (e) => {
-            e.preventDefault();
-
-            const emailStr = email.value.trim();
-            const passwordStr = password.value.trim();
-
-            if (emailStr && passwordStr) {
-                warn.classList.remove("active");
-                // TODO login({emailStr, passwordStr});
-            } else {
-                password.value = "";
-
-                if (!emailStr) {
-                    email.classList.add("warning");
-                }
-                if (!passwordStr) {
-                    password.classList.add("warning");
-                }
-
-                warn.textContent = "Заполните все поля";
-                warn.classList.add("active");
-            }
-        });
+        this.parent.querySelector("form").removeEventListener("submit", this.#submitLogin);
 
         const inputs = this.parent.querySelector("form").querySelectorAll("input");
         inputs.forEach(input => {
-            input.removeEventListener("click", () => {
-                email.classList.remove("warning");
-                password.classList.remove("warning");
-
-                warn.classList.remove("active");
-            });
+            input.removeEventListener("click", this.#removeLoginWarn);
         });
     }
 
-    setSignupListeners() {
+    #getAllElements = () => {
         const email = this.parent.querySelector("input[name=email]");
         const password = this.parent.querySelector("input[name=password]");
         const rePassword = this.parent.querySelector("input[name=repassword]");
 
-        const warnEmail = this.parent.querySelector("div[id=email]");
-        const warnPassword = this.parent.querySelector("div[id=password]");
-        const warnRePass = this.parent.querySelector("div[id=repassword]");
-        const warnSignup = this.parent.querySelector("div[id=signup]");
+        const warnEmail = this.parent.querySelector("div[id=warn_email]");
+        const warnPassword = this.parent.querySelector("div[id=warn_password]");
+        const warnRePass = this.parent.querySelector("div[id=warn_repassword]");
+        const warnSignup = this.parent.querySelector("div[id=warn_signup]");
 
-        const inputs = this.parent.querySelector("form").querySelectorAll("input");
-        inputs.forEach(input => {
-            input.addEventListener("click", () => {
-                warnSignup.classList.remove("active");
-
-                email.classList.remove("warning");
-                warnEmail.classList.remove("active");
-                password.classList.remove("warning");
-                rePassword.classList.remove("warning");
-            });
-        });
-
-        this.parent.querySelector("form").addEventListener("submit", (e) => {
-            e.preventDefault();
-
-            const emailStr = email.value.trim();
-            const passwordStr = password.value.trim();
-            const rePasswordStr = rePassword.value.trim();
-
-            const isMatchPassword = passwordStr === rePasswordStr;
-
-            if (emailStr && passwordStr && isMatchPassword) {
-
-                if (validEmail(emailStr)) {
-                    warnEmail.classList.remove("active");
-                    email.classList.remove("warning");
-                } else {
-                    warnEmail.classList.add("active");
-                    email.classList.add("warning");
-                }
-
-                const errors = validPassword(passwordStr);
-                if (errors.length > 0) {
-                    warnPassword.textContent = errors[0];
-                    warnPassword.classList.add("active");
-                    password.classList.add("warning");
-                } else {
-                    warnPassword.classList.remove("active");
-                    password.classList.remove("warning");
-
-                    // TODO: signup({ emailStr, passwordStr });
-                    warnSignup.classList.remove("active");
-                }
-
-            } else {
-                if (!validEmail(emailStr)) {
-                    email.classList.add("warning");
-                }
-                if (!passwordStr) {
-                    password.classList.add("warning");
-                }
-                if (!rePasswordStr) {
-                    rePassword.classList.add("warning");
-                }
-                warnSignup.textContent = "Заполните все поля корректно";
-                warnSignup.classList.add("active");
-            }
-        });
-
-        const checkPasswordsMatch = () => {
-            const passwordStr = password.value.trim();
-            const rePasswordStr = rePassword.value.trim();
-
-            const isMatchPassword = passwordStr === rePasswordStr;
-
-            if (isMatchPassword) {
-                password.classList.remove("warning");
-                rePassword.classList.remove("warning");
-                warnRePass.classList.remove("active");
-            } else {
-                password.classList.add("warning");
-                rePassword.classList.add("warning");
-                warnRePass.classList.add("active");
-                warnRePass.textContent = "Пароли не совпадают";
-            }
-        };
-
-        password.addEventListener("input", () => checkPasswordsMatch());
-        rePassword.addEventListener("input", () => checkPasswordsMatch());
+        return {email, password, rePassword, warnEmail, warnPassword, warnRePass, warnSignup};
     }
 
-    removeSignupListeners() {
-        const email = this.parent.querySelector("input[name=email]");
-        const password = this.parent.querySelector("input[name=password]");
-        const rePassword = this.parent.querySelector("input[name=repassword]");
+    #removeSignupWarns = () => {
+        const {email, password, rePassword, warnEmail, warnSignup} = this.#getAllElements();
 
-        const warnEmail = this.parent.querySelector("div[id=email]");
-        const warnPassword = this.parent.querySelector("div[id=password]");
-        const warnRePass = this.parent.querySelector("div[id=repassword]");
-        const warnSignup = this.parent.querySelector("div[id=signup]");
+        warnSignup.classList.remove("active");
 
-        const inputs = this.parent.querySelector("form").querySelectorAll("input");
-        inputs.forEach(input => {
-            input.removeEventListener("click", () => {
-                warnSignup.classList.remove("active");
+        email.classList.remove("warning");
+        warnEmail.classList.remove("active");
+        password.classList.remove("warning");
+        rePassword.classList.remove("warning");
+    }
 
-                email.classList.remove("warning");
+    #submitSignup = (e) => {
+        e.preventDefault();
+
+        const {email, password, rePassword, warnEmail, warnPassword, warnRePass, warnSignup} = this.#getAllElements();
+
+        const emailStr = email.value.trim();
+        const passwordStr = password.value.trim();
+        const rePasswordStr = rePassword.value.trim();
+
+        const isMatchPassword = passwordStr === rePasswordStr;
+        if (!isMatchPassword) {
+            password.classList.add("warning");
+            rePassword.classList.add("warning");
+            warnRePass.classList.add("active");
+            warnRePass.textContent = "Пароли не совпадают";
+        }
+
+        if (emailStr && passwordStr && isMatchPassword) {
+
+            if (validEmail(emailStr)) {
                 warnEmail.classList.remove("active");
-                password.classList.remove("warning");
-                rePassword.classList.remove("warning");
-            });
-        });
-
-        this.parent.querySelector("form").removeEventListener("submit", (e) => {
-            e.preventDefault();
-
-            const emailStr = email.value.trim();
-            const passwordStr = password.value.trim();
-            const rePasswordStr = rePassword.value.trim();
-
-            const isMatchPassword = passwordStr === rePasswordStr;
-
-            if (emailStr && passwordStr && isMatchPassword) {
-
-                if (validEmail(emailStr)) {
-                    warnEmail.classList.remove("active");
-                    email.classList.remove("warning");
-                } else {
-                    warnEmail.classList.add("active");
-                    email.classList.add("warning");
-                }
-
-                const errors = validPassword(password);
-                if (errors.length > 0) {
-                    warnPassword.textContent = errors[0];
-                    warnPassword.classList.add("active");
-                    password.classList.add("warning");
-                } else {
-                    warnPassword.classList.remove("active");
-                    password.classList.remove("warning");
-
-                    // TODO: signup({ emailStr, passwordStr });
-                    warnSignup.classList.remove("active");
-                }
-
+                email.classList.remove("warning");
             } else {
-                warnSignup.textContent = "Заполните все поля корректно";
-                warnSignup.classList.add("active");
-            }
-        });
-
-        const checkPasswordsMatch = () => {
-            const passwordStr = password.value.trim();
-            const rePasswordStr = rePassword.value.trim();
-
-            const isMatchPassword = passwordStr === rePasswordStr;
-
-            if (isMatchPassword) {
-                password.classList.remove("warning");
-                rePassword.classList.remove("warning");
-                warnRePass.classList.remove("active");
-            } else {
-                password.classList.add("warning");
-                rePassword.classList.add("warning");
-                warnRePass.textContent = "Пароли не совпадают";
-                warnRePass.classList.add("active");
-            }
-        };
-
-        password.removeEventListener("input", () => checkPasswordsMatch());
-        rePassword.removeEventListener("input", () => checkPasswordsMatch());
-
-        password.removeEventListener("input", () => {
-            const passwordStr = password.value.trim();
-
-            if (passwordStr === "") {
-                warnPassword.textContent = "";
-                warnPassword.classList.remove("active");
-                password.classList.remove("warning");
-                return;
+                warnEmail.classList.add("active");
+                email.classList.add("warning");
             }
 
             const errors = validPassword(passwordStr);
-
             if (errors.length > 0) {
                 warnPassword.textContent = errors[0];
                 warnPassword.classList.add("active");
@@ -321,7 +208,81 @@ export class Login {
             } else {
                 warnPassword.classList.remove("active");
                 password.classList.remove("warning");
+
+                // TODO: signup({ emailStr, passwordStr });
+                warnSignup.classList.remove("active");
             }
-        });
+
+        } else {
+            if (!validEmail(emailStr)) {
+                email.classList.add("warning");
+            }
+            if (!passwordStr) {
+                password.classList.add("warning");
+            }
+            if (!rePasswordStr) {
+                rePassword.classList.add("warning");
+            }
+            warnSignup.textContent = "Заполните все поля корректно";
+            warnSignup.classList.add("active");
+        }
+    }
+
+    #checkPasswordsMatch = () => {
+        const {password, rePassword, warnRePass, warnPassword} = this.#getAllElements();
+
+        const passwordStr = password.value.trim();
+        const rePasswordStr = rePassword.value.trim();
+
+        if (passwordStr && rePasswordStr === "") {
+            const errors = validPassword(passwordStr);
+            if (errors.length > 0) {
+                warnPassword.textContent = errors[0];
+                warnPassword.classList.add("active");
+                password.classList.add("warning");
+            } else {
+                warnPassword.textContent = "";
+                warnPassword.classList.remove("active");
+                password.classList.remove("warning");
+            }
+
+            return;
+        }
+
+        const isMatchPassword = passwordStr === rePasswordStr;
+
+        if (isMatchPassword) {
+            password.classList.remove("warning");
+            rePassword.classList.remove("warning");
+            warnRePass.classList.remove("active");
+        } else {
+            password.classList.add("warning");
+            rePassword.classList.add("warning");
+            warnRePass.classList.add("active");
+            warnRePass.textContent = "Пароли не совпадают";
+        }
+    }
+    setSignupListeners() {
+        const {password, rePassword} = this.#getAllElements();
+
+        const inputs = this.parent.querySelector("form").querySelectorAll("input");
+        inputs.forEach(input => input.addEventListener("click", this.#removeSignupWarns));
+
+        this.parent.querySelector("form").addEventListener("submit", this.#submitSignup);
+
+        password.addEventListener("input", this.#checkPasswordsMatch);
+        rePassword.addEventListener("input", this.#checkPasswordsMatch);
+    }
+
+    removeSignupListeners() {
+        const {password, rePassword} = this.#getAllElements();
+
+        const inputs = this.parent.querySelector("form").querySelectorAll("input");
+        inputs.forEach(input => input.removeEventListener("click", this.#removeSignupWarns));
+
+        this.parent.querySelector("form").removeEventListener("submit", this.#submitSignup);
+
+        password.removeEventListener("input", this.#checkPasswordsMatch);
+        rePassword.removeEventListener("input", this.#checkPasswordsMatch);
     }
 }

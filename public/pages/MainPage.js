@@ -52,72 +52,63 @@ export class MainPage {
         this.setHeaderEventListener();
     }
 
+    #scrollListener = () => {
+        if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+            this.card.renderNext();
+        }
+    }
+
+    #clickCard = (e) => {
+        e.preventDefault();
+
+        if (e.target.classList.contains("card")) {
+            this.removeEventListeners();
+            this.storePage.render(e.target.id);
+        }
+    }
+
+    #clickIcon = (e) => {
+        e.preventDefault();
+        this.render();
+    }
+
+    #clickLogin = (e) => {
+        e.preventDefault();
+
+        if (this.state.activeMenu === "login") return;
+
+        if (this.state.activeMenu === "main") {
+            this.removeEventListeners();
+        }
+
+        this.state.prevMenu = this.state.activeMenu;
+        this.state.activeMenu = "login";
+
+        this.loginPage.render();
+    }
+
+    #submitSearch = (e) => {
+        e.preventDefault();
+
+        const inputStr = this.parent.querySelector("input").value.trim();
+        if (inputStr.length > 0) {
+            alert(inputStr);
+        }
+    }
+
     setEventListeners() {
-        this.parent.querySelector(".container").addEventListener("click", (e) => {
-            e.preventDefault();
-
-            if (e.target.classList.item(0) === "card") {
-                this.removeEventListeners();
-                this.storePage.render(e.target.id);
-            }
-        });
-
-        window.addEventListener("scroll", () => {
-            if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-                this.card.renderNext();
-            }
-        });
+        this.parent.querySelector(".container").addEventListener("click", this.#clickCard);
+        window.addEventListener("scroll", this.#scrollListener);
     }
 
     setHeaderEventListener() {
-        document.querySelector("header .icon").addEventListener("click", (e) => {
-            e.preventDefault();
-
-            this.render();
-        });
-
-        document.querySelector("header .login").addEventListener("click", (e) => {
-            e.preventDefault();
-
-            if (this.state.activeMenu === "login") return;
-
-            if (this.state.activeMenu === "main") {
-                this.removeEventListeners();
-            }
-
-            this.state.prevMenu = this.state.activeMenu;
-            this.state.activeMenu = "login";
-
-            this.loginPage.render();
-        });
-
-        document.querySelector("header .search-bar").addEventListener("submit", (e) => {
-            e.preventDefault();
-
-            const inputStr = this.parent.querySelector("input").value.trim();
-            if (inputStr.length > 0) {
-                alert(inputStr);
-            }
-        });
+        document.querySelector("header .icon").addEventListener("click", this.#clickIcon);
+        document.querySelector("header .login").addEventListener("click", this.#clickLogin);
+        document.querySelector("header .search-bar").addEventListener("submit", this.#submitSearch);
     }
 
     removeEventListeners() {
-        this.parent.querySelector(".container").removeEventListener("click", (e) => {
-            e.preventDefault();
-
-            if (e.target.classList.item(0) === "card") {
-                this.storePage.render(e.target.id);
-            }
-        });
-
-        window.removeEventListener("scroll", () => {
-            if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
-                this.removeEventListeners();
-                this.card.renderNext();
-            }
-        });
-
+        this.parent.querySelector(".container").removeEventListener("click", this.#clickCard);
+        window.removeEventListener("scroll", this.#scrollListener);
     }
-
-
 }

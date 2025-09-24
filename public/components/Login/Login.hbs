@@ -1,19 +1,18 @@
 <form class="login-form" novalidate>
     {{#each inputs}}
-        <div>
-            <input type="{{this.type}}" placeholder="{{this.placeholder}}" name="{{this.name}}">
-            {{#unless ../isLogin}} <div class="warning" id="{{this.name}}">{{this.warn}}</div> {{/unless}}
+        <div id="{{this.name}}">
+            <input maxlength="100" type="{{this.type}}" placeholder="{{this.placeholder}}" name="{{this.name}}">
+            <div class="warning" id="warn_{{this.name}}">{{this.warn}}</div>
         </div>
     {{/each}}
 
-    {{#if isLogin}}
-        <div class="warning"></div>
-        <button type="submit">Войти</button>
-        <a href="/signup">
-            <button name="signup">Зарегестрироваться</button>
-        </a>
-    {{else}}
-        <div class="warning" id="signup"></div>
-        <button name="signup" {{#unless isLogin}} type="submit" {{/unless}}>Зарегестрироваться</button>
-    {{/if}}
+    <div id="login">
+        <div class="warning" id="warn_login"></div>
+        <button id="login" type="submit">Войти</button>
+    </div>
+
+    <div id="signup">
+        <div class="warning" id="warn_signup"></div>
+        <button id="signup">Зарегистрироваться</button>
+    </div>
 </form>

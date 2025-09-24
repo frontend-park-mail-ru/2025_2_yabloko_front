@@ -10,6 +10,5 @@ export class LoginPage {
 
     render() {
         this.login.render();
-        this.login.setListeners();
     }
 }

@@ -51,3 +51,7 @@
 .login-form div.warning.active {
     display: block;
 }
+
+.login-form div.inactive {
+    display: none;
+}
