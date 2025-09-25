@@ -1,0 +1,114 @@
+import {CardHeader} from "../components/CardHeader/CardHeader.js";
+import {Cards} from "../components/Cards/Cards.js";
+import {Header} from "../components/Header/Header.js";
+import {Footer} from "../components/Footer/Footer.js";
+
+export class MainPage {
+
+    constructor(parent, state, loginPage, storePage) {
+        this.parent = parent;
+        this.state = state;
+        this.loginPage = loginPage;
+        this.storePage = storePage;
+
+        this.config = {
+            header:
+                {
+                    object: new Header(document.querySelector("header"), state),
+                },
+            footer:
+                {
+                    object: new Footer(document.querySelector("footer"), state),
+                },
+            cardHeader:
+                {
+                    object: new CardHeader(parent),
+                },
+        };
+    }
+
+    render() {
+        if (this.state.activeMenu === "main") return;
+
+        this.parent.innerHTML = "";
+        this.state.prevMenu = this.state.activeMenu;
+        this.state.activeMenu = "main";
+
+        this.config.header.object.render();
+        this.config.footer.object.render();
+
+        this.config.cardHeader.object.render();
+
+        this.card = new Cards({
+            parent: document.querySelector(".container"),
+            config: this.config,
+            lifeTime: 60,
+            batchSize: 12,
+        });
+
+        this.card.renderNext();
+
+        this.setEventListeners();
+        this.setHeaderEventListener();
+    }
+
+    #scrollListener = () => {
+        if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+            this.card.renderNext();
+        }
+    }
+
+    #clickCard = (e) => {
+        e.preventDefault();
+
+        if (e.target.classList.contains("card")) {
+            this.removeEventListeners();
+            this.storePage.render(e.target.id);
+        }
+    }
+
+    #clickIcon = (e) => {
+        e.preventDefault();
+        this.render();
+    }
+
+    #clickLogin = (e) => {
+        e.preventDefault();
+
+        if (this.state.activeMenu === "login") return;
+
+        if (this.state.activeMenu === "main") {
+            this.removeEventListeners();
+        }
+
+        this.state.prevMenu = this.state.activeMenu;
+        this.state.activeMenu = "login";
+
+        this.loginPage.render();
+    }
+
+    #submitSearch = (e) => {
+        e.preventDefault();
+
+        const inputStr = this.parent.querySelector("input").value.trim();
+        if (inputStr.length > 0) {
+            alert(inputStr);
+        }
+    }
+
+    setEventListeners() {
+        this.parent.querySelector(".container").addEventListener("click", this.#clickCard);
+        window.addEventListener("scroll", this.#scrollListener);
+    }
+
+    setHeaderEventListener() {
+        document.querySelector("header .icon").addEventListener("click", this.#clickIcon);
+        document.querySelector("header .login").addEventListener("click", this.#clickLogin);
+        document.querySelector("header .search-bar").addEventListener("submit", this.#submitSearch);
+    }
+
+    removeEventListeners() {
+        this.parent.querySelector(".container").removeEventListener("click", this.#clickCard);
+        window.removeEventListener("scroll", this.#scrollListener);
+    }
+}
