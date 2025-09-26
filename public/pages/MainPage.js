@@ -90,7 +90,11 @@ export class MainPage {
     #submitSearch = (e) => {
         e.preventDefault();
 
-        const inputStr = this.parent.querySelector("input").value.trim();
+        const form = e.target;
+        const inputStr = form
+            .querySelector('input[name="search"]')
+            .value.trim();
+
         if (inputStr.length > 0) {
             alert(inputStr);
         }
@@ -102,9 +106,13 @@ export class MainPage {
     }
 
     setHeaderEventListener() {
-        document.querySelector("header .icon").addEventListener("click", this.#clickIcon);
-        document.querySelector("header .login").addEventListener("click", this.#clickLogin);
+        document.querySelector("header .logo").addEventListener("click", this.#clickIcon);
         document.querySelector("header .search-bar").addEventListener("submit", this.#submitSearch);
+        if (document.querySelector("header .login")) {
+          document
+            .querySelector("header .login")
+            .addEventListener("click", this.#clickLogin);
+        }
     }
 
     removeEventListeners() {

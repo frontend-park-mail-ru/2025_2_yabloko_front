@@ -34,7 +34,7 @@ export class Cards {
         const data = [];
 
         for (let i = this.#offset; i < this.#offset + this.#batchSize; i++) {
-            data.push({name: "Card " + i, id: i});
+            data.push({name: "Card " + i, image: "/static/images/restourant.png", id: i, time: i*10 + " минут", rating: i});
         }
 
         this.cardsHolder.push({time: curTime, content: data});
@@ -45,8 +45,8 @@ export class Cards {
         // TODO активное
         const template = Handlebars.templates["Cards.hbs"];
 
-        const items = content.map(({name, id}) => {
-            return {name: name, id: id};
+        const items = content.map(({name, image, id, time, rating}) => {
+            return {name: name, image: image, id: id, time: time, rating: rating};
         });
 
         this.#parent.innerHTML += template({items, cardPadClass: "cardpad", cardClass: "card"});

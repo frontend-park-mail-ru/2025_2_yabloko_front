@@ -48,8 +48,9 @@ export class Login {
         this.#removeLoginWarn();
         const {password, rePassword} = this.#getAllElements();
         password.value = "";
-
-        rePassword.classList.remove("inactive");
+        
+        const repasswordDiv = this.parent.querySelector("div[id=repassword]");
+        if (repasswordDiv) repasswordDiv.classList.remove("inactive");
 
         const login = this.parent.querySelector("div[id=login]");
         login.classList.add("inactive");
@@ -66,7 +67,8 @@ export class Login {
         email.value = "";
         password.value = "";
 
-        rePassword.classList.add("inactive");
+        const repasswordDiv = this.parent.querySelector("div[id=repassword]");
+        if (repasswordDiv) repasswordDiv.classList.add("inactive");
 
         const login = this.parent.querySelector("div[id=login]");
         login.classList.remove("inactive");
@@ -124,12 +126,13 @@ export class Login {
     #removeLoginWarn = () => {
         const {email, password} = this.#getAllElements();
         const warn = this.parent.querySelector("div[id=warn_login]");
-
-        email.classList.remove("warning");
-        password.classList.remove("warning");
-
-        warn.classList.remove("active");
+        
+        if (email) email.classList.remove("warning");
+        if (password) password.classList.remove("warning");
+        if (warn) warn.classList.remove("active");
     }
+
+
 
     setLoginListeners() {
         this.parent.querySelector("form").addEventListener("submit", this.#submitLogin);
@@ -165,12 +168,12 @@ export class Login {
     #removeSignupWarns = () => {
         const {email, password, rePassword, warnEmail, warnSignup} = this.#getAllElements();
 
-        warnSignup.classList.remove("active");
-
-        email.classList.remove("warning");
-        warnEmail.classList.remove("active");
-        password.classList.remove("warning");
-        rePassword.classList.remove("warning");
+        if (warnSignup) warnSignup.classList.remove("active");
+        if (warnEmail) warnEmail.classList.remove("active");
+        
+        if (email) email.classList.remove("warning");
+        if (password) password.classList.remove("warning");
+        if (rePassword) rePassword.classList.remove("warning");
     }
 
     #submitSignup = (e) => {
