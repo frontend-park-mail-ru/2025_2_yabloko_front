@@ -41,6 +41,7 @@ export class MainPage {
       lifeTime: 300,
       batchSize: 12,
       baseURL: URL,
+
     });
 
     this.card.renderNext();

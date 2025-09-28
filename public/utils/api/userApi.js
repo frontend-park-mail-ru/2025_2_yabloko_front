@@ -7,6 +7,7 @@ import {ajax} from './API.js';
 export class UserAPI {
 constructor() {
     this.baseURL = URL;
+
 }
 
     login(email, password) {
