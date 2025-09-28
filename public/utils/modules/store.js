@@ -56,8 +56,6 @@ class Store {
         
         this.notifyListeners(key, newValue, oldValue);
     });
-
-    this.notifyListeners("*", this.state, oldState);
   }
 
   getNestedValue(obj, key) {

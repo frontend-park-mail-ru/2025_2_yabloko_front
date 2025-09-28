@@ -75,3 +75,7 @@
 .login-form div.inactive {
     display: none;
 }
+
+.inactive {
+    display: none;
+}

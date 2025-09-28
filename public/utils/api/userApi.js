@@ -1,10 +1,13 @@
 'use strict'
+import { URL } from "../const.js";
+
 
 import {ajax} from './API.js';
 
 export class UserAPI {
-constructor(baseURL = 'http://90.156.218.233:8080') {
-    this.baseURL = baseURL;
+constructor() {
+    this.baseURL = URL;
+
 }
 
     login(email, password) {

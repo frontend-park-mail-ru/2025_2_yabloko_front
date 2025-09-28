@@ -3,6 +3,7 @@ import {Cards} from "../components/Cards/Cards.js";
 import {Header} from "../components/Header/Header.js";
 import {Footer} from "../components/Footer/Footer.js";
 import { authManager } from "../utils/modules/authManager.js";
+import {URL} from "../utils/const.js";
 
 export class MainPage {
   constructor(parent, state, loginPage, storePage, headerComponent) {
@@ -39,7 +40,8 @@ export class MainPage {
       config: {},
       lifeTime: 300,
       batchSize: 12,
-      baseURL: "http://90.156.218.233:8080",
+      baseURL: URL,
+
     });
 
     this.card.renderNext();
