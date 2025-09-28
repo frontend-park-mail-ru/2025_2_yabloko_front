@@ -11,3 +11,4 @@ app.use("/static", express.static(path.join(__dirname, "dist")));
 
 const PORT = 3000;
 app.listen(PORT);
+console.log("server is running on port 3000");

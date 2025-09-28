@@ -7,8 +7,6 @@ import { Header } from "./components/Header/Header.js";
 
 import { authManager } from "./utils/modules/authManager.js";
 
-const URL = "http://localhost:8080/";
-
 const state = {activeMenu: null, prevMenu: null,}
 
 authManager.onAuthChange((isAuthenticated) => {
