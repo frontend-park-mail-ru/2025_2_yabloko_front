@@ -1,12 +1,14 @@
 import {validEmail, validPassword} from "../../utils/auth.js";
+import { authManager } from "../../utils/modules/authManager.js";
 
 export class Login {
     constructor(parent, state) {
         this.state = state;
         this.parent = parent;
+        this.authManager = authManager; 
 
         this.fields = [
-            {placeholder: "Email", type: "email", name: "email", warn: "Введите корректный Email"},
+            {placeholder: "Email", type: "email", name: "email", warn: "Введите корректный email"},
             {placeholder: "Пароль", type: "password", name: "password", warn: ""},
             {placeholder: "Повторите пароль", type: "password", name: "repassword", warn: "Пароли не совпадают"}
         ];
@@ -20,7 +22,6 @@ export class Login {
         const prevIsLogin = this.state.prevMenu === "login";
         const prevIsSignup = this.state.prevMenu === "signup";
 
-        // Если переход из мейн страницы в логин
         if (curIsLogin && !prevIsSignup) {
             this.parent.innerHTML = template({inputs: this.fields});
 
@@ -30,15 +31,11 @@ export class Login {
             this.setSwitchListener();
             this.setLoginListeners();
         } else if (prevIsLogin && curIsSignup) {
-            // Переход из логина в регу
             this.loginToSignup();
-
             this.removeLoginListeners();
             this.setSignupListeners();
         } else if (prevIsSignup && curIsLogin) {
-            // Переход из реги в логин
             this.signupToLogin();
-
             this.removeSignupListeners();
             this.setLoginListeners();
         }
@@ -52,8 +49,8 @@ export class Login {
         const repasswordDiv = this.parent.querySelector("div[id=repassword]");
         if (repasswordDiv) repasswordDiv.classList.remove("inactive");
 
-        const login = this.parent.querySelector("div[id=login]");
-        login.classList.add("inactive");
+        const loginButton = this.parent.querySelector("button[id=login]");
+        if (loginButton) loginButton.classList.add("inactive");
 
         const signupButton = this.parent.querySelector("button[id=signup]");
         signupButton.removeAttribute("type");
@@ -70,8 +67,8 @@ export class Login {
         const repasswordDiv = this.parent.querySelector("div[id=repassword]");
         if (repasswordDiv) repasswordDiv.classList.add("inactive");
 
-        const login = this.parent.querySelector("div[id=login]");
-        login.classList.remove("inactive");
+        const loginButton = this.parent.querySelector("button[id=login]");
+        if (loginButton) loginButton.classList.remove("inactive");
 
         const signupButton = this.parent.querySelector("button[id=signup]");
         signupButton.style.type
@@ -96,7 +93,7 @@ export class Login {
         this.parent.querySelector("button[id=signup]").removeEventListener("click", this.#switchListener);
     }
 
-    #submitLogin = (e) => {
+    #submitLogin = async (e) => {
         e.preventDefault();
 
         const {email, password} = this.#getAllElements();
@@ -105,9 +102,34 @@ export class Login {
         const emailStr = email.value.trim();
         const passwordStr = password.value.trim();
 
-        if (emailStr && passwordStr && validEmail(emailStr)) {
+        const isEmailValid = validEmail(emailStr);
+
+        if (emailStr && passwordStr && isEmailValid) {
             warn.classList.remove("active");
-            // TODO login({emailStr, passwordStr});
+            try {
+                const result = await this.authManager.login(emailStr, passwordStr);
+
+                if (result.success) {
+                    warn.textContent = "Успешный вход!";
+                    warn.classList.add("success");
+                    warn.classList.remove("active");
+
+                    this.#handleLoginSuccess(result.data);
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                password.value = "";
+
+                let errorMessage = "Ошибка входа";
+                if (error.message && error.message !== "Ошибка входа") {
+                    errorMessage = error.message;
+                }
+
+                warn.textContent = errorMessage;
+                warn.classList.add("active");
+                warn.classList.remove("success");
+            }
         } else {
             password.value = "";
 
@@ -123,6 +145,87 @@ export class Login {
         }
     }
 
+    #handleLoginSuccess(response) {
+        window.location.href = "/";
+
+        if (typeof this.state.onLoginSuccess === "function") {
+            this.state.onLoginSuccess(response);
+        }
+    }
+
+    #submitSignup = async (e) => {
+        e.preventDefault();
+
+        const {email, password, rePassword, warnEmail, warnPassword, warnRePass, warnSignup} = this.#getAllElements();
+
+        const emailStr = email.value.trim();
+        const passwordStr = password.value.trim();
+        const rePasswordStr = rePassword.value.trim();
+
+        const isMatchPassword = passwordStr === rePasswordStr;
+        if (!isMatchPassword) {
+            password.classList.add("warning");
+            rePassword.classList.add("warning");
+            warnRePass.classList.add("active");
+            warnRePass.textContent = "Пароли не совпадают";
+            return;
+        }
+
+        if (emailStr && passwordStr && isMatchPassword) {
+            const isEmailValid = validEmail(emailStr);
+            if (isEmailValid) {
+                warnEmail.classList.remove("active");
+                email.classList.remove("warning");
+            } else {
+                warnEmail.classList.add("active");
+                email.classList.add("warning");
+                return;
+            }
+
+            const errors = validPassword(passwordStr);
+            if (errors.length > 0) {
+                warnPassword.textContent = errors[0];
+                warnPassword.classList.add("active");
+                password.classList.add("warning");
+                return;
+            } else {
+                warnPassword.classList.remove("active");
+                password.classList.remove("warning");
+                warnSignup.classList.remove("active");
+            }
+
+            try {
+                const result = await this.authManager.register(emailStr, passwordStr);
+                
+                if (result.success) {
+                    warnSignup.textContent = "Регистрация успешна!";
+                    warnSignup.classList.add("success");
+                    this.#handleLoginSuccess(result.data);
+                } else {
+                    throw new Error(result.error);
+                }
+            } catch (error) {
+                const errorMsg = error.message || "Ошибка регистрации";
+                warnSignup.textContent = errorMsg;
+                warnSignup.classList.add("active");
+            }
+        } else {
+            const isEmailValid = validEmail(emailStr);
+            if (!isEmailValid) {
+                email.classList.add("warning");
+            }
+            if (!passwordStr) {
+                password.classList.add("warning");
+            }
+            if (!rePasswordStr) {
+                rePassword.classList.add("warning");
+            }
+            warnSignup.textContent = "Заполните все поля корректно";
+            warnSignup.classList.add("active");
+            return;
+        }
+    }
+
     #removeLoginWarn = () => {
         const {email, password} = this.#getAllElements();
         const warn = this.parent.querySelector("div[id=warn_login]");
@@ -131,8 +234,6 @@ export class Login {
         if (password) password.classList.remove("warning");
         if (warn) warn.classList.remove("active");
     }
-
-
 
     setLoginListeners() {
         this.parent.querySelector("form").addEventListener("submit", this.#submitLogin);
@@ -166,7 +267,8 @@ export class Login {
     }
 
     #removeSignupWarns = () => {
-        const {email, password, rePassword, warnEmail, warnSignup} = this.#getAllElements();
+        const { email, password, rePassword, warnEmail, warnSignup } =
+          this.#getAllElements();
 
         if (warnSignup) warnSignup.classList.remove("active");
         if (warnEmail) warnEmail.classList.remove("active");
@@ -174,61 +276,6 @@ export class Login {
         if (email) email.classList.remove("warning");
         if (password) password.classList.remove("warning");
         if (rePassword) rePassword.classList.remove("warning");
-    }
-
-    #submitSignup = (e) => {
-        e.preventDefault();
-
-        const {email, password, rePassword, warnEmail, warnPassword, warnRePass, warnSignup} = this.#getAllElements();
-
-        const emailStr = email.value.trim();
-        const passwordStr = password.value.trim();
-        const rePasswordStr = rePassword.value.trim();
-
-        const isMatchPassword = passwordStr === rePasswordStr;
-        if (!isMatchPassword) {
-            password.classList.add("warning");
-            rePassword.classList.add("warning");
-            warnRePass.classList.add("active");
-            warnRePass.textContent = "Пароли не совпадают";
-        }
-
-        if (emailStr && passwordStr && isMatchPassword) {
-
-            if (validEmail(emailStr)) {
-                warnEmail.classList.remove("active");
-                email.classList.remove("warning");
-            } else {
-                warnEmail.classList.add("active");
-                email.classList.add("warning");
-            }
-
-            const errors = validPassword(passwordStr);
-            if (errors.length > 0) {
-                warnPassword.textContent = errors[0];
-                warnPassword.classList.add("active");
-                password.classList.add("warning");
-            } else {
-                warnPassword.classList.remove("active");
-                password.classList.remove("warning");
-
-                // TODO: signup({ emailStr, passwordStr });
-                warnSignup.classList.remove("active");
-            }
-
-        } else {
-            if (!validEmail(emailStr)) {
-                email.classList.add("warning");
-            }
-            if (!passwordStr) {
-                password.classList.add("warning");
-            }
-            if (!rePasswordStr) {
-                rePassword.classList.add("warning");
-            }
-            warnSignup.textContent = "Заполните все поля корректно";
-            warnSignup.classList.add("active");
-        }
     }
 
     #checkPasswordsMatch = () => {
@@ -248,7 +295,6 @@ export class Login {
                 warnPassword.classList.remove("active");
                 password.classList.remove("warning");
             }
-
             return;
         }
 
@@ -265,6 +311,7 @@ export class Login {
             warnRePass.textContent = "Пароли не совпадают";
         }
     }
+
     setSignupListeners() {
         const {password, rePassword} = this.#getAllElements();
 

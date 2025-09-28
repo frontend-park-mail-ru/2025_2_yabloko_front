@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prestart": "npm run compile:templates",
-    "start": "DEBUG=* && nodemon ./server.js",
+    "start": "nodemon ./server.js",
     "compile:card": "handlebars public/components/Cards/Cards.hbs -f public/components/Cards/Cards.precompiled.js",
     "compile:cardHeader": "handlebars public/components/CardHeader/CardHeader.hbs -f public/components/CardHeader/CardHeader.precompiled.js",
     "compile:store": "handlebars public/components/Store/Store.hbs -f public/components/Store/Store.precompiled.js",

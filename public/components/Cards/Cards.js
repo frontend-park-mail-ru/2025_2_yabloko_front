@@ -1,68 +1,68 @@
+import {StoreApi} from '../../utils/api/storeApi.js'
+
 export class Cards {
-    #parent
-    #lifeTime
-    #offset
-    #batchSize
-    #config
+  #parent;
+  #batchSize;
+  #api;
+  #baseURL;
 
-    /**
-     * @constructor
-     * @param {HTMLElement} parent - Элемент к которому будут крепиться карточки.
-     * @param {object} config
-     * @param {number} lifeTime - Время хранения следующего батча данных (сек).
-     * @param {number} batchSize - Стандартное количество элементов.
-     */
-    constructor({parent, config, lifeTime, batchSize}) {
-        this.#parent = parent;
-        this.#lifeTime = lifeTime * 1000;
-        this.#batchSize = batchSize;
-        this.#config = config;
+  constructor({ parent, batchSize, baseURL}) {
+    this.#parent = parent;
+    this.#batchSize = batchSize;
+    this.#baseURL = baseURL;
+    this.#api = new StoreApi(baseURL);
 
-        this.#offset = 0;
-        this.cardsHolder = [];
-        this._getNextCards();
-        this._getNextCards();
+    this.lastId = null;
+    this.hasMore = true;
+    this.isLoading = false;
+    this.currentFilter = null;
+    this.currentSort = null;
+  }
+
+  async renderNext() {
+    if (this.isLoading) return;
+
+    this.isLoading = true;
+
+    try {
+      const response = await this.#api.getStores({
+        limit: this.#batchSize,
+        lastId: this.lastId,
+      });
+
+      const data = response;
+
+      if (data.length > 0) {
+        this.lastId = data[data.length - 1].store_id;
+        this.hasMore = data.length === this.#batchSize;
+        this.#render(data);
+      } else {
+        this.hasMore = false;
+      }
+    } catch (error) {
+      console.error("Error loading cards:", error);
+      this.hasMore = false;
+    } finally {
+      this.isLoading = false;
     }
+  }
+  #render(stores) {
+    const template = Handlebars.templates["Cards.hbs"];
 
-    _offsetInc() {
-        this.#offset += this.#batchSize;
-    }
+    const items = stores.map((store) => ({
+      name: store.name,
+      image: `${this.#baseURL}/api/v0/image${store.card_img}`,
+      time: "30 мин",
+      rating:
+        typeof store.rating === "number"
+          ? store.rating.toFixed(1)
+          : store.rating,
+    }));
 
-    _getNextCards() {
-        // TODO backend get
-        const curTime = Date.now();
-        const data = [];
-
-        for (let i = this.#offset; i < this.#offset + this.#batchSize; i++) {
-            data.push({name: "Card " + i, image: "/static/images/restourant.png", id: i, time: i*10 + " минут", rating: i});
-        }
-
-        this.cardsHolder.push({time: curTime, content: data});
-        this._offsetInc();
-    }
-
-    #render(content) {
-        // TODO активное
-        const template = Handlebars.templates["Cards.hbs"];
-
-        const items = content.map(({name, image, id, time, rating}) => {
-            return {name: name, image: image, id: id, time: time, rating: rating};
-        });
-
-        this.#parent.innerHTML += template({items, cardPadClass: "cardpad", cardClass: "card"});
-    }
-
-    renderNext() {
-        // fixme заглушка
-        if (this.#offset > 100) return;
-        const {time, content} = this.cardsHolder.shift();
-
-        if (Date.now() - time > this.#lifeTime) {
-            this._getNextCards();
-            this.renderNext();
-        } else {
-            this.#render(content);
-            this._getNextCards();
-        }
-    }
+    this.#parent.innerHTML += template({
+      items,
+      cardPadClass: "cardpad",
+      cardClass: "card",
+    });
+  }
 }
