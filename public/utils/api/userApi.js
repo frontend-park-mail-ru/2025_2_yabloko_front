@@ -3,7 +3,7 @@
 import {ajax} from './API.js';
 
 export class UserAPI {
-constructor(baseURL = 'http://localhost:8080') {
+constructor(baseURL = 'http://90.156.218.233:8080') {
     this.baseURL = baseURL;
 }
 
