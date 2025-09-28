@@ -39,7 +39,7 @@ export class MainPage {
       config: {},
       lifeTime: 300,
       batchSize: 12,
-      baseURL: "http://localhost:8080",
+      baseURL: "http://90.156.218.233:8080/",
     });
 
     this.card.renderNext();
