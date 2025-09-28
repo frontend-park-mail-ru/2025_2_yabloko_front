@@ -7,7 +7,7 @@ import { Header } from "./components/Header/Header.js";
 
 import { authManager } from "./utils/modules/authManager.js";
 
-const URL = "http://localhost:8080/";
+const URL = "http://90.156.218.233:8080/";
 
 const state = {activeMenu: null, prevMenu: null,}
 
