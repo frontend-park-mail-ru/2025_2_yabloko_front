@@ -1,0 +1,28 @@
+{
+  "name": "front",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "npm run compile:templates",
+    "start": "nodemon ./server.js",
+    "compile:card": "handlebars public/components/Cards/Cards.hbs -f public/components/Cards/Cards.precompiled.js",
+    "compile:cardHeader": "handlebars public/components/CardHeader/CardHeader.hbs -f public/components/CardHeader/CardHeader.precompiled.js",
+    "compile:store": "handlebars public/components/Store/Store.hbs -f public/components/Store/Store.precompiled.js",
+    "compile:login": "handlebars public/components/Login/Login.hbs -f public/components/Login/Login.precompiled.js",
+    "compile:header": "handlebars public/components/Header/Header.hbs -f public/components/Header/Header.precompiled.js",
+    "compile:templates": "npm run compile:card && npm run compile:cardHeader && npm run compile:store && npm run compile:login &&npm run compile:header"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "hbs": "^4.2.0"
+  },
+  "devDependencies": {
+    "handlebars": "^4.7.8",
+    "nodemon": "^3.1.10"
+  }
+}
