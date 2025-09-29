@@ -1,7 +1,25 @@
 {{#each items}}
     <div class="{{../cardPadClass}}" id="{{this.name}}">
         <div class="{{../cardClass}}">
-            {{this.name}}
+            <div class="image-wrapper">
+                <img src={{this.image}} alt="{{this.name}}" class="card-image">
+                <a href="/fav" class="fav-wrapper">
+                    <img src="/static/icons/fav.png" alt="fav" class="fav-image">
+                </a>
+            </div>
+            <div class="card-content">
+                <div class="card-left">
+                    <div class="card-name">{{this.name}}</div>
+                    <div class="card-time">
+                        <img src="/static/icons/car.png" alt="car" class="car-image">
+                        <div>{{this.time}}</div>
+                    </div>
+                </div>
+                <div class="card-rating">
+                    <img src="/static/icons/star.png" alt="star" class="star-image">
+                    <div>{{this.rating}}</div>
+                </div>
+            </div>
         </div>
     </div>
 {{/each}}

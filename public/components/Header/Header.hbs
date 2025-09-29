@@ -1,14 +1,40 @@
 <div class="left">
     <a href="/">
-        <button class="icon">Значок</button>
+        <img src="/static/icons/logo.png" alt="logo" class="logo">
     </a>
     <form class="search-bar">
-        <input maxlength="50" type="text" placeholder="Поиск" name="search">
+        <img src="/static/icons/search.png" alt="search" class="search-icon">
+        <input type="text" placeholder="Поиск ресторанов и категорий" name="search">
         <button type="submit">Найти</button>
     </form>
+    {{#if userAuthed}}
+        <div class="address-bar">
+            <img src="/static/icons/address.png" alt="address" class="button-image">
+            <span>Город</span>
+            <select name="address">
+                {{#each cities}}
+                    <option value="{{this.id}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+    {{/if}}
 </div>
 <div class="right">
-    <a href="/login">
-        <button type="submit" class="login">Войти</button>
-    </a>
+    {{#if userAuthed}}
+        <a href="/orders" class="button-wrapper">
+            <img src="/static/icons/bell.png" alt="fav" class="button-image">
+            <span class="button-text">Уведомления</span>
+        </a>
+        <a href="/notifications" class="button-wrapper">
+            <img src="/static/icons/checklist.png" alt="fav" class="button-image">
+            <span class="button-text">Заказ</span>
+        </a>
+        <a href="/logout" class="button-wrapper">
+            <img src="/static/icons/user.png" alt="logo" class="logo">
+        </a>
+    {{else}}
+        <a href="/login">
+            <button type="submit" class="login">Войти</button>
+        </a>
+    {{/if}}
 </div>

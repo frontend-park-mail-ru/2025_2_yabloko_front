@@ -15,7 +15,7 @@
 
     width: 20%;
     height: 180px;
-    min-width: 200px;
+    min-width: 260px;
 
     margin-bottom: 30px;
     padding: 0 10px;
@@ -23,15 +23,104 @@
 
 .card {
     display: flex;
+    flex-direction: column;
 
     cursor: pointer;
 
     width: 100%;
     height: 100%;
 
-    background-color: mediumvioletred;
+    border-radius: var(--border-radius-large);
+    background-color: var(--color-light);
+    box-shadow: var(--shadow)
+}
+
+.image-wrapper {
+    position: relative;
+
+    width: 100%;
+    height: 65%;
+
+    border-radius: var(--border-radius-large);
+
+    overflow: hidden;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.fav-wrapper {
+    position: absolute;
+    display: flex;
+
+    padding: 4px;
+    top: 10px;
+    right: 10px;
+    border-radius: 50%;
+
+    background: var(--color-dark-transparent);
+}
+
+.fav-wrapper:hover {
+    background: var(--color-dark-transparent-hover);
+}
+
+.fav-image {
+    width: 32px;
+    height: 32px;
+
+    border-radius: 50%;
+}
+
+.car-image {
+    width: 15px;
+    height: 15px;
+
+    border-radius: 50%;
 }
 
 .card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-hover)
+}
+
+.card-content {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: flex-start;
+
+    padding: 10px;
+}
+
+.card-left {
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+    align-items: flex-start;
+}
+
+.card-time {
+    display: flex;
+
+    gap: 5px;
+    align-items: center;
+}
+
+.star-image {
+    width: 15px;
+    height: 15px;
+
+    border-radius: 50%;
+}
+
+.card-rating {
+    display: flex;
+    
+    gap: 5px;
+    align-items: center;
 }

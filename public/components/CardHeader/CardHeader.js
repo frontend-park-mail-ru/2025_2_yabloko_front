@@ -1,14 +1,12 @@
 export class CardHeader {
-    #parent
+  #parent;
 
-    constructor(parent) {
-        this.#parent = parent;
-    }
+  constructor(parent) {
+    this.#parent = parent;
+  }
 
-    render() {
-        // TODO проверка логина
-        // TODO active
-        const template = Handlebars.templates["CardHeader.hbs"];
-        this.#parent.innerHTML = template();
-    }
+  render() {
+    const template = Handlebars.templates["CardHeader.hbs"];
+    this.#parent.innerHTML = template();
+  }
 }

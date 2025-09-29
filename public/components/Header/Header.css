@@ -3,52 +3,114 @@ header .left {
     align-items: center;
 }
 
-.icon {
-    height: 40px;
+.logo {
+    height: 48px;
+    width: 48px;
+    object-fit: cover;
     margin-right: 15px;
 }
 
 .search-bar {
     display: flex;
     align-items: center;
-    border: 1px solid orangered;
-    border-radius: 20px;
-    background-color: whitesmoke;
+    border: 2px solid var(--color-accent);
+    border-radius: var(--border-radius-large);
+    background-color: var(--color-light);
+}
+
+.search-pic {
+    width: 15px;
+    height: 15px;
 }
 
 .search-bar input {
     border: none;
     outline: none;
-    padding: 8px 10px;
-
+    width: 300px;
+    text-align: left;
     background-color: transparent;
 }
 
 .search-bar button {
     border: none;
-    background: orangered;
-    color: white;
+    background: var(--color-accent);
+    color: var(--color-light);
     padding: 8px 15px;
     cursor: pointer;
 }
 
 .search-bar:hover {
-    border-color: darkorange;
+    border-color: var(--color-accent-hover);
 }
 
 .search-bar button:hover {
-    background-color: darkorange;
+    background-color: var(--color-accent-hover);
+}
+
+.address-bar {
+    position: relative;
+    margin-left: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.address-bar select {
+    appearance: none;
+    border: none;
+    background: transparent;
+    width: 150px;
+    outline: none;
+    cursor: pointer;
+    padding: 0;
+    margin-right:0 10px;
+}
+
+.address-bar select option {
+    background-color: white;
+    color: #333;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.address-bar::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 40%;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--color-accent);
+    border-bottom: 2px solid var(--color-accent);
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.button-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-radius: var(--border-radius-small);
+    min-width: 60px;
+}
+
+.button-image {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    margin: 0;
+    display: block; 
 }
 
 header .right {
     display: flex;
+    gap: 15px;
     align-items: center;
 }
 
 header .login {
-    background: orangered;
+    background: var(--color-accent);
     border: none;
-    color: white;
+    color: var(--color-light);
 
     width: 100px;
     height: 40px;
@@ -56,5 +118,5 @@ header .login {
 }
 
 header .login:hover {
-    background-color: darkorange;
+    background-color: var(--color-accent-hover);
 }

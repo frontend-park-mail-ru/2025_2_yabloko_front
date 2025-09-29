@@ -29,4 +29,26 @@ export function validEmail(email) {
     return pattern.test(email);
 }
 
+export function validUsername(username) {
+    const errors = [];
+    
+    if (username.length < 3) {
+        errors.push("Логин должен быть не менее 3 символов");
+    }
+    
+    if (username.length > 20) {
+        errors.push("Логин должен быть не более 20 символов");
+    }
+    
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+        errors.push("Логин может содержать только буквы, цифры и подчеркивания");
+    }
+    
+    if (!/^[a-zA-Z]/.test(username)) {
+        errors.push("Логин должен начинаться с буквы");
+    }
+    
+    return errors;
+}
+
 // TODO: login signup
