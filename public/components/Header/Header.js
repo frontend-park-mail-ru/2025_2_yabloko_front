@@ -72,7 +72,7 @@ export class Header {
 
     try {
       await authManager.logout();
-      window.location.href = "/";
+      wthis.router.navigate(["/"]);
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -91,7 +91,7 @@ export class Header {
 
   handleLogoClick = async (e) => {
     e.preventDefault();
-    window.location.href = "/";
+    this.router.navigate(["/"]);
   };
 
   destroy() {
