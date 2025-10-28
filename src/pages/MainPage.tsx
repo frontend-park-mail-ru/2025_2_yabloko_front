@@ -1,3 +1,4 @@
+import { Batch } from '../components/Batch/Batch'
 import { Footer } from '../components/Footer/Footer'
 import { Navbar } from '../components/Navbar/Navbar'
 import { defineComponent } from '../framework/component'
@@ -51,7 +52,10 @@ export const MainPage = defineComponent({
 						margin: '0 auto',
 					}}
 				>
-
+					<Batch
+						batchSize={this.state.batchSize}
+						onCardClick={props.onCardClick}
+					/>
 				</div>
 				<Footer />
 			</div>
