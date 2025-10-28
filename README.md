@@ -1,4 +1,5 @@
 # 2025_1_yabloko
+
 Фронтенд-репозиторий проекта Delivery Club команды Яблоко
 [Figma](https://www.figma.com/file/) - TBD
 
@@ -12,14 +13,15 @@
 
 ## Авторы
 
-* [**Георгий Буторов**](https://github.com/butorovv)
-* [**Антон Новиков**](https://github.com/Anton211)
-* [**Анастасия Пирожок**](https://github.com/pirog555)
+- [**Георгий Буторов**](https://github.com/butorovv)
+- [**Антон Новиков**](https://github.com/Anton211)
+- [**Анастасия Пирожок**](https://github.com/pirog555)
 
 ## Менторы
-- [Окутин Денис](https://github.com/OkDenAl) - *Бекенд*
-- [Александр Салтыков](https://github.com/johnSamilin) - *Фронтенд*
-- Хасьянов Даниил - *UX*
+
+- [Окутин Денис](https://github.com/OkDenAl) - _Бекенд_
+- [Александр Салтыков](https://github.com/johnSamilin) - _Фронтенд_
+- Хасьянов Даниил - _UX_
 
 ## Ссылка на backend
 
@@ -28,8 +30,8 @@ TBD
 # Разработка
 
 ## Правила форматирования
-TBD
 
+TBD
 
 ## Развёртывание проекта
 
@@ -51,8 +53,8 @@ git clone https://github.com/frontend-park-mail-ru/yabloko_front.git
 
 Для каждой задачи выделяется отдельная ветка (назначается в зависимости от контекста задачи).
 Работа ведётся по Git Flow:
+
 - master ветка используется для РК
 - develop - текущее состояние проекта
 
 Коммиты напрямую в develop разрешаются в редких случаях.
-

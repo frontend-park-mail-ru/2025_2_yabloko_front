@@ -1,0 +1,12 @@
+.footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	justify-self: center;
+	width: 90%;
+	padding: 20px;
+	box-sizing: border-box;
+	background-color: var(--color-background-accent);
+	border-radius: var(--border-radius-large);
+	box-shadow: var(--shadow);
+}

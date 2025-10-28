@@ -1,0 +1,31 @@
+.icon-button {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	border-radius: var(--border-radius-small);
+	min-width: 60px;
+	outline: none;
+}
+
+.icon-button:hover {
+	opacity: 0.9;
+}
+
+.icon-button__image {
+	width: 20px;
+	height: 20px;
+	object-fit: contain;
+	display: block;
+	margin: 0;
+}
+
+.icon-button__text {
+	font-size: 0.85rem;
+	color: var(--color-dark);
+	margin-top: 4px;
+	white-space: nowrap;
+}
