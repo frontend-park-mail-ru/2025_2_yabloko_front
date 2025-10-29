@@ -13,6 +13,12 @@ export function createApp(RootComponent: any, props: any = {}) {
 		vdom = null
 	}
 
+	if (typeof RootComponent !== "function") {
+    throw new Error(
+      `RootComponent must be a component class`
+    );
+  }
+
 	return {
 		mount(_parentEl: HTMLElement) {
 			if (isMounted) {

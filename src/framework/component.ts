@@ -71,10 +71,10 @@ export function defineComponent({
 		}
 
 		get offset() {
-			if (this.#vdom?.type === DOM_TYPES.FRAGMENT) {
-				return 0
+			if (this.#vdom?.type === DOM_TYPES.FRAGMENT && this.#hostEl) {
+				return Array.from(this.#hostEl.children).indexOf(this.firstElement)
 			}
-			return undefined
+			return 0
 		}
 
 		#wireEventsHandlers() {

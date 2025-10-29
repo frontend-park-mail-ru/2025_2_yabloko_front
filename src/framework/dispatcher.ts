@@ -3,38 +3,30 @@ export type AfterCommandHandler = () => void
 export type Unsubscribe = () => void
 
 class Dispatcher {
-	#subs = new Map<string, CommandHandler[]>()
-	#afterHandlers: AfterCommandHandler[] = []
+	#subs = new Map<string, Set<CommandHandler>>()
+	#afterHandlers = new Set<AfterCommandHandler>()
 
 	subscribe(commandName: string, handler: CommandHandler): Unsubscribe {
 		if (!this.#subs.has(commandName)) {
-			this.#subs.set(commandName, [])
+			this.#subs.set(commandName, new Set())
 		}
 
 		const handlers = this.#subs.get(commandName)!
 
-		if (handlers.includes(handler)) {
-			return () => {}
-		}
-
-		handlers.push(handler)
-
 		return () => {
-			const idx = handlers.indexOf(handler)
-			if (idx > -1) {
-				handlers.splice(idx, 1)
+			handlers.delete(handler)
+
+			if (handlers.size == 0) {
+				this.#subs.delete(commandName);
 			}
 		}
 	}
 
 	afterEveryCommand(handler: AfterCommandHandler): Unsubscribe {
-		this.#afterHandlers.push(handler)
+		this.#afterHandlers.add(handler)
 
 		return () => {
-			const idx = this.#afterHandlers.indexOf(handler)
-			if (idx > -1) {
-				this.#afterHandlers.splice(idx, 1)
-			}
+			this.#afterHandlers.delete(handler)
 		}
 	}
 
