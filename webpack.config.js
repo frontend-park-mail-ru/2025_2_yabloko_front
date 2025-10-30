@@ -65,8 +65,5 @@ module.exports = [
 			filename: 'bundle.js',
 			path: distPath,
 		},
-		devServer: {
-			historyApiFallback: true,
-		},
 	},
 ]

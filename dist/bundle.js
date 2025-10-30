@@ -75,7 +75,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.button {
 	width: 100%;
 	height: 100%;
 }
-`, "",{"version":3,"sources":["webpack://./src/components/Button/Button.css"],"names":[],"mappings":"AAAA;CACC,oBAAoB;CACpB,yBAAyB;CACzB,mBAAmB;CACnB,uBAAuB;CACvB,YAAY;CACZ,yCAAyC;CACzC,eAAe;CACf,kBAAkB;CAClB,eAAe;CACf,cAAc;CACd,kCAAkC;CAClC,sCAAsC;AACvC;;AAEA;CACC,+BAA+B;AAChC;;AAEA;CACC,qCAAqC;AACtC;;AAEA;CACC,gCAAgC;AACjC;;AAEA;CACC,sCAAsC;AACvC;;AAEA;CACC,4BAA4B;AAC7B;;AAEA;CACC,kCAAkC;AACnC;;AAEA;CACC,gCAAgC;AACjC;;AAEA;CACC,8BAA8B;AAC/B;;AAEA;CACC,aAAa;CACb,mBAAmB;CACnB,uBAAuB;CACvB,WAAW;CACX,YAAY;AACb","sourcesContent":[".button {\n\tdisplay: inline-flex;\n\tcolor: var(--color-light);\n\talign-items: center;\n\tjustify-content: center;\n\tborder: none;\n\tborder-radius: var(--border-radius-large);\n\tcursor: pointer;\n\tposition: relative;\n\tmin-width: 7rem;\n\theight: 2.5rem;\n\tfont-size: var(--button-font-size);\n\tfont-weight: var(--button-font-weight);\n}\n\n.button--accent {\n\tbackground: var(--color-accent);\n}\n\n.button--accent:hover {\n\tbackground: var(--color-accent-hover);\n}\n\n.button--success {\n\tbackground: var(--color-success);\n}\n\n.button--success:hover {\n\tbackground: var(--color-success-hover);\n}\n\n.button--error {\n\tbackground: var(--color-err);\n}\n\n.button--error:hover {\n\tbackground: var(--color-err-hover);\n}\n\n.button--primary {\n\tbackground: var(--color-primary);\n}\n\n.button--primary:hover {\n\tbackground: var(--color-hover);\n}\n\n.button__content {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\twidth: 100%;\n\theight: 100%;\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/Button/Button.css"],"names":[],"mappings":"AAAA;CACC,oBAAoB;CACpB,yBAAyB;CACzB,mBAAmB;CACnB,uBAAuB;CACvB,YAAY;CACZ,yCAAyC;CACzC,eAAe;CACf,kBAAkB;CAClB,eAAe;CACf,cAAc;CACd,kCAAkC;CAClC,sCAAsC;AACvC;;AAEA;CACC,+BAA+B;AAChC;;AAEA;CACC,qCAAqC;AACtC;;AAEA;CACC,gCAAgC;AACjC;;AAEA;CACC,sCAAsC;AACvC;;AAEA;CACC,4BAA4B;AAC7B;;AAEA;CACC,kCAAkC;AACnC;;AAEA;CACC,gCAAgC;AACjC;;AAEA;CACC,8BAA8B;AAC/B;;AAEA;CACC,aAAa;CACb,mBAAmB;CACnB,uBAAuB;CACvB,WAAW;CACX,YAAY;AACb","sourcesContent":[".button {\r\n\tdisplay: inline-flex;\r\n\tcolor: var(--color-light);\r\n\talign-items: center;\r\n\tjustify-content: center;\r\n\tborder: none;\r\n\tborder-radius: var(--border-radius-large);\r\n\tcursor: pointer;\r\n\tposition: relative;\r\n\tmin-width: 7rem;\r\n\theight: 2.5rem;\r\n\tfont-size: var(--button-font-size);\r\n\tfont-weight: var(--button-font-weight);\r\n}\r\n\r\n.button--accent {\r\n\tbackground: var(--color-accent);\r\n}\r\n\r\n.button--accent:hover {\r\n\tbackground: var(--color-accent-hover);\r\n}\r\n\r\n.button--success {\r\n\tbackground: var(--color-success);\r\n}\r\n\r\n.button--success:hover {\r\n\tbackground: var(--color-success-hover);\r\n}\r\n\r\n.button--error {\r\n\tbackground: var(--color-err);\r\n}\r\n\r\n.button--error:hover {\r\n\tbackground: var(--color-err-hover);\r\n}\r\n\r\n.button--primary {\r\n\tbackground: var(--color-primary);\r\n}\r\n\r\n.button--primary:hover {\r\n\tbackground: var(--color-hover);\r\n}\r\n\r\n.button__content {\r\n\tdisplay: flex;\r\n\talign-items: center;\r\n\tjustify-content: center;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -236,7 +236,7 @@ video {
 	padding: 0;
 	border: 0;
 }
-`, "",{"version":3,"sources":["webpack://./src/components/CommonCSS/Variables.css"],"names":[],"mappings":"AAAA;CACC,qBAAqB;;CAErB,sBAAsB;CACtB,kCAAkC;;CAElC,uBAAuB;CACvB,6BAA6B;;CAE7B,wBAAwB;CACxB,8BAA8B;;CAE9B,oBAAoB;CACpB,0BAA0B;;CAE1B,wBAAwB;CACxB,0BAA0B;CAC1B,sBAAsB;;CAEtB,0BAA0B;CAC1B,qBAAqB;;CAErB,4CAA4C;CAC5C,kDAAkD;;CAElD,6CAA6C;CAC7C,mDAAmD;;CAEnD,0BAA0B;CAC1B,4BAA4B;CAC5B,2BAA2B;AAC5B;;AAEA;CACC,QAAQ;AACT;;AAEA;;;CAGC,SAAS;CACT,UAAU;CACV,sBAAsB;AACvB;;AAEA;CACC,SAAS;CACT,UAAU;AACX;;AAEA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;CAiFC,SAAS;CACT,UAAU;CACV,SAAS;AACV","sourcesContent":[":root {\n\t--color-dark: #000000;\n\n\t--color-light: #ffffff;\n\t--color-background-accent: #f8f8f8;\n\n\t--color-accent: #fe7743;\n\t--color-accent-hover: #d75523;\n\n\t--color-success: #4ebd6c;\n\t--color-success-hover: #1e893a;\n\n\t--color-err: #f45959;\n\t--color-err-hover: #da1f1f;\n\n\t--color-primary: #3e586b;\n\t--color-secondary: #447d9b;\n\t--color-hover: #273f4f;\n\n\t--color-input-stroke: #ccc;\n\t--color-blue: #0000ff;\n\n\t--color-dark-transparent: rgba(0, 0, 0, 0.3);\n\t--color-dark-transparent-hover: rgba(0, 0, 0, 0.5);\n\n\t--shadow: 0 4px 12px rgba(0.2, 0.2, 0.2, 0.2);\n\t--shadow-hover: 0 4px 12px rgba(0.5, 0.5, 0.5, 0.5);\n\n\t--border-radius-small: 8px;\n\t--border-radius-medium: 16px;\n\t--border-radius-large: 24px;\n}\n\n::-webkit-scrollbar {\n\twidth: 0;\n}\n\n*,\n*::before,\n*::after {\n\tmargin: 0;\n\tpadding: 0;\n\tbox-sizing: border-box;\n}\n\n\\body {\n\tmargin: 0;\n\tpadding: 0;\n}\n\nhtml,\nbody,\ndiv,\nspan,\napplet,\nobject,\niframe,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\np,\nblockquote,\npre,\na,\nabbr,\nacronym,\naddress,\nbig,\ncite,\ncode,\ndel,\ndfn,\nem,\nimg,\nins,\nkbd,\nq,\ns,\nsamp,\nsmall,\nstrike,\nstrong,\nsub,\nsup,\ntt,\nvar,\nb,\nu,\ni,\ncenter,\ndl,\ndt,\ndd,\nol,\nul,\nli,\nfieldset,\nform,\nlabel,\nlegend,\ntable,\ncaption,\ntbody,\ntfoot,\nthead,\ntr,\nth,\ntd,\narticle,\naside,\ncanvas,\ndetails,\nembed,\nfigure,\nfigcaption,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\noutput,\nruby,\nsection,\nsummary,\ntime,\nmark,\naudio,\nvideo {\n\tmargin: 0;\n\tpadding: 0;\n\tborder: 0;\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/CommonCSS/Variables.css"],"names":[],"mappings":"AAAA;CACC,qBAAqB;;CAErB,sBAAsB;CACtB,kCAAkC;;CAElC,uBAAuB;CACvB,6BAA6B;;CAE7B,wBAAwB;CACxB,8BAA8B;;CAE9B,oBAAoB;CACpB,0BAA0B;;CAE1B,wBAAwB;CACxB,0BAA0B;CAC1B,sBAAsB;;CAEtB,0BAA0B;CAC1B,qBAAqB;;CAErB,4CAA4C;CAC5C,kDAAkD;;CAElD,6CAA6C;CAC7C,mDAAmD;;CAEnD,0BAA0B;CAC1B,4BAA4B;CAC5B,2BAA2B;AAC5B;;AAEA;CACC,QAAQ;AACT;;AAEA;;;CAGC,SAAS;CACT,UAAU;CACV,sBAAsB;AACvB;;AAEA;CACC,SAAS;CACT,UAAU;AACX;;AAEA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;CAiFC,SAAS;CACT,UAAU;CACV,SAAS;AACV","sourcesContent":[":root {\r\n\t--color-dark: #000000;\r\n\r\n\t--color-light: #ffffff;\r\n\t--color-background-accent: #f8f8f8;\r\n\r\n\t--color-accent: #fe7743;\r\n\t--color-accent-hover: #d75523;\r\n\r\n\t--color-success: #4ebd6c;\r\n\t--color-success-hover: #1e893a;\r\n\r\n\t--color-err: #f45959;\r\n\t--color-err-hover: #da1f1f;\r\n\r\n\t--color-primary: #3e586b;\r\n\t--color-secondary: #447d9b;\r\n\t--color-hover: #273f4f;\r\n\r\n\t--color-input-stroke: #ccc;\r\n\t--color-blue: #0000ff;\r\n\r\n\t--color-dark-transparent: rgba(0, 0, 0, 0.3);\r\n\t--color-dark-transparent-hover: rgba(0, 0, 0, 0.5);\r\n\r\n\t--shadow: 0 4px 12px rgba(0.2, 0.2, 0.2, 0.2);\r\n\t--shadow-hover: 0 4px 12px rgba(0.5, 0.5, 0.5, 0.5);\r\n\r\n\t--border-radius-small: 8px;\r\n\t--border-radius-medium: 16px;\r\n\t--border-radius-large: 24px;\r\n}\r\n\r\n::-webkit-scrollbar {\r\n\twidth: 0;\r\n}\r\n\r\n*,\r\n*::before,\r\n*::after {\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n\tbox-sizing: border-box;\r\n}\r\n\r\n\\body {\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n}\r\n\r\nhtml,\r\nbody,\r\ndiv,\r\nspan,\r\napplet,\r\nobject,\r\niframe,\r\nh1,\r\nh2,\r\nh3,\r\nh4,\r\nh5,\r\nh6,\r\np,\r\nblockquote,\r\npre,\r\na,\r\nabbr,\r\nacronym,\r\naddress,\r\nbig,\r\ncite,\r\ncode,\r\ndel,\r\ndfn,\r\nem,\r\nimg,\r\nins,\r\nkbd,\r\nq,\r\ns,\r\nsamp,\r\nsmall,\r\nstrike,\r\nstrong,\r\nsub,\r\nsup,\r\ntt,\r\nvar,\r\nb,\r\nu,\r\ni,\r\ncenter,\r\ndl,\r\ndt,\r\ndd,\r\nol,\r\nul,\r\nli,\r\nfieldset,\r\nform,\r\nlabel,\r\nlegend,\r\ntable,\r\ncaption,\r\ntbody,\r\ntfoot,\r\nthead,\r\ntr,\r\nth,\r\ntd,\r\narticle,\r\naside,\r\ncanvas,\r\ndetails,\r\nembed,\r\nfigure,\r\nfigcaption,\r\nfooter,\r\nheader,\r\nhgroup,\r\nmenu,\r\nnav,\r\noutput,\r\nruby,\r\nsection,\r\nsummary,\r\ntime,\r\nmark,\r\naudio,\r\nvideo {\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n\tborder: 0;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -274,7 +274,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.footer {
 	border-radius: var(--border-radius-large);
 	box-shadow: var(--shadow);
 }
-`, "",{"version":3,"sources":["webpack://./src/components/Footer/Footer.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,8BAA8B;CAC9B,mBAAmB;CACnB,oBAAoB;CACpB,UAAU;CACV,aAAa;CACb,sBAAsB;CACtB,gDAAgD;CAChD,yCAAyC;CACzC,yBAAyB;AAC1B","sourcesContent":[".footer {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\tjustify-self: center;\n\twidth: 90%;\n\tpadding: 20px;\n\tbox-sizing: border-box;\n\tbackground-color: var(--color-background-accent);\n\tborder-radius: var(--border-radius-large);\n\tbox-shadow: var(--shadow);\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/Footer/Footer.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,8BAA8B;CAC9B,mBAAmB;CACnB,oBAAoB;CACpB,UAAU;CACV,aAAa;CACb,sBAAsB;CACtB,gDAAgD;CAChD,yCAAyC;CACzC,yBAAyB;AAC1B","sourcesContent":[".footer {\r\n\tdisplay: flex;\r\n\tjustify-content: space-between;\r\n\talign-items: center;\r\n\tjustify-self: center;\r\n\twidth: 90%;\r\n\tpadding: 20px;\r\n\tbox-sizing: border-box;\r\n\tbackground-color: var(--color-background-accent);\r\n\tborder-radius: var(--border-radius-large);\r\n\tbox-shadow: var(--shadow);\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -331,7 +331,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.icon-button {
 	margin-top: 4px;
 	white-space: nowrap;
 }
-`, "",{"version":3,"sources":["webpack://./src/components/IconButton/IconButton.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,sBAAsB;CACtB,mBAAmB;CACnB,gBAAgB;CAChB,YAAY;CACZ,UAAU;CACV,eAAe;CACf,yCAAyC;CACzC,eAAe;CACf,aAAa;AACd;;AAEA;CACC,YAAY;AACb;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,mBAAmB;CACnB,cAAc;CACd,SAAS;AACV;;AAEA;CACC,kBAAkB;CAClB,wBAAwB;CACxB,eAAe;CACf,mBAAmB;AACpB","sourcesContent":[".icon-button {\n\tdisplay: flex;\n\tflex-direction: column;\n\talign-items: center;\n\tbackground: none;\n\tborder: none;\n\tpadding: 0;\n\tcursor: pointer;\n\tborder-radius: var(--border-radius-small);\n\tmin-width: 60px;\n\toutline: none;\n}\n\n.icon-button:hover {\n\topacity: 0.9;\n}\n\n.icon-button__image {\n\twidth: 20px;\n\theight: 20px;\n\tobject-fit: contain;\n\tdisplay: block;\n\tmargin: 0;\n}\n\n.icon-button__text {\n\tfont-size: 0.85rem;\n\tcolor: var(--color-dark);\n\tmargin-top: 4px;\n\twhite-space: nowrap;\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/IconButton/IconButton.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,sBAAsB;CACtB,mBAAmB;CACnB,gBAAgB;CAChB,YAAY;CACZ,UAAU;CACV,eAAe;CACf,yCAAyC;CACzC,eAAe;CACf,aAAa;AACd;;AAEA;CACC,YAAY;AACb;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,mBAAmB;CACnB,cAAc;CACd,SAAS;AACV;;AAEA;CACC,kBAAkB;CAClB,wBAAwB;CACxB,eAAe;CACf,mBAAmB;AACpB","sourcesContent":[".icon-button {\r\n\tdisplay: flex;\r\n\tflex-direction: column;\r\n\talign-items: center;\r\n\tbackground: none;\r\n\tborder: none;\r\n\tpadding: 0;\r\n\tcursor: pointer;\r\n\tborder-radius: var(--border-radius-small);\r\n\tmin-width: 60px;\r\n\toutline: none;\r\n}\r\n\r\n.icon-button:hover {\r\n\topacity: 0.9;\r\n}\r\n\r\n.icon-button__image {\r\n\twidth: 20px;\r\n\theight: 20px;\r\n\tobject-fit: contain;\r\n\tdisplay: block;\r\n\tmargin: 0;\r\n}\r\n\r\n.icon-button__text {\r\n\tfont-size: 0.85rem;\r\n\tcolor: var(--color-dark);\r\n\tmargin-top: 4px;\r\n\twhite-space: nowrap;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -422,7 +422,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.login-form {
 .login-form__input--error {
 	border-color: var(--color-err) !important;
 }
-`, "",{"version":3,"sources":["webpack://./src/components/LoginForm/LoginForm.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,sBAAsB;CACtB,SAAS;;CAET,gBAAgB;CAChB,WAAW;CACX,kBAAkB;;CAElB,8BAA8B;CAC9B,gDAAgD;CAChD,mBAAmB;CACnB,yBAAyB;;CAEzB,mBAAmB;CACnB,mBAAmB;AACpB;;AAEA;CACC,aAAa;CACb,sBAAsB;CACtB,SAAS;CACT,gBAAgB;CAChB,WAAW;AACZ;;AAEA;CACC,aAAa;CACb,2CAA2C;CAC3C,yCAAyC;CACzC,eAAe;CACf,WAAW;CACX,sBAAsB;CACtB,gBAAgB;AACjB;;AAEA;CACC,kCAAkC;CAClC,aAAa;AACd;;AAEA;;CAEC,WAAW;AACZ;;AAEA;CACC,eAAe;CACf,uBAAuB;CACvB,aAAa;CACb,kBAAkB;AACnB;;AAEA;CACC,cAAc;AACf;;AAEA;;CAEC,aAAa;AACd;;AAEA;CACC,yCAAyC;AAC1C","sourcesContent":[".login-form {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: 15px;\n\n\tmax-width: 400px;\n\twidth: 100%;\n\tpadding: 30px 25px;\n\n\tbackground: var(--color-light);\n\tborder: 1px solid var(--color-background-accent);\n\tborder-radius: 20px;\n\tbox-shadow: var(--shadow);\n\n\tmargin: 10vh auto 0;\n\talign-items: center;\n}\n\n.login-form__inner {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: 15px;\n\tmax-width: 400px;\n\twidth: 100%;\n}\n\n.login-form__field input {\n\tpadding: 12px;\n\tborder: 1px solid var(--color-input-stroke);\n\tborder-radius: var(--border-radius-large);\n\tfont-size: 16px;\n\twidth: 100%;\n\tbox-sizing: border-box;\n\ttext-align: left;\n}\n\n.login-form__field input:focus {\n\tborder-color: var(--color-primary);\n\toutline: none;\n}\n\n.login-form__submit,\n.login-form__toggle {\n\twidth: 100%;\n}\n\n.login-form__error {\n\tfont-size: 15px;\n\tcolor: var(--color-err);\n\tdisplay: none;\n\talign-self: center;\n}\n\n.login-form__error.active {\n\tdisplay: block;\n}\n\n.login-form__error.inactive,\n.login-form__field.inactive {\n\tdisplay: none;\n}\n\n.login-form__input--error {\n\tborder-color: var(--color-err) !important;\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/LoginForm/LoginForm.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,sBAAsB;CACtB,SAAS;;CAET,gBAAgB;CAChB,WAAW;CACX,kBAAkB;;CAElB,8BAA8B;CAC9B,gDAAgD;CAChD,mBAAmB;CACnB,yBAAyB;;CAEzB,mBAAmB;CACnB,mBAAmB;AACpB;;AAEA;CACC,aAAa;CACb,sBAAsB;CACtB,SAAS;CACT,gBAAgB;CAChB,WAAW;AACZ;;AAEA;CACC,aAAa;CACb,2CAA2C;CAC3C,yCAAyC;CACzC,eAAe;CACf,WAAW;CACX,sBAAsB;CACtB,gBAAgB;AACjB;;AAEA;CACC,kCAAkC;CAClC,aAAa;AACd;;AAEA;;CAEC,WAAW;AACZ;;AAEA;CACC,eAAe;CACf,uBAAuB;CACvB,aAAa;CACb,kBAAkB;AACnB;;AAEA;CACC,cAAc;AACf;;AAEA;;CAEC,aAAa;AACd;;AAEA;CACC,yCAAyC;AAC1C","sourcesContent":[".login-form {\r\n\tdisplay: flex;\r\n\tflex-direction: column;\r\n\tgap: 15px;\r\n\r\n\tmax-width: 400px;\r\n\twidth: 100%;\r\n\tpadding: 30px 25px;\r\n\r\n\tbackground: var(--color-light);\r\n\tborder: 1px solid var(--color-background-accent);\r\n\tborder-radius: 20px;\r\n\tbox-shadow: var(--shadow);\r\n\r\n\tmargin: 10vh auto 0;\r\n\talign-items: center;\r\n}\r\n\r\n.login-form__inner {\r\n\tdisplay: flex;\r\n\tflex-direction: column;\r\n\tgap: 15px;\r\n\tmax-width: 400px;\r\n\twidth: 100%;\r\n}\r\n\r\n.login-form__field input {\r\n\tpadding: 12px;\r\n\tborder: 1px solid var(--color-input-stroke);\r\n\tborder-radius: var(--border-radius-large);\r\n\tfont-size: 16px;\r\n\twidth: 100%;\r\n\tbox-sizing: border-box;\r\n\ttext-align: left;\r\n}\r\n\r\n.login-form__field input:focus {\r\n\tborder-color: var(--color-primary);\r\n\toutline: none;\r\n}\r\n\r\n.login-form__submit,\r\n.login-form__toggle {\r\n\twidth: 100%;\r\n}\r\n\r\n.login-form__error {\r\n\tfont-size: 15px;\r\n\tcolor: var(--color-err);\r\n\tdisplay: none;\r\n\talign-self: center;\r\n}\r\n\r\n.login-form__error.active {\r\n\tdisplay: block;\r\n}\r\n\r\n.login-form__error.inactive,\r\n.login-form__field.inactive {\r\n\tdisplay: none;\r\n}\r\n\r\n.login-form__input--error {\r\n\tborder-color: var(--color-err) !important;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -474,7 +474,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.navbar {
 	gap: 1rem;
 	align-items: center;
 }
-`, "",{"version":3,"sources":["webpack://./src/components/Navbar/Navbar.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,mBAAmB;CACnB,8BAA8B;CAC9B,aAAa;CACb,8BAA8B;CAC9B,kDAAkD;CAClD,wCAAwC;CACxC,gBAAgB;CAChB,MAAM;CACN,YAAY;CACZ,UAAU;CACV,0EAA0E;AAC3E;;AAEA;CACC,aAAa;CACb,mBAAmB;CACnB,SAAS;AACV;;AAEA;CACC,aAAa;CACb,SAAS;CACT,mBAAmB;AACpB","sourcesContent":[".navbar {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: space-between;\n\tpadding: 1rem;\n\tbackground: var(--color-light);\n\tborder-bottom: 1px solid var(--color-input-stroke);\n\tbox-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n\tposition: sticky;\n\ttop: 0;\n\theight: 5rem;\n\tz-index: 1;\n\tborder-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);\n}\n\n.navbar__left {\n\tdisplay: flex;\n\talign-items: center;\n\tgap: 1rem;\n}\n\n.navbar__right {\n\tdisplay: flex;\n\tgap: 1rem;\n\talign-items: center;\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/Navbar/Navbar.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,mBAAmB;CACnB,8BAA8B;CAC9B,aAAa;CACb,8BAA8B;CAC9B,kDAAkD;CAClD,wCAAwC;CACxC,gBAAgB;CAChB,MAAM;CACN,YAAY;CACZ,UAAU;CACV,0EAA0E;AAC3E;;AAEA;CACC,aAAa;CACb,mBAAmB;CACnB,SAAS;AACV;;AAEA;CACC,aAAa;CACb,SAAS;CACT,mBAAmB;AACpB","sourcesContent":[".navbar {\r\n\tdisplay: flex;\r\n\talign-items: center;\r\n\tjustify-content: space-between;\r\n\tpadding: 1rem;\r\n\tbackground: var(--color-light);\r\n\tborder-bottom: 1px solid var(--color-input-stroke);\r\n\tbox-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\r\n\tposition: sticky;\r\n\ttop: 0;\r\n\theight: 5rem;\r\n\tz-index: 1;\r\n\tborder-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);\r\n}\r\n\r\n.navbar__left {\r\n\tdisplay: flex;\r\n\talign-items: center;\r\n\tgap: 1rem;\r\n}\r\n\r\n.navbar__right {\r\n\tdisplay: flex;\r\n\tgap: 1rem;\r\n\talign-items: center;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -543,7 +543,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.search-bar {
 .search-bar button:hover {
 	background-color: var(--color-accent-hover);
 }
-`, "",{"version":3,"sources":["webpack://./src/components/Search/Search.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,mBAAmB;CACnB,wCAAwC;CACxC,yCAAyC;CACzC,oCAAoC;CACpC,cAAc;AACf;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,YAAY;AACb;;AAEA;CACC,YAAY;CACZ,aAAa;CACb,YAAY;CACZ,gBAAgB;CAChB,6BAA6B;CAC7B,iBAAiB;AAClB;;AAEA;CACC,YAAY;CACZ,+BAA+B;CAC/B,yBAAyB;CACzB,oBAAoB;CACpB,eAAe;CACf,WAAW;CACX,YAAY;CACZ,0CAA0C;CAC1C,kCAAkC;AACnC;;AAEA;CACC,uCAAuC;AACxC;;AAEA;CACC,2CAA2C;AAC5C","sourcesContent":[".search-bar {\n\tdisplay: flex;\n\talign-items: center;\n\tborder: 0.1rem solid var(--color-accent);\n\tborder-radius: var(--border-radius-large);\n\tbackground-color: var(--color-light);\n\theight: 2.4rem;\n}\n\n.search-icon {\n\twidth: 1rem;\n\theight: 1rem;\n\tmargin: 1rem;\n}\n\n.search-bar input {\n\tborder: none;\n\toutline: none;\n\twidth: 20rem;\n\ttext-align: left;\n\tbackground-color: transparent;\n\tpadding: 0.5rem 0;\n}\n\n.search-bar button {\n\tborder: none;\n\tbackground: var(--color-accent);\n\tcolor: var(--color-light);\n\tpadding: 0.5rem 1rem;\n\tcursor: pointer;\n\twidth: 7rem;\n\theight: 100%;\n\tborder-radius: var(--border-radius-medium);\n\tfont-size: var(--button-font-size);\n}\n\n.search-bar:hover {\n\tborder-color: var(--color-accent-hover);\n}\n\n.search-bar button:hover {\n\tbackground-color: var(--color-accent-hover);\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/Search/Search.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,mBAAmB;CACnB,wCAAwC;CACxC,yCAAyC;CACzC,oCAAoC;CACpC,cAAc;AACf;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,YAAY;AACb;;AAEA;CACC,YAAY;CACZ,aAAa;CACb,YAAY;CACZ,gBAAgB;CAChB,6BAA6B;CAC7B,iBAAiB;AAClB;;AAEA;CACC,YAAY;CACZ,+BAA+B;CAC/B,yBAAyB;CACzB,oBAAoB;CACpB,eAAe;CACf,WAAW;CACX,YAAY;CACZ,0CAA0C;CAC1C,kCAAkC;AACnC;;AAEA;CACC,uCAAuC;AACxC;;AAEA;CACC,2CAA2C;AAC5C","sourcesContent":[".search-bar {\r\n\tdisplay: flex;\r\n\talign-items: center;\r\n\tborder: 0.1rem solid var(--color-accent);\r\n\tborder-radius: var(--border-radius-large);\r\n\tbackground-color: var(--color-light);\r\n\theight: 2.4rem;\r\n}\r\n\r\n.search-icon {\r\n\twidth: 1rem;\r\n\theight: 1rem;\r\n\tmargin: 1rem;\r\n}\r\n\r\n.search-bar input {\r\n\tborder: none;\r\n\toutline: none;\r\n\twidth: 20rem;\r\n\ttext-align: left;\r\n\tbackground-color: transparent;\r\n\tpadding: 0.5rem 0;\r\n}\r\n\r\n.search-bar button {\r\n\tborder: none;\r\n\tbackground: var(--color-accent);\r\n\tcolor: var(--color-light);\r\n\tpadding: 0.5rem 1rem;\r\n\tcursor: pointer;\r\n\twidth: 7rem;\r\n\theight: 100%;\r\n\tborder-radius: var(--border-radius-medium);\r\n\tfont-size: var(--button-font-size);\r\n}\r\n\r\n.search-bar:hover {\r\n\tborder-color: var(--color-accent-hover);\r\n}\r\n\r\n.search-bar button:hover {\r\n\tbackground-color: var(--color-accent-hover);\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1157,7 +1157,7 @@ var Footer = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineComponen
       class: "left-part"
     }, "\xA9 2025 \u041E\u041E\u041E AppleClub"), h("div", {
       class: "right-part"
-    }, "appleclub.support@mail.ru \u041F\u0440\u043E\u0435\u043A\u0442 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u0438 VK"));
+    }, "appleclub.support@mail.ru \u041F\u0440\u043E\u0435\u043A\u0442 \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u0438 \"\u042F\u0431\u043B\u043E\u043A\u043E\""));
   }
 });
 
@@ -1835,6 +1835,9 @@ function createApp(RootComponent) {
     isMounted = false;
     vdom = null;
   }
+  if (typeof RootComponent !== "function") {
+    throw new Error("RootComponent must be a component class");
+  }
   return {
     mount: function mount(_parentEl) {
       if (isMounted) {
@@ -1976,10 +1979,10 @@ function defineComponent(_ref) {
       key: "offset",
       get: function get() {
         var _classPrivateFieldGet2;
-        if (((_classPrivateFieldGet2 = _classPrivateFieldGet(_vdom, this)) === null || _classPrivateFieldGet2 === void 0 ? void 0 : _classPrivateFieldGet2.type) === _h__WEBPACK_IMPORTED_MODULE_2__.DOM_TYPES.FRAGMENT) {
-          return 0;
+        if (((_classPrivateFieldGet2 = _classPrivateFieldGet(_vdom, this)) === null || _classPrivateFieldGet2 === void 0 ? void 0 : _classPrivateFieldGet2.type) === _h__WEBPACK_IMPORTED_MODULE_2__.DOM_TYPES.FRAGMENT && _classPrivateFieldGet(_hostEl, this)) {
+          return Array.from(_classPrivateFieldGet(_hostEl, this).children).indexOf(this.firstElement);
         }
-        return undefined;
+        return 0;
       }
     }, {
       key: "updateProps",
@@ -2178,36 +2181,30 @@ var Dispatcher = /*#__PURE__*/function () {
   function Dispatcher() {
     _classCallCheck(this, Dispatcher);
     _classPrivateFieldInitSpec(this, _subs, new Map());
-    _classPrivateFieldInitSpec(this, _afterHandlers, []);
+    _classPrivateFieldInitSpec(this, _afterHandlers, new Set());
   }
   return _createClass(Dispatcher, [{
     key: "subscribe",
     value: function subscribe(commandName, handler) {
+      var _this = this;
       if (!_classPrivateFieldGet(_subs, this).has(commandName)) {
-        _classPrivateFieldGet(_subs, this).set(commandName, []);
+        _classPrivateFieldGet(_subs, this).set(commandName, new Set());
       }
       var handlers = _classPrivateFieldGet(_subs, this).get(commandName);
-      if (handlers.includes(handler)) {
-        return function () {};
-      }
-      handlers.push(handler);
       return function () {
-        var idx = handlers.indexOf(handler);
-        if (idx > -1) {
-          handlers.splice(idx, 1);
+        handlers.delete(handler);
+        if (handlers.size == 0) {
+          _classPrivateFieldGet(_subs, _this).delete(commandName);
         }
       };
     }
   }, {
     key: "afterEveryCommand",
     value: function afterEveryCommand(handler) {
-      var _this = this;
-      _classPrivateFieldGet(_afterHandlers, this).push(handler);
+      var _this2 = this;
+      _classPrivateFieldGet(_afterHandlers, this).add(handler);
       return function () {
-        var idx = _classPrivateFieldGet(_afterHandlers, _this).indexOf(handler);
-        if (idx > -1) {
-          _classPrivateFieldGet(_afterHandlers, _this).splice(idx, 1);
-        }
+        _classPrivateFieldGet(_afterHandlers, _this2).delete(handler);
       };
     }
   }, {
@@ -2264,16 +2261,26 @@ var DOM_TYPES = /*#__PURE__*/function (DOM_TYPES) {
 }({});
 function h(tag) {
   var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var type = typeof tag === 'string' ? DOM_TYPES.ELEMENT : DOM_TYPES.COMPONENT;
   for (var _len = arguments.length, children = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
     children[_key - 2] = arguments[_key];
   }
-  return {
-    tag: tag,
-    props: props,
-    type: type,
-    children: mapTextNodes((0,_utils_arrays__WEBPACK_IMPORTED_MODULE_0__.withoutNulls)(children))
-  };
+  if (typeof tag === 'string') {
+    return {
+      type: DOM_TYPES.ELEMENT,
+      tag: tag,
+      props: props,
+      children: mapTextNodes((0,_utils_arrays__WEBPACK_IMPORTED_MODULE_0__.withoutNulls)(children))
+    };
+  } else {
+    return {
+      type: DOM_TYPES.COMPONENT,
+      tag: tag,
+      props: props,
+      children: mapTextNodes((0,_utils_arrays__WEBPACK_IMPORTED_MODULE_0__.withoutNulls)(children))
+    };
+  }
+  // removed by dead control flow
+
 }
 function deepFlattenAndClean(arr) {
   return arr.flat(Infinity).filter(function (item) {
@@ -2281,43 +2288,34 @@ function deepFlattenAndClean(arr) {
   });
 }
 function mapTextNodes(children) {
-  return children.filter(function (child) {
-    return child != null;
-  }) // Дополнительная защита
-  .map(function (child) {
+  return children.reduce(function (acc, child) {
     if (child == null) {
-      return null;
+      return acc;
     }
-    if (typeof child === 'string') {
-      return {
+    var vnode = null;
+    if (typeof child === 'string' || typeof child === 'number') {
+      vnode = {
         type: DOM_TYPES.TEXT,
         value: String(child)
       };
-    }
-    if (typeof child === 'number') {
-      return {
-        type: DOM_TYPES.TEXT,
-        value: String(child)
-      };
-    }
-    if (Array.isArray(child) && child.every(function (item) {
-      return item.type && Object.values(DOM_TYPES).includes(item.type);
+    } else if (Array.isArray(child) && child.every(function (item) {
+      return (item === null || item === void 0 ? void 0 : item.type) && Object.values(DOM_TYPES).includes(item.type);
     })) {
-      return {
+      vnode = {
         type: DOM_TYPES.FRAGMENT,
         children: child
       };
+    } else if (child.type && Object.values(DOM_TYPES).includes(child.type)) {
+      vnode = child;
+    } else {
+      console.warn('Unexpected child type in mapTextNodes:', _typeof(child), child);
+      return acc;
     }
-    if (child.type && Object.values(DOM_TYPES).includes(child.type)) {
-      return child;
+    if (vnode != null) {
+      acc.push(vnode);
     }
-
-    // Если что-то непонятное - пропускаем с предупреждением
-    console.warn('Unexpected child type in mapTextNodes:', _typeof(child), child);
-    return null;
-  }).filter(function (child) {
-    return child != null;
-  });
+    return acc;
+  }, []);
 }
 function hString(str) {
   return {

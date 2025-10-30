@@ -7,7 +7,7 @@ export const Footer = defineComponent({
 			<div class="footer">
 				<div class="left-part">© 2025 ООО AppleClub</div>
 				<div class="right-part">
-					appleclub.support@mail.ru Проект компании VK
+					appleclub.support@mail.ru Проект компании "Яблоко"
 				</div>
 			</div>
 		)

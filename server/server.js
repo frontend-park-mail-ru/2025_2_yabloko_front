@@ -5,8 +5,6 @@ const path = require('path')
 
 const app = express()
 
-app.use(express.static(path.join(__dirname, 'src')))
-app.use(express.static(path.join(__dirname, 'node_modules')))
 app.use('/static', express.static(path.join(__dirname, '..', 'dist')))
 const DIST_DIR = path.join(__dirname, '..', 'dist')
 
