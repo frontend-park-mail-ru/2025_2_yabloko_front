@@ -41,19 +41,28 @@ export interface ComponentVNode {
 
 export type VNode = ElementVNode | TextVNode | FragmentVNode | ComponentVNode
 
-export function h(
-	tag: string,
-	props: Record<string, any> = {},
-	...children: any[]
-): VNode {
-	const type = typeof tag === 'string' ? DOM_TYPES.ELEMENT : DOM_TYPES.COMPONENT
+type ComponentType = (props: any) => VNode;
 
-	return {
-		tag,
-		props,
-		type,
-		children: mapTextNodes(withoutNulls(children)),
-	}
+export function h(
+  tag: string | ComponentType,
+  props: Record<string, any> = {},
+  ...children: any[]
+): VNode {
+	if (typeof tag === 'string') {
+    return {
+      type: DOM_TYPES.ELEMENT,
+      tag,
+      props,
+      children:  mapTextNodes(withoutNulls(children)),
+    }
+  } else {
+    return {
+      type: DOM_TYPES.COMPONENT,
+      tag,
+      props,
+      children:  mapTextNodes(withoutNulls(children)),
+    }
+  };
 }
 
 function deepFlattenAndClean(arr: any[]): any[] {
@@ -61,46 +70,33 @@ function deepFlattenAndClean(arr: any[]): any[] {
 }
 
 function mapTextNodes(children: any[]): VNode[] {
-	return children
-		.filter(child => child != null) // Дополнительная защита
-		.map(child => {
-			if (child == null) {
-				return null
-			}
+	return children.reduce<VNode[]>((acc, child) => {
+		if (child == null) {
+			return acc;
+		}
 
-			if (typeof child === 'string') {
-				return { type: DOM_TYPES.TEXT, value: String(child) }
-			}
+		let vnode: VNode | null = null;
 
-			if (typeof child === 'number') {
-				return { type: DOM_TYPES.TEXT, value: String(child) }
-			}
+		if (typeof child === 'string' || typeof child === 'number') {
+			vnode = { type: DOM_TYPES.TEXT, value: String(child) };
+		} else if (
+			Array.isArray(child) &&
+			child.every(item => item?.type && Object.values(DOM_TYPES).includes(item.type))
+		) {
+			vnode = { type: DOM_TYPES.FRAGMENT, children: child };
+		} else if (child.type && Object.values(DOM_TYPES).includes(child.type)) {
+			vnode = child;
+		} else {
+			console.warn('Unexpected child type in mapTextNodes:', typeof child, child);
+			return acc;
+		}
 
-			if (
-				Array.isArray(child) &&
-				child.every(
-					item => item.type && Object.values(DOM_TYPES).includes(item.type),
-				)
-			) {
-				return {
-					type: DOM_TYPES.FRAGMENT,
-					children: child,
-				}
-			}
+		if (vnode != null) {
+			acc.push(vnode);
+		}
 
-			if (child.type && Object.values(DOM_TYPES).includes(child.type)) {
-				return child
-			}
-
-			// Если что-то непонятное - пропускаем с предупреждением
-			console.warn(
-				'Unexpected child type in mapTextNodes:',
-				typeof child,
-				child,
-			)
-			return null
-		})
-		.filter(child => child != null) as VNode[]
+		return acc;
+	}, []);
 }
 
 export function hString(str: string): TextVNode {
