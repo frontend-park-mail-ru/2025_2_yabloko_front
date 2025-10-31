@@ -2,6 +2,7 @@
 import { createApp } from '../framework/app'
 import { LoginPage } from '../pages/LoginPage'
 import { MainPage } from '../pages/MainPage'
+import { StorePage } from '../pages/StorePage'
 
 interface Page {
 	component: any
@@ -11,6 +12,7 @@ interface Page {
 const pathsPages: { [key: string]: Page } = {
 	'/': { component: MainPage, title: 'AppleClub - рестораны' },
 	'/auth': { component: LoginPage, title: 'AppleClub - авторизация' },
+	'/store/:id': { component: StorePage, title: 'AppleClub - магазин' },
 }
 
 let currentApp: any = null
@@ -72,7 +74,9 @@ async function renderPage(path: string, route: string): Promise<void> {
 window.addEventListener('popstate', () => {
 	const path = location.pathname
 	let route = path
-	if (!(path in pathsPages)) {
+	if (path.startsWith('/store/') && !(path in pathsPages)) {
+		route = '/store/:id'
+	} else if (!(path in pathsPages)) {
 		route = '/auth'
 	}
 	renderPage(path, route)
@@ -85,7 +89,9 @@ export function navigate(path: string, state: any = {}): void {
 export function initRouter(): void {
 	const path = location.pathname
 	let route = path
-	if (!(path in pathsPages)) {
+	if (path.startsWith('/store/') && !(path in pathsPages)) {
+		route = '/store/:id'
+	} else if (!(path in pathsPages)) {
 		route = '/auth'
 	}
 	renderPage(path, route)
