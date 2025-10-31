@@ -1,4 +1,5 @@
 import { defineComponent } from '../../framework/component'
+import { navigate } from '../../modules/router'
 import { Button } from '../Button/Button'
 import { IconButton } from '../IconButton/IconButton'
 import { Logo } from '../Logo/Logo'
@@ -56,9 +57,7 @@ export const Navbar = defineComponent({
 							variant="accent"
 							text="Войти"
 							onClick={() =>
-								import('../../modules/router').then(router =>
-									router.navigate('/auth'),
-								)
+								navigate('/auth')
 							}
 						/>
 					)}

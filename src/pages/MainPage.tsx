@@ -1,6 +1,8 @@
+import { Batch } from '../components/Batch/Batch'
 import { Footer } from '../components/Footer/Footer'
 import { Navbar } from '../components/Navbar/Navbar'
 import { defineComponent } from '../framework/component'
+import { navigate } from '../modules/router'
 
 interface MainPageProps {
 	onCardClick?: (storeId: number) => void
@@ -30,11 +32,11 @@ export const MainPage = defineComponent({
 				<Navbar
 					userAuthed={false}
 					onLogoClick={() => {
-						import('../modules/router').then(router => router.navigate('/'))
+						navigate('/')
 					}}
 					//onSearch={query => console.log('Search:', query)}
 					onLoginClick={() => {
-						import('../modules/router').then(router => router.navigate('/auth'))
+						navigate('/auth')
 					}}
 					onCartClick={() => this.openCart()}
 				/>
@@ -51,7 +53,10 @@ export const MainPage = defineComponent({
 						margin: '0 auto',
 					}}
 				>
-
+					<Batch
+						batchSize={this.state.batchSize}
+						onCardClick={props.onCardClick}
+					/>
 				</div>
 				<Footer />
 			</div>
