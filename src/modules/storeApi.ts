@@ -105,6 +105,7 @@ export class StoreApi {
 		const response = await API.post('/stores', body)
 		const data = response.body
 
+
 		return data
 	}
 
