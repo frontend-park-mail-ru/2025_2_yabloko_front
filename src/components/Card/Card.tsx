@@ -1,5 +1,7 @@
 import { defineComponent } from '../../framework/component'
 import { Store } from '../../modules/storeApi'
+import { navigate } from '../../modules/router'
+import {API} from '../../modules/api'
 import './Card.css'
 
 interface CardProps {
@@ -14,9 +16,7 @@ export const Card = defineComponent({
 
 		const handleCardClick = () => {
 			onCardClick?.(store.id)
-			import('../../modules/router').then(router =>
-				router.navigate(`/store/${store.id}`),
-			)
+			navigate(`/store/${store.id}`)
 		}
 
 		const handleFavClick = (e: Event) => {
@@ -38,7 +38,7 @@ export const Card = defineComponent({
 						{store.card_img && (
 							<img
 								class="store-card__image"
-								src={`http://localhost:8080/api/v0/image${store.card_img}`}
+								src={`${API.BASE_URL}/image${store.card_img}`}
 								alt={store.name}
 							/>
 						)}

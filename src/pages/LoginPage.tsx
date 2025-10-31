@@ -1,6 +1,7 @@
 import { LoginForm } from '../components/LoginForm/LoginForm'
 import { Navbar } from '../components/Navbar/Navbar'
 import { defineComponent } from '../framework/component'
+import { navigate } from '../modules/router'
 
 export const LoginPage = defineComponent({
 	state() {
@@ -15,11 +16,11 @@ export const LoginPage = defineComponent({
 				<Navbar
 					userAuthed={false}
 					onLogoClick={() => {
-						import('../modules/router').then(router => router.navigate('/'))
+						navigate('/')
 					}}
 					//onSearch={query => console.log('Search:', query)}
 					onLoginClick={() => {
-						import('../modules/router').then(router => router.navigate('/auth'))
+						navigate('/auth')
 					}}
 				/>
 

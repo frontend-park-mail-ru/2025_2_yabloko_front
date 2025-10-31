@@ -7,84 +7,55 @@ export interface UserData {
 	password: string
 }
 
+/**
+ * Класс для взаимодействия с API аутентификации и управления пользователем.
+ */
 export class UserAPI {
+	/**
+	 * Регистрирует нового пользователя.
+	 * @param {UserData} userdata - Данные пользователя: email и пароль.
+	 * @returns {Promise<APIresponse>} Ответ API, содержащий статус операции и, при успехе, дополнительные данные в `body`.
+	 */
 	async register(userdata: UserData): Promise<APIresponse> {
-		const response = await API.fetch('/auth/signup', {
-			method: 'POST',
-			body: JSON.stringify({
-				service22: {
-					email: userdata.email,
-					password: userdata.password,
-				},
-			}),
-		})
-
-		if (!response.ok) {
-			throw {
-				status: response.status,
-				response: await response.text(),
-			}
-		}
-
-		return response.json()
-	}
-
-	async login(userdata: UserData): Promise<APIresponse> {
-		const response = await API.fetch('/auth/login', {
-			method: 'POST',
-			body: JSON.stringify({
+		return API.post('/auth/signup', {
+			service: {
 				email: userdata.email,
 				password: userdata.password,
-			}),
+			},
 		})
-
-		if (!response.ok) {
-			const errorText = await response.text()
-			let errorResponse
-			try {
-				errorResponse = JSON.parse(errorText)
-			} catch {
-				errorResponse = errorText
-			}
-
-			throw {
-				status: response.status,
-				response: errorResponse,
-			}
-		}
-
-		return response.json()
 	}
 
+	/**
+	 * Выполняет вход пользователя в систему.
+	 * @param {UserData} userdata - Данные для входа: email и пароль.
+	 * @returns {Promise<APIresponse>} Ответ API. При успехе в `body` может содержаться токен или профиль пользователя.
+	 */
+	async login(userdata: UserData): Promise<APIresponse> {
+		return API.post('/auth/login', {
+			email: userdata.email,
+			password: userdata.password,
+		})
+	}
+
+	/**
+	 * Выполняет выход пользователя из системы (уничтожает сессию на сервере).
+	 * @returns {Promise<APIresponse>} Ответ API, подтверждающий завершение сессии.
+	 */
 	async logout(): Promise<APIresponse> {
-		const response = await API.fetch('/auth/logout', {
-			method: 'POST',
-		})
-
-		if (!response.ok) {
-			throw {
-				status: response.status,
-				response: await response.text(),
-			}
-		}
-
-		return response.json()
+		return API.post('/auth/logout')
 	}
 
+	/**
+	 * Обновляет access-токен с использованием refresh-токена.
+	 * @returns {Promise<APIresponse>} Ответ API с новым токеном (обычно в `body.token`).
+	 */
 	async refresh(): Promise<APIresponse> {
-		const response = await API.fetch('/auth/refresh', {
-			method: 'POST',
-		})
-
-		if (!response.ok) {
-			throw {
-				status: response.status,
-				response: await response.text(),
-			}
-		}
-
-		return response.json()
+		return API.post('/auth/refresh')
 	}
 }
 
+/**
+ * Экземпляр API для работы с пользователем.
+ * @type {UserAPI}
+ */
 export const userApi = new UserAPI()
