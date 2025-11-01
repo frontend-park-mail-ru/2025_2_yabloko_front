@@ -1,8 +1,10 @@
+import { Cart } from '../components/Cart/Cart'
 import { Navbar } from '../components/Navbar/Navbar'
 import { ProductsBatch } from '../components/ProductsBatch/ProductsBatch'
 import { StoreInfo } from '../components/StoreInfo/StoreInfo'
 import { defineComponent } from '../framework/component'
 import { navigate } from '../modules/router'
+import { addToCart } from '../modules/cartManager'
 import { Item, Store, StoreApi } from '../modules/storeApi'
 
 interface StorePageState {
@@ -83,7 +85,14 @@ export const StorePage = defineComponent({
 							justifyContent: 'center',
 						}}
 					>
+						<button
+							style={{ marginTop: '16px' }}
+							onClick={() => window.history.back()}
+						>
+							Назад
+						</button>
 					</div>
+					{isCartOpen ? <Cart onClose={() => this.closeCart()} /> : null}
 				</div>
 			)
 		}
@@ -118,11 +127,19 @@ export const StorePage = defineComponent({
 							onAddToCart={productId => {
 								const product = products.find(p => p.id === productId)
 								if (product) {
+									addToCart({
+										id: product.id,
+										name: product.name,
+										price: product.price,
+										quantity: 1,
+										card_img: product.card_img,
+									})
 								}
 							}}
 						/>
 					</div>
 				</div>
+				{isCartOpen ? <Cart onClose={() => this.closeCart()} /> : null}
 			</div>
 		)
 	},

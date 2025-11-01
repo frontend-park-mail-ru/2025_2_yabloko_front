@@ -1,9 +1,13 @@
 import { defineComponent } from '../../framework/component'
+import { authManager } from '../../modules/authManager'
 import { navigate } from '../../modules/router'
+import { store } from '../../modules/store'
+import { AUTH_IS_AUTHENTICATED } from '../../utils/auth'
 import { Button } from '../Button/Button'
 import { IconButton } from '../IconButton/IconButton'
 import { Logo } from '../Logo/Logo'
 import { SearchBar } from '../Search/Search'
+import { CitySelector } from '../Selector/Selector'
 import './Navbar.css'
 
 interface NavbarProps {
@@ -15,7 +19,21 @@ interface NavbarProps {
 export const Navbar = defineComponent({
 	state() {
 		return {
-			userAuthed: false,
+			userAuthed: store.get(AUTH_IS_AUTHENTICATED) === true,
+		}
+	},
+
+	onMounted() {
+		this.unsubscribe = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
+			this.updateState({
+				userAuthed: store.get(AUTH_IS_AUTHENTICATED) === true,
+			})
+		})
+	},
+
+	onUnmounted() {
+		if (this.unsubscribe) {
+			this.unsubscribe()
 		}
 	},
 
@@ -31,6 +49,7 @@ export const Navbar = defineComponent({
 						placeholder="Поиск ресторанов и категорий"
 						onSearch={props.onSearch}
 					/>
+					<CitySelector />
 				</div>
 				<div class="navbar__right">
 					<IconButton
@@ -50,6 +69,7 @@ export const Navbar = defineComponent({
 								src="/static/icons/user.png"
 								alt="Профиль"
 								text="Профиль"
+								onClick={async () => await authManager.logout()}
 							/>,
 						]
 					) : (

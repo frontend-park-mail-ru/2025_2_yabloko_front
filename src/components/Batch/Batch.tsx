@@ -92,7 +92,7 @@ export const Batch = defineComponent({
 				<div class="stores-grid">
 					{stores.map(store => (
 						<Card
-							key={store.id}
+							key={store.store_id}
 							store={store}
 							onCardClick={this.props.onCardClick}
 						/>

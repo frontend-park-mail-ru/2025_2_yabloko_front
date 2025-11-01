@@ -1,5 +1,6 @@
 import { Batch } from '../components/Batch/Batch'
 import { CardsHeader } from '../components/CardsHeader/CardsHeader'
+import { Cart } from '../components/Cart/Cart'
 import { Footer } from '../components/Footer/Footer'
 import { Navbar } from '../components/Navbar/Navbar'
 import { defineComponent } from '../framework/component'
@@ -61,6 +62,7 @@ export const MainPage = defineComponent({
 					/>
 				</div>
 				<Footer />
+				{this.state.isCartOpen ? <Cart onClose={() => this.closeCart()} /> : ''}
 			</div>
 		)
 	},

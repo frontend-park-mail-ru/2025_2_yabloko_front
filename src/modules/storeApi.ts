@@ -105,7 +105,6 @@ export class StoreApi {
 		const response = await API.post('/stores', body)
 		const data = response.body
 
-
 		return data
 	}
 
@@ -191,5 +190,10 @@ export class StoreApi {
 	 */
 	static async syncCity(userId: string, cityId: string): Promise<void> {
 		await API.post(`/users/${userId}/city`, { city_id: cityId })
+	}
+
+	static async getCities(): Promise<City[]> {
+		const response = await API.get(`/stores/cities`)
+		return response.body ?? []
 	}
 }
