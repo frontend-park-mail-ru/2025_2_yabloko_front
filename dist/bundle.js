@@ -2692,7 +2692,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   CartItem: () => (/* binding */ CartItem)
 /* harmony export */ });
 /* harmony import */ var _framework_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../framework/component */ "./src/framework/component.ts");
-/* harmony import */ var _CartItem_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CartItem.css */ "./src/components/CartItem/CartItem.css");
+/* harmony import */ var _modules_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../modules/api */ "./src/modules/api.ts");
+/* harmony import */ var _CartItem_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CartItem.css */ "./src/components/CartItem/CartItem.css");
+
 
 
 var CartItem = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
@@ -2721,7 +2723,7 @@ var CartItem = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCompon
       class: "cart-item"
     }, card_img && h("img", {
       class: "cart-item__image",
-      src: "http://localhost:8080/api/v0/image".concat(card_img),
+      src: "".concat(_modules_api__WEBPACK_IMPORTED_MODULE_1__.API.BASE_URL, "/image").concat(card_img),
       alt: name
     }), h("div", {
       class: "cart-item__info"
@@ -3859,6 +3861,9 @@ var CitySelector = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCo
     };
     document.addEventListener('click', handleDocumentClick);
     this.handleDocumentClick = handleDocumentClick;
+
+    // Инициализация debounce таймера
+    this.debounceTimer = null;
     _modules_storeApi__WEBPACK_IMPORTED_MODULE_2__.StoreApi.getCities().then(function (cities) {
       _this.updateState({
         cities: cities
@@ -3873,6 +3878,10 @@ var CitySelector = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCo
   onUnmounted: function onUnmounted() {
     if (this.handleDocumentClick) {
       document.removeEventListener('click', this.handleDocumentClick);
+    }
+    // Очистка таймера при размонтировании
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
     }
   },
   saveSelectedCity: function saveSelectedCity(city) {
@@ -3899,8 +3908,19 @@ var CitySelector = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCo
       isOpen: !this.state.isOpen
     });
   },
-  render: function render() {
+  handleSearchInput: function handleSearchInput(value) {
     var _this2 = this;
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+    this.debounceTimer = setTimeout(function () {
+      _this2.updateState({
+        query: value
+      });
+    }, 300);
+  },
+  render: function render() {
+    var _this3 = this;
     var _this$state = this.state,
       cities = _this$state.cities,
       selectedCity = _this$state.selectedCity,
@@ -3916,7 +3936,7 @@ var CitySelector = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCo
       on: {
         click: function click(e) {
           e.stopPropagation();
-          _this2.toggleDropdown();
+          _this3.toggleDropdown();
         }
       }
     }, h("img", {
@@ -3941,9 +3961,8 @@ var CitySelector = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCo
       value: query,
       on: {
         input: function input(e) {
-          _this2.updateState({
-            query: e.target.value
-          });
+          var value = e.target.value;
+          _this3.handleSearchInput(value);
         }
       }
     }), h("div", {
@@ -3953,13 +3972,13 @@ var CitySelector = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCo
         class: "city-selector__option",
         on: {
           click: function click() {
-            return _this2.handleSelect(city);
+            return _this3.handleSelect(city);
           }
         }
       }, city.name);
     }) : h("div", {
       class: "city-selector__empty"
-    }, "\u0413\u043E\u0440\u043E\u0434 \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D"))) : null, ' ');
+    }, "\u0413\u043E\u0440\u043E\u0434 \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D"))) : null);
   }
 });
 

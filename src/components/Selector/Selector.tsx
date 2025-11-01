@@ -42,6 +42,8 @@ export const CitySelector = defineComponent({
 
 		this.handleDocumentClick = handleDocumentClick
 
+		this.debounceTimer = null
+
 		StoreApi.getCities()
 			.then(cities => {
 				this.updateState({ cities })
@@ -57,6 +59,9 @@ export const CitySelector = defineComponent({
 	onUnmounted() {
 		if (this.handleDocumentClick) {
 			document.removeEventListener('click', this.handleDocumentClick)
+		}
+		if (this.debounceTimer) {
+			clearTimeout(this.debounceTimer)
 		}
 	},
 
@@ -78,6 +83,16 @@ export const CitySelector = defineComponent({
 
 	toggleDropdown(): void {
 		this.updateState({ isOpen: !this.state.isOpen })
+	},
+
+	handleSearchInput(value: string): void {
+		if (this.debounceTimer) {
+			clearTimeout(this.debounceTimer)
+		}
+
+		this.debounceTimer = setTimeout(() => {
+			this.updateState({ query: value })
+		}, 300)
 	},
 
 	render() {
@@ -126,9 +141,8 @@ export const CitySelector = defineComponent({
 							{...{
 								on: {
 									input: (e: Event) => {
-										this.updateState({
-											query: (e.target as HTMLInputElement).value,
-										})
+										const value = (e.target as HTMLInputElement).value
+										this.handleSearchInput(value)
 									},
 								},
 							}}
@@ -152,7 +166,7 @@ export const CitySelector = defineComponent({
 							)}
 						</div>
 					</div>
-				) : null}{' '}
+				) : null}
 			</div>
 		)
 	},

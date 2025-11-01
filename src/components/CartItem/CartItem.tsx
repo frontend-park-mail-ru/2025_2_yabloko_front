@@ -1,4 +1,5 @@
 import { defineComponent } from '../../framework/component'
+import { API } from '../../modules/api'
 import { removeFromCart } from '../../modules/cartManager'
 import './CartItem.css'
 
@@ -38,7 +39,7 @@ export const CartItem = defineComponent({
 				{card_img && (
 					<img
 						class="cart-item__image"
-						src={`http://localhost:8080/api/v0/image${card_img}`}
+						src={`${API.BASE_URL}/image${card_img}`}
 						alt={name}
 					/>
 				)}
