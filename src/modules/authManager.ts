@@ -39,12 +39,16 @@ export class AuthManager {
 			const response = await userApi.refresh()
 			const userData = response.body as User
 
-			store.set(AUTH_USER, userData)
-			store.set(AUTH_IS_AUTHENTICATED, true)
-			return true
+			if (userData && userData.id) {
+				store.set(AUTH_USER, userData)
+				store.set(AUTH_IS_AUTHENTICATED, true)
+				return true
+			} else {
+				this.logout()
+				return false
+			}
 		} catch (error) {
 			this.logout()
-			console.warn(error)
 			return false
 		}
 	}
@@ -54,7 +58,7 @@ export class AuthManager {
 	}
 
 	isAuthenticated(): boolean {
-		return store.get('auth.isAuthenticated') as boolean
+		return store.get(AUTH_IS_AUTHENTICATED) as boolean
 	}
 }
 
