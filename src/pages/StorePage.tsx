@@ -2,6 +2,7 @@ import { Navbar } from '../components/Navbar/Navbar'
 import { ProductsBatch } from '../components/ProductsBatch/ProductsBatch'
 import { StoreInfo } from '../components/StoreInfo/StoreInfo'
 import { defineComponent } from '../framework/component'
+import { navigate } from '../modules/router'
 import { Item, Store, StoreApi } from '../modules/storeApi'
 
 interface StorePageState {
@@ -92,11 +93,11 @@ export const StorePage = defineComponent({
 				<Navbar
 					userAuthed={false}
 					onLogoClick={() => {
-						import('../modules/router').then(router => router.navigate('/'))
+						navigate('/')
 					}}
 					//onSearch={query => console.log('Search:', query)}
 					onLoginClick={() => {
-						import('../modules/router').then(router => router.navigate('/auth'))
+						navigate('/auth')
 					}}
 					onCartClick={() => this.openCart()}
 				/>

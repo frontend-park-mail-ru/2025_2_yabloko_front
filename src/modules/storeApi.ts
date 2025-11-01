@@ -183,8 +183,7 @@ export class StoreApi {
 		cartUpdate: CartUpdate,
 	): Promise<UpdateResponse> {
 		const response = await API.put(`/carts/${cartId}`, cartUpdate)
-		// Если сервер не вернул body, возвращаем минимально валидный объект
-		return response.body ?? { id: cartId }
+		return response.body
 	}
 
 	/**

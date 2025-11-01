@@ -1,4 +1,5 @@
 import { defineComponent } from '../../framework/component'
+import { API } from '../../modules/api'
 import './ProductCard.css'
 
 interface Product {
@@ -31,7 +32,7 @@ export const ProductCard = defineComponent({
 					{product.card_img && (
 						<img
 							class="product-card__image"
-							src={`http://localhost:8080/api/v0/image${product.card_img}`}
+							src={`${API.BASE_URL}/image${product.card_img}`}
 							alt={product.name}
 						/>
 					)}
@@ -51,7 +52,7 @@ export const ProductCard = defineComponent({
 							{...{
 								on: {
 									click: handleAddClick,
-								},
+								}
 							}}
 						>
 							+
