@@ -2,6 +2,12 @@
 
 node_modules/
 
+# Bundle files
+bundle*
+*.bundle.*
+/dist
+/build
+
 logs
 *.log
 npm-debug.log*
