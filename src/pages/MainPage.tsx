@@ -1,4 +1,5 @@
 import { Batch } from '../components/Batch/Batch'
+import { CardsHeader } from '../components/CardsHeader/CardsHeader'
 import { Footer } from '../components/Footer/Footer'
 import { Navbar } from '../components/Navbar/Navbar'
 import { defineComponent } from '../framework/component'
@@ -40,6 +41,7 @@ export const MainPage = defineComponent({
 					}}
 					onCartClick={() => this.openCart()}
 				/>
+				<CardsHeader />
 				<div
 					class="container"
 					style={{

@@ -58,7 +58,11 @@ export class API {
 
 	private static async parseResponse(response: Response): Promise<APIresponse> {
 		try {
-			return await response.json()
+			const rawData = await response.json()
+			return {
+				service: { success: 'OK', error: '' },
+				body: rawData,
+			}
 		} catch {
 			return {
 				service: {
