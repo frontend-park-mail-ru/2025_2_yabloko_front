@@ -1,4 +1,5 @@
 import { defineComponent } from '../../framework/component'
+import { API } from '../../modules/api'
 import { Store } from '../../modules/storeApi'
 import './StoreInfo.css'
 
@@ -17,7 +18,7 @@ export const StoreInfo = defineComponent({
 					{store.card_img && (
 						<img
 							class="store-info__image"
-							src={`http://localhost:8080/api/v0/image${store.card_img}`}
+							src={`${API.BASE_URL}/image${store.card_img}`}
 							alt={store.name}
 						/>
 					)}

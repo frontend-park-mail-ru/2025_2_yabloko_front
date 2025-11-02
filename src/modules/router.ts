@@ -2,6 +2,7 @@
 import { createApp } from '../framework/app'
 import { LoginPage } from '../pages/LoginPage'
 import { MainPage } from '../pages/MainPage'
+import { ProfilePage } from '../pages/ProfilePage'
 import { StorePage } from '../pages/StorePage'
 
 interface Page {
@@ -12,6 +13,7 @@ interface Page {
 const pathsPages: { [key: string]: Page } = {
 	'/': { component: MainPage, title: 'AppleClub - рестораны' },
 	'/auth': { component: LoginPage, title: 'AppleClub - авторизация' },
+	'/profile': { component: ProfilePage, title: 'AppleClub - профиль' },
 	'/store/:id': { component: StorePage, title: 'AppleClub - магазин' },
 }
 

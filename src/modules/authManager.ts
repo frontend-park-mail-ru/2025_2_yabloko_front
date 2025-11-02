@@ -1,5 +1,5 @@
 import { AUTH_IS_AUTHENTICATED, AUTH_USER } from '../utils/auth'
-import { profileManager } from './profileManager'
+import { profileApi } from './profileApi'
 import { store } from './store'
 import { userApi } from './userApi'
 
@@ -15,7 +15,7 @@ export class AuthManager {
 
 		store.set(AUTH_USER, userData)
 		store.set(AUTH_IS_AUTHENTICATED, true)
-		await profileManager.syncGuestData()
+		await profileApi.saveGuestCityToProfile()
 	}
 
 	async register(email: string, password: string): Promise<void> {

@@ -36,7 +36,6 @@ export const MainPage = defineComponent({
 					onLogoClick={() => {
 						navigate('/')
 					}}
-					//onSearch={query => console.log('Search:', query)}
 					onLoginClick={() => {
 						navigate('/auth')
 					}}

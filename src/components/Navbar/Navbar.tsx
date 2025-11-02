@@ -69,16 +69,14 @@ export const Navbar = defineComponent({
 								src="/static/icons/user.png"
 								alt="Профиль"
 								text="Профиль"
-								onClick={async () => await authManager.logout()}
+								onClick={() => navigate('/profile')}
 							/>,
 						]
 					) : (
 						<Button
 							variant="accent"
 							text="Войти"
-							onClick={() =>
-								navigate('/auth')
-							}
+							onClick={() => navigate('/auth')}
 						/>
 					)}
 				</div>
