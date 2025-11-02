@@ -106,7 +106,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.batch {
 	padding: 40px;
 	color: var(--color-gray);
 }
-`, "",{"version":3,"sources":["webpack://./src/components/Batch/Batch.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,eAAe;CACf,6BAA6B;CAC7B,qBAAqB;CACrB,WAAW;CACX,aAAa;AACd;;AAEA;CACC,aAAa;CACb,eAAe;CACf,uBAAuB;CACvB,SAAS;CACT,WAAW;CACX,iBAAiB;CACjB,cAAc;CACd,eAAe;CACf,sBAAsB;AACvB;;AAEA;CACC,WAAW;CACX,kBAAkB;CAClB,mBAAmB;AACpB;;AAEA;CACC,eAAe;CACf,wBAAwB;AACzB;;AAEA;CACC,kBAAkB;CAClB,aAAa;CACb,wBAAwB;AACzB;;AAEA;CACC,cAAc;CACd,iBAAiB;CACjB,kBAAkB;CAClB,+BAA+B;CAC/B,YAAY;CACZ,YAAY;CACZ,kBAAkB;CAClB,eAAe;CACf,eAAe;AAChB;;AAEA;CACC,oCAAoC;AACrC;;AAEA;CACC,kBAAkB;CAClB,aAAa;CACb,wBAAwB;CACxB,kBAAkB;AACnB;;AAEA;CACC,oCAAoC;CACpC,yBAAyB;CACzB,aAAa;CACb,kBAAkB;CAClB,mBAAmB;CACnB,oCAAoC;AACrC;;AAEA;CACC,8BAA8B;CAC9B,YAAY;CACZ,YAAY;CACZ,iBAAiB;CACjB,kBAAkB;CAClB,eAAe;CACf,eAAe;AAChB;;AAEA;CACC,kBAAkB;CAClB,aAAa;CACb,wBAAwB;AACzB","sourcesContent":[".batch {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tjustify-content: space-evenly;\n\tjustify-items: center;\n\twidth: 100%;\n\tmin-height: 0;\n}\n\n.stores-grid {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tjustify-content: center;\n\tgap: 20px;\n\twidth: 100%;\n\tmax-width: 1200px;\n\tmargin: 0 auto;\n\tpadding: 0 10px;\n\tbox-sizing: border-box;\n}\n\n.batch-header {\n\twidth: 100%;\n\ttext-align: center;\n\tmargin-bottom: 20px;\n}\n\n.batch-stats {\n\tfont-size: 14px;\n\tcolor: var(--color-gray);\n}\n\n.batch-loading {\n\ttext-align: center;\n\tpadding: 40px;\n\tcolor: var(--color-gray);\n}\n\n.batch-load-more {\n\tdisplay: block;\n\tmargin: 20px auto;\n\tpadding: 12px 24px;\n\tbackground: var(--color-accent);\n\tcolor: white;\n\tborder: none;\n\tborder-radius: 6px;\n\tcursor: pointer;\n\tfont-size: 16px;\n}\n\n.batch-load-more:hover {\n\tbackground: var(--color-accent-dark);\n}\n\n.batch-end {\n\ttext-align: center;\n\tpadding: 20px;\n\tcolor: var(--color-gray);\n\tfont-style: italic;\n}\n\n.batch-error {\n\tbackground: var(--color-error-light);\n\tcolor: var(--color-error);\n\tpadding: 16px;\n\tborder-radius: 8px;\n\tmargin-bottom: 20px;\n\tborder: 1px solid var(--color-error);\n}\n\n.batch-retry-btn {\n\tbackground: var(--color-error);\n\tcolor: white;\n\tborder: none;\n\tpadding: 8px 16px;\n\tborder-radius: 4px;\n\tcursor: pointer;\n\tmargin-top: 8px;\n}\n\n.batch-empty {\n\ttext-align: center;\n\tpadding: 40px;\n\tcolor: var(--color-gray);\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/Batch/Batch.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,eAAe;CACf,6BAA6B;CAC7B,qBAAqB;CACrB,WAAW;CACX,aAAa;AACd;;AAEA;CACC,aAAa;CACb,eAAe;CACf,uBAAuB;CACvB,SAAS;CACT,WAAW;CACX,iBAAiB;CACjB,cAAc;CACd,eAAe;CACf,sBAAsB;AACvB;;AAEA;CACC,WAAW;CACX,kBAAkB;CAClB,mBAAmB;AACpB;;AAEA;CACC,eAAe;CACf,wBAAwB;AACzB;;AAEA;CACC,kBAAkB;CAClB,aAAa;CACb,wBAAwB;AACzB;;AAEA;CACC,cAAc;CACd,iBAAiB;CACjB,kBAAkB;CAClB,+BAA+B;CAC/B,YAAY;CACZ,YAAY;CACZ,kBAAkB;CAClB,eAAe;CACf,eAAe;AAChB;;AAEA;CACC,oCAAoC;AACrC;;AAEA;CACC,kBAAkB;CAClB,aAAa;CACb,wBAAwB;CACxB,kBAAkB;AACnB;;AAEA;CACC,oCAAoC;CACpC,yBAAyB;CACzB,aAAa;CACb,kBAAkB;CAClB,mBAAmB;CACnB,oCAAoC;AACrC;;AAEA;CACC,8BAA8B;CAC9B,YAAY;CACZ,YAAY;CACZ,iBAAiB;CACjB,kBAAkB;CAClB,eAAe;CACf,eAAe;AAChB;;AAEA;CACC,kBAAkB;CAClB,aAAa;CACb,wBAAwB;AACzB","sourcesContent":[".batch {\r\n\tdisplay: flex;\r\n\tflex-wrap: wrap;\r\n\tjustify-content: space-evenly;\r\n\tjustify-items: center;\r\n\twidth: 100%;\r\n\tmin-height: 0;\r\n}\r\n\r\n.stores-grid {\r\n\tdisplay: flex;\r\n\tflex-wrap: wrap;\r\n\tjustify-content: center;\r\n\tgap: 20px;\r\n\twidth: 100%;\r\n\tmax-width: 1200px;\r\n\tmargin: 0 auto;\r\n\tpadding: 0 10px;\r\n\tbox-sizing: border-box;\r\n}\r\n\r\n.batch-header {\r\n\twidth: 100%;\r\n\ttext-align: center;\r\n\tmargin-bottom: 20px;\r\n}\r\n\r\n.batch-stats {\r\n\tfont-size: 14px;\r\n\tcolor: var(--color-gray);\r\n}\r\n\r\n.batch-loading {\r\n\ttext-align: center;\r\n\tpadding: 40px;\r\n\tcolor: var(--color-gray);\r\n}\r\n\r\n.batch-load-more {\r\n\tdisplay: block;\r\n\tmargin: 20px auto;\r\n\tpadding: 12px 24px;\r\n\tbackground: var(--color-accent);\r\n\tcolor: white;\r\n\tborder: none;\r\n\tborder-radius: 6px;\r\n\tcursor: pointer;\r\n\tfont-size: 16px;\r\n}\r\n\r\n.batch-load-more:hover {\r\n\tbackground: var(--color-accent-dark);\r\n}\r\n\r\n.batch-end {\r\n\ttext-align: center;\r\n\tpadding: 20px;\r\n\tcolor: var(--color-gray);\r\n\tfont-style: italic;\r\n}\r\n\r\n.batch-error {\r\n\tbackground: var(--color-error-light);\r\n\tcolor: var(--color-error);\r\n\tpadding: 16px;\r\n\tborder-radius: 8px;\r\n\tmargin-bottom: 20px;\r\n\tborder: 1px solid var(--color-error);\r\n}\r\n\r\n.batch-retry-btn {\r\n\tbackground: var(--color-error);\r\n\tcolor: white;\r\n\tborder: none;\r\n\tpadding: 8px 16px;\r\n\tborder-radius: 4px;\r\n\tcursor: pointer;\r\n\tmargin-top: 8px;\r\n}\r\n\r\n.batch-empty {\r\n\ttext-align: center;\r\n\tpadding: 40px;\r\n\tcolor: var(--color-gray);\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -186,7 +186,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.button {
 	width: 100%;
 	height: 100%;
 }
-`, "",{"version":3,"sources":["webpack://./src/components/Button/Button.css"],"names":[],"mappings":"AAAA;CACC,oBAAoB;CACpB,yBAAyB;CACzB,mBAAmB;CACnB,uBAAuB;CACvB,YAAY;CACZ,yCAAyC;CACzC,eAAe;CACf,kBAAkB;CAClB,eAAe;CACf,cAAc;CACd,kCAAkC;CAClC,sCAAsC;AACvC;;AAEA;CACC,+BAA+B;AAChC;;AAEA;CACC,qCAAqC;AACtC;;AAEA;CACC,gCAAgC;AACjC;;AAEA;CACC,sCAAsC;AACvC;;AAEA;CACC,4BAA4B;AAC7B;;AAEA;CACC,kCAAkC;AACnC;;AAEA;CACC,gCAAgC;AACjC;;AAEA;CACC,8BAA8B;AAC/B;;AAEA;CACC,aAAa;CACb,mBAAmB;CACnB,uBAAuB;CACvB,WAAW;CACX,YAAY;AACb","sourcesContent":[".button {\n\tdisplay: inline-flex;\n\tcolor: var(--color-light);\n\talign-items: center;\n\tjustify-content: center;\n\tborder: none;\n\tborder-radius: var(--border-radius-large);\n\tcursor: pointer;\n\tposition: relative;\n\tmin-width: 7rem;\n\theight: 2.5rem;\n\tfont-size: var(--button-font-size);\n\tfont-weight: var(--button-font-weight);\n}\n\n.button--accent {\n\tbackground: var(--color-accent);\n}\n\n.button--accent:hover {\n\tbackground: var(--color-accent-hover);\n}\n\n.button--success {\n\tbackground: var(--color-success);\n}\n\n.button--success:hover {\n\tbackground: var(--color-success-hover);\n}\n\n.button--error {\n\tbackground: var(--color-err);\n}\n\n.button--error:hover {\n\tbackground: var(--color-err-hover);\n}\n\n.button--primary {\n\tbackground: var(--color-primary);\n}\n\n.button--primary:hover {\n\tbackground: var(--color-hover);\n}\n\n.button__content {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\twidth: 100%;\n\theight: 100%;\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/Button/Button.css"],"names":[],"mappings":"AAAA;CACC,oBAAoB;CACpB,yBAAyB;CACzB,mBAAmB;CACnB,uBAAuB;CACvB,YAAY;CACZ,yCAAyC;CACzC,eAAe;CACf,kBAAkB;CAClB,eAAe;CACf,cAAc;CACd,kCAAkC;CAClC,sCAAsC;AACvC;;AAEA;CACC,+BAA+B;AAChC;;AAEA;CACC,qCAAqC;AACtC;;AAEA;CACC,gCAAgC;AACjC;;AAEA;CACC,sCAAsC;AACvC;;AAEA;CACC,4BAA4B;AAC7B;;AAEA;CACC,kCAAkC;AACnC;;AAEA;CACC,gCAAgC;AACjC;;AAEA;CACC,8BAA8B;AAC/B;;AAEA;CACC,aAAa;CACb,mBAAmB;CACnB,uBAAuB;CACvB,WAAW;CACX,YAAY;AACb","sourcesContent":[".button {\r\n\tdisplay: inline-flex;\r\n\tcolor: var(--color-light);\r\n\talign-items: center;\r\n\tjustify-content: center;\r\n\tborder: none;\r\n\tborder-radius: var(--border-radius-large);\r\n\tcursor: pointer;\r\n\tposition: relative;\r\n\tmin-width: 7rem;\r\n\theight: 2.5rem;\r\n\tfont-size: var(--button-font-size);\r\n\tfont-weight: var(--button-font-weight);\r\n}\r\n\r\n.button--accent {\r\n\tbackground: var(--color-accent);\r\n}\r\n\r\n.button--accent:hover {\r\n\tbackground: var(--color-accent-hover);\r\n}\r\n\r\n.button--success {\r\n\tbackground: var(--color-success);\r\n}\r\n\r\n.button--success:hover {\r\n\tbackground: var(--color-success-hover);\r\n}\r\n\r\n.button--error {\r\n\tbackground: var(--color-err);\r\n}\r\n\r\n.button--error:hover {\r\n\tbackground: var(--color-err-hover);\r\n}\r\n\r\n.button--primary {\r\n\tbackground: var(--color-primary);\r\n}\r\n\r\n.button--primary:hover {\r\n\tbackground: var(--color-hover);\r\n}\r\n\r\n.button__content {\r\n\tdisplay: flex;\r\n\talign-items: center;\r\n\tjustify-content: center;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -324,7 +324,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.store-card {
 	font-size: 14px;
 	color: var(--color-gray);
 }
-`, "",{"version":3,"sources":["webpack://./src/components/Card/Card.css"],"names":[],"mappings":"AAAA;CACC,qBAAqB;CACrB,cAAc;CACd,UAAU;CACV,gBAAgB;CAChB,mBAAmB;CACnB,eAAe;AAChB;;AAEA;CACC,aAAa;CACb,sBAAsB;CACtB,eAAe;CACf,WAAW;CACX,aAAa;CACb,yCAAyC;CACzC,oCAAoC;CACpC,yBAAyB;AAC1B;;AAEA;CACC,+BAA+B;AAChC;;AAEA;CACC,kBAAkB;CAClB,WAAW;CACX,WAAW;CACX,yCAAyC;CACzC,gBAAgB;AACjB;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,iBAAiB;AAClB;;AAEA;CACC,kBAAkB;CAClB,aAAa;CACb,YAAY;CACZ,SAAS;CACT,WAAW;CACX,kBAAkB;CAClB,yCAAyC;AAC1C;;AAEA;CACC,+CAA+C;AAChD;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,kBAAkB;AACnB;;AAEA;CACC,aAAa;CACb,sBAAsB;CACtB,uBAAuB;CACvB,aAAa;CACb,WAAW;AACZ;;AAEA;CACC,aAAa;CACb,WAAW;CACX,8BAA8B;AAC/B;;AAEA;CACC,eAAe;CACf,gBAAgB;CAChB,wBAAwB;CACxB,SAAS;AACV;;AAEA;CACC,aAAa;CACb,QAAQ;CACR,mBAAmB;AACpB;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,kBAAkB;AACnB;;AAEA;CACC,eAAe;CACf,wBAAwB;AACzB;;AAEA;CACC,aAAa;CACb,QAAQ;CACR,mBAAmB;AACpB;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,kBAAkB;AACnB;;AAEA;CACC,eAAe;CACf,wBAAwB;AACzB","sourcesContent":[".store-card {\n\tdisplay: inline-block;\n\tflex: 0 0 auto;\n\twidth: 20%;\n\tmin-width: 260px;\n\tmargin-bottom: 30px;\n\tpadding: 0 10px;\n}\n\n.store-card__container {\n\tdisplay: flex;\n\tflex-direction: column;\n\tcursor: pointer;\n\twidth: 100%;\n\theight: 180px;\n\tborder-radius: var(--border-radius-large);\n\tbackground-color: var(--color-light);\n\tbox-shadow: var(--shadow);\n}\n\n.store-card__container:hover {\n\tbox-shadow: var(--shadow-hover);\n}\n\n.store-card__image-wrapper {\n\tposition: relative;\n\twidth: 100%;\n\theight: 65%;\n\tborder-radius: var(--border-radius-large);\n\toverflow: hidden;\n}\n\n.store-card__image {\n\twidth: 100%;\n\theight: 100%;\n\tobject-fit: cover;\n}\n\n.store-card__fav {\n\tposition: absolute;\n\tdisplay: flex;\n\tpadding: 4px;\n\ttop: 10px;\n\tright: 10px;\n\tborder-radius: 50%;\n\tbackground: var(--color-dark-transparent);\n}\n\n.store-card__fav:hover {\n\tbackground: var(--color-dark-transparent-hover);\n}\n\n.store-card__fav-image {\n\twidth: 32px;\n\theight: 32px;\n\tborder-radius: 50%;\n}\n\n.store-card__content {\n\tdisplay: flex;\n\tflex-direction: column;\n\talign-items: flex-start;\n\tpadding: 10px;\n\theight: 35%;\n}\n\n.store-card__info {\n\tdisplay: flex;\n\twidth: 100%;\n\tjustify-content: space-between;\n}\n\n.store-card__name {\n\tfont-size: 16px;\n\tfont-weight: 600;\n\tcolor: var(--color-dark);\n\tmargin: 0;\n}\n\n.store-card__rating {\n\tdisplay: flex;\n\tgap: 5px;\n\talign-items: center;\n}\n\n.store-card__rating-icon {\n\twidth: 15px;\n\theight: 15px;\n\tborder-radius: 50%;\n}\n\n.store-card__rating-value {\n\tfont-size: 14px;\n\tcolor: var(--color-gray);\n}\n\n.store-card__time {\n\tdisplay: flex;\n\tgap: 5px;\n\talign-items: center;\n}\n\n.store-card__time-icon {\n\twidth: 15px;\n\theight: 15px;\n\tborder-radius: 50%;\n}\n\n.store-card__time-value {\n\tfont-size: 14px;\n\tcolor: var(--color-gray);\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/Card/Card.css"],"names":[],"mappings":"AAAA;CACC,qBAAqB;CACrB,cAAc;CACd,UAAU;CACV,gBAAgB;CAChB,mBAAmB;CACnB,eAAe;AAChB;;AAEA;CACC,aAAa;CACb,sBAAsB;CACtB,eAAe;CACf,WAAW;CACX,aAAa;CACb,yCAAyC;CACzC,oCAAoC;CACpC,yBAAyB;AAC1B;;AAEA;CACC,+BAA+B;AAChC;;AAEA;CACC,kBAAkB;CAClB,WAAW;CACX,WAAW;CACX,yCAAyC;CACzC,gBAAgB;AACjB;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,iBAAiB;AAClB;;AAEA;CACC,kBAAkB;CAClB,aAAa;CACb,YAAY;CACZ,SAAS;CACT,WAAW;CACX,kBAAkB;CAClB,yCAAyC;AAC1C;;AAEA;CACC,+CAA+C;AAChD;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,kBAAkB;AACnB;;AAEA;CACC,aAAa;CACb,sBAAsB;CACtB,uBAAuB;CACvB,aAAa;CACb,WAAW;AACZ;;AAEA;CACC,aAAa;CACb,WAAW;CACX,8BAA8B;AAC/B;;AAEA;CACC,eAAe;CACf,gBAAgB;CAChB,wBAAwB;CACxB,SAAS;AACV;;AAEA;CACC,aAAa;CACb,QAAQ;CACR,mBAAmB;AACpB;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,kBAAkB;AACnB;;AAEA;CACC,eAAe;CACf,wBAAwB;AACzB;;AAEA;CACC,aAAa;CACb,QAAQ;CACR,mBAAmB;AACpB;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,kBAAkB;AACnB;;AAEA;CACC,eAAe;CACf,wBAAwB;AACzB","sourcesContent":[".store-card {\r\n\tdisplay: inline-block;\r\n\tflex: 0 0 auto;\r\n\twidth: 20%;\r\n\tmin-width: 260px;\r\n\tmargin-bottom: 30px;\r\n\tpadding: 0 10px;\r\n}\r\n\r\n.store-card__container {\r\n\tdisplay: flex;\r\n\tflex-direction: column;\r\n\tcursor: pointer;\r\n\twidth: 100%;\r\n\theight: 180px;\r\n\tborder-radius: var(--border-radius-large);\r\n\tbackground-color: var(--color-light);\r\n\tbox-shadow: var(--shadow);\r\n}\r\n\r\n.store-card__container:hover {\r\n\tbox-shadow: var(--shadow-hover);\r\n}\r\n\r\n.store-card__image-wrapper {\r\n\tposition: relative;\r\n\twidth: 100%;\r\n\theight: 65%;\r\n\tborder-radius: var(--border-radius-large);\r\n\toverflow: hidden;\r\n}\r\n\r\n.store-card__image {\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tobject-fit: cover;\r\n}\r\n\r\n.store-card__fav {\r\n\tposition: absolute;\r\n\tdisplay: flex;\r\n\tpadding: 4px;\r\n\ttop: 10px;\r\n\tright: 10px;\r\n\tborder-radius: 50%;\r\n\tbackground: var(--color-dark-transparent);\r\n}\r\n\r\n.store-card__fav:hover {\r\n\tbackground: var(--color-dark-transparent-hover);\r\n}\r\n\r\n.store-card__fav-image {\r\n\twidth: 32px;\r\n\theight: 32px;\r\n\tborder-radius: 50%;\r\n}\r\n\r\n.store-card__content {\r\n\tdisplay: flex;\r\n\tflex-direction: column;\r\n\talign-items: flex-start;\r\n\tpadding: 10px;\r\n\theight: 35%;\r\n}\r\n\r\n.store-card__info {\r\n\tdisplay: flex;\r\n\twidth: 100%;\r\n\tjustify-content: space-between;\r\n}\r\n\r\n.store-card__name {\r\n\tfont-size: 16px;\r\n\tfont-weight: 600;\r\n\tcolor: var(--color-dark);\r\n\tmargin: 0;\r\n}\r\n\r\n.store-card__rating {\r\n\tdisplay: flex;\r\n\tgap: 5px;\r\n\talign-items: center;\r\n}\r\n\r\n.store-card__rating-icon {\r\n\twidth: 15px;\r\n\theight: 15px;\r\n\tborder-radius: 50%;\r\n}\r\n\r\n.store-card__rating-value {\r\n\tfont-size: 14px;\r\n\tcolor: var(--color-gray);\r\n}\r\n\r\n.store-card__time {\r\n\tdisplay: flex;\r\n\tgap: 5px;\r\n\talign-items: center;\r\n}\r\n\r\n.store-card__time-icon {\r\n\twidth: 15px;\r\n\theight: 15px;\r\n\tborder-radius: 50%;\r\n}\r\n\r\n.store-card__time-value {\r\n\tfont-size: 14px;\r\n\tcolor: var(--color-gray);\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -441,7 +441,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.cards-header {
 	font-size: 16px;
 	font-weight: 900;
 }
-`, "",{"version":3,"sources":["webpack://./src/components/CardsHeader/CardsHeader.css"],"names":[],"mappings":"AAAA;CACC,UAAU;CACV,qBAAqB;CACrB,oBAAoB;CACpB,uBAAuB;CACvB,mBAAmB;AACpB;;AAEA;CACC,oBAAoB;CACpB,mBAAmB;CACnB,eAAe;CACf,iBAAiB;AAClB;;AAEA;CACC,aAAa;CACb,mBAAmB;CACnB,SAAS;CACT,kBAAkB;CAClB,gDAAgD;CAChD,yCAAyC;CACzC,eAAe;CACf,yBAAyB;AAC1B;;AAEA;CACC,6BAA6B;CAC7B,uBAAuB;CACvB,iBAAiB;CACjB,eAAe;CACf,eAAe;CACf,yCAAyC;CACzC,yBAAyB;CACzB,sBAAsB;AACvB;;AAEA;;CAEC,8BAA8B;CAC9B,kCAAkC;AACnC;;AAEA;CACC,kBAAkB;CAClB,qBAAqB;AACtB;;AAEA;CACC,iBAAiB;CACjB,aAAa;CACb,mBAAmB;CACnB,QAAQ;CACR,eAAe;AAChB;;AAEA;CACC,aAAa;CACb,mBAAmB;CACnB,yCAAyC;AAC1C;;AAEA;CACC,aAAa;CACb,WAAW;CACX,kBAAkB;CAClB,WAAW;CACX,QAAQ;CACR,UAAU;CACV,WAAW;CACX,2CAA2C;CAC3C,4CAA4C;CAC5C,yCAAyC;AAC1C;;AAEA;CACC,kBAAkB;CAClB,kBAAkB;CAClB,eAAe;AAChB;;AAEA;CACC,aAAa;CACb,kBAAkB;CAClB,SAAS;CACT,QAAQ;CACR,2BAA2B;CAC3B,0BAA0B;CAC1B,eAAe;CACf,gBAAgB;AACjB","sourcesContent":[".cards-header {\n\twidth: 90%;\n\tmargin: 20px 0 40px 0;\n\tjustify-self: center;\n\tjustify-content: center;\n\talign-items: center;\n}\n\n.cards-header__title {\n\tjustify-self: center;\n\tmargin-bottom: 15px;\n\tfont-size: 22px;\n\tfont-weight: bold;\n}\n\n.filters {\n\tdisplay: flex;\n\talign-items: center;\n\tgap: 15px;\n\tpadding: 10px 20px;\n\tbackground-color: var(--color-background-accent);\n\tborder-radius: var(--border-radius-large);\n\tflex-wrap: wrap;\n\tbox-shadow: var(--shadow);\n}\n\n.filters__button {\n\tborder: 1px solid transparent;\n\tbackground: transparent;\n\tpadding: 8px 15px;\n\tcursor: pointer;\n\tfont-size: 16px;\n\tborder-radius: var(--border-radius-large);\n\ttransition: all 0.2s ease;\n\tbox-sizing: border-box;\n}\n\n.filters__button--active,\n.filters__button:hover {\n\tbackground: var(--color-light);\n\tborder-color: var(--color-primary);\n}\n\n.filters__more {\n\tposition: relative;\n\tdisplay: inline-block;\n}\n\n.filters__sort {\n\tmargin-left: auto;\n\tdisplay: flex;\n\talign-items: center;\n\tgap: 8px;\n\tcursor: pointer;\n}\n\n.more__button {\n\toutline: none;\n\tpadding-right: 25px;\n\tborder-radius: var(--border-radius-large);\n}\n\n.more::after {\n\toutline: none;\n\tcontent: '';\n\tposition: absolute;\n\tright: 10px;\n\ttop: 40%;\n\twidth: 8px;\n\theight: 8px;\n\tborder-right: 2px solid var(--color-accent);\n\tborder-bottom: 2px solid var(--color-accent);\n\ttransform: translateY(-50%) rotate(45deg);\n}\n\n.sort {\n\tposition: relative;\n\tpadding-left: 20px;\n\tcursor: pointer;\n}\n\n.sort::before {\n\tcontent: '↑↓';\n\tposition: absolute;\n\tleft: 1px;\n\ttop: 40%;\n\ttransform: translateY(-50%);\n\tcolor: var(--color-accent);\n\tfont-size: 16px;\n\tfont-weight: 900;\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/CardsHeader/CardsHeader.css"],"names":[],"mappings":"AAAA;CACC,UAAU;CACV,qBAAqB;CACrB,oBAAoB;CACpB,uBAAuB;CACvB,mBAAmB;AACpB;;AAEA;CACC,oBAAoB;CACpB,mBAAmB;CACnB,eAAe;CACf,iBAAiB;AAClB;;AAEA;CACC,aAAa;CACb,mBAAmB;CACnB,SAAS;CACT,kBAAkB;CAClB,gDAAgD;CAChD,yCAAyC;CACzC,eAAe;CACf,yBAAyB;AAC1B;;AAEA;CACC,6BAA6B;CAC7B,uBAAuB;CACvB,iBAAiB;CACjB,eAAe;CACf,eAAe;CACf,yCAAyC;CACzC,yBAAyB;CACzB,sBAAsB;AACvB;;AAEA;;CAEC,8BAA8B;CAC9B,kCAAkC;AACnC;;AAEA;CACC,kBAAkB;CAClB,qBAAqB;AACtB;;AAEA;CACC,iBAAiB;CACjB,aAAa;CACb,mBAAmB;CACnB,QAAQ;CACR,eAAe;AAChB;;AAEA;CACC,aAAa;CACb,mBAAmB;CACnB,yCAAyC;AAC1C;;AAEA;CACC,aAAa;CACb,WAAW;CACX,kBAAkB;CAClB,WAAW;CACX,QAAQ;CACR,UAAU;CACV,WAAW;CACX,2CAA2C;CAC3C,4CAA4C;CAC5C,yCAAyC;AAC1C;;AAEA;CACC,kBAAkB;CAClB,kBAAkB;CAClB,eAAe;AAChB;;AAEA;CACC,aAAa;CACb,kBAAkB;CAClB,SAAS;CACT,QAAQ;CACR,2BAA2B;CAC3B,0BAA0B;CAC1B,eAAe;CACf,gBAAgB;AACjB","sourcesContent":[".cards-header {\r\n\twidth: 90%;\r\n\tmargin: 20px 0 40px 0;\r\n\tjustify-self: center;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n}\r\n\r\n.cards-header__title {\r\n\tjustify-self: center;\r\n\tmargin-bottom: 15px;\r\n\tfont-size: 22px;\r\n\tfont-weight: bold;\r\n}\r\n\r\n.filters {\r\n\tdisplay: flex;\r\n\talign-items: center;\r\n\tgap: 15px;\r\n\tpadding: 10px 20px;\r\n\tbackground-color: var(--color-background-accent);\r\n\tborder-radius: var(--border-radius-large);\r\n\tflex-wrap: wrap;\r\n\tbox-shadow: var(--shadow);\r\n}\r\n\r\n.filters__button {\r\n\tborder: 1px solid transparent;\r\n\tbackground: transparent;\r\n\tpadding: 8px 15px;\r\n\tcursor: pointer;\r\n\tfont-size: 16px;\r\n\tborder-radius: var(--border-radius-large);\r\n\ttransition: all 0.2s ease;\r\n\tbox-sizing: border-box;\r\n}\r\n\r\n.filters__button--active,\r\n.filters__button:hover {\r\n\tbackground: var(--color-light);\r\n\tborder-color: var(--color-primary);\r\n}\r\n\r\n.filters__more {\r\n\tposition: relative;\r\n\tdisplay: inline-block;\r\n}\r\n\r\n.filters__sort {\r\n\tmargin-left: auto;\r\n\tdisplay: flex;\r\n\talign-items: center;\r\n\tgap: 8px;\r\n\tcursor: pointer;\r\n}\r\n\r\n.more__button {\r\n\toutline: none;\r\n\tpadding-right: 25px;\r\n\tborder-radius: var(--border-radius-large);\r\n}\r\n\r\n.more::after {\r\n\toutline: none;\r\n\tcontent: '';\r\n\tposition: absolute;\r\n\tright: 10px;\r\n\ttop: 40%;\r\n\twidth: 8px;\r\n\theight: 8px;\r\n\tborder-right: 2px solid var(--color-accent);\r\n\tborder-bottom: 2px solid var(--color-accent);\r\n\ttransform: translateY(-50%) rotate(45deg);\r\n}\r\n\r\n.sort {\r\n\tposition: relative;\r\n\tpadding-left: 20px;\r\n\tcursor: pointer;\r\n}\r\n\r\n.sort::before {\r\n\tcontent: '↑↓';\r\n\tposition: absolute;\r\n\tleft: 1px;\r\n\ttop: 40%;\r\n\ttransform: translateY(-50%);\r\n\tcolor: var(--color-accent);\r\n\tfont-size: 16px;\r\n\tfont-weight: 900;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -807,7 +807,7 @@ video {
 	padding: 0;
 	border: 0;
 }
-`, "",{"version":3,"sources":["webpack://./src/components/CommonCSS/Variables.css"],"names":[],"mappings":"AAAA;CACC,qBAAqB;;CAErB,sBAAsB;CACtB,kCAAkC;;CAElC,uBAAuB;CACvB,6BAA6B;;CAE7B,wBAAwB;CACxB,8BAA8B;;CAE9B,oBAAoB;CACpB,0BAA0B;;CAE1B,wBAAwB;CACxB,0BAA0B;CAC1B,sBAAsB;;CAEtB,0BAA0B;CAC1B,qBAAqB;;CAErB,4CAA4C;CAC5C,kDAAkD;;CAElD,6CAA6C;CAC7C,mDAAmD;;CAEnD,0BAA0B;CAC1B,4BAA4B;CAC5B,2BAA2B;AAC5B;;AAEA;CACC,QAAQ;AACT;;AAEA;;;CAGC,SAAS;CACT,UAAU;CACV,sBAAsB;AACvB;;AAEA;CACC,SAAS;CACT,UAAU;AACX;;AAEA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;CAiFC,SAAS;CACT,UAAU;CACV,SAAS;AACV","sourcesContent":[":root {\n\t--color-dark: #000000;\n\n\t--color-light: #ffffff;\n\t--color-background-accent: #f8f8f8;\n\n\t--color-accent: #fe7743;\n\t--color-accent-hover: #d75523;\n\n\t--color-success: #4ebd6c;\n\t--color-success-hover: #1e893a;\n\n\t--color-err: #f45959;\n\t--color-err-hover: #da1f1f;\n\n\t--color-primary: #3e586b;\n\t--color-secondary: #447d9b;\n\t--color-hover: #273f4f;\n\n\t--color-input-stroke: #ccc;\n\t--color-blue: #0000ff;\n\n\t--color-dark-transparent: rgba(0, 0, 0, 0.3);\n\t--color-dark-transparent-hover: rgba(0, 0, 0, 0.5);\n\n\t--shadow: 0 4px 12px rgba(0.2, 0.2, 0.2, 0.2);\n\t--shadow-hover: 0 4px 12px rgba(0.5, 0.5, 0.5, 0.5);\n\n\t--border-radius-small: 8px;\n\t--border-radius-medium: 16px;\n\t--border-radius-large: 24px;\n}\n\n::-webkit-scrollbar {\n\twidth: 0;\n}\n\n*,\n*::before,\n*::after {\n\tmargin: 0;\n\tpadding: 0;\n\tbox-sizing: border-box;\n}\n\n\\body {\n\tmargin: 0;\n\tpadding: 0;\n}\n\nhtml,\nbody,\ndiv,\nspan,\napplet,\nobject,\niframe,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\np,\nblockquote,\npre,\na,\nabbr,\nacronym,\naddress,\nbig,\ncite,\ncode,\ndel,\ndfn,\nem,\nimg,\nins,\nkbd,\nq,\ns,\nsamp,\nsmall,\nstrike,\nstrong,\nsub,\nsup,\ntt,\nvar,\nb,\nu,\ni,\ncenter,\ndl,\ndt,\ndd,\nol,\nul,\nli,\nfieldset,\nform,\nlabel,\nlegend,\ntable,\ncaption,\ntbody,\ntfoot,\nthead,\ntr,\nth,\ntd,\narticle,\naside,\ncanvas,\ndetails,\nembed,\nfigure,\nfigcaption,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\noutput,\nruby,\nsection,\nsummary,\ntime,\nmark,\naudio,\nvideo {\n\tmargin: 0;\n\tpadding: 0;\n\tborder: 0;\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/CommonCSS/Variables.css"],"names":[],"mappings":"AAAA;CACC,qBAAqB;;CAErB,sBAAsB;CACtB,kCAAkC;;CAElC,uBAAuB;CACvB,6BAA6B;;CAE7B,wBAAwB;CACxB,8BAA8B;;CAE9B,oBAAoB;CACpB,0BAA0B;;CAE1B,wBAAwB;CACxB,0BAA0B;CAC1B,sBAAsB;;CAEtB,0BAA0B;CAC1B,qBAAqB;;CAErB,4CAA4C;CAC5C,kDAAkD;;CAElD,6CAA6C;CAC7C,mDAAmD;;CAEnD,0BAA0B;CAC1B,4BAA4B;CAC5B,2BAA2B;AAC5B;;AAEA;CACC,QAAQ;AACT;;AAEA;;;CAGC,SAAS;CACT,UAAU;CACV,sBAAsB;AACvB;;AAEA;CACC,SAAS;CACT,UAAU;AACX;;AAEA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;CAiFC,SAAS;CACT,UAAU;CACV,SAAS;AACV","sourcesContent":[":root {\r\n\t--color-dark: #000000;\r\n\r\n\t--color-light: #ffffff;\r\n\t--color-background-accent: #f8f8f8;\r\n\r\n\t--color-accent: #fe7743;\r\n\t--color-accent-hover: #d75523;\r\n\r\n\t--color-success: #4ebd6c;\r\n\t--color-success-hover: #1e893a;\r\n\r\n\t--color-err: #f45959;\r\n\t--color-err-hover: #da1f1f;\r\n\r\n\t--color-primary: #3e586b;\r\n\t--color-secondary: #447d9b;\r\n\t--color-hover: #273f4f;\r\n\r\n\t--color-input-stroke: #ccc;\r\n\t--color-blue: #0000ff;\r\n\r\n\t--color-dark-transparent: rgba(0, 0, 0, 0.3);\r\n\t--color-dark-transparent-hover: rgba(0, 0, 0, 0.5);\r\n\r\n\t--shadow: 0 4px 12px rgba(0.2, 0.2, 0.2, 0.2);\r\n\t--shadow-hover: 0 4px 12px rgba(0.5, 0.5, 0.5, 0.5);\r\n\r\n\t--border-radius-small: 8px;\r\n\t--border-radius-medium: 16px;\r\n\t--border-radius-large: 24px;\r\n}\r\n\r\n::-webkit-scrollbar {\r\n\twidth: 0;\r\n}\r\n\r\n*,\r\n*::before,\r\n*::after {\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n\tbox-sizing: border-box;\r\n}\r\n\r\n\\body {\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n}\r\n\r\nhtml,\r\nbody,\r\ndiv,\r\nspan,\r\napplet,\r\nobject,\r\niframe,\r\nh1,\r\nh2,\r\nh3,\r\nh4,\r\nh5,\r\nh6,\r\np,\r\nblockquote,\r\npre,\r\na,\r\nabbr,\r\nacronym,\r\naddress,\r\nbig,\r\ncite,\r\ncode,\r\ndel,\r\ndfn,\r\nem,\r\nimg,\r\nins,\r\nkbd,\r\nq,\r\ns,\r\nsamp,\r\nsmall,\r\nstrike,\r\nstrong,\r\nsub,\r\nsup,\r\ntt,\r\nvar,\r\nb,\r\nu,\r\ni,\r\ncenter,\r\ndl,\r\ndt,\r\ndd,\r\nol,\r\nul,\r\nli,\r\nfieldset,\r\nform,\r\nlabel,\r\nlegend,\r\ntable,\r\ncaption,\r\ntbody,\r\ntfoot,\r\nthead,\r\ntr,\r\nth,\r\ntd,\r\narticle,\r\naside,\r\ncanvas,\r\ndetails,\r\nembed,\r\nfigure,\r\nfigcaption,\r\nfooter,\r\nheader,\r\nhgroup,\r\nmenu,\r\nnav,\r\noutput,\r\nruby,\r\nsection,\r\nsummary,\r\ntime,\r\nmark,\r\naudio,\r\nvideo {\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n\tborder: 0;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -845,7 +845,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.footer {
 	border-radius: var(--border-radius-large);
 	box-shadow: var(--shadow);
 }
-`, "",{"version":3,"sources":["webpack://./src/components/Footer/Footer.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,8BAA8B;CAC9B,mBAAmB;CACnB,oBAAoB;CACpB,UAAU;CACV,aAAa;CACb,sBAAsB;CACtB,gDAAgD;CAChD,yCAAyC;CACzC,yBAAyB;AAC1B","sourcesContent":[".footer {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\tjustify-self: center;\n\twidth: 90%;\n\tpadding: 20px;\n\tbox-sizing: border-box;\n\tbackground-color: var(--color-background-accent);\n\tborder-radius: var(--border-radius-large);\n\tbox-shadow: var(--shadow);\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/Footer/Footer.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,8BAA8B;CAC9B,mBAAmB;CACnB,oBAAoB;CACpB,UAAU;CACV,aAAa;CACb,sBAAsB;CACtB,gDAAgD;CAChD,yCAAyC;CACzC,yBAAyB;AAC1B","sourcesContent":[".footer {\r\n\tdisplay: flex;\r\n\tjustify-content: space-between;\r\n\talign-items: center;\r\n\tjustify-self: center;\r\n\twidth: 90%;\r\n\tpadding: 20px;\r\n\tbox-sizing: border-box;\r\n\tbackground-color: var(--color-background-accent);\r\n\tborder-radius: var(--border-radius-large);\r\n\tbox-shadow: var(--shadow);\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -902,7 +902,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.icon-button {
 	margin-top: 4px;
 	white-space: nowrap;
 }
-`, "",{"version":3,"sources":["webpack://./src/components/IconButton/IconButton.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,sBAAsB;CACtB,mBAAmB;CACnB,gBAAgB;CAChB,YAAY;CACZ,UAAU;CACV,eAAe;CACf,yCAAyC;CACzC,eAAe;CACf,aAAa;AACd;;AAEA;CACC,YAAY;AACb;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,mBAAmB;CACnB,cAAc;CACd,SAAS;AACV;;AAEA;CACC,kBAAkB;CAClB,wBAAwB;CACxB,eAAe;CACf,mBAAmB;AACpB","sourcesContent":[".icon-button {\n\tdisplay: flex;\n\tflex-direction: column;\n\talign-items: center;\n\tbackground: none;\n\tborder: none;\n\tpadding: 0;\n\tcursor: pointer;\n\tborder-radius: var(--border-radius-small);\n\tmin-width: 60px;\n\toutline: none;\n}\n\n.icon-button:hover {\n\topacity: 0.9;\n}\n\n.icon-button__image {\n\twidth: 20px;\n\theight: 20px;\n\tobject-fit: contain;\n\tdisplay: block;\n\tmargin: 0;\n}\n\n.icon-button__text {\n\tfont-size: 0.85rem;\n\tcolor: var(--color-dark);\n\tmargin-top: 4px;\n\twhite-space: nowrap;\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/IconButton/IconButton.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,sBAAsB;CACtB,mBAAmB;CACnB,gBAAgB;CAChB,YAAY;CACZ,UAAU;CACV,eAAe;CACf,yCAAyC;CACzC,eAAe;CACf,aAAa;AACd;;AAEA;CACC,YAAY;AACb;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,mBAAmB;CACnB,cAAc;CACd,SAAS;AACV;;AAEA;CACC,kBAAkB;CAClB,wBAAwB;CACxB,eAAe;CACf,mBAAmB;AACpB","sourcesContent":[".icon-button {\r\n\tdisplay: flex;\r\n\tflex-direction: column;\r\n\talign-items: center;\r\n\tbackground: none;\r\n\tborder: none;\r\n\tpadding: 0;\r\n\tcursor: pointer;\r\n\tborder-radius: var(--border-radius-small);\r\n\tmin-width: 60px;\r\n\toutline: none;\r\n}\r\n\r\n.icon-button:hover {\r\n\topacity: 0.9;\r\n}\r\n\r\n.icon-button__image {\r\n\twidth: 20px;\r\n\theight: 20px;\r\n\tobject-fit: contain;\r\n\tdisplay: block;\r\n\tmargin: 0;\r\n}\r\n\r\n.icon-button__text {\r\n\tfont-size: 0.85rem;\r\n\tcolor: var(--color-dark);\r\n\tmargin-top: 4px;\r\n\twhite-space: nowrap;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -993,7 +993,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.login-form {
 .login-form__input--error {
 	border-color: var(--color-err) !important;
 }
-`, "",{"version":3,"sources":["webpack://./src/components/LoginForm/LoginForm.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,sBAAsB;CACtB,SAAS;;CAET,gBAAgB;CAChB,WAAW;CACX,kBAAkB;;CAElB,8BAA8B;CAC9B,gDAAgD;CAChD,mBAAmB;CACnB,yBAAyB;;CAEzB,mBAAmB;CACnB,mBAAmB;AACpB;;AAEA;CACC,aAAa;CACb,sBAAsB;CACtB,SAAS;CACT,gBAAgB;CAChB,WAAW;AACZ;;AAEA;CACC,aAAa;CACb,2CAA2C;CAC3C,yCAAyC;CACzC,eAAe;CACf,WAAW;CACX,sBAAsB;CACtB,gBAAgB;AACjB;;AAEA;CACC,kCAAkC;CAClC,aAAa;AACd;;AAEA;;CAEC,WAAW;AACZ;;AAEA;CACC,eAAe;CACf,uBAAuB;CACvB,aAAa;CACb,kBAAkB;AACnB;;AAEA;CACC,cAAc;AACf;;AAEA;;CAEC,aAAa;AACd;;AAEA;CACC,yCAAyC;AAC1C","sourcesContent":[".login-form {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: 15px;\n\n\tmax-width: 400px;\n\twidth: 100%;\n\tpadding: 30px 25px;\n\n\tbackground: var(--color-light);\n\tborder: 1px solid var(--color-background-accent);\n\tborder-radius: 20px;\n\tbox-shadow: var(--shadow);\n\n\tmargin: 10vh auto 0;\n\talign-items: center;\n}\n\n.login-form__inner {\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: 15px;\n\tmax-width: 400px;\n\twidth: 100%;\n}\n\n.login-form__field input {\n\tpadding: 12px;\n\tborder: 1px solid var(--color-input-stroke);\n\tborder-radius: var(--border-radius-large);\n\tfont-size: 16px;\n\twidth: 100%;\n\tbox-sizing: border-box;\n\ttext-align: left;\n}\n\n.login-form__field input:focus {\n\tborder-color: var(--color-primary);\n\toutline: none;\n}\n\n.login-form__submit,\n.login-form__toggle {\n\twidth: 100%;\n}\n\n.login-form__error {\n\tfont-size: 15px;\n\tcolor: var(--color-err);\n\tdisplay: none;\n\talign-self: center;\n}\n\n.login-form__error.active {\n\tdisplay: block;\n}\n\n.login-form__error.inactive,\n.login-form__field.inactive {\n\tdisplay: none;\n}\n\n.login-form__input--error {\n\tborder-color: var(--color-err) !important;\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/LoginForm/LoginForm.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,sBAAsB;CACtB,SAAS;;CAET,gBAAgB;CAChB,WAAW;CACX,kBAAkB;;CAElB,8BAA8B;CAC9B,gDAAgD;CAChD,mBAAmB;CACnB,yBAAyB;;CAEzB,mBAAmB;CACnB,mBAAmB;AACpB;;AAEA;CACC,aAAa;CACb,sBAAsB;CACtB,SAAS;CACT,gBAAgB;CAChB,WAAW;AACZ;;AAEA;CACC,aAAa;CACb,2CAA2C;CAC3C,yCAAyC;CACzC,eAAe;CACf,WAAW;CACX,sBAAsB;CACtB,gBAAgB;AACjB;;AAEA;CACC,kCAAkC;CAClC,aAAa;AACd;;AAEA;;CAEC,WAAW;AACZ;;AAEA;CACC,eAAe;CACf,uBAAuB;CACvB,aAAa;CACb,kBAAkB;AACnB;;AAEA;CACC,cAAc;AACf;;AAEA;;CAEC,aAAa;AACd;;AAEA;CACC,yCAAyC;AAC1C","sourcesContent":[".login-form {\r\n\tdisplay: flex;\r\n\tflex-direction: column;\r\n\tgap: 15px;\r\n\r\n\tmax-width: 400px;\r\n\twidth: 100%;\r\n\tpadding: 30px 25px;\r\n\r\n\tbackground: var(--color-light);\r\n\tborder: 1px solid var(--color-background-accent);\r\n\tborder-radius: 20px;\r\n\tbox-shadow: var(--shadow);\r\n\r\n\tmargin: 10vh auto 0;\r\n\talign-items: center;\r\n}\r\n\r\n.login-form__inner {\r\n\tdisplay: flex;\r\n\tflex-direction: column;\r\n\tgap: 15px;\r\n\tmax-width: 400px;\r\n\twidth: 100%;\r\n}\r\n\r\n.login-form__field input {\r\n\tpadding: 12px;\r\n\tborder: 1px solid var(--color-input-stroke);\r\n\tborder-radius: var(--border-radius-large);\r\n\tfont-size: 16px;\r\n\twidth: 100%;\r\n\tbox-sizing: border-box;\r\n\ttext-align: left;\r\n}\r\n\r\n.login-form__field input:focus {\r\n\tborder-color: var(--color-primary);\r\n\toutline: none;\r\n}\r\n\r\n.login-form__submit,\r\n.login-form__toggle {\r\n\twidth: 100%;\r\n}\r\n\r\n.login-form__error {\r\n\tfont-size: 15px;\r\n\tcolor: var(--color-err);\r\n\tdisplay: none;\r\n\talign-self: center;\r\n}\r\n\r\n.login-form__error.active {\r\n\tdisplay: block;\r\n}\r\n\r\n.login-form__error.inactive,\r\n.login-form__field.inactive {\r\n\tdisplay: none;\r\n}\r\n\r\n.login-form__input--error {\r\n\tborder-color: var(--color-err) !important;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1045,7 +1045,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.navbar {
 	gap: 1rem;
 	align-items: center;
 }
-`, "",{"version":3,"sources":["webpack://./src/components/Navbar/Navbar.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,mBAAmB;CACnB,8BAA8B;CAC9B,aAAa;CACb,8BAA8B;CAC9B,kDAAkD;CAClD,wCAAwC;CACxC,gBAAgB;CAChB,MAAM;CACN,YAAY;CACZ,UAAU;CACV,0EAA0E;AAC3E;;AAEA;CACC,aAAa;CACb,mBAAmB;CACnB,SAAS;AACV;;AAEA;CACC,aAAa;CACb,SAAS;CACT,mBAAmB;AACpB","sourcesContent":[".navbar {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: space-between;\n\tpadding: 1rem;\n\tbackground: var(--color-light);\n\tborder-bottom: 1px solid var(--color-input-stroke);\n\tbox-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n\tposition: sticky;\n\ttop: 0;\n\theight: 5rem;\n\tz-index: 1;\n\tborder-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);\n}\n\n.navbar__left {\n\tdisplay: flex;\n\talign-items: center;\n\tgap: 1rem;\n}\n\n.navbar__right {\n\tdisplay: flex;\n\tgap: 1rem;\n\talign-items: center;\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/Navbar/Navbar.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,mBAAmB;CACnB,8BAA8B;CAC9B,aAAa;CACb,8BAA8B;CAC9B,kDAAkD;CAClD,wCAAwC;CACxC,gBAAgB;CAChB,MAAM;CACN,YAAY;CACZ,UAAU;CACV,0EAA0E;AAC3E;;AAEA;CACC,aAAa;CACb,mBAAmB;CACnB,SAAS;AACV;;AAEA;CACC,aAAa;CACb,SAAS;CACT,mBAAmB;AACpB","sourcesContent":[".navbar {\r\n\tdisplay: flex;\r\n\talign-items: center;\r\n\tjustify-content: space-between;\r\n\tpadding: 1rem;\r\n\tbackground: var(--color-light);\r\n\tborder-bottom: 1px solid var(--color-input-stroke);\r\n\tbox-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\r\n\tposition: sticky;\r\n\ttop: 0;\r\n\theight: 5rem;\r\n\tz-index: 1;\r\n\tborder-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);\r\n}\r\n\r\n.navbar__left {\r\n\tdisplay: flex;\r\n\talign-items: center;\r\n\tgap: 1rem;\r\n}\r\n\r\n.navbar__right {\r\n\tdisplay: flex;\r\n\tgap: 1rem;\r\n\talign-items: center;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1162,7 +1162,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.product-card {
 .product-card__add-btn:hover {
 	background: var(--color-accent-hover);
 }
-`, "",{"version":3,"sources":["webpack://./src/components/ProductCard/ProductCard.css"],"names":[],"mappings":"AAAA;CACC,8BAA8B;CAC9B,yCAAyC;CACzC,wCAAwC;CACxC,gBAAgB;CAChB;;iBAEgB;CAChB,YAAY;CACZ,aAAa;CACb,sBAAsB;AACvB;;AAEA;CACC,0CAA0C;AAC3C;;AAEA;CACC,kBAAkB;CAClB,WAAW;CACX,aAAa;CACb,gBAAgB;AACjB;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,iBAAiB;CACjB,cAAc;AACf;;AAEA;CACC,aAAa;CACb,OAAO;CACP,aAAa;CACb,sBAAsB;CACtB,SAAS;AACV;;AAEA;CACC,SAAS;CACT,iBAAiB;CACjB,gBAAgB;CAChB,wBAAwB;CACxB,gBAAgB;AACjB;;AAEA;CACC,SAAS;CACT,iBAAiB;CACjB,WAAW;CACX,gBAAgB;CAChB,OAAO;CACP,oBAAoB;CACpB,gBAAgB;AACjB;;AAEA;CACC,aAAa;CACb,8BAA8B;CAC9B,mBAAmB;CACnB,gBAAgB;AACjB;;AAEA;CACC,iBAAiB;CACjB,gBAAgB;CAChB,wBAAwB;AACzB;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,YAAY;CACZ,+BAA+B;CAC/B,yBAAyB;CACzB,kBAAkB;CAClB,iBAAiB;CACjB,gBAAgB;CAChB,eAAe;CACf,aAAa;CACb,mBAAmB;CACnB,uBAAuB;CACvB;;gBAEe;AAChB;;AAEA;CACC,qCAAqC;AACtC","sourcesContent":[".product-card {\n\tbackground: var(--color-light);\n\tborder-radius: var(--border-radius-large);\n\tbox-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n\toverflow: hidden;\n\ttransition:\n\t\ttransform 0.2s,\n\t\tbox-shadow 0.2s;\n\theight: 100%;\n\tdisplay: flex;\n\tflex-direction: column;\n}\n\n.product-card:hover {\n\tbox-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);\n}\n\n.product-card__image-wrapper {\n\tposition: relative;\n\twidth: 100%;\n\theight: 200px;\n\toverflow: hidden;\n}\n\n.product-card__image {\n\twidth: 100%;\n\theight: 100%;\n\tobject-fit: cover;\n\tdisplay: block;\n}\n\n.product-card__content {\n\tpadding: 16px;\n\tflex: 1;\n\tdisplay: flex;\n\tflex-direction: column;\n\tgap: 12px;\n}\n\n.product-card__name {\n\tmargin: 0;\n\tfont-size: 1.1rem;\n\tfont-weight: 600;\n\tcolor: var(--color-dark);\n\tline-height: 1.3;\n}\n\n.product-card__description {\n\tmargin: 0;\n\tfont-size: 0.9rem;\n\tcolor: #666;\n\tline-height: 1.4;\n\tflex: 1;\n\tdisplay: -webkit-box;\n\toverflow: hidden;\n}\n\n.product-card__footer {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\tmargin-top: auto;\n}\n\n.product-card__price {\n\tfont-size: 1.2rem;\n\tfont-weight: 700;\n\tcolor: var(--color-dark);\n}\n\n.product-card__add-btn {\n\twidth: 40px;\n\theight: 40px;\n\tborder: none;\n\tbackground: var(--color-accent);\n\tcolor: var(--color-light);\n\tborder-radius: 50%;\n\tfont-size: 1.5rem;\n\tfont-weight: 600;\n\tcursor: pointer;\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\ttransition:\n\t\tbackground-color 0.2s,\n\t\ttransform 0.2s;\n}\n\n.product-card__add-btn:hover {\n\tbackground: var(--color-accent-hover);\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/ProductCard/ProductCard.css"],"names":[],"mappings":"AAAA;CACC,8BAA8B;CAC9B,yCAAyC;CACzC,wCAAwC;CACxC,gBAAgB;CAChB;;iBAEgB;CAChB,YAAY;CACZ,aAAa;CACb,sBAAsB;AACvB;;AAEA;CACC,0CAA0C;AAC3C;;AAEA;CACC,kBAAkB;CAClB,WAAW;CACX,aAAa;CACb,gBAAgB;AACjB;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,iBAAiB;CACjB,cAAc;AACf;;AAEA;CACC,aAAa;CACb,OAAO;CACP,aAAa;CACb,sBAAsB;CACtB,SAAS;AACV;;AAEA;CACC,SAAS;CACT,iBAAiB;CACjB,gBAAgB;CAChB,wBAAwB;CACxB,gBAAgB;AACjB;;AAEA;CACC,SAAS;CACT,iBAAiB;CACjB,WAAW;CACX,gBAAgB;CAChB,OAAO;CACP,oBAAoB;CACpB,gBAAgB;AACjB;;AAEA;CACC,aAAa;CACb,8BAA8B;CAC9B,mBAAmB;CACnB,gBAAgB;AACjB;;AAEA;CACC,iBAAiB;CACjB,gBAAgB;CAChB,wBAAwB;AACzB;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,YAAY;CACZ,+BAA+B;CAC/B,yBAAyB;CACzB,kBAAkB;CAClB,iBAAiB;CACjB,gBAAgB;CAChB,eAAe;CACf,aAAa;CACb,mBAAmB;CACnB,uBAAuB;CACvB;;gBAEe;AAChB;;AAEA;CACC,qCAAqC;AACtC","sourcesContent":[".product-card {\r\n\tbackground: var(--color-light);\r\n\tborder-radius: var(--border-radius-large);\r\n\tbox-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\r\n\toverflow: hidden;\r\n\ttransition:\r\n\t\ttransform 0.2s,\r\n\t\tbox-shadow 0.2s;\r\n\theight: 100%;\r\n\tdisplay: flex;\r\n\tflex-direction: column;\r\n}\r\n\r\n.product-card:hover {\r\n\tbox-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);\r\n}\r\n\r\n.product-card__image-wrapper {\r\n\tposition: relative;\r\n\twidth: 100%;\r\n\theight: 200px;\r\n\toverflow: hidden;\r\n}\r\n\r\n.product-card__image {\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tobject-fit: cover;\r\n\tdisplay: block;\r\n}\r\n\r\n.product-card__content {\r\n\tpadding: 16px;\r\n\tflex: 1;\r\n\tdisplay: flex;\r\n\tflex-direction: column;\r\n\tgap: 12px;\r\n}\r\n\r\n.product-card__name {\r\n\tmargin: 0;\r\n\tfont-size: 1.1rem;\r\n\tfont-weight: 600;\r\n\tcolor: var(--color-dark);\r\n\tline-height: 1.3;\r\n}\r\n\r\n.product-card__description {\r\n\tmargin: 0;\r\n\tfont-size: 0.9rem;\r\n\tcolor: #666;\r\n\tline-height: 1.4;\r\n\tflex: 1;\r\n\tdisplay: -webkit-box;\r\n\toverflow: hidden;\r\n}\r\n\r\n.product-card__footer {\r\n\tdisplay: flex;\r\n\tjustify-content: space-between;\r\n\talign-items: center;\r\n\tmargin-top: auto;\r\n}\r\n\r\n.product-card__price {\r\n\tfont-size: 1.2rem;\r\n\tfont-weight: 700;\r\n\tcolor: var(--color-dark);\r\n}\r\n\r\n.product-card__add-btn {\r\n\twidth: 40px;\r\n\theight: 40px;\r\n\tborder: none;\r\n\tbackground: var(--color-accent);\r\n\tcolor: var(--color-light);\r\n\tborder-radius: 50%;\r\n\tfont-size: 1.5rem;\r\n\tfont-weight: 600;\r\n\tcursor: pointer;\r\n\tdisplay: flex;\r\n\talign-items: center;\r\n\tjustify-content: center;\r\n\ttransition:\r\n\t\tbackground-color 0.2s,\r\n\t\ttransform 0.2s;\r\n}\r\n\r\n.product-card__add-btn:hover {\r\n\tbackground: var(--color-accent-hover);\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1213,7 +1213,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.store-products {
 	font-size: 1.1rem;
 	padding: 32px 0;
 }
-`, "",{"version":3,"sources":["webpack://./src/components/ProductsBatch/ProductsBatch.css"],"names":[],"mappings":"AAAA;CACC,WAAW;CACX,gBAAgB;AACjB;;AAEA;CACC,iBAAiB;CACjB,gBAAgB;CAChB,gBAAgB;CAChB,wBAAwB;AACzB;;AAEA;CACC,aAAa;CACb,4DAA4D;CAC5D,SAAS;CACT,WAAW;AACZ;;AAEA;CACC,kBAAkB;CAClB,WAAW;CACX,iBAAiB;CACjB,eAAe;AAChB","sourcesContent":[".store-products {\n\twidth: 100%;\n\tmargin-top: 1rem;\n}\n\n.store-products__title {\n\tfont-size: 1.5rem;\n\tfont-weight: 600;\n\tmargin: 0 0 16px;\n\tcolor: var(--color-dark);\n}\n\n.store-products__grid {\n\tdisplay: grid;\n\tgrid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\n\tgap: 24px;\n\twidth: 100%;\n}\n\n.products-empty {\n\ttext-align: center;\n\tcolor: #666;\n\tfont-size: 1.1rem;\n\tpadding: 32px 0;\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/ProductsBatch/ProductsBatch.css"],"names":[],"mappings":"AAAA;CACC,WAAW;CACX,gBAAgB;AACjB;;AAEA;CACC,iBAAiB;CACjB,gBAAgB;CAChB,gBAAgB;CAChB,wBAAwB;AACzB;;AAEA;CACC,aAAa;CACb,4DAA4D;CAC5D,SAAS;CACT,WAAW;AACZ;;AAEA;CACC,kBAAkB;CAClB,WAAW;CACX,iBAAiB;CACjB,eAAe;AAChB","sourcesContent":[".store-products {\r\n\twidth: 100%;\r\n\tmargin-top: 1rem;\r\n}\r\n\r\n.store-products__title {\r\n\tfont-size: 1.5rem;\r\n\tfont-weight: 600;\r\n\tmargin: 0 0 16px;\r\n\tcolor: var(--color-dark);\r\n}\r\n\r\n.store-products__grid {\r\n\tdisplay: grid;\r\n\tgrid-template-columns: repeat(auto-fill, minmax(280px, 1fr));\r\n\tgap: 24px;\r\n\twidth: 100%;\r\n}\r\n\r\n.products-empty {\r\n\ttext-align: center;\r\n\tcolor: #666;\r\n\tfont-size: 1.1rem;\r\n\tpadding: 32px 0;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1282,7 +1282,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.search-bar {
 .search-bar button:hover {
 	background-color: var(--color-accent-hover);
 }
-`, "",{"version":3,"sources":["webpack://./src/components/Search/Search.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,mBAAmB;CACnB,wCAAwC;CACxC,yCAAyC;CACzC,oCAAoC;CACpC,cAAc;AACf;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,YAAY;AACb;;AAEA;CACC,YAAY;CACZ,aAAa;CACb,YAAY;CACZ,gBAAgB;CAChB,6BAA6B;CAC7B,iBAAiB;AAClB;;AAEA;CACC,YAAY;CACZ,+BAA+B;CAC/B,yBAAyB;CACzB,oBAAoB;CACpB,eAAe;CACf,WAAW;CACX,YAAY;CACZ,0CAA0C;CAC1C,kCAAkC;AACnC;;AAEA;CACC,uCAAuC;AACxC;;AAEA;CACC,2CAA2C;AAC5C","sourcesContent":[".search-bar {\n\tdisplay: flex;\n\talign-items: center;\n\tborder: 0.1rem solid var(--color-accent);\n\tborder-radius: var(--border-radius-large);\n\tbackground-color: var(--color-light);\n\theight: 2.4rem;\n}\n\n.search-icon {\n\twidth: 1rem;\n\theight: 1rem;\n\tmargin: 1rem;\n}\n\n.search-bar input {\n\tborder: none;\n\toutline: none;\n\twidth: 20rem;\n\ttext-align: left;\n\tbackground-color: transparent;\n\tpadding: 0.5rem 0;\n}\n\n.search-bar button {\n\tborder: none;\n\tbackground: var(--color-accent);\n\tcolor: var(--color-light);\n\tpadding: 0.5rem 1rem;\n\tcursor: pointer;\n\twidth: 7rem;\n\theight: 100%;\n\tborder-radius: var(--border-radius-medium);\n\tfont-size: var(--button-font-size);\n}\n\n.search-bar:hover {\n\tborder-color: var(--color-accent-hover);\n}\n\n.search-bar button:hover {\n\tbackground-color: var(--color-accent-hover);\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/Search/Search.css"],"names":[],"mappings":"AAAA;CACC,aAAa;CACb,mBAAmB;CACnB,wCAAwC;CACxC,yCAAyC;CACzC,oCAAoC;CACpC,cAAc;AACf;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,YAAY;AACb;;AAEA;CACC,YAAY;CACZ,aAAa;CACb,YAAY;CACZ,gBAAgB;CAChB,6BAA6B;CAC7B,iBAAiB;AAClB;;AAEA;CACC,YAAY;CACZ,+BAA+B;CAC/B,yBAAyB;CACzB,oBAAoB;CACpB,eAAe;CACf,WAAW;CACX,YAAY;CACZ,0CAA0C;CAC1C,kCAAkC;AACnC;;AAEA;CACC,uCAAuC;AACxC;;AAEA;CACC,2CAA2C;AAC5C","sourcesContent":[".search-bar {\r\n\tdisplay: flex;\r\n\talign-items: center;\r\n\tborder: 0.1rem solid var(--color-accent);\r\n\tborder-radius: var(--border-radius-large);\r\n\tbackground-color: var(--color-light);\r\n\theight: 2.4rem;\r\n}\r\n\r\n.search-icon {\r\n\twidth: 1rem;\r\n\theight: 1rem;\r\n\tmargin: 1rem;\r\n}\r\n\r\n.search-bar input {\r\n\tborder: none;\r\n\toutline: none;\r\n\twidth: 20rem;\r\n\ttext-align: left;\r\n\tbackground-color: transparent;\r\n\tpadding: 0.5rem 0;\r\n}\r\n\r\n.search-bar button {\r\n\tborder: none;\r\n\tbackground: var(--color-accent);\r\n\tcolor: var(--color-light);\r\n\tpadding: 0.5rem 1rem;\r\n\tcursor: pointer;\r\n\twidth: 7rem;\r\n\theight: 100%;\r\n\tborder-radius: var(--border-radius-medium);\r\n\tfont-size: var(--button-font-size);\r\n}\r\n\r\n.search-bar:hover {\r\n\tborder-color: var(--color-accent-hover);\r\n}\r\n\r\n.search-bar button:hover {\r\n\tbackground-color: var(--color-accent-hover);\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1492,7 +1492,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `.store-info {
 	color: var(--color-light);
 	font-weight: 600;
 }
-`, "",{"version":3,"sources":["webpack://./src/components/StoreInfo/StoreInfo.css"],"names":[],"mappings":"AAAA;CACC,kBAAkB;CAClB,WAAW;CACX,aAAa;CACb,8BAA8B;CAC9B,yCAAyC;CACzC,yCAAyC;CACzC,gBAAgB;AACjB;;AAEA;CACC,kBAAkB;CAClB,MAAM;CACN,OAAO;CACP,WAAW;CACX,YAAY;CACZ,gBAAgB;AACjB;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,iBAAiB;CACjB,cAAc;AACf;;AAEA;CACC,kBAAkB;CAClB,SAAS;CACT,UAAU;CACV,yBAAyB;CACzB,8BAA8B;CAC9B,iBAAiB;CACjB,yCAAyC;AAC1C;;AAEA;CACC,SAAS;CACT,iBAAiB;CACjB,gBAAgB;CAChB,gBAAgB;CAChB,eAAe;AAChB;;AAEA;CACC,iBAAiB;CACjB,gBAAgB;CAChB,eAAe;CACf,gBAAgB;AACjB;;AAEA;CACC,kBAAkB;CAClB,YAAY;CACZ,UAAU;CACV,yBAAyB;CACzB,8BAA8B;CAC9B,iBAAiB;CACjB,yCAAyC;CACzC,cAAc;AACf;;AAEA;CACC,kBAAkB;CAClB,gBAAgB;CAChB,aAAa;AACd;;AAEA;CACC,yBAAyB;CACzB,gBAAgB;AACjB","sourcesContent":[".store-info {\n\tposition: relative;\n\twidth: 100%;\n\theight: 300px;\n\tbackground: var(--color-light);\n\tborder-radius: var(--border-radius-large);\n\tbox-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);\n\toverflow: hidden;\n}\n\n.store-info__image-container {\n\tposition: absolute;\n\ttop: 0;\n\tleft: 0;\n\twidth: 100%;\n\theight: 100%;\n\toverflow: hidden;\n}\n\n.store-info__image {\n\twidth: 100%;\n\theight: 100%;\n\tobject-fit: cover;\n\tdisplay: block;\n}\n\n.store-info__top-left {\n\tposition: absolute;\n\ttop: 24px;\n\tleft: 24px;\n\tcolor: var(--color-light);\n\tbackground: rgba(0, 0, 0, 0.6);\n\tpadding: 8px 12px;\n\tborder-radius: var(--border-radius-small);\n}\n\n.store-info__title {\n\tmargin: 0;\n\tfont-size: 1.5rem;\n\tfont-weight: 700;\n\tline-height: 1.2;\n\tdisplay: inline;\n}\n\n.store-info__rating {\n\tfont-size: 1.1rem;\n\tfont-weight: 600;\n\tdisplay: inline;\n\tmargin-left: 8px;\n}\n\n.store-info__bottom-left {\n\tposition: absolute;\n\tbottom: 24px;\n\tleft: 24px;\n\tcolor: var(--color-light);\n\tbackground: rgba(0, 0, 0, 0.6);\n\tpadding: 8px 12px;\n\tborder-radius: var(--border-radius-small);\n\tmax-width: 80%;\n}\n\n.store-info__detail {\n\tfont-size: 0.95rem;\n\tline-height: 1.4;\n\tmargin: 4px 0;\n}\n\n.store-info__detail strong {\n\tcolor: var(--color-light);\n\tfont-weight: 600;\n}\n"],"sourceRoot":""}]);
+`, "",{"version":3,"sources":["webpack://./src/components/StoreInfo/StoreInfo.css"],"names":[],"mappings":"AAAA;CACC,kBAAkB;CAClB,WAAW;CACX,aAAa;CACb,8BAA8B;CAC9B,yCAAyC;CACzC,yCAAyC;CACzC,gBAAgB;AACjB;;AAEA;CACC,kBAAkB;CAClB,MAAM;CACN,OAAO;CACP,WAAW;CACX,YAAY;CACZ,gBAAgB;AACjB;;AAEA;CACC,WAAW;CACX,YAAY;CACZ,iBAAiB;CACjB,cAAc;AACf;;AAEA;CACC,kBAAkB;CAClB,SAAS;CACT,UAAU;CACV,yBAAyB;CACzB,8BAA8B;CAC9B,iBAAiB;CACjB,yCAAyC;AAC1C;;AAEA;CACC,SAAS;CACT,iBAAiB;CACjB,gBAAgB;CAChB,gBAAgB;CAChB,eAAe;AAChB;;AAEA;CACC,iBAAiB;CACjB,gBAAgB;CAChB,eAAe;CACf,gBAAgB;AACjB;;AAEA;CACC,kBAAkB;CAClB,YAAY;CACZ,UAAU;CACV,yBAAyB;CACzB,8BAA8B;CAC9B,iBAAiB;CACjB,yCAAyC;CACzC,cAAc;AACf;;AAEA;CACC,kBAAkB;CAClB,gBAAgB;CAChB,aAAa;AACd;;AAEA;CACC,yBAAyB;CACzB,gBAAgB;AACjB","sourcesContent":[".store-info {\r\n\tposition: relative;\r\n\twidth: 100%;\r\n\theight: 300px;\r\n\tbackground: var(--color-light);\r\n\tborder-radius: var(--border-radius-large);\r\n\tbox-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);\r\n\toverflow: hidden;\r\n}\r\n\r\n.store-info__image-container {\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\toverflow: hidden;\r\n}\r\n\r\n.store-info__image {\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tobject-fit: cover;\r\n\tdisplay: block;\r\n}\r\n\r\n.store-info__top-left {\r\n\tposition: absolute;\r\n\ttop: 24px;\r\n\tleft: 24px;\r\n\tcolor: var(--color-light);\r\n\tbackground: rgba(0, 0, 0, 0.6);\r\n\tpadding: 8px 12px;\r\n\tborder-radius: var(--border-radius-small);\r\n}\r\n\r\n.store-info__title {\r\n\tmargin: 0;\r\n\tfont-size: 1.5rem;\r\n\tfont-weight: 700;\r\n\tline-height: 1.2;\r\n\tdisplay: inline;\r\n}\r\n\r\n.store-info__rating {\r\n\tfont-size: 1.1rem;\r\n\tfont-weight: 600;\r\n\tdisplay: inline;\r\n\tmargin-left: 8px;\r\n}\r\n\r\n.store-info__bottom-left {\r\n\tposition: absolute;\r\n\tbottom: 24px;\r\n\tleft: 24px;\r\n\tcolor: var(--color-light);\r\n\tbackground: rgba(0, 0, 0, 0.6);\r\n\tpadding: 8px 12px;\r\n\tborder-radius: var(--border-radius-small);\r\n\tmax-width: 80%;\r\n}\r\n\r\n.store-info__detail {\r\n\tfont-size: 0.95rem;\r\n\tline-height: 1.4;\r\n\tmargin: 4px 0;\r\n}\r\n\r\n.store-info__detail strong {\r\n\tcolor: var(--color-light);\r\n\tfont-weight: 600;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2692,7 +2692,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   CartItem: () => (/* binding */ CartItem)
 /* harmony export */ });
 /* harmony import */ var _framework_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../framework/component */ "./src/framework/component.ts");
-/* harmony import */ var _CartItem_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CartItem.css */ "./src/components/CartItem/CartItem.css");
+/* harmony import */ var _modules_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../modules/api */ "./src/modules/api.ts");
+/* harmony import */ var _CartItem_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CartItem.css */ "./src/components/CartItem/CartItem.css");
+
 
 
 var CartItem = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
@@ -2721,7 +2723,7 @@ var CartItem = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCompon
       class: "cart-item"
     }, card_img && h("img", {
       class: "cart-item__image",
-      src: "http://localhost:8080/api/v0/image".concat(card_img),
+      src: "".concat(_modules_api__WEBPACK_IMPORTED_MODULE_1__.API.BASE_URL, "/image").concat(card_img),
       alt: name
     }), h("div", {
       class: "cart-item__info"
@@ -3859,6 +3861,9 @@ var CitySelector = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCo
     };
     document.addEventListener('click', handleDocumentClick);
     this.handleDocumentClick = handleDocumentClick;
+
+    // Инициализация debounce таймера
+    this.debounceTimer = null;
     _modules_storeApi__WEBPACK_IMPORTED_MODULE_2__.StoreApi.getCities().then(function (cities) {
       _this.updateState({
         cities: cities
@@ -3873,6 +3878,10 @@ var CitySelector = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCo
   onUnmounted: function onUnmounted() {
     if (this.handleDocumentClick) {
       document.removeEventListener('click', this.handleDocumentClick);
+    }
+    // Очистка таймера при размонтировании
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
     }
   },
   saveSelectedCity: function saveSelectedCity(city) {
@@ -3899,8 +3908,19 @@ var CitySelector = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCo
       isOpen: !this.state.isOpen
     });
   },
-  render: function render() {
+  handleSearchInput: function handleSearchInput(value) {
     var _this2 = this;
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
+    }
+    this.debounceTimer = setTimeout(function () {
+      _this2.updateState({
+        query: value
+      });
+    }, 300);
+  },
+  render: function render() {
+    var _this3 = this;
     var _this$state = this.state,
       cities = _this$state.cities,
       selectedCity = _this$state.selectedCity,
@@ -3916,7 +3936,7 @@ var CitySelector = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCo
       on: {
         click: function click(e) {
           e.stopPropagation();
-          _this2.toggleDropdown();
+          _this3.toggleDropdown();
         }
       }
     }, h("img", {
@@ -3941,9 +3961,8 @@ var CitySelector = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCo
       value: query,
       on: {
         input: function input(e) {
-          _this2.updateState({
-            query: e.target.value
-          });
+          var value = e.target.value;
+          _this3.handleSearchInput(value);
         }
       }
     }), h("div", {
@@ -3953,13 +3972,13 @@ var CitySelector = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCo
         class: "city-selector__option",
         on: {
           click: function click() {
-            return _this2.handleSelect(city);
+            return _this3.handleSelect(city);
           }
         }
       }, city.name);
     }) : h("div", {
       class: "city-selector__empty"
-    }, "\u0413\u043E\u0440\u043E\u0434 \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D"))) : null, ' ');
+    }, "\u0413\u043E\u0440\u043E\u0434 \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D"))) : null);
   }
 });
 
@@ -5574,6 +5593,43 @@ function extractPropsAndEvents(vdom) {
 
 /***/ }),
 
+/***/ "./src/index.tsx":
+/*!***********************!*\
+  !*** ./src/index.tsx ***!
+  \***********************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.a(module, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_CommonCSS_Variables_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/CommonCSS/Variables.css */ "./src/components/CommonCSS/Variables.css");
+/* harmony import */ var _framework_h__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./framework/h */ "./src/framework/h.ts");
+/* harmony import */ var _modules_authManager__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/authManager */ "./src/modules/authManager.ts");
+/* harmony import */ var _modules_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/router */ "./src/modules/router.ts");
+
+
+
+
+window.h = _framework_h__WEBPACK_IMPORTED_MODULE_1__.h;
+if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/sw.js', {
+      scope: '/'
+    }).then(function (registration) {
+      console.log('Service Worker registered with scope:', registration.scope);
+    }).catch(function (error) {
+      console.error('Service Worker registration failed:', error);
+    });
+  });
+}
+if (typeof document !== 'undefined') {
+  await _modules_authManager__WEBPACK_IMPORTED_MODULE_2__.authManager.checkAuth();
+  (0,_modules_router__WEBPACK_IMPORTED_MODULE_3__.initRouter)();
+}
+__webpack_async_result__();
+} catch(e) { __webpack_async_result__(e); } }, 1);
+
+/***/ }),
+
 /***/ "./src/modules/api.ts":
 /*!****************************!*\
   !*** ./src/modules/api.ts ***!
@@ -5909,17 +5965,28 @@ var AuthManager = /*#__PURE__*/function () {
             case 1:
               response = _context4.v;
               userData = response.body;
+              if (!(userData && userData.id)) {
+                _context4.n = 2;
+                break;
+              }
               _store__WEBPACK_IMPORTED_MODULE_2__.store.set(_utils_auth__WEBPACK_IMPORTED_MODULE_0__.AUTH_USER, userData);
               _store__WEBPACK_IMPORTED_MODULE_2__.store.set(_utils_auth__WEBPACK_IMPORTED_MODULE_0__.AUTH_IS_AUTHENTICATED, true);
               return _context4.a(2, true);
             case 2:
-              _context4.p = 2;
+              this.logout();
+              return _context4.a(2, false);
+            case 3:
+              _context4.n = 5;
+              break;
+            case 4:
+              _context4.p = 4;
               _t2 = _context4.v;
               this.logout();
-              console.warn(_t2);
               return _context4.a(2, false);
+            case 5:
+              return _context4.a(2);
           }
-        }, _callee4, this, [[0, 2]]);
+        }, _callee4, this, [[0, 4]]);
       }));
       function checkAuth() {
         return _checkAuth.apply(this, arguments);
@@ -5934,7 +6001,7 @@ var AuthManager = /*#__PURE__*/function () {
   }, {
     key: "isAuthenticated",
     value: function isAuthenticated() {
-      return _store__WEBPACK_IMPORTED_MODULE_2__.store.get('auth.isAuthenticated');
+      return _store__WEBPACK_IMPORTED_MODULE_2__.store.get(_utils_auth__WEBPACK_IMPORTED_MODULE_0__.AUTH_IS_AUTHENTICATED);
     }
   }]);
 }();
@@ -7340,6 +7407,83 @@ function validateConfirmPassword(password, confirmPassword) {
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/async module */
+/******/ 	(() => {
+/******/ 		var hasSymbol = typeof Symbol === "function";
+/******/ 		var webpackQueues = hasSymbol ? Symbol("webpack queues") : "__webpack_queues__";
+/******/ 		var webpackExports = hasSymbol ? Symbol("webpack exports") : "__webpack_exports__";
+/******/ 		var webpackError = hasSymbol ? Symbol("webpack error") : "__webpack_error__";
+/******/ 		
+/******/ 		
+/******/ 		var resolveQueue = (queue) => {
+/******/ 			if(queue && queue.d < 1) {
+/******/ 				queue.d = 1;
+/******/ 				queue.forEach((fn) => (fn.r--));
+/******/ 				queue.forEach((fn) => (fn.r-- ? fn.r++ : fn()));
+/******/ 			}
+/******/ 		}
+/******/ 		var wrapDeps = (deps) => (deps.map((dep) => {
+/******/ 			if(dep !== null && typeof dep === "object") {
+/******/ 		
+/******/ 				if(dep[webpackQueues]) return dep;
+/******/ 				if(dep.then) {
+/******/ 					var queue = [];
+/******/ 					queue.d = 0;
+/******/ 					dep.then((r) => {
+/******/ 						obj[webpackExports] = r;
+/******/ 						resolveQueue(queue);
+/******/ 					}, (e) => {
+/******/ 						obj[webpackError] = e;
+/******/ 						resolveQueue(queue);
+/******/ 					});
+/******/ 					var obj = {};
+/******/ 		
+/******/ 					obj[webpackQueues] = (fn) => (fn(queue));
+/******/ 					return obj;
+/******/ 				}
+/******/ 			}
+/******/ 			var ret = {};
+/******/ 			ret[webpackQueues] = x => {};
+/******/ 			ret[webpackExports] = dep;
+/******/ 			return ret;
+/******/ 		}));
+/******/ 		__webpack_require__.a = (module, body, hasAwait) => {
+/******/ 			var queue;
+/******/ 			hasAwait && ((queue = []).d = -1);
+/******/ 			var depQueues = new Set();
+/******/ 			var exports = module.exports;
+/******/ 			var currentDeps;
+/******/ 			var outerResolve;
+/******/ 			var reject;
+/******/ 			var promise = new Promise((resolve, rej) => {
+/******/ 				reject = rej;
+/******/ 				outerResolve = resolve;
+/******/ 			});
+/******/ 			promise[webpackExports] = exports;
+/******/ 			promise[webpackQueues] = (fn) => (queue && fn(queue), depQueues.forEach(fn), promise["catch"](x => {}));
+/******/ 			module.exports = promise;
+/******/ 			var handle = (deps) => {
+/******/ 				currentDeps = wrapDeps(deps);
+/******/ 				var fn;
+/******/ 				var getResult = () => (currentDeps.map((d) => {
+/******/ 		
+/******/ 					if(d[webpackError]) throw d[webpackError];
+/******/ 					return d[webpackExports];
+/******/ 				}))
+/******/ 				var promise = new Promise((resolve) => {
+/******/ 					fn = () => (resolve(getResult));
+/******/ 					fn.r = 0;
+/******/ 					var fnQueue = (q) => (q !== queue && !depQueues.has(q) && (depQueues.add(q), q && !q.d && (fn.r++, q.push(fn))));
+/******/ 					currentDeps.map((dep) => (dep[webpackQueues](fnQueue)));
+/******/ 				});
+/******/ 				return fn.r ? promise : getResult();
+/******/ 			}
+/******/ 			var done = (err) => ((err ? reject(promise[webpackError] = err) : outerResolve(exports)), resolveQueue(queue))
+/******/ 			body(handle, done);
+/******/ 			queue && queue.d < 0 && (queue.d = 0);
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
@@ -7386,25 +7530,12 @@ function validateConfirmPassword(password, confirmPassword) {
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
-(() => {
-/*!***********************!*\
-  !*** ./src/index.tsx ***!
-  \***********************/
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_CommonCSS_Variables_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/CommonCSS/Variables.css */ "./src/components/CommonCSS/Variables.css");
-/* harmony import */ var _framework_h__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./framework/h */ "./src/framework/h.ts");
-/* harmony import */ var _modules_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/router */ "./src/modules/router.ts");
-
-
-
-window.h = _framework_h__WEBPACK_IMPORTED_MODULE_1__.h;
-if (typeof document !== 'undefined') {
-  (0,_modules_router__WEBPACK_IMPORTED_MODULE_2__.initRouter)();
-}
-})();
-
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module used 'module' so it can't be inlined
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.tsx");
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=bundle.js.map
