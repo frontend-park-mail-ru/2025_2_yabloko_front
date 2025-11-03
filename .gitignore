@@ -1,12 +1,7 @@
 .idea
 
 node_modules/
-
-# Bundle files
-bundle*
-*.bundle.*
-/dist
-/build
+dist/
 
 logs
 *.log

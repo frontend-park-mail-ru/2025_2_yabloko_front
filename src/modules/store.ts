@@ -4,6 +4,11 @@ class Store {
 	private data: { [key in StoreKey]: any } = {
 		'auth.isAuthenticated': false,
 		'auth.user': null,
+		// 'auth.isAuthenticated': true, // ← меняем на true
+		// 'auth.user': {
+		// 	id: '1',
+		// 	email: 'test@mail.com'
+		// },
 	}
 
 	private listeners: { [key in StoreKey]: (() => void)[] } = {

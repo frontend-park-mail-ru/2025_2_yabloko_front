@@ -1,11 +1,16 @@
 import { defineComponent } from '../../framework/component'
+import { authManager } from '../../modules/authManager'
 import {
 	getCartFromStorage,
 	removeFromCart,
 	updateQuantity,
 } from '../../modules/cartManager'
+import { navigate } from '../../modules/router'
+import { store } from '../../modules/store'
+import { AUTH_IS_AUTHENTICATED } from '../../utils/auth'
+import { Button } from '../Button/Button'
 import { CartItem as CartItemComponent } from '../CartItem/CartItem'
-import './Cart.css'
+import styles from './Cart.module.scss'
 
 interface CartProps {
 	onClose: () => void
@@ -64,7 +69,7 @@ export const Cart = defineComponent({
 
 		return (
 			<div
-				class="cart-overlay"
+				class={styles.cart}
 				on={{
 					click: (e: Event) => {
 						if (e.target === e.currentTarget) {
@@ -73,17 +78,17 @@ export const Cart = defineComponent({
 					},
 				}}
 			>
-				<div class="cart-panel">
-					<div class="cart-header">
-						<h3 class="cart-title">Корзина</h3>
-						<div class="cart-total">Итого: {total} ₽</div>
-						<button class="cart-close" on={{ click: props.onClose }}>
+				<div class={styles.cart__container}>
+					<div class={styles.cart__header}>
+						<h3 class={styles.cart__title}>Корзина</h3>
+						<div class={styles.cart__total}>Итого: {total} ₽</div>
+						<button class={styles.cart__close} on={{ click: props.onClose }}>
 							✕
 						</button>
 					</div>
 
-					<div class="cart-body">
-						<div class="cart-items">
+					<div class={styles.cart__body}>
+						<div>
 							{items.length > 0 ? (
 								items.map(item => (
 									<CartItemComponent
@@ -98,13 +103,24 @@ export const Cart = defineComponent({
 									/>
 								))
 							) : (
-								<p class="cart-empty">Корзина пуста</p>
+								<p class={styles.cartEmpty}>Корзина пуста</p>
 							)}
 						</div>
 					</div>
 
-					<div class="cart-footer">
-						<button class="cart-checkout">Перейти к оформлению</button>
+					<div class={styles.cart__footer}>
+						<Button
+							variant="accent"
+							text="Перейти к оформлению"
+							className={styles.cart__button}
+							onClick={() => {
+								if (store.get(AUTH_IS_AUTHENTICATED) === true) {
+									navigate('/checkout')
+								} else {
+									navigate('/auth')
+								}
+							}}
+						/>
 					</div>
 				</div>
 			</div>

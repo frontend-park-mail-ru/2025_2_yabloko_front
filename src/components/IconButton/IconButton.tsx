@@ -1,5 +1,5 @@
 import { defineComponent } from '../../framework/component'
-import './IconButton.css'
+import styles from './IconButton.module.scss'
 
 interface IconButtonProps {
 	src: string
@@ -16,7 +16,7 @@ export const IconButton = defineComponent({
 
 		return (
 			<button
-				class="icon-button"
+				class={styles.iconButton}
 				type="button"
 				{...{
 					on: {
@@ -26,8 +26,8 @@ export const IconButton = defineComponent({
 					},
 				}}
 			>
-				<img src={src} alt={alt} class="icon-button__image" />
-				{text && <span class="icon-button__text">{text}</span>}
+				<img src={src} alt={alt} class={styles.iconButton__image} />
+				{text && <span class={styles.iconButton__text}>{text}</span>}
 			</button>
 		)
 	},

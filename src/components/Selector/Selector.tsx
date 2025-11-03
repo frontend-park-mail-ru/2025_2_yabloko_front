@@ -1,7 +1,7 @@
 import { defineComponent } from '../../framework/component'
 import { authManager } from '../../modules/authManager'
 import { StoreApi } from '../../modules/storeApi'
-import './Selector.css'
+import styles from './CitySelector.module.scss'
 
 interface City {
 	id: string
@@ -33,7 +33,7 @@ export const CitySelector = defineComponent({
 	onMounted() {
 		const handleDocumentClick = (e: Event) => {
 			const target = e.target as Element
-			if (!target.closest('.city-selector')) {
+			if (!target.closest(`.${styles.citySelector}`)) {
 				this.updateState({ isOpen: false })
 			}
 		}
@@ -102,9 +102,9 @@ export const CitySelector = defineComponent({
 		)
 
 		return (
-			<div class="city-selector">
+			<div class={styles.citySelector}>
 				<div
-					class="city-selector__trigger"
+					class={styles.citySelector__trigger}
 					{...{
 						on: {
 							click: (e: Event) => {
@@ -117,16 +117,16 @@ export const CitySelector = defineComponent({
 					<img
 						src="/static/icons/address.png"
 						alt="Город"
-						class="city-selector__icon"
+						class={styles.citySelector__icon}
 					/>
-					<span class="city-selector__value">
+					<span class={styles.citySelector__value}>
 						{selectedCity ? selectedCity.name : 'Выберите город'}
 					</span>
-					<div class="city-selector__arrow"></div>
+					<div class={styles.citySelector__arrow}></div>
 				</div>
 				{isOpen ? (
 					<div
-						class="city-selector__dropdown"
+						class={styles.citySelector__dropdown}
 						{...{
 							on: {
 								click: (e: Event) => e.stopPropagation(),
@@ -135,7 +135,7 @@ export const CitySelector = defineComponent({
 					>
 						<input
 							type="text"
-							class="city-selector__search"
+							class={styles.citySelector__search}
 							placeholder="Поиск..."
 							value={query}
 							{...{
@@ -147,11 +147,11 @@ export const CitySelector = defineComponent({
 								},
 							}}
 						/>
-						<div class="city-selector__list">
+						<div class={styles.citySelector__list}>
 							{filteredCities.length > 0 ? (
 								filteredCities.map(city => (
 									<div
-										class="city-selector__option"
+										class={styles.citySelector__option}
 										{...{
 											on: {
 												click: () => this.handleSelect(city),
@@ -162,7 +162,7 @@ export const CitySelector = defineComponent({
 									</div>
 								))
 							) : (
-								<div class="city-selector__empty">Город не найден</div>
+								<div class={styles.citySelector__empty}>Город не найден</div>
 							)}
 						</div>
 					</div>

@@ -1,7 +1,7 @@
 import { defineComponent } from '../../framework/component'
 import { Store, StoreApi } from '../../modules/storeApi'
 import { Card } from '../Card/Card'
-import './Batch.css'
+import styles from  './Batch.module.scss'
 
 interface BatchState {
 	stores: Store[]
@@ -88,8 +88,8 @@ export const Batch = defineComponent({
 		const { stores, isLoading, hasMore } = this.state
 
 		return (
-			<div class="batch">
-				<div class="stores-grid">
+			<div class={styles.batch}>
+				<div class={styles.batch__grid}>
 					{stores.map(store => (
 						<Card
 							key={store.store_id}
@@ -100,7 +100,7 @@ export const Batch = defineComponent({
 				</div>
 				<div
 					id="loadTrigger"
-					class="batch-load-trigger"
+					class="batch-trigger"
 					style={{ display: hasMore && !isLoading ? 'block' : 'none' }}
 				></div>
 			</div>

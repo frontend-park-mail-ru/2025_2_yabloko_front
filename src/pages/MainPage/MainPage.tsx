@@ -1,10 +1,11 @@
-import { Batch } from '../components/Batch/Batch'
-import { CardsHeader } from '../components/CardsHeader/CardsHeader'
-import { Cart } from '../components/Cart/Cart'
-import { Footer } from '../components/Footer/Footer'
-import { Navbar } from '../components/Navbar/Navbar'
-import { defineComponent } from '../framework/component'
-import { navigate } from '../modules/router'
+import { Batch } from '../../components/Batch/Batch'
+import { CardsHeader } from '../../components/CardsHeader/CardsHeader'
+import { Cart } from '../../components/Cart/Cart'
+import { Footer } from '../../components/Footer/Footer'
+import { Navbar } from '../../components/Navbar/Navbar'
+import { defineComponent } from '../../framework/component'
+import { navigate } from '../../modules/router'
+import styles from './MainPage.module.scss'
 
 interface MainPageProps {
 	onCardClick?: (storeId: number) => void
@@ -30,13 +31,11 @@ export const MainPage = defineComponent({
 		const props = this.props as MainPageProps
 
 		return (
-			<div class="main-page">
+			<div class={styles.mainPage}>
 				<Navbar
-					userAuthed={false}
 					onLogoClick={() => {
 						navigate('/')
 					}}
-					//onSearch={query => console.log('Search:', query)}
 					onLoginClick={() => {
 						navigate('/auth')
 					}}
@@ -44,17 +43,7 @@ export const MainPage = defineComponent({
 				/>
 				<CardsHeader />
 				<div
-					class="container"
-					style={{
-						display: 'flex',
-						flexWrap: 'wrap',
-						justifyContent: 'center',
-						width: '90%',
-						minHeight: '80vh',
-						padding: '2rem',
-						boxSizing: 'border-box',
-						margin: '0 auto',
-					}}
+					class={styles.mainPage__container}
 				>
 					<Batch
 						batchSize={this.state.batchSize}

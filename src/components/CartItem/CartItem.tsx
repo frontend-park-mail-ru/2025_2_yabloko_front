@@ -1,7 +1,6 @@
 import { defineComponent } from '../../framework/component'
 import { API } from '../../modules/api'
-import { removeFromCart } from '../../modules/cartManager'
-import './CartItem.css'
+import styles from './CartItem.module.scss'
 
 interface CartItemProps {
 	id: string
@@ -35,23 +34,25 @@ export const CartItem = defineComponent({
 		}
 
 		return (
-			<div class="cart-item">
-				{card_img && (
-					<img
-						class="cart-item__image"
-						src={`${API.BASE_URL}/image${card_img}`}
-						alt={name}
-					/>
-				)}
-
-				<div class="cart-item__info">
-					<div class="cart-item__name">{name}</div>
-					<div class="cart-item__price">{price} ₽</div>
+			<div class={styles.cartItem}>
+				<div class={styles.cartItem__imageWrapper}>
+					{card_img && (
+						<img
+							class={styles.cartItem__image}
+							src={`${API.BASE_URL}/image${card_img}`}
+							alt={name}
+						/>
+					)}
 				</div>
 
-				<div class="cart-item__controls">
+				<div class={styles.cartItem__info}>
+					<div class={styles.cartItem__name}>{name}</div>
+					<div class={styles.cartItem__price}>{price} ₽</div>
+				</div>
+
+				<div class={styles.cartItem__controls}>
 					<button
-						class="cart-item__control-btn"
+						class={styles.cartItem__controlBtn}
 						{...{
 							on: {
 								click: handleDecrease,
@@ -61,10 +62,10 @@ export const CartItem = defineComponent({
 						–
 					</button>
 
-					<span class="cart-item__quantity">{quantity}</span>
+					<span class={styles.cartItem__quantity}>{quantity}</span>
 
 					<button
-						class="cart-item__control-btn"
+						class={styles.cartItem__controlBtn}
 						{...{
 							on: {
 								click: handleIncrease,

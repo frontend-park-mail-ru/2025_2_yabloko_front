@@ -1,7 +1,8 @@
-import { LoginForm } from '../components/LoginForm/LoginForm'
-import { Navbar } from '../components/Navbar/Navbar'
-import { defineComponent } from '../framework/component'
-import { navigate } from '../modules/router'
+import { LoginForm } from '../../components/LoginForm/LoginForm'
+import { Navbar } from '../../components/Navbar/Navbar'
+import { defineComponent } from '../../framework/component'
+import { navigate } from '../../modules/router'
+import styles from './LoginPage.module.scss'
 
 export const LoginPage = defineComponent({
 	state() {
@@ -12,20 +13,18 @@ export const LoginPage = defineComponent({
 
 	render() {
 		return (
-			<div class="login-page">
+			<div class={styles.loginPage}>
 				<Navbar
-					userAuthed={false}
 					onLogoClick={() => {
 						navigate('/')
 					}}
-					//onSearch={query => console.log('Search:', query)}
 					onLoginClick={() => {
 						navigate('/auth')
 					}}
 				/>
 
 				<div
-					class="container"
+					class={styles.loginPage__container}
 					style={{
 						display: 'flex',
 						flexWrap: 'wrap',

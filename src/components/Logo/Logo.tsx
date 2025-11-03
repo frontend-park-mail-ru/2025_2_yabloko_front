@@ -11,9 +11,9 @@ export const Logo = defineComponent({
 		const size = props.size || 'medium'
 
 		const sizes = {
-			small: '32px',
-			medium: '48px',
-			large: '192px',
+			small: '2rem',
+			medium: '3rem',
+			large: '12rem',
 		}
 
 		return (

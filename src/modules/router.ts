@@ -1,8 +1,7 @@
-// src/modules/router.ts
 import { createApp } from '../framework/app'
-import { LoginPage } from '../pages/LoginPage'
-import { MainPage } from '../pages/MainPage'
-import { StorePage } from '../pages/StorePage'
+import { LoginPage } from '../pages/LoginPage/LoginPage'
+import { MainPage } from '../pages/MainPage/MainPage'
+import { StorePage } from '../pages/StorePage/StorePage'
 
 interface Page {
 	component: any

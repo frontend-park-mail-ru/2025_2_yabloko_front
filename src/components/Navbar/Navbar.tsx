@@ -8,7 +8,7 @@ import { IconButton } from '../IconButton/IconButton'
 import { Logo } from '../Logo/Logo'
 import { SearchBar } from '../Search/Search'
 import { CitySelector } from '../Selector/Selector'
-import './Navbar.css'
+import styles from './Navbar.module.scss'
 
 interface NavbarProps {
 	onLogoClick?: () => void
@@ -42,8 +42,8 @@ export const Navbar = defineComponent({
 		const { userAuthed } = this.state
 
 		return (
-			<header class="navbar">
-				<div class="navbar__left">
+			<header class={styles.navbar}>
+				<div class={styles.navbar__left}>
 					<Logo size="medium" onClick={props.onLogoClick} />
 					<SearchBar
 						placeholder="Поиск ресторанов и категорий"
@@ -51,7 +51,7 @@ export const Navbar = defineComponent({
 					/>
 					<CitySelector />
 				</div>
-				<div class="navbar__right">
+				<div class={styles.navbar__right}>
 					<IconButton
 						src="/static/icons/cart.png"
 						alt="Корзина"
@@ -69,16 +69,14 @@ export const Navbar = defineComponent({
 								src="/static/icons/user.png"
 								alt="Профиль"
 								text="Профиль"
-								onClick={async () => await authManager.logout()}
+								onClick={() => navigate('/profile')}
 							/>,
 						]
 					) : (
 						<Button
 							variant="accent"
 							text="Войти"
-							onClick={() =>
-								navigate('/auth')
-							}
+							onClick={() => navigate('/auth')}
 						/>
 					)}
 				</div>
