@@ -1,23 +1,22 @@
 import { defineComponent } from '../../framework/component'
-import './Button.css'
+import styles from './Button.module.scss'
+
+const buttonVariants = {
+	accent: styles.buttonAccent,
+	success: styles.buttonSuccess,
+	error: styles.buttonError,
+	primary: styles.buttonPrimary,
+}
 
 export const Button = defineComponent({
 	render() {
 		const props = this.props
-		const {
-			variant = 'accent',
-			onClick,
-			className = '',
-			text,
-			children,
-			type,
-		} = props
-
-		const buttonClasses = ['button', `button--${variant}`, className]
+		const { variant = 'accent', onClick, className = '', text, type } = props
+		const buttonClasses = [styles.button, buttonVariants[variant], className]
 			.filter(Boolean)
 			.join(' ')
 
-		const content = text || children || 'КНОПКА'
+		const content = text || 'КНОПКА'
 
 		return (
 			<button
@@ -31,7 +30,7 @@ export const Button = defineComponent({
 					},
 				}}
 			>
-				<span class="button__content">{content}</span>
+				<span class={styles.button__content}>{content}</span>
 			</button>
 		)
 	},

@@ -2,9 +2,9 @@ import { defineComponent } from '../../framework/component'
 import { authManager } from '../../modules/authManager'
 import { profileApi } from '../../modules/profileApi'
 import { Button } from '../Button/Button'
-import './AvatarForm.css'
+import styles from  './AvatarForm.module.scss'
 
-interface AvatarUploadState {
+interface AvatarFormState {
 	selectedFile: File | null
 	previewUrl: string
 	error: string
@@ -13,9 +13,8 @@ interface AvatarUploadState {
 }
 
 export const AvatarForm = defineComponent({
-	props: [] as never[],
 
-	state(): AvatarUploadState {
+	state(): AvatarFormState {
 		return {
 			selectedFile: null,
 			previewUrl: '',
@@ -31,8 +30,6 @@ export const AvatarForm = defineComponent({
 
 	async loadUserProfile() {
 		const user = authManager.getUser()
-		if (!user) return
-
 		try {
 			const response = await profileApi.getProfile(user.id)
 			if (response.data && response.data.avatar_url) {
@@ -116,38 +113,38 @@ export const AvatarForm = defineComponent({
 
 		return (
 			<form
-				class="avatar-upload"
+				class={styles.avatar}
 				on={{ submit: (e: Event) => this.handleSubmit(e) }}
 			>
-				<label class="avatar-upload__preview">
+				<label class={styles.avatar__preview}>
 					<input
 						type="file"
 						accept="image/*"
 						on={{ change: (e: Event) => this.handleFileChange(e) }}
 						disabled={isSubmitting}
-						class="avatar-upload__input"
+						class={styles.avatar__input}
 					/>
 					{previewUrl ? (
 						<img
 							src={previewUrl}
 							alt="Предпросмотр"
-							class="avatar-upload__image"
+							class={styles.avatar__image}
 						/>
 					) : currentAvatar ? (
 						<img
 							src={currentAvatar}
 							alt="Текущий аватар"
-							class="avatar-upload__image"
+							class={styles.avatar__image}
 						/>
 					) : (
-						<div class="avatar-upload__placeholder">
-							<span class="avatar-upload__placeholder-icon">+</span>
+						<div class={styles.avatar__placeholder}>
+							<span class={styles.avatar__imageIcon}>+</span>
 							<div>Добавить фото</div>
 						</div>
 					)}
 				</label>
 
-				{error && <div class="avatar-upload__error">{error}</div>}
+				{error && <div class={styles.avatar__error}>{error}</div>}
 
 				{selectedFile && (
 					<Button

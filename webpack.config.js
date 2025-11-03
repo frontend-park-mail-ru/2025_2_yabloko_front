@@ -18,8 +18,21 @@ const webpackModule = {
 			exclude: /node_modules/,
 		},
 		{
-			test: /\.s[ac]ss$/i,
-			use: ['style-loader', 'css-loader', stringReplaceLoader],
+			test: /\.module\.scss$/,
+			use: [
+				'style-loader',
+				{
+					loader: 'css-loader',
+					options: {
+						modules: {
+							mode: 'local',
+							localIdentName: '[name]__[local]--[hash:base64:5]',
+							exportLocalsConvention: 'dashesOnly',
+						},
+					},
+				},
+				'sass-loader',
+			],
 		},
 		{
 			test: /\.module\.css$/,
@@ -33,7 +46,6 @@ const webpackModule = {
 							auto: true,
 							exportGlobals: true,
 							localIdentName: '[name]__[local]--[hash:base64:5]',
-							exportLocalsConvention: 'camelCase',
 						},
 					},
 				},
@@ -48,7 +60,7 @@ const webpackModule = {
 }
 
 const resolveScripts = {
-	extensions: ['.tsx', '.ts', '.js', '.css'],
+	extensions: ['.tsx', '.ts', '.js', '.css', '.scss'],
 }
 
 const distPath = path.resolve(__dirname, 'dist')

@@ -1,10 +1,9 @@
-// src/components/ChangePasswordForm/ChangePasswordForm.ts
 import { defineComponent } from '../../framework/component'
 import { validatePassword } from '../../utils/auth'
 import { Button } from '../Button/Button'
-import './PasswordChangeForm.css'
+import styles from './PasswordForm.module.scss'
 
-interface ChangePasswordFormState {
+interface PasswordFormState {
 	currentPassword: string
 	newPassword: string
 	confirmPassword: string
@@ -12,14 +11,14 @@ interface ChangePasswordFormState {
 	isSubmitting: boolean
 }
 
-interface ChangePasswordFormProps {
-	onSubmit: (current: string, newPassword: string) => Promise<void>
+interface PasswordFormProps {
+	onSubmit: (currentPassword: string, newPassword: string) => Promise<void>
 }
 
 export const ChangePasswordForm = defineComponent({
-	props: [] as (keyof ChangePasswordFormProps)[],
+	props: [] as (keyof PasswordFormProps)[],
 
-	state(): ChangePasswordFormState {
+	state(): PasswordFormState {
 		return {
 			currentPassword: '',
 			newPassword: '',
@@ -73,11 +72,10 @@ export const ChangePasswordForm = defineComponent({
 		this.updateState({ isSubmitting: true, error: '' })
 
 		try {
-			await (this.props as ChangePasswordFormProps).onSubmit(
+			await (this.props as PasswordFormProps).onSubmit(
 				currentPassword,
 				newPassword,
 			)
-			// Успех — можно сбросить или перейти
 			this.updateState({
 				currentPassword: '',
 				newPassword: '',
@@ -100,14 +98,13 @@ export const ChangePasswordForm = defineComponent({
 			error,
 			isSubmitting,
 		} = this.state
-		const props = this.props as ChangePasswordFormProps
 
 		return (
 			<form
-				class="change-password-form"
+				class={styles.passwordForm}
 				on={{ submit: (e: Event) => this.handleSubmit(e) }}
 			>
-				<div class="change-password-form__field">
+				<div class={styles.passwordForm__field}>
 					<input
 						type="password"
 						placeholder="Текущий пароль"
@@ -117,7 +114,7 @@ export const ChangePasswordForm = defineComponent({
 					/>
 				</div>
 
-				<div class="change-password-form__field">
+				<div class={styles.passwordForm__field}>
 					<input
 						type="password"
 						placeholder="Новый пароль"
@@ -127,7 +124,7 @@ export const ChangePasswordForm = defineComponent({
 					/>
 				</div>
 
-				<div class="change-password-form__field">
+				<div class={styles.passwordForm__field}>
 					<input
 						type="password"
 						placeholder="Подтвердите новый пароль"
@@ -137,14 +134,16 @@ export const ChangePasswordForm = defineComponent({
 					/>
 				</div>
 
-				<div class={`change-password-form__error ${error ? 'active' : ''}`}>
+				<div
+					class={`${styles.passwordForm__field} ${error ? 'active' : ''}`}
+				>
 					{error}
 				</div>
 
 				<Button
 					type="submit"
 					variant="accent"
-					class="change-password-form__submit"
+					class={styles.passwordForm__submit}
 					text={isSubmitting ? 'Сохранение...' : 'Изменить пароль'}
 					disabled={isSubmitting}
 				/>

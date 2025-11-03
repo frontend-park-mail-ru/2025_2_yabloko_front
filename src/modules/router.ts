@@ -1,9 +1,9 @@
-// src/modules/router.ts
 import { createApp } from '../framework/app'
-import { LoginPage } from '../pages/LoginPage'
-import { MainPage } from '../pages/MainPage'
-import { ProfilePage } from '../pages/ProfilePage'
-import { StorePage } from '../pages/StorePage'
+import { LoginPage } from '../pages/LoginPage/LoginPage'
+import { MainPage } from '../pages/MainPage/MainPage'
+import { CheckoutPage } from '../pages/OrderPage/OrderPage'
+import { ProfilePage } from '../pages/ProfilePage/ProfilePage'
+import { StorePage } from '../pages/StorePage/StorePage'
 
 interface Page {
 	component: any
@@ -14,6 +14,7 @@ const pathsPages: { [key: string]: Page } = {
 	'/': { component: MainPage, title: 'AppleClub - рестораны' },
 	'/auth': { component: LoginPage, title: 'AppleClub - авторизация' },
 	'/profile': { component: ProfilePage, title: 'AppleClub - профиль' },
+	'/checkout': { component: CheckoutPage, title: 'AppleClub - оформление' },
 	'/store/:id': { component: StorePage, title: 'AppleClub - магазин' },
 }
 

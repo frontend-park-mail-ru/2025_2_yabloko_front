@@ -2,7 +2,7 @@ import { defineComponent } from '../../framework/component'
 import { Store } from '../../modules/storeApi'
 import { navigate } from '../../modules/router'
 import {API} from '../../modules/api'
-import './Card.css'
+import styles from './Card.module.scss'
 
 interface CardProps {
 	store: Store
@@ -26,24 +26,24 @@ export const Card = defineComponent({
 
 		return (
 			<div
-				class="store-card"
+				class={styles.storeCard}
 				{...{
 					on: {
 						click: handleCardClick,
 					},
 				}}
 			>
-				<div class="store-card__container">
-					<div class="store-card__image-wrapper">
+				<div class={styles.storeCard__container}>
+					<div class={styles.storeCard__imageWrapper}>
 						{store.card_img && (
 							<img
-								class="store-card__image"
+								class={styles.storeCard__image}
 								src={`${API.BASE_URL}/image${store.card_img}`}
 								alt={store.name}
 							/>
 						)}
 						<div
-							class="store-card__fav"
+							class={styles.storeCard__fav}
 							{...{
 								on: {
 									click: handleFavClick,
@@ -53,29 +53,29 @@ export const Card = defineComponent({
 							<img
 								src="/static/icons/fav.png"
 								alt="fav"
-								class="store-card__fav-image"
+								class={styles.storeCard__favImage}
 							/>
 						</div>
 					</div>
 
-					<div class="store-card__content">
-						<div class="store-card__name">{store.name}</div>
-						<div class="store-card__info">
-							<div class="store-card__time">
+					<div class={styles.storeCard__content}>
+						<div class={styles.storeCard__name}>{store.name}</div>
+						<div class={styles.storeCard__info}>
+							<div class={styles.storeCard__time}>
 								<img
 									src="/static/icons/car.png"
 									alt="car"
-									class="store-card__time-icon"
+									class={styles.storeCard__timeIcon}
 								/>
-								<div class="store-card__time-value">30 мин</div>
+								<div class={styles.storeCard__timeValue}>30 мин</div>
 							</div>
-							<div class="store-card__rating">
+							<div class={styles.storeCard__rating}>
 								<img
 									src="/static/icons/star.png"
 									alt="star"
-									class="store-card__rating-icon"
+									class={styles.storeCard__ratingIcon}
 								/>
-								<div class="store-card__rating-value">{store.rating}</div>
+								<div class={styles.storeCard__ratingValue}>{store.rating}</div>
 							</div>
 						</div>
 					</div>

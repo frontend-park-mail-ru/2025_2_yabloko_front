@@ -1,0 +1,53 @@
+.checkoutPage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+        margin: 1.5rem auto;
+        justify-content: center;
+        }
+
+    &__form {
+        display: flex;
+        width: fit-content;
+        margin: 1.5rem auto;
+        box-sizing: border-box;
+        flex-wrap: wrap;
+        justify-content: center;
+        }
+
+    &__conditional {
+        display: flex;
+        gap: 1rem;
+        margin: 1rem 0;
+        }
+
+    &__order {
+        display: flex;
+        flex-direction: column;
+        }
+
+    &__order-card {
+        border-radius: 20px;
+        padding: 0 1.25rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        }
+
+    &__order-title {
+        margin: 0 0 1rem;
+        font-size: 1.25rem;
+        }
+
+    &__cart-body {
+        flex: 1;
+        min-height: 0;
+        max-height: 20rem;
+        }
+
+}

@@ -1,17 +1,19 @@
-import { AvatarForm } from '../components/AvatarForm/AvatarForm'
-import { Button } from '../components/Button/Button'
-import { Footer } from '../components/Footer/Footer'
-import { Navbar } from '../components/Navbar/Navbar'
-import { ChangePasswordForm } from '../components/PasswordChangeForm/PasswordChangeForm'
-import { PersonalInfo } from '../components/PersonalInfo/PersonalInfo'
-import { defineComponent } from '../framework/component'
-import { authManager } from '../modules/authManager'
-import { profileApi, UpdateProfileRequest } from '../modules/profileApi'
-import { navigate } from '../modules/router'
+import { AvatarForm } from '../../components/AvatarForm/AvatarForm'
+import { Button } from '../../components/Button/Button'
+import { Footer } from '../../components/Footer/Footer'
+import { Navbar } from '../../components/Navbar/Navbar'
+import { ChangePasswordForm } from '../../components/PasswordChangeForm/PasswordForm'
+import { PersonalInfo } from '../../components/PersonalInfo/PersonalInfo'
+import { defineComponent } from '../../framework/component'
+import { authManager } from '../../modules/authManager'
+import { profileApi, UpdateProfileRequest } from '../../modules/profileApi'
+import { navigate } from '../../modules/router'
+import styles from './ProfilePage.module.scss'
 
 interface ProfilePageState {
 	email: string
 	fullName: string
+	region: string
 	city: string
 	street: string
 	house: string
@@ -26,6 +28,7 @@ export const ProfilePage = defineComponent({
 		return {
 			email: '',
 			fullName: '',
+			region: '',
 			city: '',
 			street: '',
 			house: '',
@@ -154,17 +157,15 @@ export const ProfilePage = defineComponent({
 	},
 
 	render() {
-		const user = authManager.getUser()
 
 		if (this.state.isLoading) {
 			return (
-				<div class="profile-page">
+				<div class={styles.profilePage}>
 					<Navbar
-						userAuthed={true}
 						onLogoClick={() => navigate('/')}
 						onLoginClick={() => navigate('/auth')}
 					/>
-					<div style={{ textAlign: 'center', padding: '2rem' }}>
+					<div class={styles.profilePage__loading}>
 						<h2>Загрузка профиля...</h2>
 					</div>
 					<Footer />
@@ -173,7 +174,7 @@ export const ProfilePage = defineComponent({
 		}
 
 		return (
-			<div class="profile-page">
+			<div class={styles.profilePage}>
 				<Navbar
 					userAuthed={true}
 					onLogoClick={() => navigate('/')}
@@ -181,81 +182,66 @@ export const ProfilePage = defineComponent({
 					onCartClick={() => navigate('/profile')}
 				/>
 
-				<div
-					style={{
-						display: 'flex',
-						'flex-direction': 'column',
-						width: 'fit-content',
-						margin: '1.5rem auto',
-						justifyContent: 'center',
-						gap: '1rem',
-					}}
-				>
-					<div
-						style={{
-							display: 'flex',
-							width: 'fit-content',
-							margin: '1.5rem auto',
-							boxSizing: 'border-box',
-							flexWrap: 'wrap',
-							justifyContent: 'center',
-							gap: '2rem',
-						}}
-					>
-						<form
-							on={{
-								submit: (e: Event) => {
-									e.preventDefault()
-									this.handleSaveProfile()
-								},
-							}}
-						>
-							<h2 style={{ 'margin-bottom': '0.75rem' }}>Мой профиль</h2>
-							<PersonalInfo
-								email={this.state.email}
-								fullName={this.state.fullName}
-								region={this.state.region}
-								city={this.state.city}
-								street={this.state.street}
-								house={this.state.house}
-								building={this.state.building}
-								apartment={this.state.apartment}
-								comment={this.state.comment}
-								onFieldChange={(f, v) => this.handleFieldChange(f, v)}
-								onSave={() => this.handleSaveProfile()}
-							/>
-						</form>
+				<div class={styles.profilePage__container}>
+					<div class={styles.profilePage__content}>
+						<div class={styles.profilePage__formSection}>
+							<form
+								on={{
+									submit: (e: Event) => {
+										e.preventDefault()
+										this.handleSaveProfile()
+									},
+								}}
+							>
+								<h2 class={styles.profilePage__title}>Мой профиль</h2>
+								<PersonalInfo
+									email={this.state.email}
+									fullName={this.state.fullName}
+									region={this.state.region}
+									city={this.state.city}
+									street={this.state.street}
+									house={this.state.house}
+									building={this.state.building}
+									apartment={this.state.apartment}
+									comment={this.state.comment}
+									onFieldChange={(f, v) => this.handleFieldChange(f, v)}
+									onSave={() => this.handleSaveProfile()}
+								/>
+							</form>
+						</div>
 
-						<div
-							style={{
-								display: 'flex',
-								'flex-direction': 'column',
-								gap: '0.75rem',
-							}}
-						>
-							<h2>Сменить аватар</h2>
-							<AvatarForm />
-							<h2>Сменить пароль</h2>
-							<ChangePasswordForm
-								onSubmit={(current: string, newPassword: string) =>
-									this.handlePasswordChange(current, newPassword)
-								}
-							/>
+						<div class={styles.profilePage__sidebar}>
+							<div class={styles.profilePage__avatarSection}>
+								<h2>Сменить аватар</h2>
+								<AvatarForm />
+							</div>
+							<div class={styles.profilePage__passwordSection}>
+								<h2>Сменить пароль</h2>
+								<ChangePasswordForm
+									onSubmit={(current: string, newPassword: string) =>
+										this.handlePasswordChange(current, newPassword)
+									}
+								/>
+							</div>
 						</div>
 					</div>
-					<Button
-						type="button"
-						variant="accent"
-						text="Назад"
-						onClick={() => navigate('/')}
-					/>
-					<Button
-						type="button"
-						variant="error"
-						text="Выйти из профиля"
-						onClick={() => navigate('/')}
-					/>
+
+					<div class={styles.profilePage__buttons}>
+						<Button
+							type="button"
+							variant="accent"
+							text="Назад"
+							onClick={() => navigate('/')}
+						/>
+						<Button
+							type="button"
+							variant="error"
+							text="Выйти из профиля"
+							onClick={() => navigate('/')}
+						/>
+					</div>
 				</div>
+
 				<Footer />
 			</div>
 		)

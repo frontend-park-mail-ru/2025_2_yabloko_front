@@ -5,22 +5,23 @@
 	padding: 1rem;
 	background: var(--color-light);
 	border-bottom: 1px solid var(--color-input-stroke);
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	box-shadow: var(--shadow);
 	position: sticky;
 	top: 0;
 	height: 5rem;
 	z-index: 1;
 	border-radius: 0 0 var(--border-radius-medium) var(--border-radius-medium);
+
+	&__left {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	&__right {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+	}
 }
 
-.navbar__left {
-	display: flex;
-	align-items: center;
-	gap: 1rem;
-}
-
-.navbar__right {
-	display: flex;
-	gap: 1rem;
-	align-items: center;
-}

@@ -1,7 +1,7 @@
 import { defineComponent } from '../../framework/component'
 import { API } from '../../modules/api'
 import { Store } from '../../modules/storeApi'
-import './StoreInfo.css'
+import styles from './StoreInfo.module.scss'
 
 interface StoreInfoProps {
 	store: Store
@@ -13,39 +13,41 @@ export const StoreInfo = defineComponent({
 		const { store } = props
 
 		return (
-			<div class="store-info">
-				<div class="store-info__image-container">
+			<div class={styles.storeInfo}>
+				<div class={styles.storeInfo__imageWrapper}>
 					{store.card_img && (
 						<img
-							class="store-info__image"
+							class={styles.storeInfo__image}
 							src={`${API.BASE_URL}/image${store.card_img}`}
 							alt={store.name}
 						/>
 					)}
 
-					<div class="store-info__top-left">
-						<h1 class="store-info__title">{store.name}</h1>
+					<div class={styles.storeInfoPrimary}>
+						<h1 class={styles.storeInfo__title}>{store.name}</h1>
 						{store.rating && (
-							<span class="store-info__rating">Рейтинг: {store.rating}</span>
+							<span class={styles.storeInfo__rating}>
+								Рейтинг: {store.rating}
+							</span>
 						)}
 					</div>
 
-					<div class="store-info__bottom-left">
+					<div class={styles.storeInfoSecondary}>
 						{store.address && (
-							<div class="store-info__detail">
+							<div class={styles.storeInfo__detail}>
 								<strong>Адрес:</strong> {store.address}
 							</div>
 						)}
 
 						{store.open_at && store.closed_at && (
-							<div class="store-info__detail">
+							<div class={styles.storeInfo__detail}>
 								<strong>Время работы:</strong> {store.open_at} -{' '}
 								{store.closed_at}
 							</div>
 						)}
 
 						{store.city_id && (
-							<div class="store-info__detail">
+							<div class={styles.storeInfo__detail}>
 								<strong>Город:</strong> {store.city_id}
 							</div>
 						)}

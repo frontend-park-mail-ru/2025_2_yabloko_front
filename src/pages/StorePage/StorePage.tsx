@@ -1,11 +1,12 @@
-import { Cart } from '../components/Cart/Cart'
-import { Navbar } from '../components/Navbar/Navbar'
-import { ProductsBatch } from '../components/ProductsBatch/ProductsBatch'
-import { StoreInfo } from '../components/StoreInfo/StoreInfo'
-import { defineComponent } from '../framework/component'
-import { navigate } from '../modules/router'
-import { addToCart } from '../modules/cartManager'
-import { Item, Store, StoreApi } from '../modules/storeApi'
+import { Cart } from '../../components/Cart/Cart'
+import { Navbar } from '../../components/Navbar/Navbar'
+import { ProductsBatch } from '../../components/ProductsBatch/ProductsBatch'
+import { StoreInfo } from '../../components/StoreInfo/StoreInfo'
+import { defineComponent } from '../../framework/component'
+import { addToCart } from '../../modules/cartManager'
+import { navigate } from '../../modules/router'
+import { Item, Store, StoreApi } from '../../modules/storeApi'
+import styles from './StorePage.module.scss'
 
 interface StorePageState {
 	store: Store | null
@@ -58,7 +59,7 @@ export const StorePage = defineComponent({
 
 		if (!store) {
 			return (
-				<div class="store-page">
+				<div class={styles.storePage}>
 					<Navbar
 						userAuthed={false}
 						onLogoClick={() => {
@@ -69,35 +70,15 @@ export const StorePage = defineComponent({
 						}}
 						onCartClick={() => this.openCart()}
 					/>
-					<div
-						style={{
-							width: '90%',
-							minHeight: '80vh',
-							padding: '2rem',
-							boxSizing: 'border-box',
-							margin: '0 auto',
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-							justifyContent: 'center',
-						}}
-					>
-						<button
-							style={{ marginTop: '16px' }}
-							onClick={() => window.history.back()}
-						>
-							Назад
-						</button>
-					</div>
+					<div class={styles.storePage__container}></div>
 					{isCartOpen ? <Cart onClose={() => this.closeCart()} /> : null}
 				</div>
 			)
 		}
 
 		return (
-			<div class="store-page">
+			<div class={styles.storePage}>
 				<Navbar
-					userAuthed={false}
 					onLogoClick={() => {
 						navigate('/')
 					}}
@@ -106,34 +87,26 @@ export const StorePage = defineComponent({
 					}}
 					onCartClick={() => this.openCart()}
 				/>
-				<div
-					style={{
-						width: '90%',
-						minHeight: '80vh',
-						padding: '2rem',
-						boxSizing: 'border-box',
-						margin: '0 auto',
-					}}
+				<div class={styles.storePage__container}
 				>
 					<StoreInfo store={store} />
+					
+					<ProductsBatch
+						products={products}
+						onAddToCart={productId => {
+							const product = products.find(p => p.id === productId)
+							if (product) {
+								addToCart({
+									id: product.id,
+									name: product.name,
+									price: product.price,
+									quantity: 1,
+									card_img: product.card_img,
+								})
+							}
+						}}
+					/>
 
-					<div style={{ marginTop: '24px' }}>
-						<ProductsBatch
-							products={products}
-							onAddToCart={productId => {
-								const product = products.find(p => p.id === productId)
-								if (product) {
-									addToCart({
-										id: product.id,
-										name: product.name,
-										price: product.price,
-										quantity: 1,
-										card_img: product.card_img,
-									})
-								}
-							}}
-						/>
-					</div>
 				</div>
 				{isCartOpen ? <Cart onClose={() => this.closeCart()} /> : null}
 			</div>

@@ -1,6 +1,6 @@
 import { defineComponent } from '../../framework/component'
 import { API } from '../../modules/api'
-import './ProductCard.css'
+import styles from './ProductCard.module.scss'
 
 interface Product {
 	id: string
@@ -27,32 +27,32 @@ export const ProductCard = defineComponent({
 		}
 
 		return (
-			<div class="product-card">
-				<div class="product-card__image-wrapper">
+			<div class={styles.productCard}>
+				<div class={styles.productCard__imageWrapper}>
 					{product.card_img && (
 						<img
-							class="product-card__image"
+							class={styles.productCard__image}
 							src={`${API.BASE_URL}/image${product.card_img}`}
 							alt={product.name}
 						/>
 					)}
 				</div>
 
-				<div class="product-card__content">
-					<h3 class="product-card__name">{product.name}</h3>
+				<div class={styles.productCard__content}>
+					<h3 class={styles.productCard__name}>{product.name}</h3>
 
 					{product.description && (
-						<p class="product-card__description">{product.description}</p>
+						<p class={styles.productCard__description}>{product.description}</p>
 					)}
 
-					<div class="product-card__footer">
-						<div class="product-card__price">{product.price} ₽</div>
+					<div class={styles.productCard__footer}>
+						<div class={styles.productCard__price}>{product.price} ₽</div>
 						<button
-							class="product-card__add-btn"
+							class={styles.productCard__addBtn}
 							{...{
 								on: {
 									click: handleAddClick,
-								}
+								},
 							}}
 						>
 							+

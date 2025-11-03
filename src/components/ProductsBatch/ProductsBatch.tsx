@@ -1,7 +1,7 @@
 import { defineComponent } from '../../framework/component'
 import { Item } from '../../modules/storeApi'
 import { ProductCard } from '../ProductCard/ProductCard'
-import './ProductsBatch.css'
+import styles from './ProductsBatch.module.scss'
 
 interface ProductsBatchProps {
 	products: Item[]
@@ -14,8 +14,8 @@ export const ProductsBatch = defineComponent({
 		const { products, onAddToCart } = props
 
 		return (
-			<div class="store-products">
-				<div class="store-products__grid">
+			<div class={styles.storeProducts}>
+				<div class={styles.storeProducts__grid}>
 					{products.map(product => (
 						<ProductCard product={product} onAddToCart={onAddToCart} />
 					))}

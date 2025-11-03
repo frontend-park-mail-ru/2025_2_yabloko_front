@@ -16,6 +16,6 @@
 		"noEmit": true,
 		"moduleResolution": "node"
 	},
-	"include": ["src/**/*", "framework/**/*", "types/**/*"],
+	"include": ["src/**/*", "framework/**/*", "types/**/*", "src/utils/global.d.ts"],
 	"exclude": ["node_modules", "dist"]
 }

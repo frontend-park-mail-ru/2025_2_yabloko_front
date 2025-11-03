@@ -1,4 +1,5 @@
 import { defineComponent } from '../../framework/component'
+import { navigate } from '../../modules/router'
 import {
 	validateConfirmPassword,
 	validateEmail,
@@ -6,7 +7,7 @@ import {
 } from '../../utils/auth'
 import { Button } from '../Button/Button'
 import { Logo } from '../Logo/Logo'
-import './LoginForm.css'
+import styles from './LoginForm.module.scss'
 
 interface LoginFormState {
 	isAuth: boolean
@@ -52,8 +53,7 @@ export const LoginForm = defineComponent({
 		this.updateState({ isAwaiting: true, authErr: '' })
 
 		try {
-
-			import('../../modules/router').then(router => router.navigate('/'))
+			navigate('/')
 		} catch (error: unknown) {
 			let message = 'Ошибка авторизации'
 
@@ -129,10 +129,10 @@ export const LoginForm = defineComponent({
 		} = this.state
 
 		return (
-			<div class="login-form">
+			<div class={styles.loginForm}>
 				<Logo size="large" />
 				<form
-					class="login-form__inner"
+					class={styles.loginForm__container}
 					novalidate
 					{...{
 						on: {
@@ -140,7 +140,7 @@ export const LoginForm = defineComponent({
 						},
 					}}
 				>
-					<div class="login-form__field">
+					<div class={styles.loginForm__field}>
 						<input
 							type="email"
 							placeholder="Email"
@@ -152,13 +152,13 @@ export const LoginForm = defineComponent({
 					</div>
 
 					<div
-						class="login-form__error"
+						class={styles.loginForm__error}
 						style={{ display: emailErr ? 'block' : 'none' }}
 					>
 						{emailErr}
 					</div>
 
-					<div class="login-form__field">
+					<div class={styles.loginForm__field}>
 						<input
 							type="password"
 							placeholder="Пароль"
@@ -170,14 +170,14 @@ export const LoginForm = defineComponent({
 					</div>
 
 					<div
-						class="login-form__error"
+						class={styles.loginForm__field}
 						style={{ display: passErr ? 'block' : 'none' }}
 					>
 						{passErr}
 					</div>
 
 					<div
-						class="login-form__field"
+						class={styles.loginForm__field}
 						style={{ display: isAuth ? 'none' : 'block' }}
 					>
 						<input
@@ -191,14 +191,14 @@ export const LoginForm = defineComponent({
 					</div>
 
 					<div
-						class="login-form__error"
+						class={styles.loginForm__error}
 						style={{ display: passConfErr ? 'block' : 'none' }}
 					>
 						{passConfErr}
 					</div>
 
 					<div
-						class="login-form__error"
+						class={styles.loginForm__error}
 						style={{ display: authErr ? 'block' : 'none' }}
 					>
 						{authErr}
@@ -223,7 +223,7 @@ export const LoginForm = defineComponent({
 						key={`toggle-${isAuth}`}
 						type="button"
 						variant="accent"
-						class="login-form__toggle"
+						class={styles.loginForm__toggle}
 						onClick={() => this.toggleMode()}
 						disabled={isAwaiting || undefined}
 						text={

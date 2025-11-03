@@ -1,0 +1,54 @@
+.button {
+    display: inline-flex;
+    color: var(--color-light);
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: var(--border-radius-large);
+    cursor: pointer;
+    position: relative;
+    min-width: 7rem;
+    height: 2.5rem;
+    font-size: var(--button-font-size);
+    font-weight: var(--button-font-weight);
+
+    &__content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    &--accent {
+        background: var(--color-accent);
+
+        &:hover {
+            background: var(--color-accent-hover);
+        }
+    }
+
+    &--success {
+        background: var(--color-success);
+
+        &:hover {
+            background: var(--color-success-hover);
+        }
+    }
+
+    &--error {
+        background: var(--color-err);
+
+        &:hover {
+            background: var(--color-err-hover);
+        }
+    }
+
+    &--primary {
+        background: var(--color-primary);
+
+        &:hover {
+            background: var(--color-hover);
+        }
+    }
+}

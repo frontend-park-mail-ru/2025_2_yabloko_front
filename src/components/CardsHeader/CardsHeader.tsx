@@ -1,5 +1,5 @@
 import { defineComponent } from '../../framework/component'
-import './CardsHeader.css'
+import styles from './CardsHeader.module.scss'
 
 interface CardsHeaderProps {
 	onFilterChange?: (filter: string) => void
@@ -17,6 +17,7 @@ export const CardsHeader = defineComponent({
 		const handleSortClick = () => {
 			props.onSortToggle?.()
 		}
+
 		const filters = [
 			{ key: 'all', label: 'Все', active: true },
 			{ key: 'pickup', label: 'Самовывоз' },
@@ -29,29 +30,34 @@ export const CardsHeader = defineComponent({
 		]
 
 		return (
-			<div class="cards-header">
-				<h2 class="cards-header__title">Рестораны</h2>
-				<div class="cards-header__filters filters">
+			<div class={styles.cardsHeader}>
+				<h2 class={styles.cardsHeader__title}>Рестораны</h2>
+				<div class={styles.cardsHeader__filters}>
 					{filters.map(filter => (
 						<button
-							class={`filters__button ${filter.active ? 'filters__button--active' : ''}`}
+							class={[
+								styles.filter__button,
+								filter.active ? styles['filter__button--active'] : '',
+							]
+								.filter(Boolean)
+								.join(' ')}
 							on={{ click: () => handleFilterClick(filter.key) }}
 						>
 							{filter.label}
 						</button>
 					))}
 
-					<div class="filters__more more">
+					<div class={styles.cardsHeader__more}>
 						<button
-							class="more__button filters__button"
+							class={styles.filter__moreButton}
 							on={{ click: () => handleFilterClick('more') }}
 						>
 							Ещё
 						</button>
 					</div>
 
-					<div class="filters__sort sort" on={{ click: handleSortClick }}>
-						<span class="sort__text">Сортировка</span>
+					<div class={styles.cardsHeader__sort} on={{ click: handleSortClick }}>
+						<span>Сортировка</span>
 					</div>
 				</div>
 			</div>

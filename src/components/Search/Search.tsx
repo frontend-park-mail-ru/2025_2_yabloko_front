@@ -1,5 +1,6 @@
 import { defineComponent } from '../../framework/component'
-import './Search.css'
+import { Button } from '../Button/Button'
+import styles from './Search.module.scss'
 
 interface SearchBarProps {
 	placeholder?: string
@@ -20,7 +21,7 @@ export const SearchBar = defineComponent({
 
 		return (
 			<form
-				class="search-bar"
+				class={styles.searchBar}
 				{...{
 					on: {
 						submit: (e: Event) => {
@@ -30,11 +31,12 @@ export const SearchBar = defineComponent({
 					},
 				}}
 			>
-				<img src="/static/icons/search.png" alt="search" class="search-icon" />
+				<img src="/static/icons/search.png" alt="search" class={styles.searchBar__icon} />
 				<input
 					type="text"
 					placeholder={props.placeholder || 'Поиск ресторанов и категорий'}
 					value={searchQuery}
+					class={styles.searchBar__input}
 					{...{
 						on: {
 							input: (e: Event) => {
@@ -44,7 +46,11 @@ export const SearchBar = defineComponent({
 						},
 					}}
 				/>
-				<button type="submit">Найти</button>
+				<Button
+					type="submit"
+					variant="accent"
+					text="Найти"
+				/>
 			</form>
 		)
 	},

@@ -1,0 +1,29 @@
+.search-bar {
+	display: flex;
+	align-items: center;
+	border: 0.1rem solid var(--color-accent);
+	border-radius: var(--border-radius-large);
+	background-color: var(--color-light);
+	height: 2.4rem;
+
+	
+	&__icon {
+		width: 1rem;
+		height: 1rem;
+		margin: 1rem;
+	}
+
+	&__input {
+		border: none;
+		outline: none;
+		width: 20rem;
+		text-align: left;
+		background-color: transparent;
+		padding: 0.5rem 0;
+	}
+
+	&:hover {
+		border-color: var(--color-accent-hover);
+	}
+
+}
