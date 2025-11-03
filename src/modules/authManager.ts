@@ -1,5 +1,4 @@
 import { AUTH_IS_AUTHENTICATED, AUTH_USER } from '../utils/auth'
-import { profileApi } from './profileApi'
 import { store } from './store'
 import { userApi } from './userApi'
 
@@ -15,7 +14,6 @@ export class AuthManager {
 
 		store.set(AUTH_USER, userData)
 		store.set(AUTH_IS_AUTHENTICATED, true)
-		await profileApi.saveGuestCityToProfile()
 	}
 
 	async register(email: string, password: string): Promise<void> {
@@ -40,13 +38,13 @@ export class AuthManager {
 			const userData = response.body as User
 
 			if (!userData || !userData.id) {
-				// store.set(AUTH_USER, userData)
-				// store.set(AUTH_IS_AUTHENTICATED, true)
-				// return true
-
-				store.set(AUTH_USER, { id: '1', email: 'test@mail.com' })
+				store.set(AUTH_USER, userData)
 				store.set(AUTH_IS_AUTHENTICATED, true)
 				return true
+
+				// store.set(AUTH_USER, { id: '1', email: 'test@mail.com' })
+				// store.set(AUTH_IS_AUTHENTICATED, true)
+				// return true
 			} else {
 				this.logout()
 				return false
@@ -58,16 +56,16 @@ export class AuthManager {
 	}
 
 	getUser(): User | null {
-		// return store.get(AUTH_USER) as User | null
-		return {
-			id: '1',
-			email: 'test@mail.com'
-		}
+		return store.get(AUTH_USER) as User | null
+		// return {
+		// 	id: '1',
+		// 	email: 'test@mail.com'
+		// }
 	}
 
 	isAuthenticated(): boolean {
-		//return store.get(AUTH_IS_AUTHENTICATED) as boolean
-		return true;
+		return store.get(AUTH_IS_AUTHENTICATED) as boolean
+		//return true;
 	}
 }
 

@@ -49,7 +49,7 @@ export const Navbar = defineComponent({
 						placeholder="Поиск ресторанов и категорий"
 						onSearch={props.onSearch}
 					/>
-					{/* <CitySelector /> */}
+					<CitySelector />
 				</div>
 				<div class={styles.navbar__right}>
 					<IconButton
