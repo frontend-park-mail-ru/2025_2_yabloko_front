@@ -1,7 +1,7 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import { Store, StoreApi } from '../../modules/storeApi'
 import { Card } from '../Card/Card'
-import styles from  './Batch.module.scss'
+import styles from './Batch.module.scss'
 
 interface BatchState {
 	stores: Store[]
