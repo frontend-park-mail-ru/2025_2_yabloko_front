@@ -1,7 +1,7 @@
 import { defineComponent } from '../../framework/component'
 import { authManager } from '../../modules/authManager'
 import { StoreApi } from '../../modules/storeApi'
-import styles from './CitySelector.module.scss'
+import styles from './Selector.module.scss'
 
 interface City {
 	id: string
