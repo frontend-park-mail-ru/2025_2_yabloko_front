@@ -11,7 +11,7 @@ const buttonVariants = {
 export const Button = defineComponent({
 	render() {
 		const props = this.props
-		const { variant = 'accent', onClick, className = '', text, type } = props
+		const { variant = 'accent', onClick, className = '', text, type, disabled = false } = props
 		const buttonClasses = [styles.button, buttonVariants[variant], className]
 			.filter(Boolean)
 			.join(' ')
@@ -22,6 +22,7 @@ export const Button = defineComponent({
 			<button
 				type={type}
 				class={buttonClasses}
+				disabled={disabled}
 				{...{
 					on: {
 						click: (e: Event) => {

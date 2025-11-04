@@ -84,15 +84,14 @@ export const CheckoutPage = defineComponent({
 
 	handleSubmit(e: Event) {
 		e.preventDefault()
-		const { email, fullName, region, city, street, house, items } = this.state
+		const { email, fullName, city, street, house, apartment} = this.state
 		if (
 			!email ||
 			!fullName ||
-			!region ||
 			!city ||
 			!street ||
 			!house ||
-			items.length === 0
+			!apartment
 		) {
 			alert('Заполните обязательные поля и добавьте товары.')
 			return
@@ -117,8 +116,18 @@ export const CheckoutPage = defineComponent({
 						<form on={{ submit: (e: Event) => this.handleSubmit(e) }}>
 							<h2>Условия доставки</h2>
 							<div class={styles.checkoutPage__conditional}>
-								<Button type="button" variant="accent" text="Стандар 0₽" />
-								<Button type="button" variant="success" text="Быстро 100₽" />
+								<Button
+									type="button"
+									variant="accent"
+									disabled={true}
+									text="Стандар 0₽"
+								/>
+								<Button
+									type="button"
+									variant="success"
+									disabled={true}
+									text="Быстро 100₽"
+								/>
 							</div>
 							<PersonalInfo
 								email={this.state.email}

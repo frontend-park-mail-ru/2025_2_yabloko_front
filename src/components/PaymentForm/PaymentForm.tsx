@@ -66,6 +66,7 @@ export const PaymentForm = defineComponent({
 							variant="accent"
 							text="Применить"
 							onClick={() => props.onApplyPromo()}
+							disabled={true}
 						/>
 					</div>
 				</div>
@@ -78,9 +79,7 @@ export const PaymentForm = defineComponent({
 							type="button"
 							variant="success"
 							text="Оплатить"
-							onClick={() =>
-								alert("Заказ за наш счет!")
-							}
+							onClick={() => alert('Заказ за наш счет!')}
 						/>
 					</div>
 				</div>

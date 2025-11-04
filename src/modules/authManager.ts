@@ -37,7 +37,7 @@ export class AuthManager {
 			const response = await userApi.refresh()
 			const userData = response.body as User
 
-			if (!userData || !userData.id) {
+			if (userData && userData.id) {
 				store.set(AUTH_USER, userData)
 				store.set(AUTH_IS_AUTHENTICATED, true)
 				return true

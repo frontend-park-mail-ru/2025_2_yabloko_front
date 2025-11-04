@@ -3703,12 +3703,15 @@ var Button = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineComponen
       _props$className = props.className,
       className = _props$className === void 0 ? '' : _props$className,
       text = props.text,
-      type = props.type;
+      type = props.type,
+      _props$disabled = props.disabled,
+      disabled = _props$disabled === void 0 ? false : _props$disabled;
     var buttonClasses = [_Button_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].button, buttonVariants[variant], className].filter(Boolean).join(' ');
     var content = text || 'КНОПКА';
     return h("button", {
       type: type,
       class: buttonClasses,
+      disabled: disabled,
       on: {
         click: function click(e) {
           onClick === null || onClick === void 0 || onClick(e);
@@ -5200,7 +5203,8 @@ var PaymentForm = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCom
       text: "\u041F\u0440\u0438\u043C\u0435\u043D\u0438\u0442\u044C",
       onClick: function onClick() {
         return props.onApplyPromo();
-      }
+      },
+      disabled: true
     }))), h("div", {
       class: _PaymentForm_module_scss__WEBPACK_IMPORTED_MODULE_2__["default"].payment__section
     }, h("h2", null, "\u0418\u0442\u043E\u0433\u043E:"), h("div", {
@@ -5210,7 +5214,7 @@ var PaymentForm = (0,_framework_component__WEBPACK_IMPORTED_MODULE_0__.defineCom
       variant: "success",
       text: "\u041E\u043F\u043B\u0430\u0442\u0438\u0442\u044C",
       onClick: function onClick() {
-        return alert("Заказ за наш счет!");
+        return alert('Заказ за наш счет!');
       }
     }))));
   }
@@ -7933,7 +7937,7 @@ var AuthManager = /*#__PURE__*/function () {
             case 1:
               response = _context4.v;
               userData = response.body;
-              if (!(!userData || !userData.id)) {
+              if (!(userData && userData.id)) {
                 _context4.n = 2;
                 break;
               }
