@@ -1,6 +1,7 @@
 import { AUTH_IS_AUTHENTICATED, AUTH_USER } from '../utils/auth'
+import { API } from './api'
 import { store } from './store'
-import { userApi } from './userApi'
+import { AuthResponse, userApi } from './userApi'
 
 export interface User {
 	id: string
@@ -9,16 +10,46 @@ export interface User {
 
 export class AuthManager {
 	async login(email: string, password: string): Promise<void> {
-		const response = await userApi.login({ email, password })
-		const userData = response.body as User
+		try {
+			await this.ensureCSRFToken()
 
-		store.set(AUTH_USER, userData)
-		store.set(AUTH_IS_AUTHENTICATED, true)
+			const response = await userApi.login({ email, password })
+
+			if (response.service.error) {
+				throw new Error(`Login failed: ${response.service.error}`)
+			}
+
+			if (!response.body) {
+				throw new Error('Empty response body from server')
+			}
+
+			const authData = response.body as AuthResponse
+			const userData: User = {
+				id: authData.user_id,
+				email: authData.email,
+			}
+
+			if (userData.id && userData.email) {
+				store.set(AUTH_USER, userData)
+				store.set(AUTH_IS_AUTHENTICATED, true)
+			}
+		} catch (error) {
+			throw error
+		}
 	}
 
 	async register(email: string, password: string): Promise<void> {
-		await userApi.register({ email, password })
-		await this.login(email, password)
+		try {
+			const response = await userApi.register({ email, password })
+
+			if (response.service.error) {
+				throw new Error(response.service.error)
+			}
+
+			await this.login(email, password)
+		} catch (error) {
+			throw error
+		}
 	}
 
 	async logout(): Promise<void> {
@@ -26,46 +57,52 @@ export class AuthManager {
 			await userApi.logout()
 		} catch (e) {
 			console.warn('Logout API failed', e)
+		} finally {
+			store.set(AUTH_USER, null)
+			store.set(AUTH_IS_AUTHENTICATED, false)
 		}
-
-		store.set(AUTH_USER, null)
-		store.set(AUTH_IS_AUTHENTICATED, false)
 	}
 
 	async checkAuth(): Promise<boolean> {
 		try {
 			const response = await userApi.refresh()
-			const userData = response.body as User
 
-			if (userData && userData.id) {
-				store.set(AUTH_USER, userData)
-				store.set(AUTH_IS_AUTHENTICATED, true)
-				return true
-
-				// store.set(AUTH_USER, { id: '1', email: 'test@mail.com' })
-				// store.set(AUTH_IS_AUTHENTICATED, true)
-				// return true
-			} else {
-				this.logout()
+			if (response.service.error || !response.body) {
+				store.set(AUTH_USER, null)
+				store.set(AUTH_IS_AUTHENTICATED, false)
 				return false
 			}
+
+			const authData = response.body as AuthResponse
+			const userData: User = {
+				id: authData.user_id,
+				email: authData.email,
+			}
+
+			store.set(AUTH_USER, userData)
+			store.set(AUTH_IS_AUTHENTICATED, true)
+			return true
 		} catch (error) {
-			this.logout()
+			store.set(AUTH_USER, null)
+			store.set(AUTH_IS_AUTHENTICATED, false)
 			return false
 		}
 	}
 
 	getUser(): User | null {
 		return store.get(AUTH_USER) as User | null
-		// return {
-		// 	id: '1',
-		// 	email: 'test@mail.com'
-		// }
 	}
 
 	isAuthenticated(): boolean {
 		return store.get(AUTH_IS_AUTHENTICATED) as boolean
-		//return true;
+	}
+
+	private async ensureCSRFToken(): Promise<void> {
+		try {
+			await API.get('AUTH', '/csrf')
+		} catch (error) {
+			console.warn('CSRF token request failed:', error)
+		}
 	}
 }
 

@@ -2,7 +2,9 @@ import { createApp } from '../framework/app'
 import { LoginPage } from '../pages/LoginPage/LoginPage'
 import { MainPage } from '../pages/MainPage/MainPage'
 import { CheckoutPage } from '../pages/OrderPage/OrderPage'
+import { ProfilePage } from '../pages/ProfilePage/ProfilePage'
 import { StorePage } from '../pages/StorePage/StorePage'
+import { authManager } from './authManager'
 
 interface Page {
 	component: any
@@ -13,6 +15,7 @@ const pathsPages: { [key: string]: Page } = {
 	'/': { component: MainPage, title: 'AppleClub - рестораны' },
 	'/auth': { component: LoginPage, title: 'AppleClub - авторизация' },
 	'/checkout': { component: CheckoutPage, title: 'AppleClub - оформление' },
+	'/profile': { component: ProfilePage, title: 'AppleClub - профиль' },
 	'/store/:id': { component: StorePage, title: 'AppleClub - магазин' },
 }
 
@@ -64,6 +67,7 @@ async function renderPage(path: string, route: string): Promise<void> {
 
 	try {
 		currentApp = createApp(page.component)
+		await authManager.checkAuth();
 		currentApp.mount(rootElement)
 		document.title = page.title
 	} catch (error) {

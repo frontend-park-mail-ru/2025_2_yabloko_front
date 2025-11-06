@@ -5,7 +5,6 @@ import styles from './PersonalInfo.module.scss'
 interface PersonalInfoProps {
 	email: string
 	fullName: string
-	region: string
 	city: string
 	street: string
 	house: string

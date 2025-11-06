@@ -1,7 +1,8 @@
-export const AUTH_IS_AUTHENTICATED = 'auth.isAuthenticated'
 export const AUTH_ACCESS_TOKEN = 'auth.accessToken'
 export const AUTH_REFRESH_TOKEN = 'auth.refreshToken'
-export const AUTH_USER = 'auth.user'
+export const AUTH_USER = 'auth.user' as const
+export const AUTH_IS_AUTHENTICATED = 'auth.isAuthenticated' as const
+
 
 export function validateEmail(email: string): string {
 	if (!email) {

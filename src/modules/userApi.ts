@@ -7,6 +7,13 @@ export interface UserData {
 	password: string
 }
 
+export interface AuthResponse {
+	user_id: string
+	email: string
+	token: string
+	expires: string
+}
+
 /**
  * Класс для взаимодействия с API аутентификации и управления пользователем.
  */
@@ -17,11 +24,9 @@ export class UserAPI {
 	 * @returns {Promise<APIresponse>} Ответ API, содержащий статус операции и, при успехе, дополнительные данные в `body`.
 	 */
 	async register(userdata: UserData): Promise<APIresponse> {
-		return API.post('/auth/signup', {
-			service: {
-				email: userdata.email,
-				password: userdata.password,
-			},
+		return API.post('AUTH', '/auth/signup', {
+			email: userdata.email,
+			password: userdata.password,
 		})
 	}
 
@@ -31,7 +36,7 @@ export class UserAPI {
 	 * @returns {Promise<APIresponse>} Ответ API. При успехе в `body` может содержаться токен или профиль пользователя.
 	 */
 	async login(userdata: UserData): Promise<APIresponse> {
-		return API.post('/auth/login', {
+		return API.post('AUTH', '/auth/login', {
 			email: userdata.email,
 			password: userdata.password,
 		})
@@ -42,7 +47,7 @@ export class UserAPI {
 	 * @returns {Promise<APIresponse>} Ответ API, подтверждающий завершение сессии.
 	 */
 	async logout(): Promise<APIresponse> {
-		return API.post('/auth/logout')
+		return API.post('AUTH', '/auth/logout')
 	}
 
 	/**
@@ -50,7 +55,7 @@ export class UserAPI {
 	 * @returns {Promise<APIresponse>} Ответ API с новым токеном (обычно в `body.token`).
 	 */
 	async refresh(): Promise<APIresponse> {
-		return API.post('/auth/refresh')
+		return API.post('AUTH', '/auth/refresh')
 	}
 }
 

@@ -102,7 +102,7 @@ export class StoreApi {
 			cityID: params.cityID || '',
 		}
 
-		const response = await API.post('/stores', body)
+		const response = await API.post('STORE', '/stores', body)
 		const data = response.body
 
 		return data
@@ -112,7 +112,7 @@ export class StoreApi {
 	 * Получить магазин по ID
 	 */
 	static async getStoreById(storeId: string): Promise<Store | null> {
-		const response = await API.get(`/stores/${storeId}`)
+		const response = await API.get('STORE',`/stores/${storeId}`)
 		return response.body ?? null
 	}
 
@@ -162,7 +162,7 @@ export class StoreApi {
 	 * @returns Массив товаров магазина
 	 */
 	static async getStoreItems(storeId: string): Promise<Item[]> {
-		const response = await API.get(`/stores/${storeId}/items`)
+		const response = await API.get('STORE', `/stores/${storeId}/items`)
 		return Array.isArray(response.body) ? response.body : []
 	}
 
@@ -170,7 +170,7 @@ export class StoreApi {
 	 * Получить корзину пользователя
 	 */
 	static async getUserCart(userId: string): Promise<Cart[]> {
-		const response = await API.get(`/users/${userId}/cart`)
+		const response = await API.get('STORE', `/users/${userId}/cart`)
 		return Array.isArray(response.body) ? response.body : []
 	}
 
@@ -181,7 +181,7 @@ export class StoreApi {
 		cartId: string,
 		cartUpdate: CartUpdate,
 	): Promise<UpdateResponse> {
-		const response = await API.put(`/carts/${cartId}`, cartUpdate)
+		const response = await API.put('STORE', `/carts/${cartId}`, cartUpdate)
 		return response.body
 	}
 
@@ -189,11 +189,11 @@ export class StoreApi {
 	 * Синхронизировать выбранный город пользователя
 	 */
 	static async syncCity(userId: string, cityId: string): Promise<void> {
-		await API.post(`/users/${userId}/city`, { city_id: cityId })
+		await API.post('STORE', `/users/${userId}/city`, { city_id: cityId })
 	}
 
 	static async getCities(): Promise<City[]> {
-		const response = await API.get(`/stores/cities`)
+		const response = await API.get('STORE', `/stores/cities`)
 		return response.body ?? []
 	}
 }

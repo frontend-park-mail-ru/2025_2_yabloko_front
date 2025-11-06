@@ -1,6 +1,9 @@
 import { defineComponent } from '../../framework/component'
 import { authManager } from '../../modules/authManager'
+import { Profile, profileApi } from '../../modules/profileApi'
+import { store } from '../../modules/store'
 import { StoreApi } from '../../modules/storeApi'
+import { AUTH_IS_AUTHENTICATED } from '../../utils/auth'
 import styles from './Selector.module.scss'
 
 interface City {
@@ -10,10 +13,20 @@ interface City {
 
 const CITY_KEY = 'selected_city'
 
-function loadSelectedCity(): City | null {
+async function loadSelectedCity(): Promise<City> | null {
 	try {
-		const data = localStorage.getItem(CITY_KEY)
-		return data ? JSON.parse(data) : null
+
+		if (store.get(AUTH_IS_AUTHENTICATED) === true) {
+			const user = authManager.getUser()
+			const profile = (await profileApi.getProfile(user.id)).body as Profile
+			const cities = await StoreApi.getCities()
+			const userCity = cities.find(city => city.id === profile.city_id)
+			return userCity
+
+		} else {
+			const data = localStorage.getItem(CITY_KEY)
+			return data ? JSON.parse(data) : null
+		}
 	} catch (error) {
 		console.error(error)
 		return null
