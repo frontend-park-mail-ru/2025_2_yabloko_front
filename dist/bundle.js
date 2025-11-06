@@ -8522,9 +8522,9 @@ var API = /*#__PURE__*/function () {
   }]);
 }();
 _defineProperty(API, "SERVICES", {
-  AUTH: 'http://90.156.218.233:8082/api/v0',
-  PROFILE: 'http://90.156.218.233:8081/api/v0',
-  STORE: 'http://90.156.218.233:8080/api/v0'
+  AUTH: 'http://localhost:8082/api/v0',
+  PROFILE: 'http://localhost:8081/api/v0',
+  STORE: 'http://localhost:8080/api/v0'
 });
 
 /***/ }),
