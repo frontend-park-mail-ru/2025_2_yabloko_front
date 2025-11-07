@@ -1,5 +1,5 @@
 import { authManager } from './authManager'
-import { CartItem, StoreApi } from './storeApi'
+import { CartItem, CartUpdate, StoreApi } from './storeApi'
 
 const CART_KEY = 'guest_cart'
 
@@ -18,13 +18,23 @@ export async function getCartFromStorage(): Promise<CartItem[]> {
 	}
 }
 
-export function saveCartToStorage(items: CartItem[]): void {
+export async function saveCartToStorage(items: CartItem[]): Promise<void> {
 	try {
-		localStorage.setItem(CART_KEY, JSON.stringify(items))
+		if (authManager.isAuthenticated()) {
+			const updateItems = items.map(item => ({
+				item_id: item.id,
+				quantity: Number(item.quantity),
+			}))
+			await StoreApi.updateCart(updateItems)
+			console.log('Save to backend:', items)
+		} else {
+			localStorage.setItem(CART_KEY, JSON.stringify(items))
+		}
 	} catch (e) {
 		console.error('Cart save error', e)
 	}
 }
+
 
 export async function addToCart(item: CartItem): Promise<void> {
 	const cart = await getCartFromStorage()

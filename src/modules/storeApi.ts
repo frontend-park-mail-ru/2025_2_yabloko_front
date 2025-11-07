@@ -201,13 +201,10 @@ export class StoreApi {
 	 * Обновить корзину
 	 */
 	static async updateCart(
-		cartId: string,
-		cartUpdate: CartUpdate,
-	): Promise<UpdateResponse> {
-		const response = await API.put('STORE', `/carts/${cartId}`, cartUpdate)
-		return response.body
+		items: { item_id: string; quantity: number }[],
+	): Promise<void> {
+		await API.put('STORE', '/cart', { items })
 	}
-
 	/**
 	 * Синхронизировать выбранный город пользователя
 	 */
