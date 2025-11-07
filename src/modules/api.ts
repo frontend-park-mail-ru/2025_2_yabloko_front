@@ -74,6 +74,22 @@ export class API {
 		}
 	}
 
+	private static getJwtToken(): string | null {
+		const name = 'jwt='
+		const decodedCookie = decodeURIComponent(document.cookie)
+		const ca = decodedCookie.split(';')
+		for (let i = 0; i < ca.length; i++) {
+			let c = ca[i]
+			while (c.charAt(0) === ' ') {
+				c = c.substring(1)
+			}
+			if (c.indexOf(name) === 0) {
+				return c.substring(name.length, c.length)
+			}
+		}
+		return null
+	}
+
 	static async fetch(
 		service: keyof typeof API.SERVICES,
 		inputRelative: string,
@@ -83,11 +99,9 @@ export class API {
 
 		const headers = new Headers(init.headers)
 
-		// Для методов, требующих CSRF защиту
 		if (init.method && ['POST', 'PUT', 'DELETE'].includes(init.method)) {
 			let csrfToken = this.getCsrfToken()
 
-			// Если токена нет, запрашиваем новый
 			if (!csrfToken) {
 				csrfToken = await this.ensureCsrfToken()
 			}
@@ -99,6 +113,11 @@ export class API {
 
 		if (!(init.body instanceof FormData) && !headers.has('Content-Type')) {
 			headers.set('Content-Type', 'application/json')
+		}
+
+		const jwtToken = this.getJwtToken()
+		if (jwtToken) {
+			headers.set('Authorization', `Bearer ${jwtToken}`)
 		}
 
 		const finalInit: RequestInit = {
