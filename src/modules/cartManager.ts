@@ -19,18 +19,25 @@ export async function getCartFromStorage(): Promise<CartItem[]> {
 }
 
 export async function syncCart(): Promise<void> {
-
 	try {
-		const userCart = await StoreApi.getUserCart()
-		if (userCart.items) {
-			const data = localStorage.getItem(CART_KEY)
-			await StoreApi.updateCart(JSON.parse(data))
-		}
+		const localData = localStorage.getItem(CART_KEY)
+		const localCart: CartItem[] = localData ? JSON.parse(localData) : []
 
+		const userCart = await StoreApi.getUserCart()
+
+		if (localCart.length > 0 && userCart.items.length === 0) {
+			const updateItems = localCart.map(item => ({
+				id: item.id,
+				store_id: 'c45a7b64-df32-4e84-b2cb-85a3b8e6b0fc',
+				quantity: Number(item.quantity),
+			}))
+			await StoreApi.updateCart(updateItems)
+			console.log('Synced local cart to backend')
+		}
+		clearCart()
 	} catch (e) {
-		console.error('Cart parse error', e)
+		console.error('Cart sync error', e)
 	}
-	
 }
 
 export async function saveCartToStorage(items: CartItem[]): Promise<void> {
