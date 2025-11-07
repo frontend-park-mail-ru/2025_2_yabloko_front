@@ -52,13 +52,13 @@ export const CitySelector = defineComponent({
 		}
 
 		document.addEventListener('click', handleDocumentClick)
-
 		this.handleDocumentClick = handleDocumentClick
-
 		this.debounceTimer = null
 
 		StoreApi.getCities()
 			.then(async cities => {
+				this.updateState({ cities }) 
+
 				const selectedCity = await loadSelectedCity()
 				if (selectedCity) {
 					this.updateState({ selectedCity })
@@ -86,7 +86,7 @@ export const CitySelector = defineComponent({
 				if (authManager.getUser) {
 					profileApi.updateProfile(authManager.getUser().id, {
 						city_id: city.id,
-						address: ''
+						address: '',
 					})
 				} else {
 					localStorage.setItem(CITY_KEY, JSON.stringify(city))
