@@ -23,5 +23,27 @@
 		gap: 1rem;
 		align-items: center;
 	}
+
+	&__cartWrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    &__cartBadge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: var(--color-accent);
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+    }
 }
 

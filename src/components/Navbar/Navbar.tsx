@@ -1,6 +1,7 @@
 import { defineComponent } from '../../framework/component'
 import { authManager } from '../../modules/authManager'
 import { profileApi } from '../../modules/profileApi'
+import { getCartFromStorage } from '../../modules/cartManager'
 import { navigate } from '../../modules/router'
 import { store } from '../../modules/store'
 import { AUTH_IS_AUTHENTICATED } from '../../utils/auth'
@@ -20,6 +21,7 @@ interface NavbarProps {
 interface NavbarState {
 	userAuthed: boolean
 	userAvatar: string
+	cartItems: number
 }
 
 export const Navbar = defineComponent({
@@ -27,6 +29,7 @@ export const Navbar = defineComponent({
 		return {
 			userAuthed: store.get(AUTH_IS_AUTHENTICATED) === true,
 			userAvatar: '',
+			cartItems: 0,
 		}
 	},
 
@@ -75,9 +78,19 @@ export const Navbar = defineComponent({
 		}
 	},
 
+	async loadCartItemsCount() {
+		try {
+			const cartItems = await getCartFromStorage()
+			const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
+			this.updateState({ cartItems: totalCount })
+		} catch (error) {
+			console.error('Failed to load cart items count:', error)
+		}
+	},
+
 	render() {
 		const props = this.props as NavbarProps
-		const { userAuthed, userAvatar } = this.state
+		const { userAuthed, userAvatar, cartItems } = this.state
 
 		return (
 			<header class={styles.navbar}>
@@ -90,12 +103,19 @@ export const Navbar = defineComponent({
 					<CitySelector />
 				</div>
 				<div class={styles.navbar__right}>
-					<IconButton
-						src="/static/icons/cart.png"
-						alt="Корзина"
-						text="Корзина"
-						onClick={props.onCartClick}
-					/>
+					<div class={styles.navbar__cartWrapper}>
+						<IconButton
+							src="/static/icons/cart.png"
+							alt="Корзина"
+							text="Корзина"
+							onClick={props.onCartClick}
+						/>
+						{cartItems > 0 && (
+							<span class={styles.navbar__cartBadge}>
+								{cartItems > 99 ? '99+' : cartItems}
+							</span>
+						)}
+					</div>
 					{userAuthed ? (
 						[
 							<IconButton
