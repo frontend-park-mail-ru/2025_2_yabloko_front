@@ -34,6 +34,9 @@ export const Navbar = defineComponent({
 	},
 
 	async onMounted() {
+
+		 await this.loadCartItemsCount()
+
 		this.unsubscribe = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
 			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
 			this.updateState({
