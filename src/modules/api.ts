@@ -15,6 +15,8 @@ export class API {
 		STORE: 'http://127.0.0.1:8080/api/v0',
 	}
 
+	private static csrfRequest: Promise<string> | null = null
+
 	public static getCsrfToken(): string | null {
 		const name = 'csrf_token'
 		const value = `; ${document.cookie}`
@@ -23,6 +25,53 @@ export class API {
 			return parts.pop()!.split(';').shift() || null
 		}
 		return null
+	}
+
+	static async ensureCsrfToken(): Promise<string> {
+		// Если уже есть активный запрос на получение CSRF, ждем его
+		if (this.csrfRequest) {
+			return await this.csrfRequest
+		}
+
+		// Проверяем, есть ли уже токен в куках
+		let csrfToken = this.getCsrfToken()
+		if (csrfToken) {
+			return csrfToken
+		}
+
+		// Если токена нет, запрашиваем новый
+		this.csrfRequest = this.requestNewCsrfToken()
+		try {
+			csrfToken = await this.csrfRequest
+			return csrfToken
+		} finally {
+			this.csrfRequest = null
+		}
+	}
+
+	static async requestNewCsrfToken(): Promise<string> {
+		try {
+			const response = await fetch(`${this.SERVICES.AUTH}/csrf`, {
+				method: 'GET',
+				credentials: 'include',
+			})
+
+			if (!response.ok) {
+				throw new Error(`HTTP ${response.status}: Failed to get CSRF token`)
+			}
+
+			const data = await response.json()
+			const newCsrfToken = data.csrf_token || this.getCsrfToken()
+
+			if (!newCsrfToken) {
+				throw new Error('CSRF token not received')
+			}
+
+			return newCsrfToken
+		} catch (error) {
+			console.error('Failed to get CSRF token:', error)
+			throw error
+		}
 	}
 
 	static async fetch(
@@ -34,8 +83,15 @@ export class API {
 
 		const headers = new Headers(init.headers)
 
+		// Для методов, требующих CSRF защиту
 		if (init.method && ['POST', 'PUT', 'DELETE'].includes(init.method)) {
-			const csrfToken = this.getCsrfToken()
+			let csrfToken = this.getCsrfToken()
+
+			// Если токена нет, запрашиваем новый
+			if (!csrfToken) {
+				csrfToken = await this.ensureCsrfToken()
+			}
+
 			if (csrfToken) {
 				headers.set('X-CSRF-Token', csrfToken)
 			}
