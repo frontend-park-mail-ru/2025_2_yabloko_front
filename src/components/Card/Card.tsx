@@ -38,7 +38,7 @@ export const Card = defineComponent({
 						{store.card_img && (
 							<img
 								class={styles.storeCard__image}
-								src={`${API.BASE_URL}/image${store.card_img}`}
+								src={`http://localhost:8080/api/v0/image${store.card_img}`}
 								alt={store.name}
 							/>
 						)}

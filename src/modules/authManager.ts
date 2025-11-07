@@ -1,5 +1,4 @@
 import { AUTH_IS_AUTHENTICATED, AUTH_USER } from '../utils/auth'
-import { API } from './api'
 import { store } from './store'
 import { AuthResponse, userApi } from './userApi'
 
@@ -11,8 +10,6 @@ export interface User {
 export class AuthManager {
 	async login(email: string, password: string): Promise<void> {
 		try {
-			await this.ensureCSRFToken()
-
 			const response = await userApi.login({ email, password })
 
 			if (response.service.error) {
@@ -95,14 +92,6 @@ export class AuthManager {
 
 	isAuthenticated(): boolean {
 		return store.get(AUTH_IS_AUTHENTICATED) as boolean
-	}
-
-	private async ensureCSRFToken(): Promise<void> {
-		try {
-			await API.get('AUTH', '/csrf')
-		} catch (error) {
-			console.warn('CSRF token request failed:', error)
-		}
 	}
 }
 

@@ -10,9 +10,9 @@ export interface APIresponse {
 
 export class API {
 	public static readonly SERVICES = {
-		AUTH: 'http://localhost:8082/api/v0',
-		PROFILE: 'http://localhost:8081/api/v0',
-		STORE: 'http://localhost:8080/api/v0',
+		AUTH: 'http://127.0.0.1:8081/api/v0',
+		PROFILE: 'http://127.0.0.1:8082/api/v0',
+		STORE: 'http://127.0.0.1:8080/api/v0',
 	}
 
 	public static getCsrfToken(): string | null {
@@ -35,12 +35,12 @@ export class API {
 		const headers = new Headers(init.headers)
 
 		if (init.method && ['POST', 'PUT', 'DELETE'].includes(init.method)) {
-			await this.ensureCSRFToken(service)
 			const csrfToken = this.getCsrfToken()
 			if (csrfToken) {
 				headers.set('X-CSRF-Token', csrfToken)
 			}
 		}
+
 		if (!(init.body instanceof FormData) && !headers.has('Content-Type')) {
 			headers.set('Content-Type', 'application/json')
 		}
@@ -132,18 +132,6 @@ export class API {
 					error: `HTTP ${response.status}: failed to parse response`,
 				},
 				body: null,
-			}
-		}
-	}
-
-	private static async ensureCSRFToken(
-		service: keyof typeof API.SERVICES,
-	): Promise<void> {
-		if (service === 'AUTH') {
-			try {
-				await this.get('AUTH', '/csrf')
-			} catch (error) {
-				console.warn('CSRF token request failed:', error)
 			}
 		}
 	}
