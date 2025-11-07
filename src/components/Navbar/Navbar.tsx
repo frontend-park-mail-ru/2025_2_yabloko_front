@@ -1,5 +1,6 @@
 import { defineComponent } from '../../framework/component'
 import { authManager } from '../../modules/authManager'
+import { profileApi } from '../../modules/profileApi'
 import { navigate } from '../../modules/router'
 import { store } from '../../modules/store'
 import { AUTH_IS_AUTHENTICATED } from '../../utils/auth'
@@ -16,19 +17,35 @@ interface NavbarProps {
 	onCartClick?: () => void
 }
 
+interface NavbarState {
+	userAuthed: boolean
+	userAvatar: string
+}
+
 export const Navbar = defineComponent({
-	state() {
+	state(): NavbarState {
 		return {
 			userAuthed: store.get(AUTH_IS_AUTHENTICATED) === true,
+			userAvatar: '',
 		}
 	},
 
 	async onMounted() {
 		this.unsubscribe = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
+			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
 			this.updateState({
-				userAuthed: store.get(AUTH_IS_AUTHENTICATED) === true,
+				userAuthed: isAuthed,
 			})
+			if (isAuthed) {
+				this.loadUserAvatar()
+			} else {
+				this.updateState({ userAvatar: '' })
+			}
 		})
+
+		if (this.state.userAuthed) {
+			await this.loadUserAvatar()
+		}
 	},
 
 	onUnmounted() {
@@ -37,9 +54,30 @@ export const Navbar = defineComponent({
 		}
 	},
 
+	async loadUserAvatar() {
+		try {
+			const user = authManager.getUser()
+			if (!user) return
+
+			const response = await profileApi.getProfile('me')
+
+			if (response.service.success && response.body.avatar_url) {
+				let avatarUrl = response.body.avatar_url
+
+				if (avatarUrl.includes('localhost:8081')) {
+					avatarUrl = avatarUrl.replace('localhost:8081', '90.156.218.233:8081')
+				}
+
+				this.updateState({ userAvatar: avatarUrl })
+			}
+		} catch (error) {
+			console.error('Failed to load user avatar:', error)
+		}
+	},
+
 	render() {
 		const props = this.props as NavbarProps
-		const { userAuthed } = this.state
+		const { userAuthed, userAvatar } = this.state
 
 		return (
 			<header class={styles.navbar}>
@@ -65,8 +103,9 @@ export const Navbar = defineComponent({
 								alt="Уведомления"
 								text="Уведомления"
 							/>,
+
 							<IconButton
-								src="/static/icons/user.png"
+								src={userAvatar || '/static/icons/user.png'}
 								alt="Профиль"
 								text="Профиль"
 								onClick={() => navigate('/profile')}
