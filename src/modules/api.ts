@@ -75,7 +75,7 @@ export class API {
 	}
 
 	private static getJwtToken(): string | null {
-		const name = 'jwt='
+		const name = 'jwt_token='
 		const decodedCookie = decodeURIComponent(document.cookie)
 		const ca = decodedCookie.split(';')
 		for (let i = 0; i < ca.length; i++) {
