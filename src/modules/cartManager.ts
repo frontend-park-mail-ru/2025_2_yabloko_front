@@ -21,6 +21,7 @@ export async function getCartFromStorage(): Promise<CartItem[]> {
 export async function saveCartToStorage(items: CartItem[]): Promise<void> {
 	try {
 		if (await authManager.isAuthenticated()) {
+			console.log("hui");
 			const updateItems = items.map(item => ({
 				item_id: item.id,
 				store_id: "c45a7b64-df32-4e84-b2cb-85a3b8e6b0fc",
