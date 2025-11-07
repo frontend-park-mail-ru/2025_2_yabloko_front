@@ -37,7 +37,7 @@ export const CitySelector = defineComponent({
 	state() {
 		return {
 			cities: [] as City[],
-			selectedCity: loadSelectedCity(),
+			selectedCity: null as City | null,
 			query: '',
 			isOpen: false,
 		}
@@ -58,9 +58,11 @@ export const CitySelector = defineComponent({
 		this.debounceTimer = null
 
 		StoreApi.getCities()
-			.then(cities => {
-				this.updateState({ cities })
-				if (!this.state.selectedCity && cities.length > 0) {
+			.then(async cities => {
+				const selectedCity = await loadSelectedCity()
+				if (selectedCity) {
+					this.updateState({ selectedCity })
+				} else if (cities.length > 0) {
 					this.handleSelect(cities[0])
 				}
 			})
@@ -81,7 +83,14 @@ export const CitySelector = defineComponent({
 	saveSelectedCity(city: City): void {
 		if (!authManager.isAuthenticated()) {
 			try {
-				localStorage.setItem(CITY_KEY, JSON.stringify(city))
+				if (authManager.getUser) {
+					profileApi.updateProfile(authManager.getUser().id, {
+						city_id: city.id,
+						address: ''
+					})
+				} else {
+					localStorage.setItem(CITY_KEY, JSON.stringify(city))
+				}
 			} catch (error) {
 				console.error(error)
 			}
