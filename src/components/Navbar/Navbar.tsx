@@ -84,6 +84,12 @@ export const Navbar = defineComponent({
 	async loadCartItemsCount() {
 		try {
 			const cartItems = await getCartFromStorage()
+
+			if (!cartItems || !Array.isArray(cartItems)) {
+				this.updateState({ cartItems: 0 })
+				return
+			}
+			
 			const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 			this.updateState({ cartItems: totalCount })
 		} catch (error) {
