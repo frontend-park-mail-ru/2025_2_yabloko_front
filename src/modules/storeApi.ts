@@ -91,18 +91,22 @@ export class StoreApi {
 	 * Получить список магазинов
 	 */
 	static async getStores(params: GetStoresParams = {}): Promise<Store[]> {
-		const body = {
-			limit: params.limit || 12,
-			last_id: params.lastId || '',
-			tag_id: params.tagId || '',
-			sorted: params.sorted || '',
-			desc: params.desc || false,
-			search: params.search || '',
-			category: params.category || '',
-			cityID: params.cityID || '',
-		}
+		const queryParams = new URLSearchParams()
 
-		const response = await API.post('STORE', '/stores', body)
+		if (params.limit) queryParams.append('limit', params.limit.toString())
+		if (params.lastId) queryParams.append('last_id', params.lastId)
+		if (params.tagId) queryParams.append('tag_id', params.tagId)
+		if (params.sorted) queryParams.append('sorted', params.sorted)
+		if (params.desc !== undefined)
+			queryParams.append('desc', params.desc.toString())
+		if (params.search) queryParams.append('search', params.search)
+		if (params.category) queryParams.append('category', params.category)
+		if (params.cityID) queryParams.append('city_id', params.cityID)
+
+		const queryString = queryParams.toString()
+		const url = `/stores${queryString ? `?${queryString}` : ''}`
+
+		const response = await API.get('STORE', url)
 		const data = response.body
 
 		return data
@@ -112,7 +116,7 @@ export class StoreApi {
 	 * Получить магазин по ID
 	 */
 	static async getStoreById(storeId: string): Promise<Store | null> {
-		const response = await API.get('STORE',`/stores/${storeId}`)
+		const response = await API.get('STORE', `/stores/${storeId}`)
 		return response.body ?? null
 	}
 
