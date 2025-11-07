@@ -10,8 +10,8 @@ export interface APIresponse {
 
 export class API {
 	public static readonly SERVICES = {
-		AUTH: 'http://127.0.0.1:8081/api/v0',
-		PROFILE: 'http://127.0.0.1:8082/api/v0',
+		AUTH: 'http://127.0.0.1:8082/api/v0',
+		PROFILE: 'http://127.0.0.1:8081/api/v0',
 		STORE: 'http://127.0.0.1:8080/api/v0',
 	}
 
