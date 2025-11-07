@@ -81,19 +81,17 @@ export const CitySelector = defineComponent({
 	},
 
 	saveSelectedCity(city: City): void {
-		if (!authManager.isAuthenticated()) {
-			try {
-				if (authManager.getUser) {
-					profileApi.updateProfile(authManager.getUser().id, {
-						city_id: city.id,
-						address: '',
-					})
-				} else {
-					localStorage.setItem(CITY_KEY, JSON.stringify(city))
-				}
-			} catch (error) {
-				console.error(error)
+		try {
+			if (authManager.getUser) {
+				profileApi.updateProfile(authManager.getUser().id, {
+					city_id: city.id,
+					address: '',
+				})
+			} else {
+				localStorage.setItem(CITY_KEY, JSON.stringify(city))
 			}
+		} catch (error) {
+			console.error(error)
 		}
 		this.updateState({ selectedCity: city })
 	},
