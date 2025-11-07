@@ -54,8 +54,9 @@ export const CheckoutPage = defineComponent({
 	async handleIncrease(id: string) {
 		const item = this.state.items.find(i => i.id === id)
 		if (item) {
-			updateQuantity(id, item.quantity + 1)
-			this.updateState({ items: getCartFromStorage() })
+			await updateQuantity(id, item.quantity + 1)
+			const items = await getCartFromStorage()
+			this.updateState({ items })
 		}
 	},
 
@@ -63,17 +64,20 @@ export const CheckoutPage = defineComponent({
 		const item = this.state.items.find(i => i.id === id)
 		if (!item) return
 		if (item.quantity <= 1) {
-			removeFromCart(id)
-			this.updateState({ items: getCartFromStorage() })
+			await removeFromCart(id)
+			const items = await getCartFromStorage()
+			this.updateState({ items })
 		} else {
-			updateQuantity(id, item.quantity - 1)
-			this.updateState({ items: getCartFromStorage() })
+			await updateQuantity(id, item.quantity - 1)
+			const items = await getCartFromStorage()
+			this.updateState({ items })
 		}
 	},
 
 	async handleRemove(id: string) {
-		removeFromCart(id)
-		this.updateState({ items: getCartFromStorage() })
+		await removeFromCart(id)
+		const items = await getCartFromStorage()
+		this.updateState({ items })
 	},
 
 	getTotal(): number {
