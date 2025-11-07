@@ -5,7 +5,7 @@ const CART_KEY = 'guest_cart'
 
 export async function getCartFromStorage(): Promise<CartItem[]> {
 	try {
-		if (await authManager.isAuthenticated()) {
+		if ( authManager.isAuthenticated()) {
 			const cart = await StoreApi.getUserCart()
 			return cart.items as CartItem[]
 		} else {
@@ -20,7 +20,7 @@ export async function getCartFromStorage(): Promise<CartItem[]> {
 
 export async function saveCartToStorage(items: CartItem[]): Promise<void> {
 	try {
-		if (await authManager.isAuthenticated()) {
+		if ( authManager.isAuthenticated()) {
 			const updateItems = items.map(item => ({
 				id: item.id,
 				store_id: "c45a7b64-df32-4e84-b2cb-85a3b8e6b0fc",

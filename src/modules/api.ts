@@ -28,18 +28,13 @@ export class API {
 	}
 
 	static async ensureCsrfToken(): Promise<string> {
-		// Если уже есть активный запрос на получение CSRF, ждем его
 		if (this.csrfRequest) {
 			return await this.csrfRequest
 		}
-
-		// Проверяем, есть ли уже токен в куках
 		let csrfToken = this.getCsrfToken()
 		if (csrfToken) {
 			return csrfToken
 		}
-
-		// Если токена нет, запрашиваем новый
 		this.csrfRequest = this.requestNewCsrfToken()
 		try {
 			csrfToken = await this.csrfRequest
