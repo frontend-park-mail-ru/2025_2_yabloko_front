@@ -46,15 +46,22 @@ export const AvatarForm = defineComponent({
 		}
 
 		try {
-			const response = await profileApi.getProfile('me') 
+			const response = await profileApi.getProfile('me')
 
 			if (!this.state._isMounted) {
 				return
 			}
 
 			if (response.service.success && response.body.avatar_url) {
+				let avatarUrl = response.body.avatar_url
+
+				// Исправляем URL с localhost на внешний IP
+				if (avatarUrl.includes('localhost:8081')) {
+					avatarUrl = avatarUrl.replace('localhost:8081', '90.156.218.233:8081')
+				}
+
 				this.updateState({
-					currentAvatar: response.body.avatar_url,
+					currentAvatar: avatarUrl,
 					avatarVersion: this.state.avatarVersion + 1,
 				})
 			}
@@ -132,8 +139,15 @@ export const AvatarForm = defineComponent({
 			}
 
 			if (uploadResponse.service.success && uploadResponse.body.avatar_url) {
+				let avatarUrl = uploadResponse.body.avatar_url
+
+				// Исправляем URL с localhost на внешний IP
+				if (avatarUrl.includes('localhost:8081')) {
+					avatarUrl = avatarUrl.replace('localhost:8081', '90.156.218.233:8081')
+				}
+
 				this.updateState({
-					currentAvatar: uploadResponse.body.avatar_url,
+					currentAvatar: avatarUrl,
 					avatarVersion: this.state.avatarVersion + 1,
 					selectedFile: null,
 					previewUrl: '',

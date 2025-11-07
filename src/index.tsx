@@ -1,4 +1,4 @@
-import './components/CommonCSS/variables.css'
+import './components/CommonCSS/Variables.css'
 import './components/CommonCSS/normalize.css'
 import { h } from './framework/h'
 import { authManager } from './modules/authManager'
