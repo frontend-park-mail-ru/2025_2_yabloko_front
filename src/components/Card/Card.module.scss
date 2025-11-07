@@ -26,6 +26,7 @@
 		height: 65%;
 		border-radius: var(--border-radius-large);
 		overflow: hidden;
+		flex-shrink: 0; 
 	}
 
 	&__image {
