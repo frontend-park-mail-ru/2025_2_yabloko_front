@@ -78,6 +78,10 @@ export interface CartItem {
 	name: string
 	price: number
 	quantity: number
+	options: Array<{
+		name: string
+		value: string
+	}>
 	card_img: string
 }
 
@@ -173,9 +177,24 @@ export class StoreApi {
 	/**
 	 * Получить корзину пользователя
 	 */
-	static async getUserCart(userId: string): Promise<Cart[]> {
-		const response = await API.get('STORE', `/users/${userId}/cart`)
-		return Array.isArray(response.body) ? response.body : []
+	static async getUserCart(): Promise<{
+		user_id: string
+		items: CartItem[]
+		total_price: number
+	}> {
+		const response = await API.get('STORE', '/cart')
+		if (response.body && typeof response.body === 'object') {
+			return {
+				user_id: response.body.user_id || '',
+				items: Array.isArray(response.body.items) ? response.body.items : [],
+				total_price: response.body.total_price || 0,
+			}
+		}
+		return {
+			user_id: '',
+			items: [],
+			total_price: 0,
+		}
 	}
 
 	/**
