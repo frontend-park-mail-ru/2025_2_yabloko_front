@@ -23,6 +23,7 @@ export async function saveCartToStorage(items: CartItem[]): Promise<void> {
 		if (authManager.isAuthenticated()) {
 			const updateItems = items.map(item => ({
 				item_id: item.id,
+				store_id: "c45a7b64-df32-4e84-b2cb-85a3b8e6b0fc",
 				quantity: Number(item.quantity),
 			}))
 			await StoreApi.updateCart(updateItems)

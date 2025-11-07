@@ -201,7 +201,7 @@ export class StoreApi {
 	 * Обновить корзину
 	 */
 	static async updateCart(
-		items: { item_id: string; quantity: number }[],
+		items: { item_id: string; store_id: string; quantity: number }[],
 	): Promise<void> {
 		await API.put('STORE', '/cart', { items })
 	}
