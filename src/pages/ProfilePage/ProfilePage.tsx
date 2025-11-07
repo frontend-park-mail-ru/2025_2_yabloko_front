@@ -218,27 +218,24 @@ export const ProfilePage = defineComponent({
 								<h2>Сменить аватар</h2>
 								<AvatarForm />
 							</div>
-							<div class={styles.profilePage__passwordSection}>
+							<div class={styles.profilePage__buttons}>
+								<Button
+									type="button"
+									variant="accent"
+									text="Назад"
+									onClick={() => navigate('/')}
+								/>
+								<Button
+									type="button"
+									variant="error"
+									text="Выйти из профиля"
+									onClick={() => {
+										authManager.logout()
+										navigate('/')
+									}}
+								/>
 							</div>
 						</div>
-					</div>
-
-					<div class={styles.profilePage__buttons}>
-						<Button
-							type="button"
-							variant="accent"
-							text="Назад"
-							onClick={() => navigate('/')}
-						/>
-						<Button
-							type="button"
-							variant="error"
-							text="Выйти из профиля"
-							onClick={() => {
-								authManager.logout()
-								navigate('/')
-							}}
-						/>
 					</div>
 				</div>
 				<Footer/>
