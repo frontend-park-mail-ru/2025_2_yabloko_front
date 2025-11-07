@@ -102,6 +102,7 @@ export const StorePage = defineComponent({
 									price: product.price,
 									quantity: 1,
 									card_img: product.card_img,
+									options: []
 								})
 							}
 						}}
