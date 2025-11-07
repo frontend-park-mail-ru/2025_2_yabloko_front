@@ -1,4 +1,6 @@
+import { CART_COUNT } from '../utils/auth'
 import { authManager } from './authManager'
+import { store } from './store'
 import { CartItem, CartUpdate, StoreApi } from './storeApi'
 
 const CART_KEY = 'guest_cart'
@@ -32,7 +34,6 @@ export async function syncCart(): Promise<void> {
 				quantity: Number(item.quantity),
 			}))
 			await StoreApi.updateCart(updateItems)
-			console.log('Synced local cart to backend')
 		}
 		clearCart()
 	} catch (e) {
@@ -90,6 +91,7 @@ export async function updateQuantity(
 		item.id === id ? { ...item, quantity } : item,
 	)
 	saveCartToStorage(newCart)
+	store.set(CART_COUNT, newCart.length)
 }
 
 export async function removeFromCart(id: string): Promise<void> {

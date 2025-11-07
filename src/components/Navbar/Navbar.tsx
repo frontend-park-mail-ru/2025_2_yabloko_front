@@ -4,7 +4,7 @@ import { profileApi } from '../../modules/profileApi'
 import { getCartFromStorage } from '../../modules/cartManager'
 import { navigate } from '../../modules/router'
 import { store } from '../../modules/store'
-import { AUTH_IS_AUTHENTICATED } from '../../utils/auth'
+import { AUTH_IS_AUTHENTICATED, CART_COUNT } from '../../utils/auth'
 import { Button } from '../Button/Button'
 import { IconButton } from '../IconButton/IconButton'
 import { Logo } from '../Logo/Logo'
@@ -29,7 +29,7 @@ export const Navbar = defineComponent({
 		return {
 			userAuthed: store.get(AUTH_IS_AUTHENTICATED) === true,
 			userAvatar: '',
-			cartItems: 0,
+			cartItems: (store.get(CART_COUNT) as number) || 0,
 		}
 	},
 
@@ -37,7 +37,7 @@ export const Navbar = defineComponent({
 
 		 await this.loadCartItemsCount()
 
-		this.unsubscribe = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
+		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
 			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
 			this.updateState({
 				userAuthed: isAuthed,
@@ -49,14 +49,25 @@ export const Navbar = defineComponent({
 			}
 		})
 
+		this.unsubscribeCart = store.subscribe(CART_COUNT, () => {
+			const cartCount = store.get(CART_COUNT) as number
+			this.updateState({
+				cartItems: cartCount || 0,
+			})
+		})
+
 		if (this.state.userAuthed) {
 			await this.loadUserAvatar()
 		}
 	},
 
 	onUnmounted() {
-		if (this.unsubscribe) {
-			this.unsubscribe()
+		if (this.unsubscribeAuth) {
+			this.unsubscribeAuth()
+		}
+
+		if (this.unsubscribeCart) {
+			this.unsubscribeCart()
 		}
 	},
 
