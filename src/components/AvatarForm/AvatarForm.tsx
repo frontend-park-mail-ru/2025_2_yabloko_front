@@ -46,17 +46,15 @@ export const AvatarForm = defineComponent({
 		}
 
 		try {
-			const response = await profileApi.getProfile(user.id)
+			const response = await profileApi.getProfile('me') 
 
 			if (!this.state._isMounted) {
 				return
 			}
 
-			if (response.service.success) {
-				const avatarUrl = `/profiles/${user.id}/avatar`
-
+			if (response.service.success && response.body.avatar_url) {
 				this.updateState({
-					currentAvatar: avatarUrl,
+					currentAvatar: response.body.avatar_url,
 					avatarVersion: this.state.avatarVersion + 1,
 				})
 			}
@@ -79,9 +77,9 @@ export const AvatarForm = defineComponent({
 			return
 		}
 
-		if (file.size > 5 * 1024 * 1024) {
+		if (file.size > 10 * 1024 * 1024) {
 			this.updateState({
-				error: 'Размер файла не должен превышать 5MB',
+				error: 'Размер файла не должен превышать 10MB',
 				selectedFile: null,
 				previewUrl: '',
 			})
@@ -127,22 +125,15 @@ export const AvatarForm = defineComponent({
 		this.updateState({ isSubmitting: true, error: '' })
 
 		try {
-			const uploadResponse = await profileApi.uploadAvatar(
-				user.id,
-				selectedFile,
-			)
+			const uploadResponse = await profileApi.uploadAvatar('me', selectedFile)
 
 			if (!this.state._isMounted) {
 				return
 			}
 
-			if (uploadResponse.service.success) {
-				await new Promise(resolve => setTimeout(resolve, 1000))
-
-				const newAvatarUrl = `/profiles/${user.id}/avatar?t=${Date.now()}`
-
+			if (uploadResponse.service.success && uploadResponse.body.avatar_url) {
 				this.updateState({
-					currentAvatar: newAvatarUrl,
+					currentAvatar: uploadResponse.body.avatar_url,
 					avatarVersion: this.state.avatarVersion + 1,
 					selectedFile: null,
 					previewUrl: '',
