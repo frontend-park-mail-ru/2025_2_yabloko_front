@@ -23,7 +23,7 @@ interface CheckoutPageState {
 	apartment: string
 	comment: string
 	promoCode: string
-	items: ReturnType<typeof getCartFromStorage>
+	items: []
 }
 
 export const CheckoutPage = defineComponent({
@@ -38,19 +38,20 @@ export const CheckoutPage = defineComponent({
 			apartment: '',
 			comment: '',
 			promoCode: '',
-			items: getCartFromStorage(),
+			items: [],
 		}
 	},
 
-	onMounted() {
-		this.updateState({ items: getCartFromStorage() })
+	async onMounted() {
+		const items = await getCartFromStorage()
+		this.updateState({ items })
 	},
 
 	handleFieldChange(field: string, value: string) {
 		this.updateState({ [field]: value } as Partial<CheckoutPageState>)
 	},
 
-	handleIncrease(id: string) {
+	async handleIncrease(id: string) {
 		const item = this.state.items.find(i => i.id === id)
 		if (item) {
 			updateQuantity(id, item.quantity + 1)
@@ -58,7 +59,7 @@ export const CheckoutPage = defineComponent({
 		}
 	},
 
-	handleDecrease(id: string) {
+	async handleDecrease(id: string) {
 		const item = this.state.items.find(i => i.id === id)
 		if (!item) return
 		if (item.quantity <= 1) {
@@ -70,7 +71,7 @@ export const CheckoutPage = defineComponent({
 		}
 	},
 
-	handleRemove(id: string) {
+	async handleRemove(id: string) {
 		removeFromCart(id)
 		this.updateState({ items: getCartFromStorage() })
 	},
@@ -84,15 +85,8 @@ export const CheckoutPage = defineComponent({
 
 	handleSubmit(e: Event) {
 		e.preventDefault()
-		const { email, fullName, city, street, house, apartment} = this.state
-		if (
-			!email ||
-			!fullName ||
-			!city ||
-			!street ||
-			!house ||
-			!apartment
-		) {
+		const { email, fullName, city, street, house, apartment } = this.state
+		if (!email || !fullName || !city || !street || !house || !apartment) {
 			alert('Заполните обязательные поля и добавьте товары.')
 			return
 		}
