@@ -75,6 +75,9 @@ export async function addToCart(item: CartItem): Promise<void> {
 	}
 
 	saveCartToStorage(newCart)
+
+	const totalCount = newCart.reduce((sum, item) => sum + item.quantity, 0)
+	store.set(CART_COUNT, totalCount)
 }
 
 export async function updateQuantity(
@@ -91,18 +94,25 @@ export async function updateQuantity(
 		item.id === id ? { ...item, quantity } : item,
 	)
 	saveCartToStorage(newCart)
-	store.set(CART_COUNT, newCart.length)
+
+	const totalCount = newCart.reduce((sum, item) => sum + item.quantity, 0)
+	store.set(CART_COUNT, totalCount)
 }
 
 export async function removeFromCart(id: string): Promise<void> {
 	const cart = await getCartFromStorage()
 	const newCart = cart.filter(item => item.id !== id)
 	saveCartToStorage(newCart)
+
+	const totalCount = newCart.reduce((sum, item) => sum + item.quantity, 0)
+	store.set(CART_COUNT, totalCount)
 }
 
 export function clearCart(): void {
 	try {
 		localStorage.removeItem(CART_KEY)
+
+		store.set(CART_COUNT, 0)
 	} catch (e) {
 		console.error('Cart clear error', e)
 	}
