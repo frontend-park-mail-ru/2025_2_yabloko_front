@@ -39,7 +39,7 @@ export const CartItem = defineComponent({
 					{card_img && (
 						<img
 							class={styles.cartItem__image}
-							src={`https://90.156.218.233:8080/images/items/${card_img}`}
+							src={`https://90.156.218.233:8080${card_img}`}
 							alt={name}
 						/>
 					)}

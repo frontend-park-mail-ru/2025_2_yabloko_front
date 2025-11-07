@@ -18,6 +18,21 @@ export async function getCartFromStorage(): Promise<CartItem[]> {
 	}
 }
 
+export async function syncCart(): Promise<void> {
+
+	try {
+		const userCart = await StoreApi.getUserCart()
+		if (userCart.items) {
+			const data = localStorage.getItem(CART_KEY)
+			await StoreApi.updateCart(JSON.parse(data))
+		}
+
+	} catch (e) {
+		console.error('Cart parse error', e)
+	}
+	
+}
+
 export async function saveCartToStorage(items: CartItem[]): Promise<void> {
 	try {
 		if (await authManager.checkAuth()) {

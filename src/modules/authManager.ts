@@ -1,4 +1,5 @@
 import { AUTH_IS_AUTHENTICATED, AUTH_USER } from '../utils/auth'
+import { syncCart } from './cartManager'
 import { store } from './store'
 import { AuthResponse, userApi } from './userApi'
 
@@ -30,6 +31,8 @@ export class AuthManager {
 				store.set(AUTH_USER, userData)
 				store.set(AUTH_IS_AUTHENTICATED, true)
 			}
+
+			await syncCart()
 		} catch (error) {
 			throw error
 		}

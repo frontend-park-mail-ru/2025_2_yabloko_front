@@ -32,7 +32,7 @@ export const ProductCard = defineComponent({
 					{product.card_img && (
 						<img
 							class={styles.productCard__image}
-							src={`${API.BASE_URL}/image${product.card_img}`}
+							src={`http://90.156.218.233:8080${product.card_img}`}
 							alt={product.name}
 						/>
 					)}
