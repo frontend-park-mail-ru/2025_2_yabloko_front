@@ -110,11 +110,11 @@ export const Navbar = defineComponent({
 							text="Корзина"
 							onClick={props.onCartClick}
 						/>
-						{cartItems > 0 && (
+						{cartItems > 0 ? (
 							<span class={styles.navbar__cartBadge}>
 								{cartItems > 99 ? '99+' : cartItems}
 							</span>
-						)}
+						) : null}
 					</div>
 					{userAuthed ? (
 						[
