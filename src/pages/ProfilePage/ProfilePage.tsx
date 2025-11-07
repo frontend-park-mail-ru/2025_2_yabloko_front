@@ -241,8 +241,7 @@ export const ProfilePage = defineComponent({
 						/>
 					</div>
 				</div>
-
-				<Footer />
+				<Footer/>
 			</div>
 		)
 	},
