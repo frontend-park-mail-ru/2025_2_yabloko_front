@@ -14,7 +14,7 @@ interface MainPageProps {
 export const MainPage = defineComponent({
 	state() {
 		return {
-			batchSize: 8,
+			batchSize: 16,
 			isCartOpen: false,
 		}
 	},
