@@ -36,8 +36,8 @@ export const Navbar = defineComponent({
 	async onMounted() {
 		await this.loadCartItemsCount()
 
-		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, value => {
-			const isAuthed = value === true
+		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
+			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
 			this.updateState({
 				userAuthed: isAuthed,
 			})
@@ -48,8 +48,8 @@ export const Navbar = defineComponent({
 			}
 		})
 
-		this.unsubscribeCart = store.subscribe(CART_COUNT, value => {
-			const cartCount = value as number
+		this.unsubscribeCart = store.subscribe(CART_COUNT, () => {
+			const cartCount = store.get(CART_COUNT) as number
 			this.updateState({
 				cartItems: cartCount || 0,
 			})
