@@ -19,6 +19,6 @@ import { initRouter } from './modules/router'
 // }
 
 if (typeof document !== 'undefined') {
-//await authManager.checkAuth()
+	await authManager.checkAuth()
 	initRouter()
 }

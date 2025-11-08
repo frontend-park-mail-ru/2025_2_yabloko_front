@@ -61,12 +61,12 @@ export class AuthManager {
 			store.set(AUTH_USER, null)
 			store.set(AUTH_IS_AUTHENTICATED, false)
 			
+			await new Promise(resolve => setTimeout(resolve, 100))
 		}
 	}
 
 	async checkAuth(): Promise<boolean> {
 		try {
-			console.log('🔄 checkAuth() called - кто меня вызывает?')
 			const response = await userApi.refresh()
 
 			if (response.service.error || !response.body) {
