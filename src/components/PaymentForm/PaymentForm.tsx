@@ -1,4 +1,5 @@
 import { defineComponent } from '../../framework/component'
+import { StoreApi } from '../../modules/storeApi'
 import { Button } from '../Button/Button'
 import styles from './PaymentForm.module.scss'
 
@@ -79,7 +80,11 @@ export const PaymentForm = defineComponent({
 							type="button"
 							variant="success"
 							text="Оплатить"
-							onClick={() => alert('Заказ за наш счет!')}
+							onClick={() => {
+								alert('Заказ за наш счет!')
+								StoreApi.updateCart([]);
+							}
+							}
 						/>
 					</div>
 				</div>
