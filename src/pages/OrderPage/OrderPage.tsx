@@ -119,10 +119,6 @@ export const CheckoutPage = defineComponent({
 		}
 	},
 
-	handleFieldChange(field: string, value: string) {
-		this.updateState({ [field]: value } as Partial<CheckoutPageState>)
-	},
-
 	async handleIncrease(id: string) {
 		const item = this.state.items.find(i => i.id === id)
 		if (item) {
@@ -226,20 +222,6 @@ export const CheckoutPage = defineComponent({
 								onFieldChange={(f, v) => this.handleFieldChange(f, v)}
 								readonly={true} 
 							/>
-							<div class={styles.checkoutPage__editNotice}>
-								<small>
-									Для изменения данных профиля перейдите в{' '}
-									<a
-										href="/profile"
-										onClick={e => {
-											e.preventDefault()
-											navigate('/profile')
-										}}
-									>
-										личный кабинет
-									</a>
-								</small>
-							</div>
 						</form>
 
 						<div class={styles.checkoutPage__order}>

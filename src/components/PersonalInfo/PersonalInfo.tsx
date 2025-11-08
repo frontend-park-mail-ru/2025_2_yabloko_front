@@ -13,6 +13,7 @@ interface PersonalInfoProps {
 	comment: string
 	onFieldChange: (field: string, value: string) => void
 	onSave?: () => void
+	readonly?: boolean
 }
 
 export const PersonalInfo = defineComponent({
@@ -22,6 +23,7 @@ export const PersonalInfo = defineComponent({
 		const props = this.props as PersonalInfoProps
 
 		const handleChange = (field: string) => (e: Event) => {
+			if (props.readonly) return 
 			const value = (e.target as HTMLInputElement | HTMLTextAreaElement).value
 			props.onFieldChange(field, value)
 		}
@@ -42,6 +44,7 @@ export const PersonalInfo = defineComponent({
 						on={{ input: handleChange('email') }}
 						class={styles.personalInfoForm__input}
 						required
+						disabled={props.readonly} 
 					/>
 				</div>
 
@@ -53,6 +56,7 @@ export const PersonalInfo = defineComponent({
 						on={{ input: handleChange('fullName') }}
 						class={styles.personalInfoForm__input}
 						required
+						disabled={props.readonly} 
 					/>
 				</div>
 
@@ -67,6 +71,7 @@ export const PersonalInfo = defineComponent({
 						on={{ input: handleChange('city') }}
 						class={styles.personalInfoForm__input}
 						required
+						disabled={props.readonly} 
 					/>
 				</div>
 
@@ -79,6 +84,7 @@ export const PersonalInfo = defineComponent({
 						on={{ input: handleChange('street') }}
 						class={styles.personalInfoForm__input}
 						required
+						disabled={props.readonly} 
 					/>
 				</div>
 
@@ -91,6 +97,7 @@ export const PersonalInfo = defineComponent({
 							on={{ input: handleChange('house') }}
 							class={styles.personalInfoForm__addressInput}
 							required
+							disabled={props.readonly} 
 						/>
 					</div>
 					<div class={styles.personalInfoForm__addressItem}>
@@ -100,6 +107,7 @@ export const PersonalInfo = defineComponent({
 							value={props.building}
 							on={{ input: handleChange('building') }}
 							class={styles.personalInfoForm__addressInput}
+							disabled={props.readonly} 
 						/>
 					</div>
 					<div class={styles.personalInfoForm__addressItem}>
@@ -109,6 +117,7 @@ export const PersonalInfo = defineComponent({
 							value={props.apartment}
 							on={{ input: handleChange('apartment') }}
 							class={styles.personalInfoForm__addressInput}
+							disabled={props.readonly}
 						/>
 					</div>
 				</div>
@@ -120,15 +129,18 @@ export const PersonalInfo = defineComponent({
 						rows={3}
 						on={{ input: handleChange('comment') }}
 						class={styles.personalInfoForm__textarea}
+						disabled={props.readonly} 
 					></textarea>
 				</div>
 
-				<Button
-					type="button"
-					variant="accent"
-					text="Сохранить"
-					onClick={handleSave}
-				/>
+				{!props.readonly && ( 
+					<Button
+						type="button"
+						variant="accent"
+						text="Сохранить"
+						onClick={handleSave}
+					/>
+				)}
 			</div>
 		)
 	},
