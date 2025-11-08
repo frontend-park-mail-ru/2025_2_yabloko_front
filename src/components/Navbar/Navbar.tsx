@@ -1,7 +1,7 @@
 import { defineComponent } from '../../framework/component'
 import { authManager } from '../../modules/authManager'
-import { profileApi } from '../../modules/profileApi'
 import { getCartFromStorage } from '../../modules/cartManager'
+import { profileApi } from '../../modules/profileApi'
 import { navigate } from '../../modules/router'
 import { store } from '../../modules/store'
 import { AUTH_IS_AUTHENTICATED, CART_COUNT } from '../../utils/auth'
@@ -27,19 +27,17 @@ interface NavbarState {
 export const Navbar = defineComponent({
 	state(): NavbarState {
 		return {
-			userAuthed: store.get(AUTH_IS_AUTHENTICATED) === true,
+			userAuthed: false,
 			userAvatar: '',
-			cartItems: (store.get(CART_COUNT) as number) || 0,
+			cartItems: 0,
 		}
 	},
 
 	async onMounted() {
-
-		 await this.loadCartItemsCount()
+		await Promise.all([this.loadAuthState(), this.loadCartItemsCount()])
 
 		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
 			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
-			
 			this.updateState({
 				userAuthed: isAuthed,
 			})
@@ -56,10 +54,6 @@ export const Navbar = defineComponent({
 				cartItems: cartCount || 0,
 			})
 		})
-
-		if (this.state.userAuthed) {
-			await this.loadUserAvatar()
-		}
 	},
 
 	onUnmounted() {
@@ -69,6 +63,19 @@ export const Navbar = defineComponent({
 
 		if (this.unsubscribeCart) {
 			this.unsubscribeCart()
+		}
+	},
+
+	async loadAuthState() {
+		try {
+			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
+			this.updateState({ userAuthed: isAuthed })
+
+			if (isAuthed) {
+				await this.loadUserAvatar()
+			}
+		} catch (error) {
+			console.error('Failed to load auth state:', error)
 		}
 	},
 
@@ -101,7 +108,7 @@ export const Navbar = defineComponent({
 				this.updateState({ cartItems: 0 })
 				return
 			}
-			
+
 			const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 			this.updateState({ cartItems: totalCount })
 		} catch (error) {
