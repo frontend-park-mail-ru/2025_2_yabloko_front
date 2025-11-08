@@ -53,8 +53,6 @@ export class AuthManager {
 	}
 
 	async logout(): Promise<void> {
-		store.set(AUTH_USER, null)
-		store.set(AUTH_IS_AUTHENTICATED, false)
 		try {
 			await userApi.logout()
 		} catch (e) {
