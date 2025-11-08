@@ -1,5 +1,4 @@
 import { defineComponent } from '../../framework/component'
-import { API } from '../../modules/api'
 import styles from './CartItem.module.scss'
 
 interface CartItemProps {
@@ -18,6 +17,12 @@ export const CartItem = defineComponent({
 		const props = this.props as CartItemProps
 		const { id, name, price, quantity, card_img, onIncrease, onDecrease } =
 			props
+
+		const getCorrectImageUrl = (imgPath: string) => {
+			if (!imgPath) return ''
+			let correctedPath = imgPath.replace('/stores/', '/items/')
+			return `http://90.156.218.233:8080${correctedPath}`
+		}
 
 		const handleIncrease = (e: Event) => {
 			e.stopPropagation()
@@ -39,7 +44,7 @@ export const CartItem = defineComponent({
 					{card_img && (
 						<img
 							class={styles.cartItem__image}
-							src={`http://90.156.218.233:8080${card_img}`}
+							src={getCorrectImageUrl(card_img)}
 							alt={name}
 						/>
 					)}
@@ -49,7 +54,6 @@ export const CartItem = defineComponent({
 					<div class={styles.cartItem__name}>{name}</div>
 					<div class={styles.cartItem__price}>{price} ₽</div>
 				</div>
-
 				<div class={styles.cartItem__controls}>
 					<button
 						class={styles.cartItem__controlBtn}
