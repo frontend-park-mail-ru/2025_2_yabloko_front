@@ -55,7 +55,6 @@ export const AvatarForm = defineComponent({
 			if (response.service.success && response.body.avatar_url) {
 				let avatarUrl = response.body.avatar_url
 
-				// Исправляем URL с localhost на внешний IP
 				if (avatarUrl.includes('localhost:8081')) {
 					avatarUrl = avatarUrl.replace('localhost:8081', '90.156.218.233:8081')
 				}
@@ -141,7 +140,6 @@ export const AvatarForm = defineComponent({
 			if (uploadResponse.service.success && uploadResponse.body.avatar_url) {
 				let avatarUrl = uploadResponse.body.avatar_url
 
-				// Исправляем URL с localhost на внешний IP
 				if (avatarUrl.includes('localhost:8081')) {
 					avatarUrl = avatarUrl.replace('localhost:8081', '90.156.218.233:8081')
 				}
@@ -240,7 +238,7 @@ export const AvatarForm = defineComponent({
 						/>
 						<Button
 							type="button"
-							variant="secondary"
+							variant="error"
 							text="Отмена"
 							disabled={isSubmitting}
 							onClick={() => {

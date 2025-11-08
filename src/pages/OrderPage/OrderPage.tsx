@@ -5,12 +5,15 @@ import { Navbar } from '../../components/Navbar/Navbar'
 import { PaymentForm } from '../../components/PaymentForm/PaymentForm'
 import { PersonalInfo } from '../../components/PersonalInfo/PersonalInfo'
 import { defineComponent } from '../../framework/component'
+import { authManager } from '../../modules/authManager'
 import {
 	getCartFromStorage,
 	removeFromCart,
 	updateQuantity,
 } from '../../modules/cartManager'
+import { Profile, profileApi } from '../../modules/profileApi'
 import { navigate } from '../../modules/router'
+import { StoreApi } from '../../modules/storeApi'
 import styles from './OrderPage.module.scss'
 
 interface CheckoutPageState {
@@ -23,7 +26,8 @@ interface CheckoutPageState {
 	apartment: string
 	comment: string
 	promoCode: string
-	items: []
+	items: any[]
+	isLoading: boolean
 }
 
 export const CheckoutPage = defineComponent({
@@ -39,12 +43,80 @@ export const CheckoutPage = defineComponent({
 			comment: '',
 			promoCode: '',
 			items: [],
+			isLoading: false,
 		}
 	},
 
 	async onMounted() {
+		await Promise.all([this.loadCartItems(), this.loadUserProfile()])
+	},
+
+	async loadCartItems() {
 		const items = await getCartFromStorage()
 		this.updateState({ items })
+	},
+
+	async loadUserProfile() {
+		const user = authManager.getUser()
+		if (!user) {
+			this.updateState({ isLoading: false })
+			return
+		}
+
+		this.updateState({ isLoading: true })
+
+		try {
+			const response = await profileApi.getProfile(user.id)
+
+			if (response.service.success) {
+				const profile = response.body as Profile
+
+				const addressParts = this.parseAddress(profile.address || '')
+				let cityName = ''
+				if (profile.city_id) {
+					cityName = await this.getCityName(profile.city_id)
+				}
+
+				this.updateState({
+					email: profile.email || '',
+					fullName: profile.name || '',
+					city: cityName || '',
+					street: addressParts.street,
+					house: addressParts.house,
+					building: addressParts.building,
+					apartment: addressParts.apartment,
+					comment: '',
+					isLoading: false,
+				})
+			} else {
+				this.updateState({ isLoading: false })
+			}
+		} catch (error) {
+			console.error('Failed to load user profile:', error)
+			this.updateState({ isLoading: false })
+		}
+	},
+
+	async getCityName(id: string) {
+		try {
+			const cities = await StoreApi.getCities()
+			const city = cities.find(city => city.id === id)
+			return city ? city.name : ''
+		} catch (error) {
+			console.error('Failed to get city name:', error)
+			return ''
+		}
+	},
+
+	parseAddress(address: string) {
+		const parts = address.split(',')
+		return {
+			city: '',
+			street: parts[0]?.trim() || '',
+			house: parts[1]?.trim() || '',
+			building: parts[2]?.trim() || '',
+			apartment: parts[3]?.trim() || '',
+		}
 	},
 
 	handleFieldChange(field: string, value: string) {
@@ -98,8 +170,23 @@ export const CheckoutPage = defineComponent({
 	},
 
 	render() {
-		const { items } = this.state
+		const { items, isLoading } = this.state
 		const total = this.getTotal()
+
+		if (isLoading) {
+			return (
+				<div class={styles.checkoutPage}>
+					<Navbar
+						onLogoClick={() => navigate('/')}
+						onLoginClick={() => navigate('/auth')}
+					/>
+					<div class={styles.checkoutPage__loading}>
+						<h2>Загрузка данных...</h2>
+					</div>
+					<Footer />
+				</div>
+			)
+		}
 
 		return (
 			<div class={styles.checkoutPage}>
@@ -130,7 +217,6 @@ export const CheckoutPage = defineComponent({
 							<PersonalInfo
 								email={this.state.email}
 								fullName={this.state.fullName}
-								region={this.state.region}
 								city={this.state.city}
 								street={this.state.street}
 								house={this.state.house}
@@ -138,7 +224,22 @@ export const CheckoutPage = defineComponent({
 								apartment={this.state.apartment}
 								comment={this.state.comment}
 								onFieldChange={(f, v) => this.handleFieldChange(f, v)}
+								readonly={true} 
 							/>
+							<div class={styles.checkoutPage__editNotice}>
+								<small>
+									Для изменения данных профиля перейдите в{' '}
+									<a
+										href="/profile"
+										onClick={e => {
+											e.preventDefault()
+											navigate('/profile')
+										}}
+									>
+										личный кабинет
+									</a>
+								</small>
+							</div>
 						</form>
 
 						<div class={styles.checkoutPage__order}>
@@ -170,9 +271,11 @@ export const CheckoutPage = defineComponent({
 							<PaymentForm
 								total={total}
 								promoCode={this.state.promoCode}
-								onPromoChange={code => this.handlePromoChange(code)}
-								onApplyPromo={() => this.handleApplyPromo()}
-								onChangePayment={() => this.togglePaymentMethod()}
+								onPromoChange={code =>
+									this.handleFieldChange('promoCode', code)
+								}
+								onApplyPromo={() => {}}
+								onChangePayment={() => {}}
 							/>
 						</div>
 					</div>
