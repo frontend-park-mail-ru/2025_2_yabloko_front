@@ -150,11 +150,13 @@ export const LoginForm = defineComponent({
 			<div class={styles.loginForm}>
 				<Logo size="large" />
 				<form
+					key={`form-${isAuth}-${isAwaiting}`} 
 					class={styles.loginForm__container}
 					novalidate
-					onsubmit={(e: Event) => {
-						e.preventDefault()
-						this.handleSubmit(e)
+					{...{
+						on: {
+							submit: (e: Event) => this.handleSubmit(e),
+						},
 					}}
 				>
 					<div class={styles.loginForm__field}>
