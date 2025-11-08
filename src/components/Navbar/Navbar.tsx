@@ -1,7 +1,6 @@
 import { defineComponent } from '../../framework/component'
 import { authManager } from '../../modules/authManager'
 import { profileApi } from '../../modules/profileApi'
-import { getCartFromStorage } from '../../modules/cartManager'
 import { navigate } from '../../modules/router'
 import { store } from '../../modules/store'
 import { AUTH_IS_AUTHENTICATED, CART_COUNT } from '../../utils/auth'
@@ -19,72 +18,28 @@ interface NavbarProps {
 }
 
 interface NavbarState {
-	userAuthed: boolean
 	userAvatar: string
-	cartItems: number
 }
 
 export const Navbar = defineComponent({
 	state(): NavbarState {
 		return {
-			userAuthed: false,
 			userAvatar: '',
-			cartItems: 0,
 		}
 	},
 
-	_isMounted: false,
-
-	onMounted() {
-		this._isMounted = true
-
-		this.loadAuthStatus()
-		this.loadCartItemsCount()
-
-		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
-			if (!this._isMounted) return
-			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
-			this.updateState({ userAuthed: isAuthed })
-			if (isAuthed) {
-				this.loadUserAvatar()
-			} else {
-				this.updateState({ userAvatar: '' })
-			}
-		})
-
-		this.unsubscribeCart = store.subscribe(CART_COUNT, () => {
-			if (!this._isMounted) return
-			const cartCount = store.get(CART_COUNT) as number
-			this.updateState({ cartItems: cartCount || 0 })
-		})
-	},
-
-	onUnmounted() {
-		this._isMounted = false
-		if (this.unsubscribeAuth) this.unsubscribeAuth()
-		if (this.unsubscribeCart) this.unsubscribeCart()
-	},
-
-	async loadAuthStatus() {
-		if (!this._isMounted) return
-		const isAuthed = authManager.isAuthenticated()
-		if (this._isMounted) {
-			this.updateState({ userAuthed: isAuthed })
-			if (isAuthed) await this.loadUserAvatar()
+	async onMounted() {
+		if (authManager.isAuthenticated()) {
+			await this.loadUserAvatar()
 		}
 	},
 
 	async loadUserAvatar() {
-		if (!this._isMounted) return
 		try {
 			const user = authManager.getUser()
 			if (!user) return
 			const response = await profileApi.getProfile('me')
-			if (
-				this._isMounted &&
-				response.service.success &&
-				response.body.avatar_url
-			) {
+			if (response.service.success && response.body.avatar_url) {
 				let avatarUrl = response.body.avatar_url
 				if (avatarUrl.includes('localhost:8081')) {
 					avatarUrl = avatarUrl.replace('localhost:8081', '90.156.218.233:8081')
@@ -92,33 +47,15 @@ export const Navbar = defineComponent({
 				this.updateState({ userAvatar: avatarUrl })
 			}
 		} catch (error) {
-			if (this._isMounted) {
-				console.error('Failed to load user avatar:', error)
-			}
-		}
-	},
-
-	async loadCartItemsCount() {
-		if (!this._isMounted) return
-		try {
-			const cartItems = await getCartFromStorage()
-			if (!this._isMounted) return
-			if (!cartItems || !Array.isArray(cartItems)) {
-				this.updateState({ cartItems: 0 })
-				return
-			}
-			const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
-			this.updateState({ cartItems: totalCount })
-		} catch (error) {
-			if (this._isMounted) {
-				console.error('Failed to load cart items count:', error)
-			}
+			console.error('Failed to load user avatar:', error)
 		}
 	},
 
 	render() {
 		const props = this.props as NavbarProps
-		const { userAuthed, userAvatar, cartItems } = this.state
+		const { userAvatar } = this.state
+		const userAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
+		const cartItems = (store.get(CART_COUNT) as number) || 0
 
 		return (
 			<header class={styles.navbar}>
@@ -138,11 +75,11 @@ export const Navbar = defineComponent({
 							text="Корзина"
 							onClick={props.onCartClick}
 						/>
-						{cartItems > 0 ? (
+						{cartItems > 0 && (
 							<span class={styles.navbar__cartBadge}>
 								{cartItems > 99 ? '99+' : cartItems}
 							</span>
-						) : null}
+						)}
 					</div>
 					{userAuthed ? (
 						[
@@ -151,7 +88,6 @@ export const Navbar = defineComponent({
 								alt="Уведомления"
 								text="Уведомления"
 							/>,
-
 							<IconButton
 								src={userAvatar || '/static/icons/user.png'}
 								alt="Профиль"
