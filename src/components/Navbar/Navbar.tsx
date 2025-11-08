@@ -27,21 +27,24 @@ interface NavbarState {
 export const Navbar = defineComponent({
 	state(): NavbarState {
 		return {
-			userAuthed: store.get(AUTH_IS_AUTHENTICATED) === true,
+			userAuthed: false,
 			userAvatar: '',
-			cartItems: (store.get(CART_COUNT) as number) || 0,
+			cartItems: 0,
 		}
 	},
 
-	async onMounted() {
+	_isMounted: false,
 
-		 await this.loadCartItemsCount()
+	onMounted() {
+		this._isMounted = true
+
+		this.loadAuthStatus()
+		this.loadCartItemsCount()
 
 		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
+			if (!this._isMounted) return
 			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
-			this.updateState({
-				userAuthed: isAuthed,
-			})
+			this.updateState({ userAuthed: isAuthed })
 			if (isAuthed) {
 				this.loadUserAvatar()
 			} else {
@@ -50,61 +53,66 @@ export const Navbar = defineComponent({
 		})
 
 		this.unsubscribeCart = store.subscribe(CART_COUNT, () => {
+			if (!this._isMounted) return
 			const cartCount = store.get(CART_COUNT) as number
-			this.updateState({
-				cartItems: cartCount || 0,
-			})
+			this.updateState({ cartItems: cartCount || 0 })
 		})
-
-		if (this.state.userAuthed) {
-			await this.loadUserAvatar()
-		}
 	},
 
 	onUnmounted() {
-		if (this.unsubscribeAuth) {
-			this.unsubscribeAuth()
-		}
+		this._isMounted = false
+		if (this.unsubscribeAuth) this.unsubscribeAuth()
+		if (this.unsubscribeCart) this.unsubscribeCart()
+	},
 
-		if (this.unsubscribeCart) {
-			this.unsubscribeCart()
+	async loadAuthStatus() {
+		if (!this._isMounted) return
+		const isAuthed = authManager.isAuthenticated()
+		if (this._isMounted) {
+			this.updateState({ userAuthed: isAuthed })
+			if (isAuthed) await this.loadUserAvatar()
 		}
 	},
 
 	async loadUserAvatar() {
+		if (!this._isMounted) return
 		try {
 			const user = authManager.getUser()
 			if (!user) return
-
 			const response = await profileApi.getProfile('me')
-
-			if (response.service.success && response.body.avatar_url) {
+			if (
+				this._isMounted &&
+				response.service.success &&
+				response.body.avatar_url
+			) {
 				let avatarUrl = response.body.avatar_url
-
 				if (avatarUrl.includes('localhost:8081')) {
 					avatarUrl = avatarUrl.replace('localhost:8081', '90.156.218.233:8081')
 				}
-
 				this.updateState({ userAvatar: avatarUrl })
 			}
 		} catch (error) {
-			console.error('Failed to load user avatar:', error)
+			if (this._isMounted) {
+				console.error('Failed to load user avatar:', error)
+			}
 		}
 	},
 
 	async loadCartItemsCount() {
+		if (!this._isMounted) return
 		try {
 			const cartItems = await getCartFromStorage()
-
+			if (!this._isMounted) return
 			if (!cartItems || !Array.isArray(cartItems)) {
 				this.updateState({ cartItems: 0 })
 				return
 			}
-			
 			const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 			this.updateState({ cartItems: totalCount })
 		} catch (error) {
-			console.error('Failed to load cart items count:', error)
+			if (this._isMounted) {
+				console.error('Failed to load cart items count:', error)
+			}
 		}
 	},
 
