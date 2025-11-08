@@ -95,8 +95,6 @@ export const LoginForm = defineComponent({
 			}
 
 			safeUpdate({ authErr: message, isAwaiting: false })
-		} finally {
-			safeUpdate({ isAwaiting: false })
 		}
 	},
 
@@ -154,10 +152,9 @@ export const LoginForm = defineComponent({
 				<form
 					class={styles.loginForm__container}
 					novalidate
-					{...{
-						on: {
-							submit: (e: Event) => this.handleSubmit(e),
-						},
+					onsubmit={(e: Event) => {
+						e.preventDefault()
+						this.handleSubmit(e)
 					}}
 				>
 					<div class={styles.loginForm__field}>
