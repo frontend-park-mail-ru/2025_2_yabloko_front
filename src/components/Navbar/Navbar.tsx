@@ -67,7 +67,7 @@ export const Navbar = defineComponent({
 		}
 
 		if (this.unsubscribeCart) {
-			this.unsubscribeAuth()
+			this.unsubscribeCart()
 		}
 	},
 
