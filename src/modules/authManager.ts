@@ -66,6 +66,7 @@ export class AuthManager {
 
 	async checkAuth(): Promise<boolean> {
 		try {
+			console.log('🔄 checkAuth() called - кто меня вызывает?')
 			const response = await userApi.refresh()
 
 			if (response.service.error || !response.body) {
