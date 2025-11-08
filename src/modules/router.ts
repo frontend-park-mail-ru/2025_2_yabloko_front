@@ -67,7 +67,6 @@ async function renderPage(path: string, route: string): Promise<void> {
 
 	try {
 		currentApp = createApp(page.component)
-		await authManager.checkAuth();
 		currentApp.mount(rootElement)
 		document.title = page.title
 	} catch (error) {
