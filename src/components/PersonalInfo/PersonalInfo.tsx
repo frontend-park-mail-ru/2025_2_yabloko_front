@@ -14,25 +14,116 @@ interface PersonalInfoProps {
 	onFieldChange: (field: string, value: string) => void
 	onSave?: () => void
 	readonly?: boolean
+	availableCities?: string[]
 }
 
 export const PersonalInfo = defineComponent({
 	props: [] as (keyof PersonalInfoProps)[],
 
+	state() {
+		return {
+			errors: {} as Record<string, string>,
+		}
+	},
+
+	validateField(field: string, value: string): string {
+		switch (field) {
+			case 'email':
+				if (!value) return 'Email обязателен'
+				if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+					return 'Некорректный email'
+				return ''
+
+			case 'fullName':
+				if (!value) return 'Имя обязательно'
+				if (value.length < 2) return 'Имя слишком короткое'
+				return ''
+
+			case 'city':
+				if (!value) return 'Город обязателен'
+				if (
+					this.props.availableCities &&
+					!this.props.availableCities.includes(value)
+				) {
+					return 'Город не найден в списке доступных'
+				}
+				return ''
+
+			case 'street':
+				if (!value) return 'Улица обязательна'
+				if (value.includes(','))
+					return 'Не используйте запятые в названии улицы'
+				return ''
+
+			case 'house':
+				if (!value) return 'Дом обязателен'
+				if (value.includes(',')) return 'Не используйте запятые в номере дома'
+				return ''
+
+			case 'building':
+				if (value.includes(','))
+					return 'Не используйте запятые в номере корпуса'
+				return ''
+
+			case 'apartment':
+				if (value.includes(','))
+					return 'Не используйте запятые в номере квартиры'
+				return ''
+
+			default:
+				return ''
+		}
+	},
+
+	handleChange(field: string) {
+		return (e: Event) => {
+			if (this.props.readonly) return
+
+			const value = (e.target as HTMLInputElement | HTMLTextAreaElement).value
+
+			// Валидация в реальном времени
+			const error = this.validateField(field, value)
+			this.updateState({
+				errors: {
+					...this.state.errors,
+					[field]: error,
+				},
+			})
+
+			this.props.onFieldChange(field, value)
+		}
+	},
+
+	validateAll(): boolean {
+		const props = this.props as PersonalInfoProps
+		const errors: Record<string, string> = {}
+
+		errors.email = this.validateField('email', props.email)
+		errors.fullName = this.validateField('fullName', props.fullName)
+		errors.city = this.validateField('city', props.city)
+		errors.street = this.validateField('street', props.street)
+		errors.house = this.validateField('house', props.house)
+		errors.building = this.validateField('building', props.building)
+		errors.apartment = this.validateField('apartment', props.apartment)
+
+		this.updateState({ errors })
+		return !Object.values(errors).some(error => error !== '')
+	},
+
+	handleSave() {
+		if (!this.validateAll()) {
+			alert('Пожалуйста, исправьте ошибки в форме')
+			return
+		}
+
+		if (this.props.onSave) {
+			this.props.onSave()
+		}
+	},
+
 	render() {
 		const props = this.props as PersonalInfoProps
-
-		const handleChange = (field: string) => (e: Event) => {
-			if (props.readonly) return 
-			const value = (e.target as HTMLInputElement | HTMLTextAreaElement).value
-			props.onFieldChange(field, value)
-		}
-
-		const handleSave = () => {
-			if (props.onSave) {
-				props.onSave()
-			}
-		}
+		const { errors } = this.state
 
 		return (
 			<div class={styles.personalInfoForm}>
@@ -41,11 +132,14 @@ export const PersonalInfo = defineComponent({
 						type="email"
 						placeholder="Электронная почта"
 						value={props.email}
-						on={{ input: handleChange('email') }}
-						class={styles.personalInfoForm__input}
+						on={{ input: this.handleChange('email') }}
+						class={`${styles.personalInfoForm__input} ${errors.email ? styles.personalInfoForm__input_error : ''}`}
 						required
-						disabled={props.readonly} 
+						disabled={props.readonly}
 					/>
+					{errors.email && (
+						<div class={styles.personalInfoForm__error}>{errors.email}</div>
+					)}
 				</div>
 
 				<div class={styles.personalInfoForm__field}>
@@ -53,11 +147,14 @@ export const PersonalInfo = defineComponent({
 						type="text"
 						placeholder="Имя и фамилия"
 						value={props.fullName}
-						on={{ input: handleChange('fullName') }}
-						class={styles.personalInfoForm__input}
+						on={{ input: this.handleChange('fullName') }}
+						class={`${styles.personalInfoForm__input} ${errors.fullName ? styles.personalInfoForm__input_error : ''}`}
 						required
-						disabled={props.readonly} 
+						disabled={props.readonly}
 					/>
+					{errors.fullName && (
+						<div class={styles.personalInfoForm__error}>{errors.fullName}</div>
+					)}
 				</div>
 
 				<h2 class={styles.personalInfoForm__title}>Адрес доставки</h2>
@@ -68,24 +165,31 @@ export const PersonalInfo = defineComponent({
 						type="text"
 						placeholder="Город"
 						value={props.city}
-						on={{ input: handleChange('city') }}
-						class={styles.personalInfoForm__input}
+						on={{ input: this.handleChange('city') }}
+						class={`${styles.personalInfoForm__input} ${errors.city ? styles.personalInfoForm__input_error : ''}`}
 						required
-						disabled={props.readonly} 
+						disabled={props.readonly}
 					/>
+					{errors.city && (
+						<div class={styles.personalInfoForm__error}>{errors.city}</div>
+					)}
 				</div>
 
+				{/* Street */}
 				<div class={styles.personalInfoForm__field}>
 					<h3 class={styles.personalInfoForm__addressLabel}>Улица</h3>
 					<input
 						type="text"
 						placeholder="Улица"
 						value={props.street}
-						on={{ input: handleChange('street') }}
-						class={styles.personalInfoForm__input}
+						on={{ input: this.handleChange('street') }}
+						class={`${styles.personalInfoForm__input} ${errors.street ? styles.personalInfoForm__input_error : ''}`}
 						required
-						disabled={props.readonly} 
+						disabled={props.readonly}
 					/>
+					{errors.street && (
+						<div class={styles.personalInfoForm__error}>{errors.street}</div>
+					)}
 				</div>
 
 				<div class={styles.personalInfoForm__addressRow}>
@@ -94,31 +198,44 @@ export const PersonalInfo = defineComponent({
 						<input
 							type="text"
 							value={props.house}
-							on={{ input: handleChange('house') }}
-							class={styles.personalInfoForm__addressInput}
+							on={{ input: this.handleChange('house') }}
+							class={`${styles.personalInfoForm__addressInput} ${errors.house ? styles.personalInfoForm__input_error : ''}`}
 							required
-							disabled={props.readonly} 
+							disabled={props.readonly}
 						/>
+						{errors.house && (
+							<div class={styles.personalInfoForm__error}>{errors.house}</div>
+						)}
 					</div>
 					<div class={styles.personalInfoForm__addressItem}>
 						<h3 class={styles.personalInfoForm__addressLabel}>Корпус</h3>
 						<input
 							type="text"
 							value={props.building}
-							on={{ input: handleChange('building') }}
-							class={styles.personalInfoForm__addressInput}
-							disabled={props.readonly} 
+							on={{ input: this.handleChange('building') }}
+							class={`${styles.personalInfoForm__addressInput} ${errors.building ? styles.personalInfoForm__input_error : ''}`}
+							disabled={props.readonly}
 						/>
+						{errors.building && (
+							<div class={styles.personalInfoForm__error}>
+								{errors.building}
+							</div>
+						)}
 					</div>
 					<div class={styles.personalInfoForm__addressItem}>
 						<h3 class={styles.personalInfoForm__addressLabel}>Квартира</h3>
 						<input
 							type="text"
 							value={props.apartment}
-							on={{ input: handleChange('apartment') }}
-							class={styles.personalInfoForm__addressInput}
+							on={{ input: this.handleChange('apartment') }}
+							class={`${styles.personalInfoForm__addressInput} ${errors.apartment ? styles.personalInfoForm__input_error : ''}`}
 							disabled={props.readonly}
 						/>
+						{errors.apartment && (
+							<div class={styles.personalInfoForm__error}>
+								{errors.apartment}
+							</div>
+						)}
 					</div>
 				</div>
 
@@ -127,18 +244,18 @@ export const PersonalInfo = defineComponent({
 						placeholder="Комментарий"
 						value={props.comment}
 						rows={3}
-						on={{ input: handleChange('comment') }}
+						on={{ input: this.handleChange('comment') }}
 						class={styles.personalInfoForm__textarea}
-						disabled={props.readonly} 
+						disabled={props.readonly}
 					></textarea>
 				</div>
 
-				{!props.readonly && ( 
+				{!props.readonly && (
 					<Button
 						type="button"
 						variant="accent"
 						text="Сохранить"
-						onClick={handleSave}
+						onClick={() => this.handleSave()}
 					/>
 				)}
 			</div>

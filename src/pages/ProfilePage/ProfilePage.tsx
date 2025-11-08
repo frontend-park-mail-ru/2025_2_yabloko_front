@@ -182,7 +182,6 @@ export const ProfilePage = defineComponent({
 					userAuthed={true}
 					onLogoClick={() => navigate('/')}
 					onLoginClick={() => navigate('/auth')}
-					onCartClick={() => navigate('/profile')}
 				/>
 
 				<div class={styles.profilePage__container}>

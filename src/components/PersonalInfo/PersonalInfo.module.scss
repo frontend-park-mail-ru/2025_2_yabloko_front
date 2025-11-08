@@ -67,4 +67,17 @@
         font-size: 1rem;
         text-align: center;
     }
+
+     &__input_error,
+    &__address-input_error {
+        border-color: var(--color-error) !important;
+        background-color: rgba(255, 0, 0, 0.05);
+    }
+
+    &__error {
+        color: var(--color-error);
+        font-size: 12px;
+        margin-top: 4px;
+        font-weight: 500;
+    }
 }
