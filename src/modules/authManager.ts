@@ -61,7 +61,7 @@ export class AuthManager {
 			store.set(AUTH_USER, null)
 			store.set(AUTH_IS_AUTHENTICATED, false)
 			
-			await new Promise(resolve => setTimeout(resolve, 100))
+			await new Promise(resolve => setTimeout(resolve, 300))
 		}
 	}
 
