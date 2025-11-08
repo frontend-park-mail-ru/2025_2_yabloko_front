@@ -27,17 +27,17 @@ interface NavbarState {
 export const Navbar = defineComponent({
 	state(): NavbarState {
 		return {
-			userAuthed: false,
+			userAuthed: store.get(AUTH_IS_AUTHENTICATED) === true,
 			userAvatar: '',
-			cartItems: 0,
+			cartItems: (store.get(CART_COUNT) as number) || 0,
 		}
 	},
 
 	async onMounted() {
-		await Promise.all([this.loadAuthState(), this.loadCartItemsCount()])
+		await this.loadCartItemsCount()
 
-		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
-			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
+		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, value => {
+			const isAuthed = value === true
 			this.updateState({
 				userAuthed: isAuthed,
 			})
@@ -48,12 +48,16 @@ export const Navbar = defineComponent({
 			}
 		})
 
-		this.unsubscribeCart = store.subscribe(CART_COUNT, () => {
-			const cartCount = store.get(CART_COUNT) as number
+		this.unsubscribeCart = store.subscribe(CART_COUNT, value => {
+			const cartCount = value as number
 			this.updateState({
 				cartItems: cartCount || 0,
 			})
 		})
+
+		if (this.state.userAuthed) {
+			await this.loadUserAvatar()
+		}
 	},
 
 	onUnmounted() {
@@ -63,19 +67,6 @@ export const Navbar = defineComponent({
 
 		if (this.unsubscribeCart) {
 			this.unsubscribeCart()
-		}
-	},
-
-	async loadAuthState() {
-		try {
-			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
-			this.updateState({ userAuthed: isAuthed })
-
-			if (isAuthed) {
-				await this.loadUserAvatar()
-			}
-		} catch (error) {
-			console.error('Failed to load auth state:', error)
 		}
 	},
 
@@ -119,6 +110,11 @@ export const Navbar = defineComponent({
 	render() {
 		const props = this.props as NavbarProps
 		const { userAuthed, userAvatar, cartItems } = this.state
+
+		const currentAuthState = store.get(AUTH_IS_AUTHENTICATED) === true
+		if (this.state.userAuthed !== currentAuthState) {
+			this.updateState({ userAuthed: currentAuthState })
+		}
 
 		return (
 			<header class={styles.navbar}>
