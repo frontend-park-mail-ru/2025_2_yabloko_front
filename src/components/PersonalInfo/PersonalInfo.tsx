@@ -135,7 +135,9 @@ export const PersonalInfo = defineComponent({
 						disabled={props.readonly}
 					/>
 					{errors.email && (
-						<div class={styles.personalInfoForm__error}>{errors.email}</div>
+						<div class={`${styles.personalInfoForm__error} ${styles.active}`}>
+							{errors.email}
+						</div>
 					)}
 				</div>
 
@@ -150,7 +152,9 @@ export const PersonalInfo = defineComponent({
 						disabled={props.readonly}
 					/>
 					{errors.fullName && (
-						<div class={styles.personalInfoForm__error}>{errors.fullName}</div>
+						<div class={`${styles.personalInfoForm__error} ${styles.active}`}>
+							{errors.fullName}
+						</div>
 					)}
 				</div>
 
