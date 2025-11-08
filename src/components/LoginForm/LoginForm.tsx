@@ -113,6 +113,7 @@ export const LoginForm = defineComponent({
 		this.updateState({
 			email: value,
 			emailErr: validateEmail(value),
+			authErr: '',
 		})
 	},
 
@@ -121,6 +122,7 @@ export const LoginForm = defineComponent({
 		this.updateState({
 			password: value,
 			passErr: validatePassword(value),
+			authErr: '',
 		})
 	},
 
@@ -129,6 +131,7 @@ export const LoginForm = defineComponent({
 		this.updateState({
 			confirmPassword: value,
 			passConfErr: validateConfirmPassword(value, this.state.password),
+			authErr: '',
 		})
 	},
 

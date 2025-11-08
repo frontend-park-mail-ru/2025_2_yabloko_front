@@ -42,9 +42,15 @@ export const MainPage = defineComponent({
 					onCartClick={() => this.openCart()}
 				/>
 				<CardsHeader />
-				<div
-					class={styles.mainPage__container}
-				>
+				<div class={styles.mainPage__container}>
+					<Batch
+						batchSize={this.state.batchSize}
+						onCardClick={props.onCardClick}
+					/>
+					<Batch
+						batchSize={this.state.batchSize}
+						onCardClick={props.onCardClick}
+					/>
 					<Batch
 						batchSize={this.state.batchSize}
 						onCardClick={props.onCardClick}
