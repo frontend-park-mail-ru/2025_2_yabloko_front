@@ -35,16 +35,11 @@ export const Navbar = defineComponent({
 
 	async onMounted() {
 
-		this.updateState({
-			userAuthed: store.get(AUTH_IS_AUTHENTICATED) === true,
-			cartItems: (store.get(CART_COUNT) as number) || 0,
-		})
-
-		await this.loadCartItemsCount()
+		 await this.loadCartItemsCount()
 
 		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
 			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
-			console.log('🔄 Navbar: Auth state changed to', isAuthed)
+			
 			this.updateState({
 				userAuthed: isAuthed,
 			})

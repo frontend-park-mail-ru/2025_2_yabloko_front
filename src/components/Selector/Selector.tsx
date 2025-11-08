@@ -82,7 +82,7 @@ export const CitySelector = defineComponent({
 
 	saveSelectedCity(city: City): void {
 		try {
-			if (authManager.getUser) {
+			if (authManager.getUser()) {
 				profileApi.updateProfile(authManager.getUser().id, {
 					city_id: city.id,
 					address: '',
