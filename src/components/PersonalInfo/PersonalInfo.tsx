@@ -27,53 +27,52 @@ export const PersonalInfo = defineComponent({
 	},
 
 	validateField(field: string, value: string): string {
-		switch (field) {
-			case 'email':
-				if (!value) return 'Email обязателен'
-				if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
-					return 'Некорректный email'
-				return ''
-
-			case 'fullName':
-				if (!value) return 'Имя обязательно'
-				if (value.length < 2) return 'Имя слишком короткое'
-				return ''
-
-			case 'city':
-				if (!value) return 'Город обязателен'
-				if (
-					this.props.availableCities &&
-					!this.props.availableCities.includes(value)
-				) {
-					return 'Город не найден в списке доступных'
-				}
-				return ''
-
-			case 'street':
-				if (!value) return 'Улица обязательна'
-				if (value.includes(','))
-					return 'Не используйте запятые в названии улицы'
-				return ''
-
-			case 'house':
-				if (!value) return 'Дом обязателен'
-				if (value.includes(',')) return 'Не используйте запятые в номере дома'
-				return ''
-
-			case 'building':
-				if (value.includes(','))
-					return 'Не используйте запятые в номере корпуса'
-				return ''
-
-			case 'apartment':
-				if (value.includes(','))
-					return 'Не используйте запятые в номере квартиры'
-				return ''
-
-			default:
-				return ''
-		}
-	},
+    switch (field) {
+        case 'email':
+            if (!value) return 'Email обязателен'
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Некорректный email'
+            return ''
+        
+        case 'fullName':
+            if (!value) return 'Имя обязательно'
+            if (value.length < 2) return 'Имя слишком короткое'
+            if (!/^[а-яёА-ЯЁ\-\s]+$/.test(value)) return 'Только кириллица, пробелы и тире'
+            return ''
+        
+        case 'city':
+            if (!value) return 'Город обязателен'
+            if (this.props.availableCities && !this.props.availableCities.includes(value)) {
+                return 'Город не найден в списке доступных'
+            }
+            if (!/^[а-яёА-ЯЁ\-\s]+$/.test(value)) return 'Только кириллица, пробелы и тире'
+            return ''
+        
+        case 'street':
+            if (!value) return 'Улица обязательна'
+            if (value.includes(',')) return 'Не используйте запятые в названии улицы'
+            if (!/^[а-яёА-ЯЁ0-9\-\s]+$/.test(value)) return 'Только кириллица, цифры, пробелы и тире'
+            return ''
+        
+        case 'house':
+            if (!value) return 'Дом обязателен'
+            if (value.includes(',')) return 'Не используйте запятые в номере дома'
+            if (!/^[а-яёА-ЯЁ0-9\-\/]+$/.test(value)) return 'Только кириллица, цифры, тире и слэш'
+            return ''
+        
+        case 'building':
+            if (value.includes(',')) return 'Не используйте запятые в номере корпуса'
+            if (!/^[а-яёА-ЯЁ0-9\-\/]*$/.test(value)) return 'Только кириллица, цифры, тире и слэш'
+            return ''
+        
+        case 'apartment':
+            if (value.includes(',')) return 'Не используйте запятые в номере квартиры'
+            if (!/^[а-яёА-ЯЁ0-9\-\/]*$/.test(value)) return 'Только кириллица, цифры, тире и слэш'
+            return ''
+        
+        default:
+            return ''
+    }
+},
 
 	handleChange(field: string) {
 		return (e: Event) => {
@@ -81,7 +80,6 @@ export const PersonalInfo = defineComponent({
 
 			const value = (e.target as HTMLInputElement | HTMLTextAreaElement).value
 
-			// Валидация в реальном времени
 			const error = this.validateField(field, value)
 			this.updateState({
 				errors: {
@@ -112,7 +110,6 @@ export const PersonalInfo = defineComponent({
 
 	handleSave() {
 		if (!this.validateAll()) {
-			alert('Пожалуйста, исправьте ошибки в форме')
 			return
 		}
 

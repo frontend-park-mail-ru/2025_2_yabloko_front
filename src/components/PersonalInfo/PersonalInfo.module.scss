@@ -70,14 +70,21 @@
 
      &__input_error,
     &__address-input_error {
-        border-color: var(--color-error) !important;
-        background-color: rgba(255, 0, 0, 0.05);
+        border-color: var(--color-err) !important;
     }
 
     &__error {
-        color: var(--color-error);
-        font-size: 12px;
-        margin-top: 4px;
-        font-weight: 500;
+        font-size: 1rem;
+        color: var(--color-err);
+        display: none;
+        align-self: center;
+
+        &.active {
+            display: block;
+        }
+
+        &.inactive {
+            display: none;
+        }
     }
 }
