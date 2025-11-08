@@ -39,7 +39,6 @@ export const Navbar = defineComponent({
 
 		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
 			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
-			
 			this.updateState({
 				userAuthed: isAuthed,
 			})
