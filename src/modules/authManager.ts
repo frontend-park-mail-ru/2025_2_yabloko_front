@@ -54,14 +54,12 @@ export class AuthManager {
 
 	async logout(): Promise<void> {
 		try {
+			store.set(AUTH_USER, null)
+			store.set(AUTH_IS_AUTHENTICATED, false)
 			await userApi.logout()
 		} catch (e) {
 			console.warn('Logout API failed', e)
 		} finally {
-			store.set(AUTH_USER, null)
-			store.set(AUTH_IS_AUTHENTICATED, false)
-			
-			console.log(store.get(AUTH_IS_AUTHENTICATED))
 		}
 	}
 

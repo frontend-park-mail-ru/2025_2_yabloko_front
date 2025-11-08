@@ -38,9 +38,7 @@ export const Navbar = defineComponent({
 		 await this.loadCartItemsCount()
 
 		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
-			console.log('🎯 AUTH SUBSCRIPTION FIRED!')
 			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
-			console.log('🎯 New auth state:', isAuthed)
 
 			this.updateState({
 				userAuthed: isAuthed,
@@ -113,8 +111,6 @@ export const Navbar = defineComponent({
 	render() {
 		const props = this.props as NavbarProps
 		const { userAuthed, userAvatar, cartItems } = this.state
-
-		console.log('Navbar RENDER called')
 
 		return (
 			<header class={styles.navbar}>
