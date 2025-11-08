@@ -34,8 +34,7 @@ export const Navbar = defineComponent({
 	},
 
 	async onMounted() {
-
-		 await this.loadCartItemsCount()
+		await this.loadCartItemsCount()
 
 		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
 			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
@@ -100,7 +99,7 @@ export const Navbar = defineComponent({
 				this.updateState({ cartItems: 0 })
 				return
 			}
-			
+
 			const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 			this.updateState({ cartItems: totalCount })
 		} catch (error) {
@@ -110,7 +109,10 @@ export const Navbar = defineComponent({
 
 	render() {
 		const props = this.props as NavbarProps
-		const { userAuthed, userAvatar, cartItems } = this.state
+		const { userAvatar } = this.state
+
+		const userAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
+		const cartItems = (store.get(CART_COUNT) as number) || 0
 
 		return (
 			<header class={styles.navbar}>
@@ -143,7 +145,6 @@ export const Navbar = defineComponent({
 								alt="Уведомления"
 								text="Уведомления"
 							/>,
-
 							<IconButton
 								src={userAvatar || '/static/icons/user.png'}
 								alt="Профиль"
