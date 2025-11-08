@@ -1,7 +1,7 @@
 import { defineComponent } from '../../framework/component'
 import { authManager } from '../../modules/authManager'
-import { profileApi } from '../../modules/profileApi'
 import { getCartFromStorage } from '../../modules/cartManager'
+import { profileApi } from '../../modules/profileApi'
 import { navigate } from '../../modules/router'
 import { store } from '../../modules/store'
 import { AUTH_IS_AUTHENTICATED, CART_COUNT } from '../../utils/auth'
@@ -27,47 +27,42 @@ interface NavbarState {
 export const Navbar = defineComponent({
 	state(): NavbarState {
 		return {
-			userAuthed: store.get(AUTH_IS_AUTHENTICATED) === true,
+			userAuthed: false,
 			userAvatar: '',
-			cartItems: (store.get(CART_COUNT) as number) || 0,
+			cartItems: 0,
 		}
 	},
 
 	async onMounted() {
-
-		 await this.loadCartItemsCount()
+		await this.loadAuthStatus()
+		await this.loadCartItemsCount()
 
 		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
 			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
-
-			this.updateState({
-				userAuthed: isAuthed,
-			})
+			this.updateState({ userAuthed: isAuthed })
 			if (isAuthed) {
 				this.loadUserAvatar()
 			} else {
 				this.updateState({ userAvatar: '' })
 			}
 		})
+
 		this.unsubscribeCart = store.subscribe(CART_COUNT, () => {
 			const cartCount = store.get(CART_COUNT) as number
-			this.updateState({
-				cartItems: cartCount || 0,
-			})
+			this.updateState({ cartItems: cartCount || 0 })
 		})
-
-		if (this.state.userAuthed) {
-			await this.loadUserAvatar()
-		}
 	},
 
 	onUnmounted() {
-		if (this.unsubscribeAuth) {
-			this.unsubscribeAuth()
-		}
+		if (this.unsubscribeAuth) this.unsubscribeAuth()
+		if (this.unsubscribeCart) this.unsubscribeCart()
+	},
 
-		if (this.unsubscribeCart) {
-			this.unsubscribeCart()
+	async loadAuthStatus() {
+		const isAuthed = authManager.isAuthenticated()
+		this.updateState({ userAuthed: isAuthed })
+		if (isAuthed) {
+			await this.loadUserAvatar()
 		}
 	},
 
@@ -77,14 +72,11 @@ export const Navbar = defineComponent({
 			if (!user) return
 
 			const response = await profileApi.getProfile('me')
-
 			if (response.service.success && response.body.avatar_url) {
 				let avatarUrl = response.body.avatar_url
-
 				if (avatarUrl.includes('localhost:8081')) {
 					avatarUrl = avatarUrl.replace('localhost:8081', '90.156.218.233:8081')
 				}
-
 				this.updateState({ userAvatar: avatarUrl })
 			}
 		} catch (error) {
@@ -95,12 +87,10 @@ export const Navbar = defineComponent({
 	async loadCartItemsCount() {
 		try {
 			const cartItems = await getCartFromStorage()
-
 			if (!cartItems || !Array.isArray(cartItems)) {
 				this.updateState({ cartItems: 0 })
 				return
 			}
-			
 			const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 			this.updateState({ cartItems: totalCount })
 		} catch (error) {
@@ -143,7 +133,6 @@ export const Navbar = defineComponent({
 								alt="Уведомления"
 								text="Уведомления"
 							/>,
-
 							<IconButton
 								src={userAvatar || '/static/icons/user.png'}
 								alt="Профиль"
