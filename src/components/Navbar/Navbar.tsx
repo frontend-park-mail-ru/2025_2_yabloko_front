@@ -1,7 +1,7 @@
 import { defineComponent } from '../../framework/component'
 import { authManager } from '../../modules/authManager'
-import { getCartFromStorage } from '../../modules/cartManager'
 import { profileApi } from '../../modules/profileApi'
+import { getCartFromStorage } from '../../modules/cartManager'
 import { navigate } from '../../modules/router'
 import { store } from '../../modules/store'
 import { AUTH_IS_AUTHENTICATED, CART_COUNT } from '../../utils/auth'
@@ -34,10 +34,12 @@ export const Navbar = defineComponent({
 	},
 
 	async onMounted() {
-		await this.loadCartItemsCount()
+
+		 await this.loadCartItemsCount()
 
 		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
 			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
+			
 			this.updateState({
 				userAuthed: isAuthed,
 			})
@@ -99,7 +101,7 @@ export const Navbar = defineComponent({
 				this.updateState({ cartItems: 0 })
 				return
 			}
-
+			
 			const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
 			this.updateState({ cartItems: totalCount })
 		} catch (error) {
@@ -111,10 +113,7 @@ export const Navbar = defineComponent({
 		const props = this.props as NavbarProps
 		const { userAuthed, userAvatar, cartItems } = this.state
 
-		const currentAuthState = store.get(AUTH_IS_AUTHENTICATED) === true
-		if (this.state.userAuthed !== currentAuthState) {
-			this.updateState({ userAuthed: currentAuthState })
-		}
+		console.log('Navbar RENDER called')
 
 		return (
 			<header class={styles.navbar}>
