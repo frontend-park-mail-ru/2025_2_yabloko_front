@@ -94,7 +94,7 @@ export const LoginForm = defineComponent({
 				message = error
 			}
 
-			safeUpdate({ authErr: message }) 
+			safeUpdate({ authErr: message, isAwaiting: false })
 		} finally {
 			safeUpdate({ isAwaiting: false })
 		}

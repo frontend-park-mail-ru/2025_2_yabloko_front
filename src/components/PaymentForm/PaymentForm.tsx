@@ -1,4 +1,5 @@
 import { defineComponent } from '../../framework/component'
+import { navigate } from '../../modules/router'
 import { StoreApi } from '../../modules/storeApi'
 import { Button } from '../Button/Button'
 import styles from './PaymentForm.module.scss'
@@ -83,6 +84,7 @@ export const PaymentForm = defineComponent({
 							onClick={() => {
 								alert('Заказ за наш счет!')
 								StoreApi.updateCart([]);
+								navigate("/")
 							}
 							}
 						/>
