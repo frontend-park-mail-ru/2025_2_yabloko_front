@@ -60,6 +60,7 @@ export class AuthManager {
 		} finally {
 			store.set(AUTH_USER, null)
 			store.set(AUTH_IS_AUTHENTICATED, false)
+			
 			console.log(store.get(AUTH_IS_AUTHENTICATED))
 		}
 	}

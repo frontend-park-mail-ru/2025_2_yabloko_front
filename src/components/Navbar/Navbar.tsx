@@ -38,8 +38,10 @@ export const Navbar = defineComponent({
 		 await this.loadCartItemsCount()
 
 		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
+			console.log('🎯 AUTH SUBSCRIPTION FIRED!')
 			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
-			
+			console.log('🎯 New auth state:', isAuthed)
+
 			this.updateState({
 				userAuthed: isAuthed,
 			})
@@ -49,7 +51,6 @@ export const Navbar = defineComponent({
 				this.updateState({ userAvatar: '' })
 			}
 		})
-
 		this.unsubscribeCart = store.subscribe(CART_COUNT, () => {
 			const cartCount = store.get(CART_COUNT) as number
 			this.updateState({
