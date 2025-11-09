@@ -160,6 +160,10 @@ export const ProfilePage = defineComponent({
 		}
 	},
 
+	async handleLogout() {
+		await authManager.logout();
+	},
+
 	render() {
 		if (this.state.isLoading) {
 			return (
@@ -171,7 +175,7 @@ export const ProfilePage = defineComponent({
 					<div class={styles.profilePage__loading}>
 						<h2>Загрузка профиля...</h2>
 					</div>
-					<Footer />
+					<Footer/>
 				</div>
 			)
 		}
@@ -229,7 +233,7 @@ export const ProfilePage = defineComponent({
 									variant="error"
 									text="Выйти из профиля"
 									onClick={() => {
-										authManager.logout()
+										this.handleLogout();
 										navigate('/')
 									}}
 								/>
