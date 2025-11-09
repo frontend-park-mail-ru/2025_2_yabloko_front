@@ -1,7 +1,7 @@
 import { CART_COUNT } from '../utils/auth'
 import { authManager } from './authManager'
 import { store } from './store'
-import { CartItem, CartUpdate, StoreApi } from './storeApi'
+import { CartItem, StoreApi } from './storeApi'
 
 const CART_KEY = 'guest_cart'
 
@@ -36,6 +36,9 @@ export async function syncCart(): Promise<void> {
 			await StoreApi.updateCart(updateItems)
 		}
 		clearCart()
+		
+		const totalCount = userCart.items.length
+		store.set(CART_COUNT, totalCount)
 	} catch (e) {
 		console.error('Cart sync error', e)
 	}

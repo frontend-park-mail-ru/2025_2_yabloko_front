@@ -1,7 +1,6 @@
 import { defineComponent } from '../../framework/component'
 import { authManager } from '../../modules/authManager'
 import { profileApi } from '../../modules/profileApi'
-import { getCartFromStorage } from '../../modules/cartManager'
 import { navigate } from '../../modules/router'
 import { store } from '../../modules/store'
 import { AUTH_IS_AUTHENTICATED, CART_COUNT } from '../../utils/auth'
