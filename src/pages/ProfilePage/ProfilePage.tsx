@@ -162,6 +162,7 @@ export const ProfilePage = defineComponent({
 
 	async handleLogout() {
 		await authManager.logout();
+		navigate('/')
 	},
 
 	render() {
@@ -234,7 +235,6 @@ export const ProfilePage = defineComponent({
 									text="Выйти из профиля"
 									onClick={() => {
 										this.handleLogout();
-										navigate('/')
 									}}
 								/>
 							</div>
