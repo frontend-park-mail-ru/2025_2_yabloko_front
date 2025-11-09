@@ -34,8 +34,6 @@ export const Navbar = defineComponent({
 	},
 
 	async onMounted() {
-		await this.loadCartItemsCount()
-
 		this.unsubscribeAuth = store.subscribe(AUTH_IS_AUTHENTICATED, () => {
 			const isAuthed = store.get(AUTH_IS_AUTHENTICATED) === true
 			this.updateState({
@@ -88,22 +86,6 @@ export const Navbar = defineComponent({
 			}
 		} catch (error) {
 			console.error('Failed to load user avatar:', error)
-		}
-	},
-
-	async loadCartItemsCount() {
-		try {
-			const cartItems = await getCartFromStorage()
-
-			if (!cartItems || !Array.isArray(cartItems)) {
-				this.updateState({ cartItems: 0 })
-				return
-			}
-
-			const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
-			this.updateState({ cartItems: totalCount })
-		} catch (error) {
-			console.error('Failed to load cart items count:', error)
 		}
 	},
 
