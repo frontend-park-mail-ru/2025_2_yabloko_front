@@ -34,11 +34,14 @@ export async function syncCart(): Promise<void> {
 				quantity: Number(item.quantity),
 			}))
 			await StoreApi.updateCart(updateItems)
+			const totalCount = updateItems.length
+			store.set(CART_COUNT, totalCount)
+		} else {
+			const totalCount = userCart.items.length
+			store.set(CART_COUNT, totalCount)
 		}
 		clearCart()
 		
-		const totalCount = userCart.items.length
-		store.set(CART_COUNT, totalCount)
 	} catch (e) {
 		console.error('Cart sync error', e)
 	}
