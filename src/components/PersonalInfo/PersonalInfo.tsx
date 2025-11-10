@@ -29,22 +29,45 @@ export const PersonalInfo = defineComponent({
 			errors: {} as Record<string, string>,
 			cities: [] as City[],
 			isLoading: false,
+			citiesLoaded: false,
 		}
 	},
 
 	async onMounted() {
-		await this.loadCities()
-		await this.loadUserProfile()
+		await this.loadData()
 	},
 
-	async loadCities() {
+	async loadData() {
 		this.updateState({ isLoading: true })
+
 		try {
-			const cities = await StoreApi.getCities()
-			this.updateState({ cities, isLoading: false })
+			// Загружаем города и профиль параллельно
+			const [citiesResponse, profileResponse] = await Promise.all([
+				StoreApi.getCities(),
+				this.loadUserProfileData(),
+			])
+
+			this.updateState({
+				cities: citiesResponse,
+				citiesLoaded: true,
+				isLoading: false,
+			})
 		} catch (error) {
-			console.error('Ошибка загрузки городов:', error)
+			console.error('Ошибка загрузки данных:', error)
 			this.updateState({ isLoading: false })
+		}
+	},
+
+	async loadUserProfileData() {
+		const user = authManager.getUser()
+		if (!user) return null
+
+		try {
+			const response = await profileApi.getProfile(user.id)
+			return response.service.success ? (response.body as Profile) : null
+		} catch (error) {
+			console.error('Ошибка загрузки профиля:', error)
+			return null
 		}
 	},
 
@@ -54,25 +77,27 @@ export const PersonalInfo = defineComponent({
 
 		this.updateState({ isLoading: true })
 
-		const response = await profileApi.getProfile(user.id)
+		try {
+			const response = await profileApi.getProfile(user.id)
 
-		if (response.service.success) {
-			const profile = response.body as Profile
+			if (response.service.success) {
+				const profile = response.body as Profile
 
-			let cityName = ''
-			if (profile.city_id) {
-				const city = this.state.cities.find(c => c.id === profile.city_id)
-				cityName = city ? city.name : ''
+				let cityName = ''
+				if (profile.city_id && this.state.citiesLoaded) {
+					const city = this.state.cities.find(c => c.id === profile.city_id)
+					cityName = city ? city.name : ''
+				}
+
+				this.props.onFieldChange('email', profile.email || '')
+				this.props.onFieldChange('fullName', profile.name || '')
+				this.props.onFieldChange('city', cityName)
+				this.props.onFieldChange('address', profile.address || '')
+				this.props.onFieldChange('comment', '')
 			}
-
-			this.props.onFieldChange('email', profile.email || '')
-			this.props.onFieldChange('fullName', profile.name || '')
-			this.props.onFieldChange('city', cityName)
-			this.props.onFieldChange('address', profile.address || '')
-			this.props.onFieldChange('comment', '')
-
-			this.updateState({ isLoading: false })
-		} else {
+		} catch (error) {
+			console.error('Ошибка загрузки профиля:', error)
+		} finally {
 			this.updateState({ isLoading: false })
 		}
 	},
@@ -94,7 +119,10 @@ export const PersonalInfo = defineComponent({
 
 			case 'city':
 				if (!value) return 'Город обязателен'
-				if (!this.state.cities.some(city => city.name === value)) {
+				if (
+					this.state.citiesLoaded &&
+					!this.state.cities.some(city => city.name === value)
+				) {
 					return 'Город не найден в списке доступных'
 				}
 				return ''
