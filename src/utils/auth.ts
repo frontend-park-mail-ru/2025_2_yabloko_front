@@ -28,8 +28,8 @@ export function validatePassword(password: string): string {
 		password.match(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/g) || []
 	).length
 
-	if (uppercaseCount < 2) {
-		return 'Пароль должен содержать минимум 2 заглавные буквы'
+	if (uppercaseCount < 1) {
+		return 'Пароль должен содержать минимум 1 заглавную букву'
 	}
 	if (lowercaseCount < 2) {
 		return 'Пароль должен содержать минимум 2 строчные буквы'

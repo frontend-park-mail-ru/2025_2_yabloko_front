@@ -216,4 +216,8 @@ export class StoreApi {
 		const response = await API.get('STORE', `/stores/cities`)
 		return response.body ?? []
 	}
+
+	static async fakePayment(): Promise<void> {
+		await API.get('STORE', '/fake-payment')
+	}
 }

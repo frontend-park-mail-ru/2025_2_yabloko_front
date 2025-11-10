@@ -17,10 +17,6 @@ export class AuthManager {
 				throw new Error(`Login failed: ${response.service.error}`)
 			}
 
-			if (!response.body) {
-				throw new Error('Empty response body from server')
-			}
-
 			const authData = response.body as AuthResponse
 			const userData: User = {
 				id: authData.user_id,
@@ -54,7 +50,7 @@ export class AuthManager {
 
 	async logout(): Promise<void> {
 		try {
-			
+
 			await userApi.logout()
 		} catch (e) {
 			console.warn('Logout API failed', e)
