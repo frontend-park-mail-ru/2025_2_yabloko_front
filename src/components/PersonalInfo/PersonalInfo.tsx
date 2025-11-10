@@ -42,7 +42,7 @@ export const PersonalInfo = defineComponent({
 				citiesLoaded: true,
 			})
 
-			this.loadUserProfile();
+			await this.loadUserProfile();
 
 			this.updateState({
 				isLoading: false,
@@ -56,8 +56,6 @@ export const PersonalInfo = defineComponent({
 	async loadUserProfile() {
 		const user = authManager.getUser()
 		if (!user) return
-
-		this.updateState({ isLoading: true })
 
 		try {
 			const response = await profileApi.getProfile(user.id)
@@ -79,8 +77,6 @@ export const PersonalInfo = defineComponent({
 			}
 		} catch (error) {
 			console.error('Ошибка загрузки профиля:', error)
-		} finally {
-			this.updateState({ isLoading: false })
 		}
 	},
 
@@ -226,9 +222,9 @@ export const PersonalInfo = defineComponent({
 					<input
 						type="text"
 						placeholder="Город"
-						value={props.fullName}
+						value={props.city}
 						on={{ input: this.handleChange('city') }}
-						class={`${styles.personalInfoForm__input} ${errors.fullName ? styles.personalInfoForm__input_error : ''}`}
+						class={`${styles.personalInfoForm__input} ${errors.city ? styles.personalInfoForm__input_error : ''}`}
 						required
 						disabled={props.readonly}
 					/>
