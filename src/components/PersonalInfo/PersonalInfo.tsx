@@ -41,10 +41,9 @@ export const PersonalInfo = defineComponent({
 		this.updateState({ isLoading: true })
 
 		try {
-			// Загружаем города и профиль параллельно
 			const [citiesResponse, profileResponse] = await Promise.all([
 				StoreApi.getCities(),
-				this.loadUserProfileData(),
+				this.loadUserProfile(),
 			])
 
 			this.updateState({
