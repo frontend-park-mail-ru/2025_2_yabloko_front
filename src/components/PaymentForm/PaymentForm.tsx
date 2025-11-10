@@ -1,7 +1,5 @@
 import { defineComponent } from '../../framework/component'
 import { OrderApi } from '../../modules/orderApi'
-import { navigate } from '../../modules/router'
-import { StoreApi } from '../../modules/storeApi'
 import { Button } from '../Button/Button'
 import styles from './PaymentForm.module.scss'
 

@@ -145,21 +145,6 @@ export const ProfilePage = defineComponent({
 		this.updateState({ isLoading: false })
 	},
 
-	async handlePasswordChange(current: string, newPassword: string) {
-		const user = authManager.getUser()
-
-		const updates: UpdateProfileRequest = {
-			current_password: current,
-			new_password: newPassword,
-		}
-
-		const response = await profileApi.updateProfile(user.id, updates)
-
-		if (!response.service.success) {
-			throw new Error(response.service.error || 'Не удалось изменить пароль')
-		}
-	},
-
 	async handleLogout() {
 		await authManager.logout();
 		navigate('/')
