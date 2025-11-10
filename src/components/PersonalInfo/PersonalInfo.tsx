@@ -6,12 +6,6 @@ import { Button } from '../Button/Button'
 import styles from './PersonalInfo.module.scss'
 
 interface PersonalInfoProps {
-	email: string
-	fullName: string
-	city: string
-	address: string
-	comment: string
-	onFieldChange: (field: string, value: string) => void
 	onSave?: () => void
 	readonly?: boolean
 }
@@ -21,6 +15,11 @@ export const PersonalInfo = defineComponent({
 
 	state() {
 		return {
+			email: '',
+			fullName: '',
+			city: '',
+			address: '',
+			comment: '',
 			errors: {} as Record<string, string>,
 			cities: [] as City[],
 			isLoading: false,
@@ -69,11 +68,13 @@ export const PersonalInfo = defineComponent({
 					cityName = city ? city.name : ''
 				}
 
-				this.props.onFieldChange('email', profile.email || '')
-				this.props.onFieldChange('fullName', profile.name || '')
-				this.props.onFieldChange('city', cityName)
-				this.props.onFieldChange('address', profile.address || '')
-				this.props.onFieldChange('comment', '')
+				this.updateState({
+					email: profile.email || '',
+					fullName: profile.name || '',
+					city: cityName,
+					address: profile.address || '',
+					comment: '', 
+				})
 			}
 		} catch (error) {
 			console.error('Ошибка загрузки профиля:', error)
@@ -150,13 +151,13 @@ export const PersonalInfo = defineComponent({
 	},
 
 	validateAll(): boolean {
-		const props = this.props as PersonalInfoProps
+		const { email, fullName, city, address } = this.state
 		const errors: Record<string, string> = {}
 
-		errors.email = this.validateField('email', props.email)
-		errors.fullName = this.validateField('fullName', props.fullName)
-		errors.city = this.validateField('city', props.city)
-		errors.address = this.validateField('address', props.address)
+		errors.email = this.validateField('email', email)
+		errors.fullName = this.validateField('fullName', fullName)
+		errors.city = this.validateField('city', city)
+		errors.address = this.validateField('address', address)
 
 		this.updateState({ errors })
 		return !Object.values(errors).some(error => error !== '')
@@ -186,7 +187,7 @@ export const PersonalInfo = defineComponent({
 					<input
 						type="email"
 						placeholder="Электронная почта"
-						value={props.email}
+						value={this.state.email}
 						on={{ input: this.handleChange('email') }}
 						class={`${styles.personalInfoForm__input} ${errors.email ? styles.personalInfoForm__input_error : ''}`}
 						required
@@ -203,7 +204,7 @@ export const PersonalInfo = defineComponent({
 					<input
 						type="text"
 						placeholder="Имя и фамилия"
-						value={props.fullName}
+						value={this.state.fullName}
 						on={{ input: this.handleChange('fullName') }}
 						class={`${styles.personalInfoForm__input} ${errors.fullName ? styles.personalInfoForm__input_error : ''}`}
 						required
@@ -222,7 +223,7 @@ export const PersonalInfo = defineComponent({
 					<input
 						type="text"
 						placeholder="Город"
-						value={props.city}
+						value={this.state.city}
 						on={{ input: this.handleChange('city') }}
 						class={`${styles.personalInfoForm__input} ${errors.city ? styles.personalInfoForm__input_error : ''}`}
 						required
@@ -238,7 +239,7 @@ export const PersonalInfo = defineComponent({
 					<input
 						type="text"
 						placeholder="Улица, дом, корпус, квартира"
-						value={props.address}
+						value={this.state.address}
 						on={{ input: this.handleChange('address') }}
 						class={`${styles.personalInfoForm__input} ${errors.address ? styles.personalInfoForm__input_error : ''}`}
 						required
@@ -252,7 +253,7 @@ export const PersonalInfo = defineComponent({
 				<div class={styles.personalInfoForm__field}>
 					<textarea
 						placeholder="Комментарий к заказу"
-						value={props.comment}
+						value={this.state.comment}
 						rows={3}
 						on={{ input: this.handleChange('comment') }}
 						class={styles.personalInfoForm__textarea}
