@@ -36,14 +36,15 @@ export const PersonalInfo = defineComponent({
 		this.updateState({ isLoading: true })
 
 		try {
-			const [citiesResponse, profileResponse] = await Promise.all([
-				StoreApi.getCities(),
-				this.loadUserProfile(),
-			])
-
+			const citiesResponse = await StoreApi.getCities()
 			this.updateState({
 				cities: citiesResponse,
 				citiesLoaded: true,
+			})
+
+			this.loadUserProfile();
+
+			this.updateState({
 				isLoading: false,
 			})
 		} catch (error) {
