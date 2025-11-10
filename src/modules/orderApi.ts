@@ -62,6 +62,6 @@ export class OrderApi {
         if (params.price) queryParams.append('price', params.price)
 
         const url = `http://90.156.218.233:8080/api/v0/fake-payment?${queryParams.toString()}`
-        window.open(url, '_blank', 'width=600,height=700')
+        window.location.href = url
 	}
 }
