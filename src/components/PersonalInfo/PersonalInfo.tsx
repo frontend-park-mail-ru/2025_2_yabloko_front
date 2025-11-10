@@ -124,13 +124,12 @@ export const PersonalInfo = defineComponent({
 
 			const error = this.validateField(field, value)
 			this.updateState({
+				[field]: value,
 				errors: {
 					...this.state.errors,
 					[field]: error,
 				},
 			})
-
-			this.props.onFieldChange(field, value)
 		}
 	},
 
