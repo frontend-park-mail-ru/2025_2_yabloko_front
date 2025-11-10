@@ -1,7 +1,7 @@
 import { defineComponent } from '../../framework/component'
 import { authManager } from '../../modules/authManager'
 import { Profile, profileApi } from '../../modules/profileApi'
-import { StoreApi } from '../../modules/storeApi'
+import { City, StoreApi } from '../../modules/storeApi'
 import { Button } from '../Button/Button'
 import styles from './PersonalInfo.module.scss'
 
@@ -14,11 +14,6 @@ interface PersonalInfoProps {
 	onFieldChange: (field: string, value: string) => void
 	onSave?: () => void
 	readonly?: boolean
-}
-
-interface City {
-	id: string
-	name: string
 }
 
 export const PersonalInfo = defineComponent({
@@ -57,19 +52,6 @@ export const PersonalInfo = defineComponent({
 		}
 	},
 
-	async loadUserProfileData() {
-		const user = authManager.getUser()
-		if (!user) return null
-
-		try {
-			const response = await profileApi.getProfile(user.id)
-			return response.service.success ? (response.body as Profile) : null
-		} catch (error) {
-			console.error('Ошибка загрузки профиля:', error)
-			return null
-		}
-	},
-
 	async loadUserProfile() {
 		const user = authManager.getUser()
 		if (!user) return
@@ -80,7 +62,7 @@ export const PersonalInfo = defineComponent({
 			const response = await profileApi.getProfile(user.id)
 
 			if (response.service.success) {
-				const profile = response.body as Profile
+				const profile = response.body
 
 				let cityName = ''
 				if (profile.city_id && this.state.citiesLoaded) {
@@ -240,21 +222,15 @@ export const PersonalInfo = defineComponent({
 				<h2 class={styles.personalInfoForm__title}>Адрес доставки</h2>
 
 				<div class={styles.personalInfoForm__field}>
-					<h3 class={styles.personalInfoForm__addressLabel}>Город</h3>
-					<select
-						value={props.city}
-						on={{ change: (e: Event) => this.handleCityChange(e) }}
-						class={`${styles.personalInfoForm__select} ${errors.city ? styles.personalInfoForm__input_error : ''}`}
+					<input
+						type="text"
+						placeholder="Город"
+						value={props.fullName}
+						on={{ input: this.handleChange('city') }}
+						class={`${styles.personalInfoForm__input} ${errors.fullName ? styles.personalInfoForm__input_error : ''}`}
 						required
 						disabled={props.readonly}
-					>
-						<option value="">Выберите город</option>
-						{cities.map(city => (
-							<option value={city.name} key={city.id}>
-								{city.name}
-							</option>
-						))}
-					</select>
+					/>
 					{errors.city && (
 						<div class={styles.personalInfoForm__error}>{errors.city}</div>
 					)}
