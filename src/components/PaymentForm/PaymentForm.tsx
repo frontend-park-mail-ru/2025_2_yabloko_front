@@ -22,10 +22,9 @@ export const PaymentForm = defineComponent({
 		const payParams = {
 			order_id: response.id,
 			price: response.total.toString(),
-			return_url: '/'
+			return_url: window.location.origin + '/',
 		}
-		const url = await OrderApi.fakePayment(payParams)
-		window.location.href = url
+		await OrderApi.fakePayment(payParams)
 	},
 
 	render() {
