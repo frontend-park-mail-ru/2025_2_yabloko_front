@@ -25,7 +25,7 @@ export const PaymentForm = defineComponent({
 			return_url: '/'
 		}
 		const url = await OrderApi.fakePayment(payParams)
-		window.location.assign(url)
+		window.location.href = url
 	},
 
 	render() {
