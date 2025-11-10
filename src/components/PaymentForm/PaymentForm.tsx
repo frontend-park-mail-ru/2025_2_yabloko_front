@@ -1,4 +1,5 @@
 import { defineComponent } from '../../framework/component'
+import { OrderApi } from '../../modules/orderApi'
 import { navigate } from '../../modules/router'
 import { StoreApi } from '../../modules/storeApi'
 import { Button } from '../Button/Button'
@@ -13,9 +14,13 @@ interface PaymentFormProps {
 	onChangePayment: () => void
 }
 
-
 export const PaymentForm = defineComponent({
 	props: [] as (keyof PaymentFormProps)[],
+
+	async handlePay() {
+		await OrderApi.createOrder();
+		await OrderApi.fakePayment();
+	},
 
 	render() {
 		const props = this.props as PaymentFormProps
@@ -82,9 +87,7 @@ export const PaymentForm = defineComponent({
 							variant="success"
 							text="Оплатить"
 							onClick={() => {
-								alert('Заказ за наш счет!')
-								StoreApi.updateCart([]);
-								navigate("/")
+								this.handlePay();
 							}
 							}
 						/>
