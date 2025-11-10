@@ -41,7 +41,7 @@ export const PersonalInfo = defineComponent({
 				citiesLoaded: true,
 			})
 
-			await this.loadUserProfile();
+			await this.loadUserProfile()
 
 			this.updateState({
 				isLoading: false,
@@ -73,7 +73,7 @@ export const PersonalInfo = defineComponent({
 					fullName: profile.name || '',
 					city: cityName,
 					address: profile.address || '',
-					comment: '', 
+					comment: '',
 				})
 			}
 		} catch (error) {
@@ -162,13 +162,22 @@ export const PersonalInfo = defineComponent({
 		return !Object.values(errors).some(error => error !== '')
 	},
 
-	handleSave() {
-		if (!this.validateAll()) {
-			return
-		}
+	async handleSave() {
+		const user = authManager.getUser()
+		if (!user) return
 
-		if (this.props.onSave) {
-			this.props.onSave()
+		try {
+			const city = this.state.cities.find(c => c.name === this.state.city)
+
+			const updates = {
+				name: this.state.fullName,
+				address: this.state.address,
+				city_id: city ? city.id : '',
+			}
+
+			await profileApi.updateProfile(user.id, updates)
+		} catch (error) {
+			console.error(error)
 		}
 	},
 
