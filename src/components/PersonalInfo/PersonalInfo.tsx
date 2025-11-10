@@ -64,7 +64,7 @@ export const PersonalInfo = defineComponent({
 				const profile = response.body
 
 				let cityName = ''
-				if (profile.city_id && this.state.citiesLoaded) {
+				if (profile.city_id) {
 					const city = this.state.cities.find(c => c.id === profile.city_id)
 					cityName = city ? city.name : ''
 				}
