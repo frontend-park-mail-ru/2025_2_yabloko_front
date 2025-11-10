@@ -27,6 +27,12 @@ export interface OrderItem {
     quantity: number,
 }
 
+export interface FakePaymentParams {
+    order_id?: string,
+    price?: string,
+    return_url?: string,
+}
+
 export class OrderApi {
 	static async getOrders(): Promise<Order[]> {
 		const response = await API.get('STORE', '/orders')
@@ -38,17 +44,24 @@ export class OrderApi {
 		return response.body ?? null
 	}
 
-    static async createOrder() {
+    static async createOrder(): Promise<OrderInfo>{
         const response = await API.post('STORE', `/orders`)
 		return response.body ?? null
     }
 
 	static async getOrderStatusById(id: string): Promise<string> {
-		const response = await API.get('STORE', `/order/${id}/status`)
+		const response = await API.get('STORE', `/orders/${id}/status`)
 		return response.body ?? null
 	}
 
-	static async fakePayment(): Promise<void> {
-		await API.get('STORE', '/fake-payment')
+	static async fakePayment(params: FakePaymentParams): Promise<void> {
+
+        const queryParams = new URLSearchParams()
+
+        queryParams.append('order_id', params.order_id)
+		queryParams.append('return_url', params.return_url)
+        if (params.price) queryParams.append('price', params.price)
+
+		await API.get('STORE', `/fake-payment?${queryParams.toString()}`)
 	}
 }

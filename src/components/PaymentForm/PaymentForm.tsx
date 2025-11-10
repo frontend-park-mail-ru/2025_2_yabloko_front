@@ -18,8 +18,13 @@ export const PaymentForm = defineComponent({
 	props: [] as (keyof PaymentFormProps)[],
 
 	async handlePay() {
-		await OrderApi.createOrder();
-		await OrderApi.fakePayment();
+		const response = await OrderApi.createOrder();
+		const payParams = {
+			order_id: response.id,
+			price: response.total.toString(),
+			return_url: '/'
+		}
+		await OrderApi.fakePayment(payParams)
 	},
 
 	render() {
