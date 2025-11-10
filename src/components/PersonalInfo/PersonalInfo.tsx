@@ -1,12 +1,11 @@
 import { defineComponent } from '../../framework/component'
 import { authManager } from '../../modules/authManager'
-import { Profile, profileApi } from '../../modules/profileApi'
+import { profileApi } from '../../modules/profileApi'
 import { City, StoreApi } from '../../modules/storeApi'
 import { Button } from '../Button/Button'
 import styles from './PersonalInfo.module.scss'
 
 interface PersonalInfoProps {
-	onSave?: () => void
 	readonly?: boolean
 }
 
@@ -23,7 +22,8 @@ export const PersonalInfo = defineComponent({
 			errors: {} as Record<string, string>,
 			cities: [] as City[],
 			isLoading: false,
-			citiesLoaded: false,
+			isSaving: false,
+			showCitySuggestions: false,
 		}
 	},
 
@@ -35,17 +35,11 @@ export const PersonalInfo = defineComponent({
 		this.updateState({ isLoading: true })
 
 		try {
-			const citiesResponse = await StoreApi.getCities()
-			this.updateState({
-				cities: citiesResponse,
-				citiesLoaded: true,
-			})
+			const cities = await StoreApi.getCities()
+			this.updateState({ cities })
 
 			await this.loadUserProfile()
-
-			this.updateState({
-				isLoading: false,
-			})
+			this.updateState({ isLoading: false })
 		} catch (error) {
 			console.error('Ошибка загрузки данных:', error)
 			this.updateState({ isLoading: false })
@@ -58,27 +52,36 @@ export const PersonalInfo = defineComponent({
 
 		try {
 			const response = await profileApi.getProfile(user.id)
-
 			if (response.service.success) {
 				const profile = response.body
-
-				let cityName = ''
-				if (profile.city_id) {
-					const city = this.state.cities.find(c => c.id === profile.city_id)
-					cityName = city ? city.name : ''
-				}
+				const city = this.state.cities.find(c => c.id === profile.city_id)
 
 				this.updateState({
 					email: profile.email || '',
 					fullName: profile.name || '',
-					city: cityName,
+					city: city ? city.name : '',
 					address: profile.address || '',
-					comment: '',
 				})
 			}
 		} catch (error) {
 			console.error('Ошибка загрузки профиля:', error)
 		}
+	},
+
+	getCitySuggestions() {
+		if (!this.state.city) return []
+		return this.state.cities
+			.filter(city =>
+				city.name.toLowerCase().includes(this.state.city.toLowerCase()),
+			)
+			.slice(0, 5)
+	},
+
+	handleCitySelect(cityName: string) {
+		this.updateState({
+			city: cityName,
+			showCitySuggestions: false,
+		})
 	},
 
 	validateField(field: string, value: string): string {
@@ -98,10 +101,7 @@ export const PersonalInfo = defineComponent({
 
 			case 'city':
 				if (!value) return 'Город обязателен'
-				if (
-					this.state.citiesLoaded &&
-					!this.state.cities.some(city => city.name === value)
-				) {
+				if (!this.state.cities.some(city => city.name === value)) {
 					return 'Город не найден в списке доступных'
 				}
 				return ''
@@ -133,22 +133,6 @@ export const PersonalInfo = defineComponent({
 		}
 	},
 
-	handleCityChange(e: Event) {
-		if (this.props.readonly) return
-
-		const select = e.target as HTMLSelectElement
-		const value = select.value
-
-		this.updateState({
-			errors: {
-				...this.state.errors,
-				city: '',
-			},
-		})
-
-		this.props.onFieldChange('city', value)
-	},
-
 	validateAll(): boolean {
 		const { email, fullName, city, address } = this.state
 		const errors: Record<string, string> = {}
@@ -163,12 +147,17 @@ export const PersonalInfo = defineComponent({
 	},
 
 	async handleSave() {
+		if (!this.validateAll()) {
+			return
+		}
+
 		const user = authManager.getUser()
 		if (!user) return
 
+		this.updateState({ isSaving: true })
+
 		try {
 			const city = this.state.cities.find(c => c.name === this.state.city)
-
 			const updates = {
 				name: this.state.fullName,
 				address: this.state.address,
@@ -176,14 +165,18 @@ export const PersonalInfo = defineComponent({
 			}
 
 			await profileApi.updateProfile(user.id, updates)
+			console.log('Профиль сохранен')
 		} catch (error) {
-			console.error(error)
+			console.error('Ошибка сохранения:', error)
+			alert('Ошибка сохранения профиля')
+		} finally {
+			this.updateState({ isSaving: false })
 		}
 	},
 
 	render() {
-		const props = this.props as PersonalInfoProps
-		const { errors, cities, isLoading } = this.state
+		const { errors, isLoading, isSaving, showCitySuggestions } = this.state
+		const citySuggestions = this.getCitySuggestions()
 
 		if (isLoading) {
 			return <div>Загрузка...</div>
@@ -199,7 +192,7 @@ export const PersonalInfo = defineComponent({
 						on={{ input: this.handleChange('email') }}
 						class={`${styles.personalInfoForm__input} ${errors.email ? styles.personalInfoForm__input_error : ''}`}
 						required
-						disabled={props.readonly}
+						disabled={this.props.readonly}
 					/>
 					{errors.email && (
 						<div class={`${styles.personalInfoForm__error} ${styles.active}`}>
@@ -216,7 +209,7 @@ export const PersonalInfo = defineComponent({
 						on={{ input: this.handleChange('fullName') }}
 						class={`${styles.personalInfoForm__input} ${errors.fullName ? styles.personalInfoForm__input_error : ''}`}
 						required
-						disabled={props.readonly}
+						disabled={this.props.readonly}
 					/>
 					{errors.fullName && (
 						<div class={`${styles.personalInfoForm__error} ${styles.active}`}>
@@ -228,15 +221,44 @@ export const PersonalInfo = defineComponent({
 				<h2 class={styles.personalInfoForm__title}>Адрес доставки</h2>
 
 				<div class={styles.personalInfoForm__field}>
-					<input
-						type="text"
-						placeholder="Город"
-						value={this.state.city}
-						on={{ input: this.handleChange('city') }}
-						class={`${styles.personalInfoForm__input} ${errors.city ? styles.personalInfoForm__input_error : ''}`}
-						required
-						disabled={props.readonly}
-					/>
+					<h3 class={styles.personalInfoForm__addressLabel}>Город</h3>
+					<div class={styles.cityWrapper}>
+						<input
+							type="text"
+							placeholder="Введите город"
+							value={this.state.city}
+							on={{
+								input: (e: Event) => {
+									const value = (e.target as HTMLInputElement).value
+									this.updateState({
+										city: value,
+										showCitySuggestions: true,
+									})
+								},
+								focus: () => this.updateState({ showCitySuggestions: true }),
+								blur: () =>
+									setTimeout(
+										() => this.updateState({ showCitySuggestions: false }),
+										200,
+									),
+							}}
+							class={`${styles.personalInfoForm__input} ${errors.city ? styles.personalInfoForm__input_error : ''}`}
+							required
+							disabled={this.props.readonly}
+						/>
+						{showCitySuggestions && citySuggestions.length > 0 && (
+							<div class={styles.suggestions}>
+								{citySuggestions.map(city => (
+									<div
+										class={styles.suggestion}
+										onClick={() => this.handleCitySelect(city.name)}
+									>
+										{city.name}
+									</div>
+								))}
+							</div>
+						)}
+					</div>
 					{errors.city && (
 						<div class={styles.personalInfoForm__error}>{errors.city}</div>
 					)}
@@ -251,7 +273,7 @@ export const PersonalInfo = defineComponent({
 						on={{ input: this.handleChange('address') }}
 						class={`${styles.personalInfoForm__input} ${errors.address ? styles.personalInfoForm__input_error : ''}`}
 						required
-						disabled={props.readonly}
+						disabled={this.props.readonly}
 					/>
 					{errors.address && (
 						<div class={styles.personalInfoForm__error}>{errors.address}</div>
@@ -265,16 +287,17 @@ export const PersonalInfo = defineComponent({
 						rows={3}
 						on={{ input: this.handleChange('comment') }}
 						class={styles.personalInfoForm__textarea}
-						disabled={props.readonly}
+						disabled={this.props.readonly}
 					></textarea>
 				</div>
 
-				{!props.readonly && (
+				{!this.props.readonly && (
 					<Button
 						type="button"
 						variant="accent"
-						text="Сохранить"
+						text={isSaving ? 'Сохранение...' : 'Сохранить'}
 						onClick={() => this.handleSave()}
+						disabled={isSaving}
 					/>
 				)}
 			</div>
