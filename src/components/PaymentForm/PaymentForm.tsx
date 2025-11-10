@@ -1,5 +1,6 @@
 import { defineComponent } from '../../framework/component'
 import { OrderApi } from '../../modules/orderApi'
+import { StoreApi } from '../../modules/storeApi'
 import { Button } from '../Button/Button'
 import styles from './PaymentForm.module.scss'
 
@@ -17,12 +18,14 @@ export const PaymentForm = defineComponent({
 
 	async handlePay() {
 		const response = await OrderApi.createOrder();
+		await StoreApi.updateCart([]);
 		const payParams = {
 			order_id: response.id,
 			price: response.total.toString(),
 			return_url: '/'
 		}
-		await OrderApi.fakePayment(payParams)
+		const url = await OrderApi.fakePayment(payParams)
+		window.location.assign(url)
 	},
 
 	render() {

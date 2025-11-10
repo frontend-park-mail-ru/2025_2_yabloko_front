@@ -54,7 +54,7 @@ export class OrderApi {
 		return response.body ?? null
 	}
 
-	static async fakePayment(params: FakePaymentParams): Promise<void> {
+	static async fakePayment(params: FakePaymentParams): Promise<string> {
 
         const queryParams = new URLSearchParams()
 
@@ -62,6 +62,7 @@ export class OrderApi {
 		queryParams.append('return_url', params.return_url)
         if (params.price) queryParams.append('price', params.price)
 
-		await API.get('STORE', `/fake-payment?${queryParams.toString()}`)
+		const response = await API.get('STORE', `/fake-payment?${queryParams.toString()}`)
+        return response.body
 	}
 }
