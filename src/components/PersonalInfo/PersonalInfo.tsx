@@ -302,8 +302,8 @@ export const PersonalInfo = defineComponent({
 										class={styles.suggestion}
 										{...{
 											on: {
-												click: () => {
-													this.handleAddressSelect(city.name)
+												mousedown: () => {
+													this.handleCitySelect(city.name)
 												},
 											},
 										}}
@@ -351,7 +351,7 @@ export const PersonalInfo = defineComponent({
 										class={styles.suggestion}
 										{...{
 											on: {
-												click: () => {
+												mousedown: () => {
 													this.handleAddressSelect(suggestion)
 												},
 											},
