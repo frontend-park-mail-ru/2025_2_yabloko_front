@@ -82,6 +82,14 @@ export const PersonalInfo = defineComponent({
 	},
 
 	handleCitySelect(cityName: string) {
+
+		const cityInput = document.querySelector(
+				`.${styles.personalInfoForm__input}[placeholder="Введите город"]`,
+			) as HTMLInputElement
+			if (cityInput) {
+				cityInput.value = cityName
+			}
+
 		this.updateState({
 			city: cityName,
 			showCitySuggestions: false,
