@@ -356,7 +356,7 @@ export const PersonalInfo = defineComponent({
 												mousedown: (e: Event) => {
 													console.log(suggestion)
 													e.preventDefault()
-													this.handleAddressInput(suggestion)
+													this.handleAddressInput(suggestion.displayValue)
 												},
 											},
 										}}
