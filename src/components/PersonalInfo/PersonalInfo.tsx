@@ -117,12 +117,12 @@ export const PersonalInfo = defineComponent({
 	},
 
 	handleAddressSelect(suggestion: any) {
-		console.log(suggestion)
 		this.updateState({
 			address: suggestion.displayValue || suggestion.value,
 			addressSuggestions: [],
 			showAddressSuggestions: false,
 		})
+		
 	},
 
 	validateField(field: string, value: string): string {
@@ -356,7 +356,7 @@ export const PersonalInfo = defineComponent({
 												mousedown: (e: Event) => {
 													console.log(suggestion)
 													e.preventDefault()
-													this.handleAddressSelect(suggestion)
+													this.handleAddressInput(suggestion)
 												},
 											},
 										}}
