@@ -242,11 +242,11 @@ export const PersonalInfo = defineComponent({
 						required
 						disabled={this.props.readonly}
 					/>
-					{errors.email && (
+					{errors.email ? (
 						<div class={`${styles.personalInfoForm__error} ${styles.active}`}>
 							{errors.email}
 						</div>
-					)}
+					) : null}
 				</div>
 
 				<div class={styles.personalInfoForm__field}>
@@ -259,11 +259,11 @@ export const PersonalInfo = defineComponent({
 						required
 						disabled={this.props.readonly}
 					/>
-					{errors.fullName && (
+					{errors.fullName ? (
 						<div class={`${styles.personalInfoForm__error} ${styles.active}`}>
 							{errors.fullName}
 						</div>
-					)}
+					) : null}
 				</div>
 
 				<h2 class={styles.personalInfoForm__title}>Адрес доставки</h2>
@@ -294,7 +294,7 @@ export const PersonalInfo = defineComponent({
 							required
 							disabled={this.props.readonly}
 						/>
-						{showCitySuggestions && citySuggestions.length > 0 && (
+						{showCitySuggestions && citySuggestions.length > 0 ? (
 							<div class={styles.suggestions}>
 								{citySuggestions.map(city => (
 									<div
@@ -302,7 +302,8 @@ export const PersonalInfo = defineComponent({
 										class={styles.suggestion}
 										{...{
 											on: {
-												mousedown: () => {
+												mousedown: (e: Event) => {
+													e.preventDefault()
 													this.handleCitySelect(city.name)
 												},
 											},
@@ -312,11 +313,11 @@ export const PersonalInfo = defineComponent({
 									</div>
 								))}
 							</div>
-						)}
+						) : null}
 					</div>
-					{errors.city && (
+					{errors.city ? (
 						<div class={styles.personalInfoForm__error}>{errors.city}</div>
-					)}
+					) : null}
 				</div>
 
 				<div class={styles.personalInfoForm__field}>
@@ -342,8 +343,10 @@ export const PersonalInfo = defineComponent({
 							required
 							disabled={this.props.readonly}
 						/>
-						{isAddressLoading && <div class={styles.loading}>Загрузка...</div>}
-						{showAddressSuggestions && addressSuggestions.length > 0 && (
+						{isAddressLoading ? (
+							<div class={styles.loading}>Загрузка...</div>
+						) : null}
+						{showAddressSuggestions && addressSuggestions.length > 0 ? (
 							<div class={styles.suggestions}>
 								{addressSuggestions.map((suggestion, index) => (
 									<div
@@ -351,7 +354,8 @@ export const PersonalInfo = defineComponent({
 										class={styles.suggestion}
 										{...{
 											on: {
-												mousedown: () => {
+												mousedown: (e: Event) => {
+													e.preventDefault()
 													this.handleAddressSelect(suggestion)
 												},
 											},
@@ -361,11 +365,11 @@ export const PersonalInfo = defineComponent({
 									</div>
 								))}
 							</div>
-						)}
+						) : null}
 					</div>
-					{errors.address && (
+					{errors.address ? (
 						<div class={styles.personalInfoForm__error}>{errors.address}</div>
-					)}
+					) : null}
 				</div>
 
 				<div class={styles.personalInfoForm__field}>
@@ -379,7 +383,7 @@ export const PersonalInfo = defineComponent({
 					></textarea>
 				</div>
 
-				{!this.props.readonly && (
+				{!this.props.readonly ? (
 					<Button
 						type="button"
 						variant="accent"
@@ -387,7 +391,7 @@ export const PersonalInfo = defineComponent({
 						onClick={() => this.handleSave()}
 						disabled={isSaving}
 					/>
-				)}
+				) : null}
 			</div>
 		)
 	},
