@@ -13,11 +13,11 @@ export class SuggestApi {
 	private static BASE_URL =
 		'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address'
 
-	static async suggestAddress(query: string, city: string): Promise<Address[]> {
+	static async suggestAddress(query: string, city: string): Promise<any[]> {
 		const request = {
-			query: query, 
+			query: query,
 			count: 5,
-			locations: [{ city: city }], 
+			locations: [{ city: city }],
 			from_bound: { value: 'street' },
 			to_bound: { value: 'house' },
 		}
@@ -33,6 +33,18 @@ export class SuggestApi {
 		})
 
 		const data = await response.json()
-		return data.suggestions || []
+
+		return (
+			data.suggestions?.map((suggestion: any) => ({
+				...suggestion,
+				displayValue: this.removeCityFromAddress(suggestion.value, city),
+			})) || []
+		)
+	}
+
+	private static removeCityFromAddress(address: string, city: string): string {
+		return address
+			.replace(new RegExp(`^г ${city},\\s*`), '')
+			.replace(new RegExp(`^${city},\\s*`), '')
 	}
 }

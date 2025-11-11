@@ -335,9 +335,7 @@ export const PersonalInfo = defineComponent({
 							required
 							disabled={this.props.readonly}
 						/>
-						{isAddressLoading && (
-							<div class={styles.suggestions}>Загрузка...</div>
-						)}
+						{isAddressLoading && <div class={styles.loading}>Загрузка...</div>}
 						{showAddressSuggestions && addressSuggestions.length > 0 && (
 							<div class={styles.suggestions}>
 								{addressSuggestions.map((suggestion, index) => (
