@@ -117,6 +117,7 @@ export const PersonalInfo = defineComponent({
 	},
 
 	handleAddressSelect(suggestion: any) {
+		console.log(suggestion)
 		this.updateState({
 			address: suggestion.displayValue || suggestion.value,
 			addressSuggestions: [],
@@ -205,10 +206,8 @@ export const PersonalInfo = defineComponent({
 			}
 
 			await profileApi.updateProfile(user.id, updates)
-			console.log('Профиль сохранен')
 		} catch (error) {
-			console.error('Ошибка сохранения:', error)
-			alert('Ошибка сохранения профиля')
+			console.error(error)
 		} finally {
 			this.updateState({ isSaving: false })
 		}
@@ -355,6 +354,7 @@ export const PersonalInfo = defineComponent({
 										{...{
 											on: {
 												mousedown: (e: Event) => {
+													console.log(suggestion)
 													e.preventDefault()
 													this.handleAddressSelect(suggestion)
 												},
