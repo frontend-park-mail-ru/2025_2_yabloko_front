@@ -34,6 +34,8 @@ export class SuggestApi {
 
 		const data = await response.json()
 
+        console.log('Raw suggestions:', city)
+
         console.log('Raw suggestions:', data.suggestions)
 
 		return (
