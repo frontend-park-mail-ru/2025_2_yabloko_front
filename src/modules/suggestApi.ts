@@ -43,8 +43,9 @@ export class SuggestApi {
 	}
 
 	private static removeCityFromAddress(address: string, city: string): string {
-		return address
-			.replace(new RegExp(`^г ${city},\\s*`), '')
-			.replace(new RegExp(`^${city},\\s*`), '')
+		if (!address || !city) return address
+
+		const pattern = `г ${city}, `
+		return address.startsWith(pattern) ? address.slice(pattern.length) : address
 	}
 }
