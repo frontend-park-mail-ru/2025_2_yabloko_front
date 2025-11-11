@@ -34,6 +34,8 @@ export class SuggestApi {
 
 		const data = await response.json()
 
+        console.log('Raw suggestions:', data.suggestions)
+
 		return (
 			data.suggestions?.map((suggestion: any) => ({
 				...suggestion,
