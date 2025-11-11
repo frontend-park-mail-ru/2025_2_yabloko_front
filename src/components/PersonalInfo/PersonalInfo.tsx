@@ -118,7 +118,7 @@ export const PersonalInfo = defineComponent({
 
 	handleAddressSelect(suggestion: any) {
 		this.updateState({
-			address: suggestion.value,
+			address: suggestion.displayValue || suggestion.value,
 			addressSuggestions: [],
 			showAddressSuggestions: false,
 		})
@@ -298,8 +298,9 @@ export const PersonalInfo = defineComponent({
 							<div class={styles.suggestions}>
 								{citySuggestions.map(city => (
 									<div
+										key={city.id}
 										class={styles.suggestion}
-										onClick={() => this.handleCitySelect(city.name)}
+										onMousedown={() => this.handleCitySelect(city.name)}
 									>
 										{city.name}
 									</div>
@@ -342,9 +343,9 @@ export const PersonalInfo = defineComponent({
 									<div
 										key={index}
 										class={styles.suggestion}
-										onClick={() => this.handleAddressSelect(suggestion)}
+										onMousedown={() => this.handleAddressSelect(suggestion)}
 									>
-										{suggestion.displayValue}
+										{suggestion.displayValue || suggestion.value}
 									</div>
 								))}
 							</div>
