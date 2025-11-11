@@ -2,6 +2,7 @@ import { defineComponent } from '../../framework/component'
 import { authManager } from '../../modules/authManager'
 import { profileApi } from '../../modules/profileApi'
 import { City, StoreApi } from '../../modules/storeApi'
+import { SuggestApi } from '../../modules/suggestApi'
 import { Button } from '../Button/Button'
 import styles from './PersonalInfo.module.scss'
 
@@ -24,6 +25,9 @@ export const PersonalInfo = defineComponent({
 			isLoading: false,
 			isSaving: false,
 			showCitySuggestions: false,
+			addressSuggestions: [] as any[],
+			showAddressSuggestions: false,
+			isAddressLoading: false,
 		}
 	},
 
@@ -81,6 +85,42 @@ export const PersonalInfo = defineComponent({
 		this.updateState({
 			city: cityName,
 			showCitySuggestions: false,
+		})
+	},
+
+	async handleAddressInput(value: string) {
+		this.updateState({
+			address: value,
+			showAddressSuggestions: true,
+		})
+
+		if (value.length < 2 || !this.state.city) {
+			this.updateState({ addressSuggestions: [] })
+			return
+		}
+
+		this.updateState({ isAddressLoading: true })
+
+		try {
+			const suggestions = await SuggestApi.suggestAddress(
+				value,
+				this.state.city,
+			)
+			this.updateState({
+				addressSuggestions: suggestions,
+				isAddressLoading: false,
+			})
+		} catch (error) {
+			console.error('Ошибка саджеста адреса:', error)
+			this.updateState({ isAddressLoading: false })
+		}
+	},
+
+	handleAddressSelect(suggestion: any) {
+		this.updateState({
+			address: suggestion.value,
+			addressSuggestions: [],
+			showAddressSuggestions: false,
 		})
 	},
 
@@ -175,7 +215,15 @@ export const PersonalInfo = defineComponent({
 	},
 
 	render() {
-		const { errors, isLoading, isSaving, showCitySuggestions } = this.state
+		const {
+			errors,
+			isLoading,
+			isSaving,
+			showCitySuggestions,
+			addressSuggestions,
+			showAddressSuggestions,
+			isAddressLoading,
+		} = this.state
 		const citySuggestions = this.getCitySuggestions()
 
 		if (isLoading) {
@@ -266,15 +314,44 @@ export const PersonalInfo = defineComponent({
 
 				<div class={styles.personalInfoForm__field}>
 					<h3 class={styles.personalInfoForm__addressLabel}>Адрес</h3>
-					<input
-						type="text"
-						placeholder="Улица, дом, корпус, квартира"
-						value={this.state.address}
-						on={{ input: this.handleChange('address') }}
-						class={`${styles.personalInfoForm__input} ${errors.address ? styles.personalInfoForm__input_error : ''}`}
-						required
-						disabled={this.props.readonly}
-					/>
+					<div class={styles.cityWrapper}>
+						<input
+							type="text"
+							placeholder="Улица, дом, корпус, квартира"
+							value={this.state.address}
+							on={{
+								input: (e: Event) => {
+									const value = (e.target as HTMLInputElement).value
+									this.handleAddressInput(value)
+								},
+								focus: () => this.updateState({ showAddressSuggestions: true }),
+								blur: () =>
+									setTimeout(
+										() => this.updateState({ showAddressSuggestions: false }),
+										200,
+									),
+							}}
+							class={`${styles.personalInfoForm__input} ${errors.address ? styles.personalInfoForm__input_error : ''}`}
+							required
+							disabled={this.props.readonly}
+						/>
+						{isAddressLoading && (
+							<div class={styles.suggestions}>Загрузка...</div>
+						)}
+						{showAddressSuggestions && addressSuggestions.length > 0 && (
+							<div class={styles.suggestions}>
+								{addressSuggestions.map((suggestion, index) => (
+									<div
+										key={index}
+										class={styles.suggestion}
+										onClick={() => this.handleAddressSelect(suggestion)}
+									>
+										{suggestion.value}
+									</div>
+								))}
+							</div>
+						)}
+					</div>
 					{errors.address && (
 						<div class={styles.personalInfoForm__error}>{errors.address}</div>
 					)}
