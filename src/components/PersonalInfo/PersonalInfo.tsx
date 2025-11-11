@@ -117,17 +117,16 @@ export const PersonalInfo = defineComponent({
 	},
 
 	handleAddressSelect(suggestion: any) {
-		const addressValue = suggestion.displayValue || suggestion.value
 
-		const fakeInput = document.createElement('input')
-		fakeInput.value = addressValue
-
-		const fakeEvent = new Event('input', { bubbles: true })
-		Object.defineProperty(fakeEvent, 'target', { value: fakeInput })
-
-		this.handleChange('address')(fakeEvent as any)
-
+		const addressInput = document.querySelector(
+				`.${styles.personalInfoForm__input}[placeholder="Улица, дом, корпус, квартира"]`,
+			) as HTMLInputElement
+			if (addressInput) {
+				addressInput.value = suggestion.displayValue
+			}
+			
 		this.updateState({
+			address: suggestion.displayValue || suggestion.value,
 			addressSuggestions: [],
 			showAddressSuggestions: false,
 		})
