@@ -300,7 +300,13 @@ export const PersonalInfo = defineComponent({
 									<div
 										key={city.id}
 										class={styles.suggestion}
-										onMousedown={() => this.handleCitySelect(city.name)}
+										{...{
+											on: {
+												mousedown: () => {
+													this.handleAddressSelect(city)
+												},
+											},
+										}}
 									>
 										{city.name}
 									</div>
@@ -343,7 +349,13 @@ export const PersonalInfo = defineComponent({
 									<div
 										key={index}
 										class={styles.suggestion}
-										onMousedown={() => this.handleAddressSelect(suggestion)}
+										{...{
+											on: {
+												mousedown: () => {
+													this.handleAddressSelect(suggestion)
+												},
+											},
+										}}
 									>
 										{suggestion.displayValue || suggestion.value}
 									</div>
