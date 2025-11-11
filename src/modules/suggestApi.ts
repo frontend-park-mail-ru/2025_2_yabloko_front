@@ -1,13 +1,3 @@
-interface Address {
-	value: string
-	data: {
-		city: string
-		street: string
-		house: string
-		flat: string
-	}
-}
-
 export class SuggestApi {
 	private static API_KEY = '9cac2298e78980a1f52ef2ebf849cc76305a405b'
 	private static BASE_URL =
@@ -33,10 +23,6 @@ export class SuggestApi {
 		})
 
 		const data = await response.json()
-
-        console.log('Raw suggestions:', city)
-
-        console.log('Raw suggestions:', data.suggestions)
 
 		return (
 			data.suggestions?.map((suggestion: any) => ({

@@ -344,7 +344,7 @@ export const PersonalInfo = defineComponent({
 										class={styles.suggestion}
 										onClick={() => this.handleAddressSelect(suggestion)}
 									>
-										{suggestion.value}
+										{suggestion.displayValue}
 									</div>
 								))}
 							</div>
