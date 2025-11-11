@@ -121,6 +121,7 @@ export const PersonalInfo = defineComponent({
 			address: suggestion.displayValue || suggestion.value,
 			addressSuggestions: [],
 			showAddressSuggestions: false,
+			isAddressLoading: false,
 		})
 	},
 
@@ -228,9 +229,6 @@ export const PersonalInfo = defineComponent({
 			return <div>Загрузка...</div>
 		}
 
-		console.log('city:', this.state.city)
-		console.log('address:', this.state.address)
-
 		return (
 			<div class={styles.personalInfoForm}>
 				<div class={styles.personalInfoForm__field}>
@@ -276,7 +274,6 @@ export const PersonalInfo = defineComponent({
 							type="text"
 							placeholder="Введите город"
 							value={this.state.city}
-							key={`city-${this.state.city}`}
 							on={{
 								input: (e: Event) => {
 									const value = (e.target as HTMLInputElement).value
@@ -329,7 +326,6 @@ export const PersonalInfo = defineComponent({
 							type="text"
 							placeholder="Улица, дом, корпус, квартира"
 							value={this.state.address}
-							key={`address-${this.state.address}`}
 							on={{
 								input: (e: Event) => {
 									const value = (e.target as HTMLInputElement).value
