@@ -1,4 +1,4 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import { authManager } from '../../modules/authManager'
 import { profileApi } from '../../modules/profileApi'
 import { navigate } from '../../modules/router'

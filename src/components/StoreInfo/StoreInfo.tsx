@@ -1,4 +1,4 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import { Store, StoreApi } from '../../modules/storeApi'
 import styles from './StoreInfo.module.scss'
 

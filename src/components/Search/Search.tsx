@@ -1,4 +1,4 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import { Button } from '../Button/Button'
 import styles from './Search.module.scss'
 
@@ -31,7 +31,11 @@ export const SearchBar = defineComponent({
 					},
 				}}
 			>
-				<img src="/static/icons/search.png" alt="search" class={styles.searchBar__icon} />
+				<img
+					src="/static/icons/search.png"
+					alt="search"
+					class={styles.searchBar__icon}
+				/>
 				<input
 					type="text"
 					placeholder={props.placeholder || 'Поиск ресторанов и категорий'}
@@ -46,11 +50,7 @@ export const SearchBar = defineComponent({
 						},
 					}}
 				/>
-				<Button
-					type="submit"
-					variant="accent"
-					text="Найти"
-				/>
+				<Button type="submit" variant="accent" text="Найти" />
 			</form>
 		)
 	},

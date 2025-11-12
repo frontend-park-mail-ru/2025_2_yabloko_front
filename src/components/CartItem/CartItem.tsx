@@ -1,4 +1,4 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import styles from './CartItem.module.scss'
 
 interface CartItemProps {

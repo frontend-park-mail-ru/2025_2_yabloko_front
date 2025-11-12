@@ -1,5 +1,4 @@
-import { defineComponent } from '../../framework/component'
-import { API } from '../../modules/api'
+import { defineComponent } from '@antiquemouse/framework'
 import styles from './ProductCard.module.scss'
 
 interface Product {

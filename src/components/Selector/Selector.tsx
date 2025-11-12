@@ -1,4 +1,4 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import { authManager } from '../../modules/authManager'
 import { Profile, profileApi } from '../../modules/profileApi'
 import { store } from '../../modules/store'
@@ -15,14 +15,12 @@ const CITY_KEY = 'selected_city'
 
 async function loadSelectedCity(): Promise<City> | null {
 	try {
-
 		if (store.get(AUTH_IS_AUTHENTICATED) === true) {
 			const user = authManager.getUser()
 			const profile = (await profileApi.getProfile(user.id)).body as Profile
 			const cities = await StoreApi.getCities()
 			const userCity = cities.find(city => city.id === profile.city_id)
 			return userCity
-
 		} else {
 			const data = localStorage.getItem(CITY_KEY)
 			return data ? JSON.parse(data) : null
@@ -57,7 +55,7 @@ export const CitySelector = defineComponent({
 
 		StoreApi.getCities()
 			.then(async cities => {
-				this.updateState({ cities }) 
+				this.updateState({ cities })
 
 				const selectedCity = await loadSelectedCity()
 				if (selectedCity) {

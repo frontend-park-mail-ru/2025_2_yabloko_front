@@ -1,6 +1,6 @@
-import { defineComponent } from '../../framework/component'
-import { Store } from '../../modules/storeApi'
+import { defineComponent } from '@antiquemouse/framework'
 import { navigate } from '../../modules/router'
+import { Store } from '../../modules/storeApi'
 import styles from './Card.module.scss'
 
 interface CardProps {

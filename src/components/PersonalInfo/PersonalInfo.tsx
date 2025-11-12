@@ -1,4 +1,4 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import { authManager } from '../../modules/authManager'
 import { profileApi } from '../../modules/profileApi'
 import { City, StoreApi } from '../../modules/storeApi'
@@ -81,13 +81,12 @@ export const PersonalInfo = defineComponent({
 	},
 
 	handleCitySelect(cityName: string) {
-
 		const cityInput = document.querySelector(
-				`.${styles.personalInfoForm__input}[placeholder="Введите город"]`,
-			) as HTMLInputElement
-			if (cityInput) {
-				cityInput.value = cityName
-			}
+			`.${styles.personalInfoForm__input}[placeholder="Введите город"]`,
+		) as HTMLInputElement
+		if (cityInput) {
+			cityInput.value = cityName
+		}
 
 		this.updateState({
 			city: cityName,
@@ -124,14 +123,13 @@ export const PersonalInfo = defineComponent({
 	},
 
 	handleAddressSelect(suggestion: any) {
-
 		const addressInput = document.querySelector(
-				`.${styles.personalInfoForm__input}[placeholder="Улица, дом, корпус, квартира"]`,
-			) as HTMLInputElement
-			if (addressInput) {
-				addressInput.value = suggestion.displayValue
-			}
-			
+			`.${styles.personalInfoForm__input}[placeholder="Улица, дом, корпус, квартира"]`,
+		) as HTMLInputElement
+		if (addressInput) {
+			addressInput.value = suggestion.displayValue
+		}
+
 		this.updateState({
 			address: suggestion.displayValue || suggestion.value,
 			addressSuggestions: [],

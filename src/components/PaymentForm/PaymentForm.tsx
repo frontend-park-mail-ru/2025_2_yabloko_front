@@ -1,4 +1,4 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import { OrderApi } from '../../modules/orderApi'
 import { StoreApi } from '../../modules/storeApi'
 import { Button } from '../Button/Button'
@@ -17,8 +17,8 @@ export const PaymentForm = defineComponent({
 	props: [] as (keyof PaymentFormProps)[],
 
 	async handlePay() {
-		const response = await OrderApi.createOrder();
-		await StoreApi.updateCart([]);
+		const response = await OrderApi.createOrder()
+		await StoreApi.updateCart([])
 		const payParams = {
 			order_id: response.id,
 			price: response.total.toString(),
@@ -92,9 +92,8 @@ export const PaymentForm = defineComponent({
 							variant="success"
 							text="Оплатить"
 							onClick={() => {
-								this.handlePay();
-							}
-							}
+								this.handlePay()
+							}}
 						/>
 					</div>
 				</div>
