@@ -41,11 +41,10 @@ export const PersonalInfo = defineComponent({
 		try {
 			const cities = await StoreApi.getCities()
 			this.updateState({ cities })
-
 			await this.loadUserProfile()
 			this.updateState({ isLoading: false })
 		} catch (error) {
-			console.error('Ошибка загрузки данных:', error)
+			console.error(error)
 			this.updateState({ isLoading: false })
 		}
 	},
@@ -68,7 +67,7 @@ export const PersonalInfo = defineComponent({
 				})
 			}
 		} catch (error) {
-			console.error('Ошибка загрузки профиля:', error)
+			console.error(error)
 		}
 	},
 
@@ -119,7 +118,7 @@ export const PersonalInfo = defineComponent({
 				isAddressLoading: false,
 			})
 		} catch (error) {
-			console.error('Ошибка саджеста адреса:', error)
+			console.error(error)
 			this.updateState({ isAddressLoading: false })
 		}
 	},
@@ -142,12 +141,6 @@ export const PersonalInfo = defineComponent({
 
 	validateField(field: string, value: string): string {
 		switch (field) {
-			case 'email':
-				if (!value) return 'Email обязателен'
-				if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
-					return 'Некорректный email'
-				return ''
-
 			case 'fullName':
 				if (!value) return 'Имя обязательно'
 				if (value.length < 2) return 'Имя слишком короткое'
@@ -193,7 +186,6 @@ export const PersonalInfo = defineComponent({
 		const { email, fullName, city, address } = this.state
 		const errors: Record<string, string> = {}
 
-		errors.email = this.validateField('email', email)
 		errors.fullName = this.validateField('fullName', fullName)
 		errors.city = this.validateField('city', city)
 		errors.address = this.validateField('address', address)
@@ -254,13 +246,8 @@ export const PersonalInfo = defineComponent({
 						on={{ input: this.handleChange('email') }}
 						class={`${styles.personalInfoForm__input} ${errors.email ? styles.personalInfoForm__input_error : ''}`}
 						required
-						disabled={this.props.readonly}
+						disabled={true}
 					/>
-					{errors.email ? (
-						<div class={`${styles.personalInfoForm__error} ${styles.active}`}>
-							{errors.email}
-						</div>
-					) : null}
 				</div>
 
 				<div class={styles.personalInfoForm__field}>
@@ -298,11 +285,7 @@ export const PersonalInfo = defineComponent({
 									})
 								},
 								focus: () => this.updateState({ showCitySuggestions: true }),
-								blur: () =>
-									setTimeout(
-										() => this.updateState({ showCitySuggestions: false }),
-										200,
-									),
+								blur: () => this.updateState({ showCitySuggestions: false }),
 							}}
 							class={`${styles.personalInfoForm__input} ${errors.city ? styles.personalInfoForm__input_error : ''}`}
 							required
@@ -347,11 +330,7 @@ export const PersonalInfo = defineComponent({
 									this.handleAddressInput(value)
 								},
 								focus: () => this.updateState({ showAddressSuggestions: true }),
-								blur: () =>
-									setTimeout(
-										() => this.updateState({ showAddressSuggestions: false }),
-										200,
-									),
+								blur: () => this.updateState({ showAddressSuggestions: false }),
 							}}
 							class={`${styles.personalInfoForm__input} ${errors.address ? styles.personalInfoForm__input_error : ''}`}
 							required
@@ -389,7 +368,7 @@ export const PersonalInfo = defineComponent({
 
 				<div class={styles.personalInfoForm__field}>
 					<textarea
-						placeholder="Комментарий к заказу"
+						placeholder="Комментарий"
 						value={this.state.comment}
 						rows={3}
 						on={{ input: this.handleChange('comment') }}
