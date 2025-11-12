@@ -1,4 +1,4 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import styles from './Button.module.scss'
 
 const buttonVariants = {
@@ -11,7 +11,14 @@ const buttonVariants = {
 export const Button = defineComponent({
 	render() {
 		const props = this.props
-		const { variant = 'accent', onClick, className = '', text, type, disabled = false } = props
+		const {
+			variant = 'accent',
+			onClick,
+			className = '',
+			text,
+			type,
+			disabled = false,
+		} = props
 		const buttonClasses = [styles.button, buttonVariants[variant], className]
 			.filter(Boolean)
 			.join(' ')

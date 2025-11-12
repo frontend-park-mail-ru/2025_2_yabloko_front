@@ -174,7 +174,8 @@ export class API {
 		const isError = !response.ok
 
 		try {
-			const rawData = await response.json()
+			const text = await response.text()
+			const rawData = text ? JSON.parse(text) : null 
 
 			if (isError) {
 				const errorMessage =
