@@ -55,7 +55,8 @@ export class API {
 				throw new Error(`HTTP ${response.status}: Failed to get CSRF token`)
 			}
 
-			const data = await response.json()
+			const text = await response.text()
+			const data = text ? JSON.parse(text) : {}
 			const newCsrfToken = data.csrf_token || this.getCsrfToken()
 
 			if (!newCsrfToken) {
@@ -175,7 +176,7 @@ export class API {
 
 		try {
 			const text = await response.text()
-			const rawData = text ? JSON.parse(text) : null 
+			const rawData = text ? JSON.parse(text) : null
 
 			if (isError) {
 				const errorMessage =
