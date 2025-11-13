@@ -1,4 +1,4 @@
-import { createApp } from '../framework/app'
+import { createApp } from '@antiquemouse/framework'
 import { LoginPage } from '../pages/LoginPage/LoginPage'
 import { MainPage } from '../pages/MainPage/MainPage'
 import { CheckoutPage } from '../pages/OrderPage/OrderPage'
