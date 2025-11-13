@@ -18,7 +18,7 @@ export const PaymentForm = defineComponent({
 
 	async handlePay() {
 		const response = await OrderApi.createOrder()
-		await StoreApi.updateCart([])
+		//await StoreApi.updateCart([])
 		const payParams = {
 			order_id: response.id,
 			price: response.total.toString(),

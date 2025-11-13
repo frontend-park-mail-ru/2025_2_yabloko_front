@@ -65,7 +65,7 @@ export class API {
 
 			return newCsrfToken
 		} catch (error) {
-			console.error('Failed to get CSRF token:', error)
+			console.error(error)
 			throw error
 		}
 	}
