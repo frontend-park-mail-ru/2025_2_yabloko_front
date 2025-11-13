@@ -1,6 +1,6 @@
 import { LoginForm } from '../../components/LoginForm/LoginForm'
 import { Navbar } from '../../components/Navbar/Navbar'
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import { navigate } from '../../modules/router'
 import styles from './LoginPage.module.scss'
 

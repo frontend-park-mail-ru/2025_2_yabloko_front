@@ -3,7 +3,7 @@ import { CardsHeader } from '../../components/CardsHeader/CardsHeader'
 import { Cart } from '../../components/Cart/Cart'
 import { Footer } from '../../components/Footer/Footer'
 import { Navbar } from '../../components/Navbar/Navbar'
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import { navigate } from '../../modules/router'
 import styles from './MainPage.module.scss'
 

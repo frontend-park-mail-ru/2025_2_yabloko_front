@@ -4,7 +4,7 @@ import { Footer } from '../../components/Footer/Footer'
 import { Navbar } from '../../components/Navbar/Navbar'
 import { PaymentForm } from '../../components/PaymentForm/PaymentForm'
 import { PersonalInfo } from '../../components/PersonalInfo/PersonalInfo'
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import {
 	getCartFromStorage,
 	removeFromCart,
