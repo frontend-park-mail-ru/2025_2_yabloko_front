@@ -143,6 +143,7 @@ export const AvatarForm = defineComponent({
 				if (avatarUrl.includes('localhost:8081')) {
 					avatarUrl = avatarUrl.replace('localhost:8081', '90.156.218.233:8081')
 				}
+				avatarUrl = avatarUrl.replace('90.156.218.233:8081', '90.156.218.233:8081/api/v0')
 
 				this.updateState({
 					currentAvatar: avatarUrl,
