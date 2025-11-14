@@ -4,7 +4,7 @@ import { Footer } from '../../components/Footer/Footer'
 import { Navbar } from '../../components/Navbar/Navbar'
 import { PaymentForm } from '../../components/PaymentForm/PaymentForm'
 import { PersonalInfo } from '../../components/PersonalInfo/PersonalInfo'
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import {
 	getCartFromStorage,
 	removeFromCart,
@@ -14,65 +14,56 @@ import { navigate } from '../../modules/router'
 import styles from './OrderPage.module.scss'
 
 interface CheckoutPageState {
-	email: string
-	fullName: string
-	city: string
-	street: string
-	house: string
-	building: string
-	apartment: string
-	comment: string
 	promoCode: string
-	items: ReturnType<typeof getCartFromStorage>
+	items: any[]
+	isLoading: boolean
 }
 
 export const CheckoutPage = defineComponent({
 	state(): CheckoutPageState {
 		return {
-			email: '',
-			fullName: '',
-			city: '',
-			street: '',
-			house: '',
-			building: '',
-			apartment: '',
-			comment: '',
 			promoCode: '',
-			items: getCartFromStorage(),
+			items: [],
+			isLoading: false,
 		}
 	},
 
-	onMounted() {
-		this.updateState({ items: getCartFromStorage() })
+	async onMounted() {
+		await this.loadCartItems()
 	},
 
-	handleFieldChange(field: string, value: string) {
-		this.updateState({ [field]: value } as Partial<CheckoutPageState>)
+	async loadCartItems() {
+		const items = await getCartFromStorage()
+		this.updateState({ items })
 	},
 
-	handleIncrease(id: string) {
+	async handleIncrease(id: string) {
 		const item = this.state.items.find(i => i.id === id)
 		if (item) {
-			updateQuantity(id, item.quantity + 1)
-			this.updateState({ items: getCartFromStorage() })
+			await updateQuantity(id, item.quantity + 1)
+			const items = await getCartFromStorage()
+			this.updateState({ items })
 		}
 	},
 
-	handleDecrease(id: string) {
+	async handleDecrease(id: string) {
 		const item = this.state.items.find(i => i.id === id)
 		if (!item) return
 		if (item.quantity <= 1) {
-			removeFromCart(id)
-			this.updateState({ items: getCartFromStorage() })
+			await removeFromCart(id)
+			const items = await getCartFromStorage()
+			this.updateState({ items })
 		} else {
-			updateQuantity(id, item.quantity - 1)
-			this.updateState({ items: getCartFromStorage() })
+			await updateQuantity(id, item.quantity - 1)
+			const items = await getCartFromStorage()
+			this.updateState({ items })
 		}
 	},
 
-	handleRemove(id: string) {
-		removeFromCart(id)
-		this.updateState({ items: getCartFromStorage() })
+	async handleRemove(id: string) {
+		await removeFromCart(id)
+		const items = await getCartFromStorage()
+		this.updateState({ items })
 	},
 
 	getTotal(): number {
@@ -84,24 +75,27 @@ export const CheckoutPage = defineComponent({
 
 	handleSubmit(e: Event) {
 		e.preventDefault()
-		const { email, fullName, city, street, house, apartment} = this.state
-		if (
-			!email ||
-			!fullName ||
-			!city ||
-			!street ||
-			!house ||
-			!apartment
-		) {
-			alert('Заполните обязательные поля и добавьте товары.')
-			return
-		}
 		navigate('/order/success')
 	},
 
 	render() {
-		const { items } = this.state
+		const { items, isLoading } = this.state
 		const total = this.getTotal()
+
+		if (isLoading) {
+			return (
+				<div class={styles.checkoutPage}>
+					<Navbar
+						onLogoClick={() => navigate('/')}
+						onLoginClick={() => navigate('/auth')}
+					/>
+					<div class={styles.checkoutPage__loading}>
+						<h2>Загрузка данных...</h2>
+					</div>
+					<Footer />
+				</div>
+			)
+		}
 
 		return (
 			<div class={styles.checkoutPage}>
@@ -120,7 +114,7 @@ export const CheckoutPage = defineComponent({
 									type="button"
 									variant="accent"
 									disabled={true}
-									text="Стандар 0₽"
+									text="Стандарт 0₽"
 								/>
 								<Button
 									type="button"
@@ -129,18 +123,7 @@ export const CheckoutPage = defineComponent({
 									text="Быстро 100₽"
 								/>
 							</div>
-							<PersonalInfo
-								email={this.state.email}
-								fullName={this.state.fullName}
-								region={this.state.region}
-								city={this.state.city}
-								street={this.state.street}
-								house={this.state.house}
-								building={this.state.building}
-								apartment={this.state.apartment}
-								comment={this.state.comment}
-								onFieldChange={(f, v) => this.handleFieldChange(f, v)}
-							/>
+							<PersonalInfo readonly={true} />
 						</form>
 
 						<div class={styles.checkoutPage__order}>
@@ -172,9 +155,9 @@ export const CheckoutPage = defineComponent({
 							<PaymentForm
 								total={total}
 								promoCode={this.state.promoCode}
-								onPromoChange={code => this.handlePromoChange(code)}
-								onApplyPromo={() => this.handleApplyPromo()}
-								onChangePayment={() => this.togglePaymentMethod()}
+								onPromoChange={code => this.updateState({ promoCode: code })}
+								onApplyPromo={() => {}}
+								onChangePayment={() => {}}
 							/>
 						</div>
 					</div>

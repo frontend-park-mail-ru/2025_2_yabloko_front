@@ -1,5 +1,4 @@
 .checkoutPage {
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
 
@@ -14,7 +13,7 @@
     &__form {
         display: flex;
         width: fit-content;
-        margin: 1.5rem auto;
+        margin: 0 auto;
         box-sizing: border-box;
         flex-wrap: wrap;
         justify-content: center;
@@ -48,6 +47,7 @@
         flex: 1;
         min-height: 0;
         max-height: 20rem;
+        overflow-y: auto;
         }
 
 }

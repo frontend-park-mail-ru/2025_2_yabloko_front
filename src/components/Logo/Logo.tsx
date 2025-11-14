@@ -1,4 +1,4 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 
 interface LogoProps {
 	size?: 'small' | 'medium' | 'large'

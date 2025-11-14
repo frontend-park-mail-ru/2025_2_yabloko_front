@@ -1,6 +1,6 @@
-import { defineComponent } from '../../framework/component'
-import { API } from '../../modules/api'
+import { defineComponent } from '@antiquemouse/framework'
 import styles from './CartItem.module.scss'
+import { API } from '../../modules/api'
 
 interface CartItemProps {
 	id: string
@@ -18,7 +18,7 @@ export const CartItem = defineComponent({
 		const props = this.props as CartItemProps
 		const { id, name, price, quantity, card_img, onIncrease, onDecrease } =
 			props
-
+			
 		const handleIncrease = (e: Event) => {
 			e.stopPropagation()
 			e.preventDefault()
@@ -39,7 +39,7 @@ export const CartItem = defineComponent({
 					{card_img && (
 						<img
 							class={styles.cartItem__image}
-							src={`${API.BASE_URL}/image${card_img}`}
+							src={`${API.SERVICES.PICS}${card_img}`}
 							alt={name}
 						/>
 					)}
@@ -49,7 +49,6 @@ export const CartItem = defineComponent({
 					<div class={styles.cartItem__name}>{name}</div>
 					<div class={styles.cartItem__price}>{price} ₽</div>
 				</div>
-
 				<div class={styles.cartItem__controls}>
 					<button
 						class={styles.cartItem__controlBtn}

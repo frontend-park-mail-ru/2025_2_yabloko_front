@@ -1,19 +1,16 @@
-type StoreKey = 'auth.isAuthenticated' | 'auth.user'
+type StoreKey = 'auth.isAuthenticated' | 'auth.user' | 'cart.count'
 
 class Store {
 	private data: { [key in StoreKey]: any } = {
 		'auth.isAuthenticated': false,
 		'auth.user': null,
-		// 'auth.isAuthenticated': true, // ← меняем на true
-		// 'auth.user': {
-		// 	id: '1',
-		// 	email: 'test@mail.com'
-		// },
+		'cart.count': null,
 	}
 
 	private listeners: { [key in StoreKey]: (() => void)[] } = {
 		'auth.isAuthenticated': [],
 		'auth.user': [],
+		'cart.count': [],
 	}
 
 	get(key: StoreKey): any {

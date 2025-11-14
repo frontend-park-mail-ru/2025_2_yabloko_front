@@ -4,7 +4,7 @@ const stringReplaceLoader = {
 	loader: 'string-replace-loader',
 	options: {
 		multiple: [
-			{ search: 'ENV_API_ORIGIN', replace: 'http://localhost:8080' },
+			{ search: 'ENV_API_ORIGIN', replace: '' },
 			{ search: 'ENV_API_VERSION', replace: 'v0' },
 		],
 	},

@@ -3,7 +3,7 @@ import { CardsHeader } from '../../components/CardsHeader/CardsHeader'
 import { Cart } from '../../components/Cart/Cart'
 import { Footer } from '../../components/Footer/Footer'
 import { Navbar } from '../../components/Navbar/Navbar'
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import { navigate } from '../../modules/router'
 import styles from './MainPage.module.scss'
 
@@ -14,7 +14,7 @@ interface MainPageProps {
 export const MainPage = defineComponent({
 	state() {
 		return {
-			batchSize: 8,
+			batchSize: 16,
 			isCartOpen: false,
 		}
 	},
@@ -42,9 +42,15 @@ export const MainPage = defineComponent({
 					onCartClick={() => this.openCart()}
 				/>
 				<CardsHeader />
-				<div
-					class={styles.mainPage__container}
-				>
+				<div class={styles.mainPage__container}>
+					<Batch
+						batchSize={this.state.batchSize}
+						onCardClick={props.onCardClick}
+					/>
+					<Batch
+						batchSize={this.state.batchSize}
+						onCardClick={props.onCardClick}
+					/>
 					<Batch
 						batchSize={this.state.batchSize}
 						onCardClick={props.onCardClick}

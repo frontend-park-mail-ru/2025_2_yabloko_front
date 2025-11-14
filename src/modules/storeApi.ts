@@ -78,6 +78,10 @@ export interface CartItem {
 	name: string
 	price: number
 	quantity: number
+	options: Array<{
+		name: string
+		value: string
+	}>
 	card_img: string
 }
 
@@ -91,18 +95,22 @@ export class StoreApi {
 	 * Получить список магазинов
 	 */
 	static async getStores(params: GetStoresParams = {}): Promise<Store[]> {
-		const body = {
-			limit: params.limit || 12,
-			last_id: params.lastId || '',
-			tag_id: params.tagId || '',
-			sorted: params.sorted || '',
-			desc: params.desc || false,
-			search: params.search || '',
-			category: params.category || '',
-			cityID: params.cityID || '',
-		}
+		const queryParams = new URLSearchParams()
 
-		const response = await API.post('/stores', body)
+		if (params.limit) queryParams.append('limit', params.limit.toString())
+		if (params.lastId) queryParams.append('last_id', params.lastId)
+		if (params.tagId) queryParams.append('tag_id', params.tagId)
+		if (params.sorted) queryParams.append('sorted', params.sorted)
+		if (params.desc !== undefined)
+			queryParams.append('desc', params.desc.toString())
+		if (params.search) queryParams.append('search', params.search)
+		if (params.category) queryParams.append('category', params.category)
+		if (params.cityID) queryParams.append('city_id', params.cityID)
+
+		const queryString = queryParams.toString()
+		const url = `/stores${queryString ? `?${queryString}` : ''}`
+
+		const response = await API.get('STORE', url)
 		const data = response.body
 
 		return data
@@ -112,7 +120,7 @@ export class StoreApi {
 	 * Получить магазин по ID
 	 */
 	static async getStoreById(storeId: string): Promise<Store | null> {
-		const response = await API.get(`/stores/${storeId}`)
+		const response = await API.get('STORE', `/stores/${storeId}`)
 		return response.body ?? null
 	}
 
@@ -162,38 +170,51 @@ export class StoreApi {
 	 * @returns Массив товаров магазина
 	 */
 	static async getStoreItems(storeId: string): Promise<Item[]> {
-		const response = await API.get(`/stores/${storeId}/items`)
+		const response = await API.get('STORE', `/stores/${storeId}/items`)
 		return Array.isArray(response.body) ? response.body : []
 	}
 
 	/**
 	 * Получить корзину пользователя
 	 */
-	static async getUserCart(userId: string): Promise<Cart[]> {
-		const response = await API.get(`/users/${userId}/cart`)
-		return Array.isArray(response.body) ? response.body : []
+	static async getUserCart(): Promise<{
+		user_id: string
+		items: CartItem[]
+		total_price: number
+	}> {
+		const response = await API.get('STORE', '/cart')
+		if (response.body && typeof response.body === 'object') {
+			return {
+				user_id: response.body.user_id || '',
+				items: Array.isArray(response.body.items) ? response.body.items : [],
+				total_price: response.body.total_price || 0,
+			}
+		}
+		return {
+			user_id: '',
+			items: [],
+			total_price: 0,
+		}
 	}
 
 	/**
 	 * Обновить корзину
 	 */
 	static async updateCart(
-		cartId: string,
-		cartUpdate: CartUpdate,
-	): Promise<UpdateResponse> {
-		const response = await API.put(`/carts/${cartId}`, cartUpdate)
-		return response.body
+		items: { id: string; quantity: number }[],
+	): Promise<void> {
+		await API.put('STORE', '/cart', { items })
 	}
-
 	/**
 	 * Синхронизировать выбранный город пользователя
 	 */
 	static async syncCity(userId: string, cityId: string): Promise<void> {
-		await API.post(`/users/${userId}/city`, { city_id: cityId })
+		await API.post('STORE', `/users/${userId}/city`, { city_id: cityId })
 	}
 
 	static async getCities(): Promise<City[]> {
-		const response = await API.get(`/stores/cities`)
+		const response = await API.get('STORE', `/stores/cities`)
 		return response.body ?? []
 	}
+
 }

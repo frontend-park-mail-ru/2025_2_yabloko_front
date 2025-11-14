@@ -1,4 +1,4 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import styles from './Footer.module.scss'
 
 export const Footer = defineComponent({

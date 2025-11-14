@@ -1,8 +1,8 @@
-import { defineComponent } from '../../framework/component'
-import { Store } from '../../modules/storeApi'
+import { defineComponent } from '@antiquemouse/framework'
 import { navigate } from '../../modules/router'
-import {API} from '../../modules/api'
+import { Store } from '../../modules/storeApi'
 import styles from './Card.module.scss'
+import { API } from '../../modules/api'
 
 interface CardProps {
 	store: Store
@@ -38,7 +38,7 @@ export const Card = defineComponent({
 						{store.card_img && (
 							<img
 								class={styles.storeCard__image}
-								src={`${API.BASE_URL}/image${store.card_img}`}
+								src={`${API.SERVICES.PICS}${store.card_img}`}
 								alt={store.name}
 							/>
 						)}

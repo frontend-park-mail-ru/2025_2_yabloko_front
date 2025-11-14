@@ -1,6 +1,6 @@
-import './components/CommonCSS/variables.css'
+import './components/CommonCSS/Variables.css'
 import './components/CommonCSS/normalize.css'
-import { h } from './framework/h'
+import { h } from '@antiquemouse/framework'
 import { authManager } from './modules/authManager'
 import { initRouter } from './modules/router'
 ;(window as any).h = h

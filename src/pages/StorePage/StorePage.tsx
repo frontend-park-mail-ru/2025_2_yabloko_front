@@ -2,7 +2,7 @@ import { Cart } from '../../components/Cart/Cart'
 import { Navbar } from '../../components/Navbar/Navbar'
 import { ProductsBatch } from '../../components/ProductsBatch/ProductsBatch'
 import { StoreInfo } from '../../components/StoreInfo/StoreInfo'
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import { addToCart } from '../../modules/cartManager'
 import { navigate } from '../../modules/router'
 import { Item, Store, StoreApi } from '../../modules/storeApi'
@@ -102,6 +102,7 @@ export const StorePage = defineComponent({
 									price: product.price,
 									quantity: 1,
 									card_img: product.card_img,
+									options: []
 								})
 							}
 						}}

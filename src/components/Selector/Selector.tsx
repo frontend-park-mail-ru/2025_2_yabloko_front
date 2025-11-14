@@ -1,6 +1,9 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import { authManager } from '../../modules/authManager'
+import { Profile, profileApi } from '../../modules/profileApi'
+import { store } from '../../modules/store'
 import { StoreApi } from '../../modules/storeApi'
+import { AUTH_IS_AUTHENTICATED } from '../../utils/auth'
 import styles from './Selector.module.scss'
 
 interface City {
@@ -10,10 +13,18 @@ interface City {
 
 const CITY_KEY = 'selected_city'
 
-function loadSelectedCity(): City | null {
+async function loadSelectedCity(): Promise<City> | null {
 	try {
-		const data = localStorage.getItem(CITY_KEY)
-		return data ? JSON.parse(data) : null
+		if (store.get(AUTH_IS_AUTHENTICATED) === true) {
+			const user = authManager.getUser()
+			const profile = (await profileApi.getProfile(user.id)).body as Profile
+			const cities = await StoreApi.getCities()
+			const userCity = cities.find(city => city.id === profile.city_id)
+			return userCity
+		} else {
+			const data = localStorage.getItem(CITY_KEY)
+			return data ? JSON.parse(data) : null
+		}
 	} catch (error) {
 		console.error(error)
 		return null
@@ -24,7 +35,7 @@ export const CitySelector = defineComponent({
 	state() {
 		return {
 			cities: [] as City[],
-			selectedCity: loadSelectedCity(),
+			selectedCity: null as City | null,
 			query: '',
 			isOpen: false,
 		}
@@ -39,15 +50,17 @@ export const CitySelector = defineComponent({
 		}
 
 		document.addEventListener('click', handleDocumentClick)
-
 		this.handleDocumentClick = handleDocumentClick
-
 		this.debounceTimer = null
 
 		StoreApi.getCities()
-			.then(cities => {
+			.then(async cities => {
 				this.updateState({ cities })
-				if (!this.state.selectedCity && cities.length > 0) {
+
+				const selectedCity = await loadSelectedCity()
+				if (selectedCity) {
+					this.updateState({ selectedCity })
+				} else if (cities.length > 0) {
 					this.handleSelect(cities[0])
 				}
 			})
@@ -66,12 +79,17 @@ export const CitySelector = defineComponent({
 	},
 
 	saveSelectedCity(city: City): void {
-		if (!authManager.isAuthenticated()) {
-			try {
+		try {
+			if (authManager.getUser()) {
+				profileApi.updateProfile(authManager.getUser().id, {
+					city_id: city.id,
+					address: '',
+				})
+			} else {
 				localStorage.setItem(CITY_KEY, JSON.stringify(city))
-			} catch (error) {
-				console.error(error)
 			}
+		} catch (error) {
+			console.error(error)
 		}
 		this.updateState({ selectedCity: city })
 	},

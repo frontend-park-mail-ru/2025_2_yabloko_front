@@ -1,4 +1,5 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
+import { authManager } from '../../modules/authManager'
 import { navigate } from '../../modules/router'
 import {
 	validateConfirmPassword,
@@ -40,21 +41,37 @@ export const LoginForm = defineComponent({
 			passConfErr: '',
 		}
 	},
+	
 
 	async handleSubmit(e: Event) {
 		e.preventDefault()
 
-		const { isAuth, isAwaiting } = this.state
+		const { isAuth, isAwaiting, email, password } = this.state
 
 		if (isAwaiting) {
 			return
 		}
 
-		this.updateState({ isAwaiting: true, authErr: '' })
+		const safeUpdate = (partial: Partial<LoginFormState>) => {
+			try {
+				this.updateState(partial)
+			} catch (err) {
+			}
+		}
+
+		safeUpdate({ isAwaiting: true, authErr: '' })
 
 		try {
+			if (isAuth) {
+				await authManager.login(email, password)
+			} else {
+				await authManager.register(email, password)
+			}
+
 			navigate('/')
+			
 		} catch (error: unknown) {
+
 			let message = 'Ошибка авторизации'
 
 			if (error && typeof error === 'object') {
@@ -76,10 +93,7 @@ export const LoginForm = defineComponent({
 				message = error
 			}
 
-			console.error('Auth error:', error)
-			this.updateState({ authErr: message })
-		} finally {
-			this.updateState({ isAwaiting: false })
+			safeUpdate({ authErr: message, isAwaiting: false })
 		}
 	},
 
@@ -96,6 +110,7 @@ export const LoginForm = defineComponent({
 		this.updateState({
 			email: value,
 			emailErr: validateEmail(value),
+			authErr: '',
 		})
 	},
 
@@ -104,6 +119,7 @@ export const LoginForm = defineComponent({
 		this.updateState({
 			password: value,
 			passErr: validatePassword(value),
+			authErr: '',
 		})
 	},
 
@@ -112,6 +128,7 @@ export const LoginForm = defineComponent({
 		this.updateState({
 			confirmPassword: value,
 			passConfErr: validateConfirmPassword(value, this.state.password),
+			authErr: '',
 		})
 	},
 
@@ -132,6 +149,7 @@ export const LoginForm = defineComponent({
 			<div class={styles.loginForm}>
 				<Logo size="large" />
 				<form
+					key={`form-${isAuth}-${isAwaiting}`} 
 					class={styles.loginForm__container}
 					novalidate
 					{...{
@@ -170,7 +188,7 @@ export const LoginForm = defineComponent({
 					</div>
 
 					<div
-						class={styles.loginForm__field}
+						class={styles.loginForm__error}
 						style={{ display: passErr ? 'block' : 'none' }}
 					>
 						{passErr}

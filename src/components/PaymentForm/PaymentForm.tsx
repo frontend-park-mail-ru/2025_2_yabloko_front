@@ -1,4 +1,6 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
+import { OrderApi } from '../../modules/orderApi'
+import { StoreApi } from '../../modules/storeApi'
 import { Button } from '../Button/Button'
 import styles from './PaymentForm.module.scss'
 
@@ -11,9 +13,19 @@ interface PaymentFormProps {
 	onChangePayment: () => void
 }
 
-
 export const PaymentForm = defineComponent({
 	props: [] as (keyof PaymentFormProps)[],
+
+	async handlePay() {
+		const response = await OrderApi.createOrder()
+		//await StoreApi.updateCart([])
+		const payParams = {
+			order_id: response.id,
+			price: response.total.toString(),
+			return_url: window.location.origin + '/',
+		}
+		await OrderApi.fakePayment(payParams)
+	},
 
 	render() {
 		const props = this.props as PaymentFormProps
@@ -79,7 +91,9 @@ export const PaymentForm = defineComponent({
 							type="button"
 							variant="success"
 							text="Оплатить"
-							onClick={() => alert('Заказ за наш счет!')}
+							onClick={() => {
+								this.handlePay()
+							}}
 						/>
 					</div>
 				</div>

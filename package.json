@@ -5,8 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "nodemon ./server/server.js",
-		"dev:ts": "node custom-tsx/cli.js src/index.tsx",
-		"dev:jsx": "node custom-tsx/cli.js src/index.tsx",
+		"dev:ts": "node src/index.tsx",
+		"dev:jsx": "node src/index.tsx",
 		"prepare": "husky install",
 		"pre-commit": "lint-staged",
 		"lint": "npx eslint --ignore-pattern ./src/ --fix",
@@ -21,7 +21,6 @@
 		"@antiquemouse/framework": "^1.0.1",
 		"@babel/preset-react": "^7.27.1",
 		"babel-loader": "^10.0.0",
-		"custom-tsx": "file:./custom-tsx",
 		"express": "^5.1.0",
 		"framework": "file:./src/framework"
 	},
@@ -38,6 +37,7 @@
 		"eslint-plugin-compat": "^6.0.2",
 		"globals": "^16.4.0",
 		"handlebars": "^4.7.8",
+		"http-proxy-middleware": "^3.0.5",
 		"husky": "^8.0.3",
 		"lint-staged": "^16.2.3",
 		"nodemon": "^3.1.10",

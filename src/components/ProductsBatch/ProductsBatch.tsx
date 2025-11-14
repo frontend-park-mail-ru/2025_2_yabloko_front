@@ -1,4 +1,4 @@
-import { defineComponent } from '../../framework/component'
+import { defineComponent } from '@antiquemouse/framework'
 import { Item } from '../../modules/storeApi'
 import { ProductCard } from '../ProductCard/ProductCard'
 import styles from './ProductsBatch.module.scss'

@@ -1,5 +1,4 @@
-import { defineComponent } from '../../framework/component'
-import { authManager } from '../../modules/authManager'
+import { defineComponent } from '@antiquemouse/framework'
 import {
 	getCartFromStorage,
 	removeFromCart,
@@ -19,40 +18,45 @@ interface CartProps {
 export const Cart = defineComponent({
 	state() {
 		return {
-			items: getCartFromStorage(),
+			items: [] as any[],
 		}
 	},
 
-	onMounted() {
-		this.updateState({ items: getCartFromStorage() })
+	async onMounted() {
+		const items = await getCartFromStorage()
+		this.updateState({ items })
 	},
 
-	handleIncrease(id: string) {
+	async handleIncrease(id: string) {
 		const item = this.state.items.find(i => i.id === id)
 		if (item) {
-			updateQuantity(id, item.quantity + 1)
-			this.updateState({ items: getCartFromStorage() })
+			await updateQuantity(id, item.quantity + 1)
+			const items = await getCartFromStorage()
+			this.updateState({ items })
 		}
 	},
 
-	handleDecrease(id: string) {
+	async handleDecrease(id: string) {
 		const item = this.state.items.find(i => i.id === id)
 		if (!item) {
 			return
 		}
 
 		if (item.quantity <= 1) {
-			removeFromCart(id)
-			this.updateState({ items: getCartFromStorage() })
+			await removeFromCart(id)
+			const items = await getCartFromStorage()
+			this.updateState({ items })
 		} else {
-			updateQuantity(id, item.quantity - 1)
-			this.updateState({ items: getCartFromStorage() })
+			await updateQuantity(id, item.quantity - 1)
+			const items = await getCartFromStorage()
+			this.updateState({ items })
 		}
 	},
 
-	handleRemove(id: string) {
-		removeFromCart(id)
-		this.updateState({ items: getCartFromStorage() })
+	async handleRemove(id: string) {
+		await removeFromCart(id)
+		const items = await getCartFromStorage()
+		this.updateState({ items })
 	},
 
 	getTotal(): number {

@@ -1,6 +1,6 @@
-import { defineComponent } from '../../framework/component'
-import { API } from '../../modules/api'
+import { defineComponent } from '@antiquemouse/framework'
 import styles from './ProductCard.module.scss'
+import { API } from '../../modules/api'
 
 interface Product {
 	id: string
@@ -32,7 +32,7 @@ export const ProductCard = defineComponent({
 					{product.card_img && (
 						<img
 							class={styles.productCard__image}
-							src={`${API.BASE_URL}/image${product.card_img}`}
+							src={`${API.SERVICES.PICS}${product.card_img}`}
 							alt={product.name}
 						/>
 					)}
