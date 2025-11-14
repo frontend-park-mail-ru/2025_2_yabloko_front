@@ -2,6 +2,7 @@ import { defineComponent } from '@antiquemouse/framework'
 import { navigate } from '../../modules/router'
 import { Store } from '../../modules/storeApi'
 import styles from './Card.module.scss'
+import { API } from '../../modules/api'
 
 interface CardProps {
 	store: Store
@@ -37,7 +38,7 @@ export const Card = defineComponent({
 						{store.card_img && (
 							<img
 								class={styles.storeCard__image}
-								src={`http://90.156.218.233:8080${store.card_img}`}
+								src={`${API.SERVICES.STORE}${store.card_img}`}
 								alt={store.name}
 							/>
 						)}

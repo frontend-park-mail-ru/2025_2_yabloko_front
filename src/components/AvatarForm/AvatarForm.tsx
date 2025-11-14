@@ -14,6 +14,8 @@ interface AvatarFormState {
 	avatarVersion: number
 }
 
+const IMAGE_SIZE = 10 * 1024 * 1024
+
 export const AvatarForm = defineComponent({
 	state(): AvatarFormState {
 		return {
@@ -83,7 +85,7 @@ export const AvatarForm = defineComponent({
 			return
 		}
 
-		if (file.size > 10 * 1024 * 1024) {
+		if (file.size > IMAGE_SIZE) {
 			this.updateState({
 				error: 'Размер файла не должен превышать 10MB',
 				selectedFile: null,
