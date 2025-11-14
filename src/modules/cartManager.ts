@@ -30,7 +30,6 @@ export async function syncCart(): Promise<void> {
 		if (localCart.length > 0 && userCart.items.length === 0) {
 			const updateItems = localCart.map(item => ({
 				id: item.id,
-				store_id: 'c45a7b64-df32-4e84-b2cb-85a3b8e6b0fc',
 				quantity: Number(item.quantity),
 			}))
 			await StoreApi.updateCart(updateItems)
@@ -52,7 +51,6 @@ export async function saveCartToStorage(items: CartItem[]): Promise<void> {
 		if (await authManager.checkAuth()) {
 			const updateItems = items.map(item => ({
 				id: item.id,
-				store_id: 'c45a7b64-df32-4e84-b2cb-85a3b8e6b0fc',
 				quantity: Number(item.quantity),
 			}))
 			await StoreApi.updateCart(updateItems)

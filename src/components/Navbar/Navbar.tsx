@@ -77,10 +77,6 @@ export const Navbar = defineComponent({
 			if (response.service.success && response.body.avatar_url) {
 				let avatarUrl = response.body.avatar_url
 
-				if (avatarUrl.includes('localhost:8081')) {
-					avatarUrl = avatarUrl.replace('localhost:8081', '90.156.218.233:8081')
-				}
-
 				this.updateState({ userAvatar: avatarUrl })
 			}
 		} catch (error) {
@@ -122,9 +118,9 @@ export const Navbar = defineComponent({
 					{userAuthed ? (
 						[
 							<IconButton
-								src="/static/icons/bell.png"
-								alt="Уведомления"
-								text="Уведомления"
+								src="/static/icons/checklist.png"
+								alt="История"
+								text="История"
 							/>,
 							<IconButton
 								src={userAvatar || '/static/icons/user.png'}
