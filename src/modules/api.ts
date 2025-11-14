@@ -13,6 +13,7 @@ export class API {
 		AUTH: 'http://90.156.218.233:8082/api/v0',
 		PROFILE: 'http://90.156.218.233:8081/api/v0',
 		STORE: 'http://90.156.218.233:8080/api/v0',
+		PICS: 'http://90.156.218.233:8080',
 	}
 
 	private static csrfRequest: Promise<string> | null = null

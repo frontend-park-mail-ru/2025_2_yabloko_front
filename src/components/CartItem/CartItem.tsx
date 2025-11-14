@@ -1,5 +1,6 @@
 import { defineComponent } from '@antiquemouse/framework'
 import styles from './CartItem.module.scss'
+import { API } from '../../modules/api'
 
 interface CartItemProps {
 	id: string
@@ -17,13 +18,7 @@ export const CartItem = defineComponent({
 		const props = this.props as CartItemProps
 		const { id, name, price, quantity, card_img, onIncrease, onDecrease } =
 			props
-
-		const getCorrectImageUrl = (imgPath: string) => {
-			if (!imgPath) return ''
-			let correctedPath = imgPath.replace('/stores/', '/items/')
-			return `http://90.156.218.233:8080${correctedPath}`
-		}
-
+			
 		const handleIncrease = (e: Event) => {
 			e.stopPropagation()
 			e.preventDefault()
@@ -44,7 +39,7 @@ export const CartItem = defineComponent({
 					{card_img && (
 						<img
 							class={styles.cartItem__image}
-							src={getCorrectImageUrl(card_img)}
+							src={`${API.SERVICES.PICS}${card_img}`}
 							alt={name}
 						/>
 					)}
