@@ -100,7 +100,7 @@ export const Cart = defineComponent({
 										name={item.name}
 										price={item.price}
 										quantity={item.quantity}
-										card_img={item.card_img}
+										card_img={`items/${item.card_img}`}
 										onIncrease={() => this.handleIncrease(item.id)}
 										onDecrease={() => this.handleDecrease(item.id)}
 										onRemove={() => this.handleRemove(item.id)}
