@@ -1,28 +1,66 @@
 {
-  "name": "front",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prestart": "npm run compile:templates",
-    "start": "nodemon ./server.js",
-    "compile:card": "handlebars public/components/Cards/Cards.hbs -f public/components/Cards/Cards.precompiled.js",
-    "compile:cardHeader": "handlebars public/components/CardHeader/CardHeader.hbs -f public/components/CardHeader/CardHeader.precompiled.js",
-    "compile:store": "handlebars public/components/Store/Store.hbs -f public/components/Store/Store.precompiled.js",
-    "compile:login": "handlebars public/components/Login/Login.hbs -f public/components/Login/Login.precompiled.js",
-    "compile:header": "handlebars public/components/Header/Header.hbs -f public/components/Header/Header.precompiled.js",
-    "compile:templates": "npm run compile:card && npm run compile:cardHeader && npm run compile:store && npm run compile:login &&npm run compile:header"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^5.1.0",
-    "hbs": "^4.2.0"
-  },
-  "devDependencies": {
-    "handlebars": "^4.7.8",
-    "nodemon": "^3.1.10"
-  }
+	"name": "front",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon ./server/server.js",
+		"dev:ts": "node src/index.tsx",
+		"dev:jsx": "node src/index.tsx",
+		"prepare": "husky install",
+		"pre-commit": "lint-staged",
+		"lint": "npx eslint --ignore-pattern ./src/ --fix",
+		"format": "prettier --write .",
+		"format:ts": "prettier --write \"src/**/*.ts\"",
+		"bundle": "webpack -c ./webpack.config.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@antiquemouse/framework": "^1.0.1",
+		"@babel/preset-react": "^7.27.1",
+		"babel-loader": "^10.0.0",
+		"express": "^5.1.0",
+		"framework": "file:./src/framework"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.28.3",
+		"@babel/core": "^7.28.4",
+		"@babel/preset-env": "^7.28.3",
+		"@babel/preset-typescript": "^7.27.1",
+		"@typescript-eslint/eslint-plugin": "^8.46.0",
+		"@typescript-eslint/parser": "^8.46.0",
+		"css-loader": "^6.11.0",
+		"eslint": "^9.37.0",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-compat": "^6.0.2",
+		"globals": "^16.4.0",
+		"handlebars": "^4.7.8",
+		"http-proxy-middleware": "^3.0.5",
+		"husky": "^8.0.3",
+		"lint-staged": "^16.2.3",
+		"nodemon": "^3.1.10",
+		"prettier": "^3.6.2",
+		"prettier-plugin-organize-imports": "^4.3.0",
+		"sass": "^1.93.3",
+		"sass-loader": "^16.0.6",
+		"string-replace-loader": "^3.2.0",
+		"style-loader": "^3.3.4",
+		"ts-loader": "^9.5.4",
+		"typescript": "^5.9.3",
+		"webpack": "^5.102.1",
+		"webpack-cli": "^6.0.1"
+	},
+	"lint-staged": {
+		"*.{ts,tsx,js,jsx}": [
+			"eslint --fix",
+			"prettier --write",
+			"git add"
+		],
+		"*.{md,json,yml,yaml,css,scss}": [
+			"prettier --write",
+			"git add"
+		]
+	}
 }

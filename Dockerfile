@@ -4,18 +4,18 @@ FROM node:24 AS builder
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
+RUN npm i
 
 COPY . .
-RUN npm run prestart
+RUN npm run bundle
 
 FROM node:24
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm i
 
 COPY --from=builder /app ./
 EXPOSE 3000
-CMD ["node", "server.js"]
+CMD ["node", "server/server.js"]

@@ -1,0 +1,32 @@
+:root {
+	--color-dark: #000000;
+
+	--color-light: #ffffff;
+	--color-background-accent: #f8f8f8;
+
+	--color-accent: #fe7743;
+	--color-accent-hover: #d75523;
+
+	--color-success: #4ebd6c;
+	--color-success-hover: #1e893a;
+
+	--color-err: #f45959;
+	--color-err-hover: #da1f1f;
+
+	--color-primary: #3e586b;
+	--color-secondary: #447d9b;
+	--color-hover: #273f4f;
+
+	--color-input-stroke: #ccc;
+	--color-blue: #0000ff;
+
+	--color-dark-transparent: rgba(0, 0, 0, 0.3);
+	--color-dark-transparent-hover: rgba(0, 0, 0, 0.5);
+
+	--shadow: 0 4px 12px rgba(0.2, 0.2, 0.2, 0.2);
+	--shadow-hover: 0 4px 12px rgba(0.5, 0.5, 0.5, 0.5);
+
+	--border-radius-small: 8px;
+	--border-radius-medium: 16px;
+	--border-radius-large: 24px;
+}

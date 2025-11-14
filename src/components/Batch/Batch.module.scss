@@ -1,0 +1,24 @@
+.batch {
+    &__grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        justify-items: center;
+        width: 100%;
+        min-height: 0;
+        align-items: flex-start;
+    }
+
+    &__grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+        width: 100%;
+        max-width: 75rem;
+        margin: 0 auto;
+        padding: 0 0.75rem;
+        box-sizing: border-box;
+        align-items: flex-start; 
+    }
+}
