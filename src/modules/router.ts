@@ -1,10 +1,10 @@
 import { createApp } from '@antiquemouse/framework'
 import { LoginPage } from '../pages/LoginPage/LoginPage'
 import { MainPage } from '../pages/MainPage/MainPage'
-import { CheckoutPage } from '../pages/OrderPage/OrderPage'
+import { CheckoutPage } from '../pages/CheckoutPage/CheckoutPage'
 import { ProfilePage } from '../pages/ProfilePage/ProfilePage'
 import { StorePage } from '../pages/StorePage/StorePage'
-import { authManager } from './authManager'
+import { OrderPage } from '../pages/OrderPage/OrderPage'
 
 interface Page {
 	component: any
@@ -17,6 +17,7 @@ const pathsPages: { [key: string]: Page } = {
 	'/checkout': { component: CheckoutPage, title: 'AppleClub - оформление' },
 	'/profile': { component: ProfilePage, title: 'AppleClub - профиль' },
 	'/store/:id': { component: StorePage, title: 'AppleClub - магазин' },
+	'/orders/:id': { component: OrderPage, title: 'AppleClub - заказ' },
 }
 
 let currentApp: any = null

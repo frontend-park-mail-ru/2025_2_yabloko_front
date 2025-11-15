@@ -6,6 +6,7 @@ import { Navbar } from '../../components/Navbar/Navbar'
 import { defineComponent } from '@antiquemouse/framework'
 import { navigate } from '../../modules/router'
 import styles from './MainPage.module.scss'
+import { SupportWidget } from '../../components/SupportWidget/SupportWidget'
 
 interface MainPageProps {
 	onCardClick?: (storeId: number) => void
@@ -58,6 +59,8 @@ export const MainPage = defineComponent({
 				</div>
 				<Footer />
 				{this.state.isCartOpen ? <Cart onClose={() => this.closeCart()} /> : ''}
+
+				<SupportWidget />
 			</div>
 		)
 	},

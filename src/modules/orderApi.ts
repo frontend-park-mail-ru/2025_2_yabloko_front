@@ -35,22 +35,22 @@ export interface FakePaymentParams {
 
 export class OrderApi {
 	static async getOrders(): Promise<Order[]> {
-		const response = await API.get('STORE', '/orders')
+		const response = await API.get('ORDER', '/orders')
 		return response.body ?? []
 	}
 
 	static async getOrderById(id: string): Promise<Order> {
-		const response = await API.get('STORE', `/orders/${id}`)
+		const response = await API.get('ORDER', `/orders/${id}`)
 		return response.body ?? null
 	}
 
     static async createOrder(): Promise<OrderInfo>{
-        const response = await API.post('STORE', `/orders`)
+        const response = await API.post('ORDER', `/orders`)
 		return response.body ?? null
     }
 
 	static async getOrderStatusById(id: string): Promise<string> {
-		const response = await API.get('STORE', `/orders/${id}/status`)
+		const response = await API.get('ORDER', `/orders/${id}/status`)
 		return response.body ?? null
 	}
 
