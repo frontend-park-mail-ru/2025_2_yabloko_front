@@ -12,7 +12,10 @@
 	},
 	"devDependencies": {
 		"@antiquemouse/framework": "^1.0.1",
-		"string-replace-loader": "^2.3.0",
+		"@babel/core": "^7.28.5",
+		"@babel/preset-env": "^7.28.5",
+		"@babel/preset-react": "^7.28.5",
+		"babel-loader": "^10.0.0",
 		"css-loader": "^6.8.0",
 		"html-webpack-plugin": "^5.5.0",
 		"sass": "^1.63.0",
