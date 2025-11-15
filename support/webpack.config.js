@@ -5,7 +5,7 @@ const webpackModule = {
   rules: [
     {
       test: /\.tsx?$/,
-      use: ["babel-loader", stringReplaceLoader],
+      use: ["babel-loader"],
       exclude: /node_modules/,
     },
     {
