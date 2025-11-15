@@ -27,7 +27,7 @@ export const SupportWidget = defineComponent({
 				{this.state.isOpen && (
 					<div class={styles.supportWindow}>
 						<iframe
-							src="http://90.156.218.233:3001"
+							src="http://localhost:3001"
 							width="400"
 							height="600"
 							style={{
