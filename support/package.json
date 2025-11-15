@@ -7,6 +7,9 @@
 		"start": "nodemon ./server.js",
 		"bundle": "webpack -c ./webpack.config.js"
 	},
+	"dependencies": {
+		"express": "^4.18.0"
+	},
 	"devDependencies": {
 		"@antiquemouse/framework": "^1.0.1",
 		"css-loader": "^6.8.0",
