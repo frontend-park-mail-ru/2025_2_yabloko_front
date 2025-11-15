@@ -7,6 +7,8 @@ RUN npm install
 
 COPY . .
 
+RUN npm run bundle
+
 EXPOSE 3001
 
 CMD ["node", "server.js"]
