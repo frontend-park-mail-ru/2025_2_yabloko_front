@@ -1,26 +1,19 @@
-const express = require('express')
-const path = require('path')
+import express from 'express'
+import path, { dirname } from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
 const app = express()
 
+app.use('/dist', express.static(path.join(__dirname, 'dist')))
+
 app.get('/*', (req, res) => {
-	const html = `
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Поддержка</title>
-    <style>
-        body { margin: 0; padding: 20px; font-family: Arial; }
-    </style>
-</head>
-<body>
-    <h1>🛟 Поддержка работает!</h1>
-    <button onclick="alert('Тест')">Нажми меня</button>
-</body>
-</html>
-  `
-	res.send(html)
+	res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
-app.listen(3001, '0.0.0.0', () => {
-	console.log('Support server running on port 3001')
+const PORT = 3001
+app.listen(PORT, () => {
+	console.log(`support server is running on port ${PORT}`)
 })
