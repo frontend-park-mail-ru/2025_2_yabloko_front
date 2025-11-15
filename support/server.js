@@ -1,18 +1,25 @@
-'use strict'
-
 const express = require('express')
-const path = require('path')
-
 const app = express()
 
-app.use('/static', express.static(path.join(__dirname, '..', 'public')))
-app.use('/dist', express.static(path.join(__dirname, '..', 'dist')))
-const DIST_DIR = path.join(__dirname, '..', 'public')
-
-app.get('/{*any}', (_, res) => {
-    res.sendFile(path.join(DIST_DIR, 'index.html'))
+app.get('/', (req, res) => {
+	const html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Поддержка</title>
+    <style>
+        body { margin: 0; padding: 20px; font-family: Arial; }
+    </style>
+</head>
+<body>
+    <h1>🛟 Поддержка работает!</h1>
+    <button onclick="alert('Ура!')">Тест</button>
+</body>
+</html>
+  `
+	res.send(html)
 })
 
-const PORT = 3001
-app.listen(PORT)
-console.log('support server is running on port 3001')
+app.listen(3001, '0.0.0.0', () => {
+	console.log('Support server running on port 3001')
+})
