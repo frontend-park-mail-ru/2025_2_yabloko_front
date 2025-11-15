@@ -18,4 +18,5 @@ RUN npm i
 
 COPY --from=builder /app ./
 EXPOSE 3000
-CMD ["node", "server/server.js"]
+EXPOSE 3001
+CMD ["npx", "concurrently", "node server/server.js", "node support/server.js"]
