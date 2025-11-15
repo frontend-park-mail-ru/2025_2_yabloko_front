@@ -12,6 +12,7 @@
 	},
 	"devDependencies": {
 		"@antiquemouse/framework": "^1.0.1",
+		"string-replace-loader": "^2.3.0",
 		"css-loader": "^6.8.0",
 		"html-webpack-plugin": "^5.5.0",
 		"sass": "^1.63.0",
