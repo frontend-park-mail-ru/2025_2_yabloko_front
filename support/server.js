@@ -5,14 +5,16 @@ const path = require('path')
 
 const app = express()
 
-app.use('/static', express.static(path.join(__dirname, '..', 'public')))
-app.use('/dist', express.static(path.join(__dirname, '..', 'dist')))
-const DIST_DIR = path.join(__dirname, 'public')
+const __dirname = path.dirname(__filename)
 
-app.get('/*', (_, res) => {
-	res.sendFile(path.join(DIST_DIR, 'index.html'))
+app.use('/dist', express.static(path.join(__dirname, 'dist')))
+app.use('/public', express.static(path.join(__dirname, 'public')))
+
+app.get('/*', (req, res) => {
+	res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
 const PORT = 3001
-app.listen(PORT)
-console.log('support server is running on port 3001')
+app.listen(PORT, () => {
+	console.log('support server is running on port 3001')
+})
