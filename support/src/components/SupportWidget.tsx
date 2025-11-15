@@ -1,65 +1,105 @@
-import { defineComponent } from "@antiquemouse/framework";
-import styles from "./SupportWidget.module.scss";
+import { defineComponent } from '@antiquemouse/framework'
+import { CreateTicketRequest, supportApi } from '../modules/api'
 
-export const SupportWidget = defineComponent({
-  props: [],
+export const SupportApp = defineComponent({
+	state() {
+		return {
+			currentTab: 'create' as 'create' | 'list' | 'ticket',
+			formData: {
+				category: '' as CreateTicketRequest['category'],
+				title: '',
+				description: '',
+			},
+			tickets: [] as any[],
+			currentTicket: null as any,
+			loading: false,
+			error: '',
+		}
+	},
 
-  state() {
-    return {
-      isOpen: false,
-      message: "",
-    };
-  },
+	async createTicket() {
+		this.updateState({ loading: true, error: '' })
 
-  toggleSupport() {
-    this.updateState({ isOpen: !this.state.isOpen });
-  },
+		try {
+			await supportApi.createTicket(this.state.formData)
+			this.updateState({
+				formData: { category: '', title: '', description: '' },
+				currentTab: 'list',
+			})
+			await this.loadTickets()
+		} catch (error) {
+			this.updateState({ error: error.message })
+		} finally {
+			this.updateState({ loading: false })
+		}
+	},
 
-  handleMessageChange(e: Event) {
-    const value = (e.target as HTMLInputElement).value;
-    this.updateState({ message: value });
-  },
+	async loadTickets() {
+		try {
+			const tickets = await supportApi.getMyTickets()
+			this.updateState({ tickets })
+		} catch (error) {
+			this.updateState({ error: error.message })
+		}
+	},
 
-  async handleSubmit(e: Event) {
-    e.preventDefault();
+	render() {
+		return (
+			<div style={{ padding: '20px' }}>
+				<h2>🛟 Техподдержка</h2>
 
-    if (!this.state.message.trim()) return;
+\				{this.state.currentTab === 'create' && (
+					<div>
+						<select
+							value={this.state.formData.category}
+							onChange={(e: any) =>
+								this.updateState({
+									formData: {
+										...this.state.formData,
+										category: e.target.value,
+									},
+								})
+							}
+						>
+							<option value="">Выберите категорию</option>
+							<option value="bug">🐛 Баг</option>
+							<option value="feature">💡 Предложение</option>
+							<option value="complaint">😠 Жалоба</option>
+						</select>
 
-    console.log("Support message:", this.state.message);
+						<input
+							type="text"
+							placeholder="Тема"
+							value={this.state.formData.title}
+							onChange={(e: any) =>
+								this.updateState({
+									formData: { ...this.state.formData, title: e.target.value },
+								})
+							}
+						/>
 
-    this.updateState({ message: "" });
-    alert("Сообщение отправлено!");
-  },
+						<textarea
+							placeholder="Описание"
+							value={this.state.formData.description}
+							onChange={(e: any) =>
+								this.updateState({
+									formData: {
+										...this.state.formData,
+										description: e.target.value,
+									},
+								})
+							}
+						/>
 
-  render() {
-    return (
-      <div class={styles.support}>
-        <button
-          class={styles.supportToggle}
-          onClick={() => this.toggleSupport()}
-        >
-          {this.state.isOpen ? "✕" : "🛟"}
-        </button>
-
-        {this.state.isOpen && (
-          <div class={styles.supportWindow}>
-            <h3>Поддержка</h3>
-
-            <form onSubmit={(e: Event) => this.handleSubmit(e)}>
-              <input
-                type="text"
-                placeholder="Опишите вашу проблему..."
-                value={this.state.message}
-                on={{ input: (e: Event) => this.handleMessageChange(e) }}
-                class={styles.input}
-              />
-              <button type="submit" class={styles.submitBtn}>
-                Отправить
-              </button>
-            </form>
-          </div>
-        )}
-      </div>
-    );
-  },
-});
+						<button
+							onClick={() => this.createTicket()}
+							disabled={this.state.loading}
+						>
+							{this.state.loading ? 'Отправка...' : 'Создать тикет'}
+						</button>
+					</div>
+				)}
+			</div>
+		)
+	},
+})

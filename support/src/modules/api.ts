@@ -1,212 +1,126 @@
-'use strict'
+const API_BASE = 'http://localhost:8085'
 
-export interface APIresponse {
-	service: {
-		success: string
-		error: string
-	}
-	body: any
+export interface CreateTicketRequest {
+	category: 'bug' | 'feature' | 'complaint'
+	title: string
+	description: string
+	user_name?: string
+	user_email?: string
 }
 
-export class API {
-	public static readonly SERVICES = {
-		AUTH: 'http://90.156.218.233:8082/api/v0',
-		PROFILE: 'http://90.156.218.233:8081/api/v0',
-		STORE: 'http://90.156.218.233:8080/api/v0',
-		ORDER: 'http://90.156.218.233:8084/api/v0',
-		PICS: 'http://90.156.218.233:8080',
+export interface Ticket {
+	id: string
+	category: string
+	status: 'open' | 'in_progress' | 'closed'
+	title: string
+	description: string
+	created_at: string
+	updated_at: string
+}
+
+export interface Message {
+	id: string
+	content: string
+	user_role: 'user' | 'admin' | 'support'
+	created_at: string
+}
+
+class SupportApi {
+	private guestId: string
+
+	constructor() {
+		this.guestId = localStorage.getItem('guest_id') || this.generateGuestId()
 	}
 
-	private static csrfRequest: Promise<string> | null = null
-
-	public static getCsrfToken(): string | null {
-		const name = 'csrf_token'
-		const value = `; ${document.cookie}`
-		const parts = value.split(`; ${name}=`)
-		if (parts.length === 2) {
-			return parts.pop()!.split(';').shift() || null
-		}
-		return null
+	private generateGuestId(): string {
+		const id = 'guest_' + Math.random().toString(36).substr(2, 9)
+		localStorage.setItem('guest_id', id)
+		return id
 	}
 
-	static async ensureCsrfToken(): Promise<string> {
-		if (this.csrfRequest) {
-			return await this.csrfRequest
+	private getHeaders(): HeadersInit {
+		const headers: HeadersInit = {
+			'Content-Type': 'application/json',
+			'X-Guest-ID': this.guestId,
 		}
-		let csrfToken = this.getCsrfToken()
-		if (csrfToken) {
-			return csrfToken
+
+		const token = localStorage.getItem('auth_token')
+		if (token) {
+			headers['Authorization'] = `Bearer ${token}`
 		}
-		this.csrfRequest = this.requestNewCsrfToken()
-		try {
-			csrfToken = await this.csrfRequest
-			return csrfToken
-		} finally {
-			this.csrfRequest = null
-		}
+
+		return headers
 	}
 
-	static async requestNewCsrfToken(): Promise<string> {
-		try {
-			const response = await fetch(`${this.SERVICES.AUTH}/csrf`, {
-				method: 'GET',
-				credentials: 'include',
-			})
-
-			if (!response.ok) {
-				throw new Error(`HTTP ${response.status}: Failed to get CSRF token`)
-			}
-
-			const text = await response.text()
-			const data = text ? JSON.parse(text) : {}
-			const newCsrfToken = data.csrf_token || this.getCsrfToken()
-
-			if (!newCsrfToken) {
-				throw new Error('CSRF token not received')
-			}
-
-			return newCsrfToken
-		} catch (error) {
-			console.error(error)
-			throw error
-		}
-	}
-
-	private static getJwtToken(): string | null {
-		const name = 'jwt_token='
-		const decodedCookie = decodeURIComponent(document.cookie)
-		const ca = decodedCookie.split(';')
-		for (let i = 0; i < ca.length; i++) {
-			let c = ca[i]
-			while (c.charAt(0) === ' ') {
-				c = c.substring(1)
-			}
-			if (c.indexOf(name) === 0) {
-				return c.substring(name.length, c.length)
-			}
-		}
-		return null
-	}
-
-	static async fetch(
-		service: keyof typeof API.SERVICES,
-		inputRelative: string,
-		init?: RequestInit,
-	): Promise<Response> {
-		if (!init) init = {}
-
-		const headers = new Headers(init.headers)
-
-		if (init.method && ['POST', 'PUT', 'DELETE'].includes(init.method)) {
-			let csrfToken = this.getCsrfToken()
-
-			if (!csrfToken) {
-				csrfToken = await this.ensureCsrfToken()
-			}
-
-			if (csrfToken) {
-				headers.set('X-CSRF-Token', csrfToken)
-			}
-		}
-
-		if (!(init.body instanceof FormData) && !headers.has('Content-Type')) {
-			headers.set('Content-Type', 'application/json')
-		}
-
-		const jwtToken = this.getJwtToken()
-		if (jwtToken) {
-			headers.set('Authorization', `Bearer ${jwtToken}`)
-		}
-
-		const finalInit: RequestInit = {
-			...init,
-			headers,
-			credentials: 'include',
-		}
-
-		const baseUrl = API.SERVICES[service]
-		const fullUrl = baseUrl + inputRelative
-
-		const response = await fetch(fullUrl, finalInit)
-		return response
-	}
-
-	static async post(
-		service: keyof typeof API.SERVICES,
-		url: string,
-		data?: any,
-	): Promise<APIresponse> {
-		const response = await API.fetch(service, url, {
+	async createTicket(ticketData: CreateTicketRequest): Promise<Ticket> {
+		const response = await fetch(`${API_BASE}/tickets`, {
 			method: 'POST',
-			body: data ? JSON.stringify(data) : undefined,
+			headers: this.getHeaders(),
+			body: JSON.stringify(ticketData),
 		})
-		return this.parseResponse(response)
+
+		if (!response.ok) {
+			throw new Error(`Failed to create ticket: ${response.statusText}`)
+		}
+
+		return response.json()
 	}
 
-	static async get(
-		service: keyof typeof API.SERVICES,
-		url: string,
-	): Promise<APIresponse> {
-		const response = await API.fetch(service, url, {
+	async getMyTickets(): Promise<Ticket[]> {
+		const response = await fetch(`${API_BASE}/tickets`, {
 			method: 'GET',
+			headers: this.getHeaders(),
 		})
-		return this.parseResponse(response)
+
+		if (!response.ok) {
+			throw new Error(`Failed to get tickets: ${response.statusText}`)
+		}
+
+		return response.json()
 	}
 
-	static async put(
-		service: keyof typeof API.SERVICES,
-		url: string,
-		data?: any,
-	): Promise<APIresponse> {
-		const response = await this.fetch(service, url, {
-			method: 'PUT',
-			body: data ? JSON.stringify(data) : undefined,
+	async getTicket(
+		ticketId: string,
+	): Promise<{ ticket: Ticket; messages: Message[] }> {
+		const response = await fetch(`${API_BASE}/tickets/${ticketId}`, {
+			method: 'GET',
+			headers: this.getHeaders(),
 		})
-		return this.parseResponse(response)
+
+		if (!response.ok) {
+			throw new Error(`Failed to get ticket: ${response.statusText}`)
+		}
+
+		return response.json()
 	}
 
-	static async del(
-		service: keyof typeof API.SERVICES,
-		url: string,
-	): Promise<APIresponse> {
-		const response = await this.fetch(service, url, { method: 'DELETE' })
-		return this.parseResponse(response)
+	async sendMessage(ticketId: string, content: string): Promise<void> {
+		const response = await fetch(`${API_BASE}/tickets/${ticketId}/messages`, {
+			method: 'POST',
+			headers: this.getHeaders(),
+			body: JSON.stringify({ content }),
+		})
+
+		if (!response.ok) {
+			throw new Error(`Failed to send message: ${response.statusText}`)
+		}
 	}
 
-	public static async parseResponse(response: Response): Promise<APIresponse> {
-		const isError = !response.ok
+	async rateTicket(
+		ticketId: string,
+		rating: number,
+		comment?: string,
+	): Promise<void> {
+		const response = await fetch(`${API_BASE}/tickets/${ticketId}/rating`, {
+			method: 'POST',
+			headers: this.getHeaders(),
+			body: JSON.stringify({ rating, comment }),
+		})
 
-		try {
-			const text = await response.text()
-			const rawData = text ? JSON.parse(text) : null
-
-			if (isError) {
-				const errorMessage =
-					typeof rawData === 'object' && rawData !== null
-						? rawData.message || rawData.error || `HTTP ${response.status}`
-						: `HTTP ${response.status}`
-
-				return {
-					service: {
-						success: '',
-						error: errorMessage,
-					},
-					body: rawData,
-				}
-			}
-
-			return {
-				service: { success: 'OK', error: '' },
-				body: rawData,
-			}
-		} catch {
-			return {
-				service: {
-					success: '',
-					error: `HTTP ${response.status}: failed to parse response`,
-				},
-				body: null,
-			}
+		if (!response.ok) {
+			throw new Error(`Failed to rate ticket: ${response.statusText}`)
 		}
 	}
 }
+
+export const supportApi = new SupportApi()
