@@ -53,8 +53,7 @@ const webpackModule = {
 const resolveScripts = {
   extensions: [".tsx", ".ts", ".js", ".css", ".scss"],
 };
-
-const distPath = path.resolve(__dirname, "dist");
+const distPath = path.resolve(__dirname, 'dist')
 const mode = process.env.PRODUCTION == "true" ? "production" : "development";
 
 module.exports = [
