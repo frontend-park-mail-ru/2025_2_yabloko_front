@@ -30,7 +30,11 @@ export const SupportWidget = defineComponent({
 							src="http://90.156.218.233:3001"
 							width="400"
 							height="600"
-							style={{ border: 'none', borderRadius: '8px' }}
+							style={{
+								border: '3px solid red',
+								borderRadius: '8px',
+								background: 'white',
+							}}
 						></iframe>
 					</div>
 				)}
