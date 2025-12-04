@@ -49,7 +49,7 @@ export const MainPage = defineComponent({
 						navigate('/auth')
 					}}
 					onCartClick={() => this.openCart()}
-					openHistoryClick={() => this.openHistory()}
+					onHistoryClick={() => this.openHistory()}
 				/>
 				<CardsHeader />
 				<div class={styles.mainPage__container}>
