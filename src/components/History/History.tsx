@@ -16,8 +16,13 @@ export const History = defineComponent({
 	},
 
 	async onMounted() {
-		const orders = await OrderApi.getOrders({limit: 4})
-		this.updateState({ orders })
+		try {
+			const orders = await OrderApi.getOrders({limit: 4})
+			this.updateState({ orders })
+		} catch (err) {
+			console.log(err)
+			this.updateState({ order: [] })
+		}
 	},
 
 	render() {
