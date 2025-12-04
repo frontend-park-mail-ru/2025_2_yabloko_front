@@ -31,7 +31,7 @@ export const History = defineComponent({
 
 		return (
 			<div
-				class={styles.cart}
+				class={styles.history}
 				on={{
 					click: (e: Event) => {
 						if (e.target === e.currentTarget) {
