@@ -119,7 +119,7 @@ export const Cart = defineComponent({
 							className={styles.cart__button}
 							onClick={() => {
 								if (store.get(AUTH_IS_AUTHENTICATED) === true) {
-									navigate('/checkout')
+									//navigate('/checkout')
 								} else {
 									navigate('/auth')
 								}

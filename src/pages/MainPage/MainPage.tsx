@@ -22,18 +22,20 @@ export const MainPage = defineComponent({
 	},
 
 	openCart() {
-		this.updateState({ isCartOpen: true,
-							isHistoryOpen: false
+		this.updateState({
+			 isCartOpen: true,
 		 })
 	},
 
 	closeCart() {
-		this.updateState({ isCartOpen: false })
+		this.updateState({ 
+			isCartOpen: false 
+		})
 	},
 
 	openHistory() {
-		this.updateState({ isHistoryOpen: true,
-			isCartOpen: false
+		this.updateState({ 
+			isHistoryOpen: true,
 		 })
 	},
 
@@ -72,8 +74,8 @@ export const MainPage = defineComponent({
 					/>
 				</div>
 				<Footer />
-				{this.state.isCartOpen ? <Cart onClose={() => this.closeCart()} /> : ''}
-				{this.state.isHistoryOpen ? <History onClose={() => this.closeHistory()} /> : ''}
+				{this.state.isCartOpen ? <Cart onClose={() => this.closeCart()} /> : null}
+				{this.state.isHistoryOpen ? <History onClose={() => this.closeHistory()} /> : null}
 			</div>
 		)
 	},
