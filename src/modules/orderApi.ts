@@ -51,7 +51,7 @@ export class OrderApi {
 			queryParams.append('desc', params.desc.toString())
 
         const queryString = queryParams.toString()
-        const url = `/stores${queryString ? `?${queryString}` : ''}`
+        const url = `/order${queryString ? `?${queryString}` : ''}`
 
 		const response = await API.get('ORDER', url)
 		return response.body ?? []
