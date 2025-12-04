@@ -1,6 +1,7 @@
 import { Batch } from '../../components/Batch/Batch'
 import { CardsHeader } from '../../components/CardsHeader/CardsHeader'
 import { Cart } from '../../components/Cart/Cart'
+import { History } from '../../components/History/History'
 import { Footer } from '../../components/Footer/Footer'
 import { Navbar } from '../../components/Navbar/Navbar'
 import { defineComponent } from '@antiquemouse/framework'
