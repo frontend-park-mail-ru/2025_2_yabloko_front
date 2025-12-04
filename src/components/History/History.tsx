@@ -21,7 +21,7 @@ export const History = defineComponent({
 			this.updateState({ orders })
 		} catch (err) {
 			console.log(err)
-			this.updateState({ order: [] })
+			this.updateState({ orders: [] })
 		}
 	},
 
