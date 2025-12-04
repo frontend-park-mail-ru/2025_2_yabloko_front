@@ -77,7 +77,6 @@ export const Cart = defineComponent({
 				on={{
 					click: (e: Event) => {
 						if (e.target === e.currentTarget) {
-							e.stopPropagation()
 							props.onClose()
 						}
 					},
