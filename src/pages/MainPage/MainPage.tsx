@@ -69,7 +69,7 @@ export const MainPage = defineComponent({
 				</div>
 				<Footer />
 				{this.state.isCartOpen ? <Cart onClose={() => this.closeCart()} /> : ''}
-				{this.state.isHistoryOpen ? <History onClose={() => this.closeHistory()} /> : ''}
+				{true ? <History onClose={() => this.closeHistory()} /> : ''}
 			</div>
 		)
 	},
