@@ -22,7 +22,9 @@ export const MainPage = defineComponent({
 	},
 
 	openCart() {
-		this.updateState({ isCartOpen: true })
+		this.updateState({ isCartOpen: true,
+							isHistoryOpen: false
+		 })
 	},
 
 	closeCart() {
@@ -30,7 +32,9 @@ export const MainPage = defineComponent({
 	},
 
 	openHistory() {
-		this.updateState({ isHistoryOpen: true })
+		this.updateState({ isHistoryOpen: true,
+			isCartOpen: false
+		 })
 	},
 
 	closeHistory() {
