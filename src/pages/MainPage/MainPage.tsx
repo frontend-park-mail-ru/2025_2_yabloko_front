@@ -6,7 +6,6 @@ import { Navbar } from '../../components/Navbar/Navbar'
 import { defineComponent } from '@antiquemouse/framework'
 import { navigate } from '../../modules/router'
 import styles from './MainPage.module.scss'
-import { SupportWidget } from '../../components/SupportWidget/SupportWidget'
 
 interface MainPageProps {
 	onCardClick?: (storeId: number) => void
@@ -17,6 +16,7 @@ export const MainPage = defineComponent({
 		return {
 			batchSize: 16,
 			isCartOpen: false,
+			isHistoryOpen: false,
 		}
 	},
 
@@ -26,6 +26,14 @@ export const MainPage = defineComponent({
 
 	closeCart() {
 		this.updateState({ isCartOpen: false })
+	},
+
+	openHistory() {
+		this.updateState({ isHistoryOpen: true })
+	},
+
+	closeHistory() {
+		this.updateState({ isHistoryOpen: false })
 	},
 
 	render() {
@@ -41,6 +49,7 @@ export const MainPage = defineComponent({
 						navigate('/auth')
 					}}
 					onCartClick={() => this.openCart()}
+					openHistoryClick={() => this.openHistory()}
 				/>
 				<CardsHeader />
 				<div class={styles.mainPage__container}>
@@ -59,8 +68,6 @@ export const MainPage = defineComponent({
 				</div>
 				<Footer />
 				{this.state.isCartOpen ? <Cart onClose={() => this.closeCart()} /> : ''}
-
-				<SupportWidget />
 			</div>
 		)
 	},

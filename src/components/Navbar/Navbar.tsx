@@ -15,6 +15,7 @@ interface NavbarProps {
 	onLogoClick?: () => void
 	onSearch?: (query: string) => void
 	onCartClick?: () => void
+	onHistoryClick?: () => void
 }
 
 interface NavbarState {
@@ -121,6 +122,7 @@ export const Navbar = defineComponent({
 								src="/static/icons/checklist.png"
 								alt="История"
 								text="История"
+								onClick={props.onHistoryClick}
 							/>,
 							<IconButton
 								src={userAvatar || '/static/icons/user.png'}
