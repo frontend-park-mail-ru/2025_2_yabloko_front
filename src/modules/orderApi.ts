@@ -33,9 +33,27 @@ export interface FakePaymentParams {
     return_url?: string,
 }
 
+export interface GetOrderParams {
+	limit?: number
+	lastId?: string
+	status?: string
+	desc?: boolean
+}
+
 export class OrderApi {
-	static async getOrders(): Promise<Order[]> {
-		const response = await API.get('ORDER', '/orders')
+	static async getOrders(params: GetOrderParams = {}): Promise<Order[]> {
+        const queryParams = new URLSearchParams()
+
+        if (params.limit) queryParams.append('limit', params.limit.toString())
+        if (params.lastId) queryParams.append('lastId', params.lastId)
+        if (params.status) queryParams.append('status', params.status)
+		if (params.desc !== undefined)
+			queryParams.append('desc', params.desc.toString())
+
+        const queryString = queryParams.toString()
+        const url = `/stores${queryString ? `?${queryString}` : ''}`
+
+		const response = await API.get('ORDER', url)
 		return response.body ?? []
 	}
 
@@ -44,10 +62,10 @@ export class OrderApi {
 		return response.body ?? null
 	}
 
-    static async createOrder(): Promise<OrderInfo>{
-        const response = await API.post('ORDER', `/orders`)
+	static async createOrder(): Promise<OrderInfo> {
+		const response = await API.post('ORDER', `/orders`)
 		return response.body ?? null
-    }
+	}
 
 	static async getOrderStatusById(id: string): Promise<string> {
 		const response = await API.get('ORDER', `/orders/${id}/status`)
@@ -55,13 +73,12 @@ export class OrderApi {
 	}
 
 	static async fakePayment(params: FakePaymentParams): Promise<void> {
+		const queryParams = new URLSearchParams()
+		queryParams.append('order_id', params.order_id)
+		queryParams.append('return_url', params.return_url)
+		if (params.price) queryParams.append('price', params.price)
 
-        const queryParams = new URLSearchParams()
-        queryParams.append('order_id', params.order_id)
-        queryParams.append('return_url', params.return_url)
-        if (params.price) queryParams.append('price', params.price)
-
-        const url = `http://90.156.218.233:8080/api/v0/fake-payment?${queryParams.toString()}`
-        window.location.href = url
+		const url = `http://90.156.218.233:8080/api/v0/fake-payment?${queryParams.toString()}`
+		window.location.href = url
 	}
 }

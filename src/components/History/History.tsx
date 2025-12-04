@@ -16,7 +16,7 @@ export const History = defineComponent({
 	},
 
 	async onMounted() {
-		const orders = await OrderApi.getOrders()
+		const orders = await OrderApi.getOrders({limit: 4})
 		this.updateState({ orders })
 	},
 
