@@ -58,7 +58,10 @@ export const AvatarForm = defineComponent({
 				let avatarUrl = response.body.avatar_url
 
 				if (avatarUrl.includes('localhost:8081')) {
-					avatarUrl = avatarUrl.replace('localhost:8081', '90.156.218.233:8081')
+					avatarUrl = avatarUrl.replace(
+						'localhost:8081',
+						'109.120.190.243:8081',
+					)
 				}
 
 				this.updateState({
@@ -143,9 +146,15 @@ export const AvatarForm = defineComponent({
 				let avatarUrl = uploadResponse.body.avatar_url
 
 				if (avatarUrl.includes('localhost:8081')) {
-					avatarUrl = avatarUrl.replace('localhost:8081', '90.156.218.233:8081')
+					avatarUrl = avatarUrl.replace(
+						'localhost:8081',
+						'109.120.190.243:8081',
+					)
 				}
-				avatarUrl = avatarUrl.replace('90.156.218.233:8081', '90.156.218.233:8081/api/v0')
+				avatarUrl = avatarUrl.replace(
+					'109.120.190.243:8081',
+					'109.120.190.243/api/v0',
+				)
 
 				this.updateState({
 					currentAvatar: avatarUrl,
