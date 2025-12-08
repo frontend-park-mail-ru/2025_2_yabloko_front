@@ -43,7 +43,15 @@ export const History = defineComponent({
 				<div class={styles.history__container}>
 					<div class={styles.history__header}>
 						<h3 class={styles.history__title}>История заказов</h3>
-						<button class={styles.history__close} on={{ click: props.onClose }}>
+						<button
+							class={styles.history__close}
+							on={{
+								click: (e: Event) => {
+									e.stopPropagation()
+									props.onClose()
+								},
+							}}
+						>
 							✕
 						</button>
 					</div>
@@ -57,7 +65,10 @@ export const History = defineComponent({
 										date={order.created_at}
 										total={order.total}
 										status={order.status}
-										handleClick={navigate(`/orders/${order.id}`)}
+										handleClick={(e: Event) => {
+											e.stopPropagation()
+											navigate(`/orders/${order.id}`)
+										}}
 									/>
 								))
 							) : (
