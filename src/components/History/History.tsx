@@ -54,7 +54,8 @@ export const History = defineComponent({
 								orders.map(order => (
 									<OrderComponent
 										id={order.id}
-										date={order.date}
+										date={order.created_at}
+										total={order.total}
 										status={order.status}
 										//handleClick={navigate(`/orders/${order.id}`)}
 									/>
