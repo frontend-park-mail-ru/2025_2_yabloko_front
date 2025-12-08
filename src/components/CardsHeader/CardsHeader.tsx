@@ -4,6 +4,7 @@ import styles from './CardsHeader.module.scss'
 interface CardsHeaderProps {
 	onFilterChange?: (filter: string) => void
 	onSortToggle?: () => void
+	currentFilter?: string
 }
 
 export const CardsHeader = defineComponent({
@@ -19,7 +20,7 @@ export const CardsHeader = defineComponent({
 		}
 
 		const filters = [
-			{ key: 'all', label: 'Все', active: true },
+			{ key: 'all', label: 'Все' },
 			{ key: 'pickup', label: 'Самовывоз' },
 			{ key: 'burgers', label: 'Бургеры' },
 			{ key: 'sushi', label: 'Суши' },
@@ -35,9 +36,12 @@ export const CardsHeader = defineComponent({
 				<div class={styles.cardsHeader__filters}>
 					{filters.map(filter => (
 						<button
+							key={filter.key}
 							class={[
 								styles.filter__button,
-								filter.active ? styles['filter__button--active'] : '',
+								props.currentFilter === filter.key
+									? styles['filter__button--active']
+									: '',
 							]
 								.filter(Boolean)
 								.join(' ')}
@@ -46,19 +50,6 @@ export const CardsHeader = defineComponent({
 							{filter.label}
 						</button>
 					))}
-
-					<div class={styles.cardsHeader__more}>
-						<button
-							class={styles.filter__moreButton}
-							on={{ click: () => handleFilterClick('more') }}
-						>
-							Ещё
-						</button>
-					</div>
-
-					<div class={styles.cardsHeader__sort} on={{ click: handleSortClick }}>
-						<span>Сортировка</span>
-					</div>
 				</div>
 			</div>
 		)

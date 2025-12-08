@@ -7,6 +7,7 @@ import { Navbar } from '../../components/Navbar/Navbar'
 import { defineComponent } from '@antiquemouse/framework'
 import { navigate } from '../../modules/router'
 import styles from './MainPage.module.scss'
+import { StoreApi } from '../../modules/storeApi'
 
 interface MainPageProps {
 	onCardClick?: (storeId: number) => void
@@ -18,64 +19,69 @@ export const MainPage = defineComponent({
 			batchSize: 16,
 			isCartOpen: false,
 			isHistoryOpen: false,
+			currentFilter: 'all',
+			tags: [] as any[],
+			isLoadingTags: true,
 		}
 	},
 
-	openCart() {
-		this.updateState({
-			 isCartOpen: true,
-		 })
+	async onMounted() {
+		try {
+			const tags = await StoreApi.getTags()
+			this.updateState({ tags, isLoadingTags: false })
+		} catch (error) {
+			console.error('Error loading tags:', error)
+			this.updateState({ isLoadingTags: false })
+		}
 	},
 
-	closeCart() {
-		this.updateState({ 
-			isCartOpen: false 
-		})
+	getTagIdByFilter(filter: string): string | null {
+		if (filter === 'all') return null
+
+		const tag = this.state.tags.find(t =>
+			t.name.toLowerCase().includes(filter.toLowerCase()),
+		)
+		return tag?.id || null
 	},
 
-	openHistory() {
-		this.updateState({ 
-			isHistoryOpen: true,
-		 })
-	},
-
-	closeHistory() {
-		this.updateState({ isHistoryOpen: false })
+	handleFilterChange(filter: string) {
+		this.updateState({ currentFilter: filter })
 	},
 
 	render() {
-		const props = this.props as MainPageProps
+		const { currentFilter, isLoadingTags } = this.state
+
+		if (isLoadingTags) {
+			return <div>Загрузка фильтров...</div>
+		}
 
 		return (
 			<div class={styles.mainPage}>
 				<Navbar
-					onLogoClick={() => {
-						navigate('/')
-					}}
-					onLoginClick={() => {
-						navigate('/auth')
-					}}
+					onLogoClick={() => navigate('/')}
+					onLoginClick={() => navigate('/auth')}
 					onCartClick={() => this.openCart()}
 					onHistoryClick={() => this.openHistory()}
 				/>
-				<CardsHeader />
+				<CardsHeader
+					onFilterChange={filter => this.handleFilterChange(filter)}
+					currentFilter={currentFilter}
+				/>
 				<div class={styles.mainPage__container}>
 					<Batch
 						batchSize={this.state.batchSize}
-						onCardClick={props.onCardClick}
-					/>
-					<Batch
-						batchSize={this.state.batchSize}
-						onCardClick={props.onCardClick}
-					/>
-					<Batch
-						batchSize={this.state.batchSize}
-						onCardClick={props.onCardClick}
+						filter={currentFilter}
+						tagId={this.getTagIdByFilter(currentFilter)}
+						onCardClick={storeId => navigate(`/store/${storeId}`)}
 					/>
 				</div>
 				<Footer />
-				{this.state.isCartOpen ? <Cart onClose={() => this.closeCart()} /> : null}
-				{this.state.isHistoryOpen ? <History onClose={() => this.closeHistory()} /> : null}
+				{this.state.isCartOpen ? (
+					<Cart onClose={() => this.closeCart()} />
+				) : null}
+				{this.state.isHistoryOpen ? (
+					<History onClose={() => this.closeHistory()} />
+				) : null}
 			</div>
 		)
 	},

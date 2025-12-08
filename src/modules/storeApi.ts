@@ -12,7 +12,8 @@ export interface Store {
 	open_at?: string
 	closed_at?: string
 	city_id?: string
-	tags?: string[]
+	tags_id?: string[]
+	categories_id?: string[]
 	delivery_time?: string
 }
 
@@ -89,6 +90,12 @@ export interface Cart {
 	id: string
 	items: CartItem[]
 }
+
+export interface Category {
+	id: string
+	name: string
+}
+
 
 export class StoreApi {
 	/**
@@ -217,4 +224,16 @@ export class StoreApi {
 		return response.body ?? []
 	}
 
+	static async getTags(): Promise<Tag[]> {
+		const response = await API.get('STORE', '/stores/tags')
+		return response.body ?? []
+	}
+
+	/**
+	 * Получить список категорий
+	 */
+	static async getCategories(): Promise<Category[]> {
+		const response = await API.get('STORE', '/stores/categories')
+		return response.body ?? []
+	}
 }
