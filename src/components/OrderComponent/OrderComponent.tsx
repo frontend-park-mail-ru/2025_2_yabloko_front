@@ -50,7 +50,8 @@ export const OrderComponent = defineComponent({
 		const statusText = getStatusText(props.status)
 
 		return (
-			<div class={styles.cartItem} on={{ click: props.handleClick }}>
+			<div 
+            class={styles.cartItem} on={{ click: props.handleClick }}>
 				<div class={styles.cartItem__info}>
 					<div class={styles.cartItem__name}>
 						Заказ № {props.id.substring(0, 8)}

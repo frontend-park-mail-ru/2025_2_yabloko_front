@@ -57,7 +57,7 @@ export const History = defineComponent({
 										date={order.created_at}
 										total={order.total}
 										status={order.status}
-										//handleClick={navigate(`/orders/${order.id}`)}
+										handleClick={navigate(`/orders/${order.id}`)}
 									/>
 								))
 							) : (
