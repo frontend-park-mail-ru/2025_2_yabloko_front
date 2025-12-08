@@ -2,8 +2,8 @@ import { defineComponent } from '@antiquemouse/framework'
 import { Footer } from '../../components/Footer/Footer'
 import { Navbar } from '../../components/Navbar/Navbar'
 import { OrderApi } from '../../modules/orderApi'
-import { navigate } from '../../modules/router'
 import styles from './OrderPage.module.scss'
+import { API } from '../../modules/api'
 
 export const OrderPage = defineComponent({
 	state() {
@@ -54,12 +54,8 @@ export const OrderPage = defineComponent({
 				<Navbar />
 
 				<div class={styles.orderPage__container}>
-					<div class={styles.orderPage__header}>
-						<h1>Заказ №{order.id.substring(0, 8)}</h1>
-						<button on={{ click: () => navigate('/orders') }}>← Назад</button>
-					</div>
-
 					<div class={styles.orderPage__content}>
+						<h1>Заказ №{order.id.substring(0, 8)}</h1>
 						<div class={styles.orderPage__info}>
 							<div>
 								<div>
@@ -76,10 +72,10 @@ export const OrderPage = defineComponent({
 						</div>
 
 						<div class={styles.orderPage__items}>
-							<h3>Товары:</h3>
+							<h3>Состав заказа:</h3>
 							{order.items.map(item => (
 								<div class={styles.orderItem}>
-									<img src={item.card_img} class={styles.orderItem__image} />
+									<img src={`${API.SERVICES.PICS}${item.card_img}`} class={styles.orderItem__image} />
 									<div>
 										<div class={styles.orderItem__name}>{item.name}</div>
 										<div>
