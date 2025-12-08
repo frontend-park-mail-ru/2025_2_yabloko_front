@@ -1,0 +1,51 @@
+.orderPage {
+    display: flex;
+    flex-direction: column;
+}
+
+.orderPage__container {
+    max-width: 800px;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+}
+
+.orderPage__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.orderPage__content {
+    display: flex;
+    gap: 2rem;
+}
+
+.orderPage__info {
+    flex: 1;
+}
+
+.orderPage__items {
+    flex: 2;
+}
+
+.orderItem {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.orderItem__image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.orderItem__name {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
