@@ -55,7 +55,7 @@ export const OrderPage = defineComponent({
 
 				<div class={styles.orderPage__container}>
 					<div class={styles.orderPage__header}>
-						<h1>Заказ №{order.order_id.substring(0, 8)}</h1>
+						<h1>Заказ №{order.id.substring(0, 8)}</h1>
 						<button on={{ click: () => navigate('/orders') }}>← Назад</button>
 					</div>
 
