@@ -17,8 +17,8 @@ export const OrderComponent = defineComponent({
         return (
             <div class={styles.cartItem}>
                 <div class={styles.cartItem__info}>
-                    <div class={styles.cartItem__name}>{this.id}</div>
-                    <div class={styles.cartItem__price}>{this.date} ₽</div>
+                    <div class={styles.cartItem__name}>{props.id}</div>
+                    <div class={styles.cartItem__price}>{props.date} ₽</div>
                 </div>
             </div>
         )
