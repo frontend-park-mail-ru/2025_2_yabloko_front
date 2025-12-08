@@ -20,7 +20,7 @@ export const MainPage = defineComponent({
 	},
 
 	async onMounted() {
-		const tags = await StoreApi.getTags()
+		const tags = await StoreApi.getCategories()
 		this.updateState({ tags })
 	},
 
