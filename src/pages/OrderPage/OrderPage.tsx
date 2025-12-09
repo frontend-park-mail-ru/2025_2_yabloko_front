@@ -81,7 +81,7 @@ export const OrderPage = defineComponent({
 							<h3>Состав заказа:</h3>
 							{order.items.map(item => (
 								<div class={styles.orderItem}>
-									<img src={`${API.SERVICES.PICS}/${item.card_img}`} class={styles.orderItem__image} />
+									<img src={`${API.SERVICES.PICS}/images/stores/${item.card_img}`} class={styles.orderItem__image} />
 									<div>
 										<div class={styles.orderItem__name}>{item.name}</div>
 										<div>
