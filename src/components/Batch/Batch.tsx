@@ -1,30 +1,17 @@
 import { defineComponent } from '@antiquemouse/framework'
-import { Store, StoreApi } from '../../modules/storeApi'
+import { StoreApi } from '../../modules/storeApi'
 import { Card } from '../Card/Card'
 import styles from './Batch.module.scss'
 
-interface BatchState {
-	stores: Store[]
-	isLoading: boolean
-	currentFilterType: string
-	currentFilterId: string
-}
-
 export const Batch = defineComponent({
-	state(): BatchState {
+	state() {
 		return {
 			stores: [],
 			isLoading: true,
-			currentFilterType: 'all',
-			currentFilterId: 'all',
 		}
 	},
 
 	async onMounted() {
-		this.updateState({
-			currentFilterType: this.props.filterType || 'all',
-			currentFilterId: this.props.filterId || 'all',
-		})
 		await this.loadStores()
 	},
 
@@ -32,10 +19,10 @@ export const Batch = defineComponent({
 		try {
 			const params: any = { limit: 12 }
 
-			const filterType = this.state.currentFilterType
-			const filterId = this.state.currentFilterId
+			const filterType = this.props.filterType || 'all'
+			const filterId = this.props.filterId || 'all'
 
-			console.log('Current filter:', filterType, filterId)
+			console.log('Loading with:', filterType, filterId)
 
 			if (filterType === 'tag' && filterId !== 'all') {
 				params.tag_id = [filterId]
@@ -43,7 +30,6 @@ export const Batch = defineComponent({
 				params.category_id = [filterId]
 			}
 
-			console.log('Loading stores with params:', params)
 			const stores = await StoreApi.getStores(params)
 			this.updateState({ stores, isLoading: false })
 		} catch (error) {
@@ -52,28 +38,7 @@ export const Batch = defineComponent({
 		}
 	},
 
-	async updateFilter() {
-		const newType = this.props.filterType || 'all'
-		const newId = this.props.filterId || 'all'
-
-		if (
-			newType !== this.state.currentFilterType ||
-			newId !== this.state.currentFilterId
-		) {
-			console.log('Filter changed to:', newType, newId)
-			this.updateState({
-				currentFilterType: newType,
-				currentFilterId: newId,
-				isLoading: true,
-				stores: [],
-			})
-			await this.loadStores()
-		}
-	},
-
 	render() {
-		this.updateFilter()
-
 		const { stores, isLoading } = this.state
 
 		if (isLoading) {
@@ -82,13 +47,7 @@ export const Batch = defineComponent({
 			)
 		}
 
-		if (stores.length === 0) {
-			return (
-				<div style={{ padding: '40px', textAlign: 'center' }}>
-					Рестораны не найдены
-				</div>
-			)
-		}
+		console.log('Rendering', stores.length, 'stores')
 
 		return (
 			<div class={styles.batch}>
@@ -101,6 +60,12 @@ export const Batch = defineComponent({
 						/>
 					))}
 				</div>
+
+				{stores.length === 0 && (
+					<div style={{ padding: '40px', textAlign: 'center' }}>
+						Нет ресторанов по выбранному фильтру
+					</div>
+				)}
 			</div>
 		)
 	},
