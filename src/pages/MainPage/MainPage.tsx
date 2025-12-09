@@ -14,24 +14,17 @@ export const MainPage = defineComponent({
 		return {
 			isCartOpen: false,
 			isHistoryOpen: false,
-			tags: [] as any[],
-			categories: [] as any[],
+			tags: [],
+			categories: [],
 			isLoading: true,
 			currentFilter: { type: 'all', id: 'all' },
 		}
 	},
 
 	async onMounted() {
-		try {
-			const [tags, categories] = await Promise.all([
-				StoreApi.getTags(),
-				StoreApi.getCategories(),
-			])
-			this.updateState({ tags, categories, isLoading: false })
-		} catch (error) {
-			console.error('Error loading filters:', error)
-			this.updateState({ isLoading: false })
-		}
+		const tags = await StoreApi.getTags()
+		const categories = await StoreApi.getCategories()
+		this.updateState({ tags, categories, isLoading: false })
 	},
 
 	openCart() {
@@ -51,29 +44,16 @@ export const MainPage = defineComponent({
 	},
 
 	handleFilterChange(type: 'all' | 'tag' | 'category', id: string) {
-		this.updateState({
-			currentFilter: { type, id },
-		})
+		this.updateState({ currentFilter: { type, id } })
 	},
 
 	render() {
 		if (this.state.isLoading) {
-			return (
-				<div class={styles.mainPage}>
-					<Navbar
-						onLogoClick={() => navigate('/')}
-						onLoginClick={() => navigate('/auth')}
-						onCartClick={() => this.openCart()}
-						onHistoryClick={() => this.openHistory()}
-					/>
-					<div>Загрузка...</div>
-					<Footer />
-				</div>
-			)
+			return <div>Загрузка...</div>
 		}
 
 		return (
-			<div class={styles.mainPage}>
+			<div>
 				<Navbar
 					onLogoClick={() => navigate('/')}
 					onLoginClick={() => navigate('/auth')}
