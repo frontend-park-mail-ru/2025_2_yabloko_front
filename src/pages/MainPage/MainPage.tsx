@@ -64,6 +64,7 @@ export const MainPage = defineComponent({
 				<CardsHeader
 					tags={this.state.tags}
 					categories={this.state.categories}
+					currentFilter={this.state.currentFilter}
 					onFilterChange={(type, id) => this.handleFilterChange(type, id)}
 				/>
 
@@ -76,12 +77,10 @@ export const MainPage = defineComponent({
 
 				<Footer />
 
-				{this.state.isCartOpen ? (
-					<Cart onClose={() => this.closeCart()} />
-				) : null}
-				{this.state.isHistoryOpen ? (
+				{this.state.isCartOpen && <Cart onClose={() => this.closeCart()} />}
+				{this.state.isHistoryOpen && (
 					<History onClose={() => this.closeHistory()} />
-				) : null}
+				)}
 			</div>
 		)
 	},
