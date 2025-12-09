@@ -18,6 +18,7 @@ export const MainPage = defineComponent({
 			categories: [] as any[],
 			isLoading: true,
 			currentFilter: { type: 'all', id: 'all' },
+			batchKey: 0,
 		}
 	},
 
@@ -53,6 +54,7 @@ export const MainPage = defineComponent({
 	handleFilterChange(type: 'all' | 'tag' | 'category', id: string) {
 		this.updateState({
 			currentFilter: { type, id },
+			batchKey: this.state.batchKey + 1,
 		})
 	},
 
@@ -88,6 +90,7 @@ export const MainPage = defineComponent({
 				/>
 
 				<Batch
+					key={`batch-${this.state.batchKey}`}
 					filterType={this.state.currentFilter.type}
 					filterId={this.state.currentFilter.id}
 					onCardClick={storeId => navigate(`/store/${storeId}`)}
@@ -95,10 +98,12 @@ export const MainPage = defineComponent({
 
 				<Footer />
 
-				{this.state.isCartOpen && <Cart onClose={() => this.closeCart()} />}
-				{this.state.isHistoryOpen && (
+				{this.state.isCartOpen ? (
+					<Cart onClose={() => this.closeCart()} />
+				) : null}
+				{this.state.isHistoryOpen ? (
 					<History onClose={() => this.closeHistory()} />
-				)}
+				) : null}
 			</div>
 		)
 	},
