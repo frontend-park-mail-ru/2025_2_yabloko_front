@@ -11,20 +11,16 @@ export const CardsHeader = defineComponent({
 	render() {
 		const props = this.props as CardsHeaderProps
 
-		const handleFilterClick = (
-			type: 'all' | 'tag' | 'category',
-			id: string,
-		) => {
-			props.onFilterChange?.(type, id)
-		}
-
 		return (
 			<div class={styles.cardsHeader}>
 				<h2 class={styles.cardsHeader__title}>Рестораны</h2>
 				<div class={styles.cardsHeader__filters}>
 					<button
 						class={styles.filter__button}
-						on={{ click: () => handleFilterClick('all', 'all') }}
+						on={{
+							click: () =>
+								props.onFilterChange && props.onFilterChange('all', 'all'),
+						}}
 					>
 						Все
 					</button>
@@ -32,7 +28,11 @@ export const CardsHeader = defineComponent({
 					{props.categories.map(category => (
 						<button
 							class={styles.filter__button}
-							on={{ click: () => handleFilterClick('category', category.id) }}
+							on={{
+								click: () =>
+									props.onFilterChange &&
+									props.onFilterChange('category', category.id),
+							}}
 						>
 							{category.name}
 						</button>
@@ -41,7 +41,10 @@ export const CardsHeader = defineComponent({
 					{props.tags.map(tag => (
 						<button
 							class={styles.filter__button}
-							on={{ click: () => handleFilterClick('tag', tag.id) }}
+							on={{
+								click: () =>
+									props.onFilterChange && props.onFilterChange('tag', tag.id),
+							}}
 						>
 							{tag.name}
 						</button>
