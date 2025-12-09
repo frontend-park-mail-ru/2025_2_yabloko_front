@@ -17,6 +17,7 @@ export const Batch = defineComponent({
 	},
 
 	async onMounted() {
+		this.previousFilter = `${this.props.filterType}-${this.props.filterId}`
 		await this.loadStores()
 	},
 
@@ -32,6 +33,7 @@ export const Batch = defineComponent({
 				params.category_id = [filterId]
 			}
 
+			console.log('Batch loading with:', params) // Отладка
 			const stores = await StoreApi.getStores(params)
 			this.updateState({ stores, isLoading: false })
 		} catch (error) {
@@ -44,8 +46,9 @@ export const Batch = defineComponent({
 
 	async checkAndReload() {
 		const currentFilter = `${this.props.filterType}-${this.props.filterId}`
-		if (currentFilter !== this.previousFilter) {
+		if (this.previousFilter && currentFilter !== this.previousFilter) {
 			this.previousFilter = currentFilter
+			this.updateState({ isLoading: true })
 			await this.loadStores()
 		}
 	},
