@@ -6,7 +6,6 @@ import styles from './Batch.module.scss'
 interface BatchState {
 	stores: Store[]
 	isLoading: boolean
-	tagId: string | null
 }
 
 export const Batch = defineComponent({
@@ -14,7 +13,6 @@ export const Batch = defineComponent({
 		return {
 			stores: [],
 			isLoading: true,
-			tagId: null,
 		}
 	},
 
@@ -23,18 +21,15 @@ export const Batch = defineComponent({
 	},
 
 	async loadStores() {
-		this.updateState({ isLoading: true })
-
 		try {
-			const params: any = {
-				limit: 12,
-			}
+			const params: any = { limit: 12 }
 
-			if (this.props.tagId) {
-				params.tag_id = [this.props.tagId]
-			}
-			else if (this.props.filter && this.props.filter !== 'all') {
-				params.search = this.props.filter
+			const { filterType, filterId } = this.props
+
+			if (filterType === 'tag' && filterId !== 'all') {
+				params.tag_id = [filterId]
+			} else if (filterType === 'category' && filterId !== 'all') {
+				params.category_id = [filterId]
 			}
 
 			const stores = await StoreApi.getStores(params)
@@ -45,16 +40,19 @@ export const Batch = defineComponent({
 		}
 	},
 
-	async componentDidUpdate(prevProps: any) {
-		if (
-			prevProps.tagId !== this.props.tagId ||
-			prevProps.filter !== this.props.filter
-		) {
+	previousFilter: null as string | null,
+
+	async checkAndReload() {
+		const currentFilter = `${this.props.filterType}-${this.props.filterId}`
+		if (currentFilter !== this.previousFilter) {
+			this.previousFilter = currentFilter
 			await this.loadStores()
 		}
 	},
 
 	render() {
+		this.checkAndReload()
+
 		const { stores, isLoading } = this.state
 
 		if (isLoading) {
