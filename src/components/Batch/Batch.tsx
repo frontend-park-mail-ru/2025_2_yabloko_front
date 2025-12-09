@@ -15,12 +15,16 @@ export const Batch = defineComponent({
 		return {
 			stores: [],
 			isLoading: true,
-			currentFilterType: this.props.filterType || 'all',
-			currentFilterId: this.props.filterId || 'all',
+			currentFilterType: 'all',
+			currentFilterId: 'all',
 		}
 	},
 
 	async onMounted() {
+		this.updateState({
+			currentFilterType: this.props.filterType || 'all',
+			currentFilterId: this.props.filterId || 'all',
+		})
 		await this.loadStores()
 	},
 
@@ -56,6 +60,7 @@ export const Batch = defineComponent({
 			newType !== this.state.currentFilterType ||
 			newId !== this.state.currentFilterId
 		) {
+			console.log('Filter changed to:', newType, newId)
 			this.updateState({
 				currentFilterType: newType,
 				currentFilterId: newId,
@@ -74,6 +79,14 @@ export const Batch = defineComponent({
 		if (isLoading) {
 			return (
 				<div style={{ padding: '40px', textAlign: 'center' }}>Загрузка...</div>
+			)
+		}
+
+		if (stores.length === 0) {
+			return (
+				<div style={{ padding: '40px', textAlign: 'center' }}>
+					Рестораны не найдены
+				</div>
 			)
 		}
 
