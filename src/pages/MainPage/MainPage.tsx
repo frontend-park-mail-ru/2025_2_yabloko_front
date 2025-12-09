@@ -14,8 +14,8 @@ export const MainPage = defineComponent({
 		return {
 			isCartOpen: false,
 			isHistoryOpen: false,
-			tags: [],
-			categories: [],
+			tags: [] as any[],
+			categories: [] as any[],
 			isLoading: true,
 			currentFilter: { type: 'all', id: 'all' },
 		}
@@ -49,11 +49,24 @@ export const MainPage = defineComponent({
 
 	render() {
 		if (this.state.isLoading) {
-			return <div>Загрузка...</div>
+			return (
+				<div class={styles.mainPage}>
+					<Navbar
+						onLogoClick={() => navigate('/')}
+						onLoginClick={() => navigate('/auth')}
+						onCartClick={() => this.openCart()}
+						onHistoryClick={() => this.openHistory()}
+					/>
+					<div class={styles.mainPage__content}>
+						<div>Загрузка...</div>
+					</div>
+					<Footer />
+				</div>
+			)
 		}
 
 		return (
-			<div style={styles.mainPage__container}>
+			<div class={styles.mainPage}>
 				<Navbar
 					onLogoClick={() => navigate('/')}
 					onLoginClick={() => navigate('/auth')}
@@ -61,19 +74,21 @@ export const MainPage = defineComponent({
 					onHistoryClick={() => this.openHistory()}
 				/>
 
-				<CardsHeader
-					tags={this.state.tags}
-					categories={this.state.categories}
-					currentFilter={this.state.currentFilter}
-					onFilterChange={(type, id) => this.handleFilterChange(type, id)}
-				/>
+				<div class={styles.mainPage__content}>
+					<CardsHeader
+						tags={this.state.tags}
+						categories={this.state.categories}
+						currentFilter={this.state.currentFilter}
+						onFilterChange={(type, id) => this.handleFilterChange(type, id)}
+					/>
 
-				<Batch
-					key={`${this.state.currentFilter.type}-${this.state.currentFilter.id}`}
-					filterType={this.state.currentFilter.type}
-					filterId={this.state.currentFilter.id}
-					onCardClick={storeId => navigate(`/store/${storeId}`)}
-				/>
+					<Batch
+						key={`${this.state.currentFilter.type}-${this.state.currentFilter.id}`}
+						filterType={this.state.currentFilter.type}
+						filterId={this.state.currentFilter.id}
+						onCardClick={storeId => navigate(`/store/${storeId}`)}
+					/>
+				</div>
 
 				<Footer />
 
