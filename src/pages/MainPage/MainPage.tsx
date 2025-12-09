@@ -53,7 +53,7 @@ export const MainPage = defineComponent({
 		}
 
 		return (
-			<div>
+			<div style={styles.mainPage__container}>
 				<Navbar
 					onLogoClick={() => navigate('/')}
 					onLoginClick={() => navigate('/auth')}

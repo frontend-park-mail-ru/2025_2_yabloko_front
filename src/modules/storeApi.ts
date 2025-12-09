@@ -111,7 +111,7 @@ export class StoreApi {
 		if (params.desc !== undefined)
 			queryParams.append('desc', params.desc.toString())
 		if (params.search) queryParams.append('search', params.search)
-		if (params.category) queryParams.append('category', params.category)
+		if (params.category) queryParams.append('category_id', params.category)
 		if (params.cityID) queryParams.append('city_id', params.cityID)
 
 		const queryString = queryParams.toString()

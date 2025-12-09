@@ -20,14 +20,15 @@ export const Batch = defineComponent({
 			const params: any = { limit: 12 }
 
 			if (this.props.filterType === 'tag' && this.props.filterId !== 'all') {
-				params.tag_id = [this.props.filterId]
+				params.tagId = this.props.filterId 
 			} else if (
 				this.props.filterType === 'category' &&
 				this.props.filterId !== 'all'
 			) {
-				params.category_id = [this.props.filterId]
+				params.category = this.props.filterId 
 			}
 
+			console.log('Batch params:', params)
 			const stores = await StoreApi.getStores(params)
 			this.updateState({ stores, isLoading: false })
 		} catch (error) {
