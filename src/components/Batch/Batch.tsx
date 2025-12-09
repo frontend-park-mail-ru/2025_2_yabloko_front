@@ -8,6 +8,7 @@ export const Batch = defineComponent({
 		return {
 			stores: [],
 			isLoading: true,
+			currentFilter: { type: 'all', id: 'all' },
 		}
 	},
 
@@ -19,16 +20,16 @@ export const Batch = defineComponent({
 		try {
 			const params: any = { limit: 12 }
 
-			if (this.props.filterType === 'tag' && this.props.filterId !== 'all') {
-				params.tagId = this.props.filterId 
-			} else if (
-				this.props.filterType === 'category' &&
-				this.props.filterId !== 'all'
-			) {
-				params.category = this.props.filterId 
+			const filterType = this.state.currentFilter.type
+			const filterId = this.state.currentFilter.id
+
+			if (filterType === 'tag' && filterId !== 'all') {
+				params.tagId = filterId
+			} else if (filterType === 'category' && filterId !== 'all') {
+				params.category = filterId
 			}
 
-			console.log('Batch params:', params)
+			console.log('Loading stores with:', params)
 			const stores = await StoreApi.getStores(params)
 			this.updateState({ stores, isLoading: false })
 		} catch (error) {
@@ -37,11 +38,33 @@ export const Batch = defineComponent({
 		}
 	},
 
+	async checkAndUpdate() {
+		const newType = this.props.filterType || 'all'
+		const newId = this.props.filterId || 'all'
+
+		if (
+			newType !== this.state.currentFilter.type ||
+			newId !== this.state.currentFilter.id
+		) {
+			console.log('Filter changed, reloading...')
+			this.updateState({
+				currentFilter: { type: newType, id: newId },
+				isLoading: true,
+				stores: [],
+			})
+			await this.loadStores()
+		}
+	},
+
 	render() {
+		this.checkAndUpdate()
+
 		const { stores, isLoading } = this.state
 
 		if (isLoading) {
-			return <div>Загрузка...</div>
+			return (
+				<div style={{ padding: '40px', textAlign: 'center' }}>Загрузка...</div>
+			)
 		}
 
 		return (
@@ -55,6 +78,12 @@ export const Batch = defineComponent({
 						/>
 					))}
 				</div>
+
+				{stores.length === 0 && (
+					<div style={{ padding: '40px', textAlign: 'center' }}>
+						Нет ресторанов по выбранному фильтру
+					</div>
+				)}
 			</div>
 		)
 	},

@@ -83,7 +83,6 @@ export const MainPage = defineComponent({
 					/>
 
 					<Batch
-						key={`${this.state.currentFilter.type}-${this.state.currentFilter.id}`}
 						filterType={this.state.currentFilter.type}
 						filterId={this.state.currentFilter.id}
 						onCardClick={storeId => navigate(`/store/${storeId}`)}
