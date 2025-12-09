@@ -78,7 +78,7 @@ export class OrderApi {
 		queryParams.append('return_url', params.return_url)
 		if (params.price) queryParams.append('price', params.price)
 
-		const url = `http://90.156.218.233:8080/api/v0/fake-payment?${queryParams.toString()}`
+		const url = `http://90.156.218.233:8084/api/v0/fake-payment?${queryParams.toString()}`
 		window.location.href = url
 	}
 }

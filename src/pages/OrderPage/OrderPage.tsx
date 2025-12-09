@@ -4,6 +4,7 @@ import { Navbar } from '../../components/Navbar/Navbar'
 import { OrderApi } from '../../modules/orderApi'
 import styles from './OrderPage.module.scss'
 import { API } from '../../modules/api'
+import { navigate } from '../../modules/router'
 
 export const OrderPage = defineComponent({
 	state() {
@@ -51,7 +52,12 @@ export const OrderPage = defineComponent({
 
 		return (
 			<div class={styles.orderPage}>
-				<Navbar />
+                <Navbar
+                    onLogoClick={() => navigate('/')}
+                    onLoginClick={() => navigate('/auth')}
+                    onCartClick={() => this.openCart()}
+                    onHistoryClick={() => this.openHistory()}
+                />
 
 				<div class={styles.orderPage__container}>
 					<div class={styles.orderPage__content}>
