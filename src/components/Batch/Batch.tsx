@@ -6,6 +6,8 @@ import styles from './Batch.module.scss'
 interface BatchState {
 	stores: Store[]
 	isLoading: boolean
+	currentFilterType: string
+	currentFilterId: string
 }
 
 export const Batch = defineComponent({
@@ -13,11 +15,12 @@ export const Batch = defineComponent({
 		return {
 			stores: [],
 			isLoading: true,
+			currentFilterType: this.props.filterType || 'all',
+			currentFilterId: this.props.filterId || 'all',
 		}
 	},
 
 	async onMounted() {
-		this.previousFilter = `${this.props.filterType}-${this.props.filterId}`
 		await this.loadStores()
 	},
 
@@ -25,7 +28,10 @@ export const Batch = defineComponent({
 		try {
 			const params: any = { limit: 12 }
 
-			const { filterType, filterId } = this.props
+			const filterType = this.state.currentFilterType
+			const filterId = this.state.currentFilterId
+
+			console.log('Current filter:', filterType, filterId)
 
 			if (filterType === 'tag' && filterId !== 'all') {
 				params.tag_id = [filterId]
@@ -33,7 +39,7 @@ export const Batch = defineComponent({
 				params.category_id = [filterId]
 			}
 
-			console.log('Batch loading with:', params) // Отладка
+			console.log('Loading stores with params:', params)
 			const stores = await StoreApi.getStores(params)
 			this.updateState({ stores, isLoading: false })
 		} catch (error) {
@@ -42,24 +48,33 @@ export const Batch = defineComponent({
 		}
 	},
 
-	previousFilter: null as string | null,
+	async updateFilter() {
+		const newType = this.props.filterType || 'all'
+		const newId = this.props.filterId || 'all'
 
-	async checkAndReload() {
-		const currentFilter = `${this.props.filterType}-${this.props.filterId}`
-		if (this.previousFilter && currentFilter !== this.previousFilter) {
-			this.previousFilter = currentFilter
-			this.updateState({ isLoading: true })
+		if (
+			newType !== this.state.currentFilterType ||
+			newId !== this.state.currentFilterId
+		) {
+			this.updateState({
+				currentFilterType: newType,
+				currentFilterId: newId,
+				isLoading: true,
+				stores: [],
+			})
 			await this.loadStores()
 		}
 	},
 
 	render() {
-		this.checkAndReload()
+		this.updateFilter()
 
 		const { stores, isLoading } = this.state
 
 		if (isLoading) {
-			return <div>Загрузка...</div>
+			return (
+				<div style={{ padding: '40px', textAlign: 'center' }}>Загрузка...</div>
+			)
 		}
 
 		return (
