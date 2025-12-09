@@ -19,21 +19,19 @@ export const Batch = defineComponent({
 		try {
 			const params: any = { limit: 12 }
 
-			const filterType = this.props.filterType || 'all'
-			const filterId = this.props.filterId || 'all'
-
-			console.log('Loading with:', filterType, filterId)
-
-			if (filterType === 'tag' && filterId !== 'all') {
-				params.tag_id = [filterId]
-			} else if (filterType === 'category' && filterId !== 'all') {
-				params.category_id = [filterId]
+			if (this.props.filterType === 'tag' && this.props.filterId !== 'all') {
+				params.tag_id = [this.props.filterId]
+			} else if (
+				this.props.filterType === 'category' &&
+				this.props.filterId !== 'all'
+			) {
+				params.category_id = [this.props.filterId]
 			}
 
 			const stores = await StoreApi.getStores(params)
 			this.updateState({ stores, isLoading: false })
 		} catch (error) {
-			console.warn('Error loading stores:', error)
+			console.error('Error loading stores:', error)
 			this.updateState({ isLoading: false })
 		}
 	},
@@ -42,12 +40,8 @@ export const Batch = defineComponent({
 		const { stores, isLoading } = this.state
 
 		if (isLoading) {
-			return (
-				<div style={{ padding: '40px', textAlign: 'center' }}>Загрузка...</div>
-			)
+			return <div>Загрузка...</div>
 		}
-
-		console.log('Rendering', stores.length, 'stores')
 
 		return (
 			<div class={styles.batch}>
@@ -60,12 +54,6 @@ export const Batch = defineComponent({
 						/>
 					))}
 				</div>
-
-				{stores.length === 0 && (
-					<div style={{ padding: '40px', textAlign: 'center' }}>
-						Нет ресторанов по выбранному фильтру
-					</div>
-				)}
 			</div>
 		)
 	},
