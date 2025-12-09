@@ -8,7 +8,6 @@ export const Batch = defineComponent({
 		return {
 			stores: [],
 			isLoading: true,
-			currentFilter: { type: 'all', id: 'all' },
 		}
 	},
 
@@ -20,8 +19,8 @@ export const Batch = defineComponent({
 		try {
 			const params: any = { limit: 12 }
 
-			const filterType = this.state.currentFilter.type
-			const filterId = this.state.currentFilter.id
+			const filterType = this.props.filterType || 'all'
+			const filterId = this.props.filterId || 'all'
 
 			if (filterType === 'tag' && filterId !== 'all') {
 				params.tagId = filterId
@@ -29,7 +28,6 @@ export const Batch = defineComponent({
 				params.category = filterId
 			}
 
-			console.log('Loading stores with:', params)
 			const stores = await StoreApi.getStores(params)
 			this.updateState({ stores, isLoading: false })
 		} catch (error) {
@@ -38,27 +36,7 @@ export const Batch = defineComponent({
 		}
 	},
 
-	async checkAndUpdate() {
-		const newType = this.props.filterType || 'all'
-		const newId = this.props.filterId || 'all'
-
-		if (
-			newType !== this.state.currentFilter.type ||
-			newId !== this.state.currentFilter.id
-		) {
-			console.log('Filter changed, reloading...')
-			this.updateState({
-				currentFilter: { type: newType, id: newId },
-				isLoading: true,
-				stores: [],
-			})
-			await this.loadStores()
-		}
-	},
-
 	render() {
-		this.checkAndUpdate()
-
 		const { stores, isLoading } = this.state
 
 		if (isLoading) {
