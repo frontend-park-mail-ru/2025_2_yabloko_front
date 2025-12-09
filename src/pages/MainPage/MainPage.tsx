@@ -51,7 +51,9 @@ export const MainPage = defineComponent({
 	},
 
 	handleFilterChange(type: 'all' | 'tag' | 'category', id: string) {
-		this.updateState({ currentFilter: { type, id } })
+		this.updateState({
+			currentFilter: { type, id },
+		})
 	},
 
 	render() {
