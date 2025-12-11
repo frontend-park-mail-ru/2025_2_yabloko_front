@@ -126,7 +126,7 @@ export const OrderPage = defineComponent({
 									</div>
 								</div>
 							))
-                            });}
+                            })}
 						</div>
 					</div>
 				</div>
