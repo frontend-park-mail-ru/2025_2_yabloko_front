@@ -5,7 +5,7 @@ import styles from './Search.module.scss'
 interface SearchBarProps {
 	placeholder?: string
 	onSearch?: (query: string) => void
-	onClick?: () => void // Открыть модалку
+	onClick?: () => void
 	value?: string
 }
 
@@ -23,7 +23,14 @@ export const SearchBar = defineComponent({
 		// Режим кнопки для открытия модалки
 		if (props.onClick) {
 			return (
-				<div class={styles.searchBar} onClick={props.onClick}>
+				<div
+					class={styles.searchBar}
+					{...{
+						on: {
+							click: () => props.onClick?.(),
+						},
+					}}
+				>
 					<img
 						src="/static/icons/search.png"
 						alt="search"
