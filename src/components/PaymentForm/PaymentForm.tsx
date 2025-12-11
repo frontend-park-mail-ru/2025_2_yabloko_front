@@ -38,34 +38,8 @@ export const PaymentForm = defineComponent({
 			props.onPromoChange((e.target as HTMLInputElement).value)
 		}
 
-		const getPaymentLabel = () => {
-			switch (props.paymentMethod) {
-				case 'card':
-					return 'Банковской картой'
-				case 'cash':
-					return 'Наличными'
-				case 'online':
-					return 'Онлайн (СБП и др.)'
-				default:
-					return 'Выберите способ оплаты'
-			}
-		}
-
 		return (
 			<div class={styles.payment}>
-				<div class={styles.payment__section}>
-					<h2>Способ оплаты</h2>
-					<div class={styles.payment__row}>
-						<div class="payment__value">{getPaymentLabel()}</div>
-						<Button
-							type="button"
-							variant="accent"
-							text="Изменить"
-							onClick={() => props.onChangePayment()}
-						/>
-					</div>
-				</div>
-
 				<div class={styles.payment__section}>
 					<h2>Промокод</h2>
 					<div class={styles.payment__row}>
