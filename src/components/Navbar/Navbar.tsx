@@ -100,7 +100,7 @@ export const Navbar = defineComponent({
 						placeholder="Поиск ресторанов и категорий"
 						onSearch={props.onSearch}
 					/>
-					<CitySelector />
+					{window.location.pathname == "/" ? <CitySelector /> : null}
 				</div>
 				<div class={styles.navbar__right}>
 					<div class={styles.navbar__cartWrapper}>
