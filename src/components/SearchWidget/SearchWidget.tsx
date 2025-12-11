@@ -188,11 +188,13 @@ export const SearchModal = defineComponent({
 	renderItemCard(item: any) {
 		return (
 			<ProductCard
-				id={item.id}
-				name={this.truncate(item.name, 25)}
-				price={item.price}
-				image={item.card_img}
-				compact={true}
+				product={{
+					id: item.id,
+					name: item.name,
+					description: '',
+					price: item.price,
+					card_img: item.card_img,
+				}}
 			/>
 		)
 	},
