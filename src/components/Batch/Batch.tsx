@@ -52,7 +52,11 @@ export const Batch = defineComponent({
 						<Card
 							key={store.id}
 							store={store}
-							onCardClick={this.props.onCardClick() && (() => this.props.onCardClick.store.id)}
+							onCardClick={
+								this.props.onCardClick
+									? () => this.props.onCardClick(store.id)
+									: null
+							}
 						/>
 					))}
 				</div>
