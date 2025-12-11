@@ -57,7 +57,8 @@ export const MainPage = defineComponent({
 						onCartClick={() => this.openCart()}
 						onHistoryClick={() => this.openHistory()}
 					/>
-
+					<div class={styles.mainPage__content}>
+					</div>
 					<Footer />
 				</div>
 			)
@@ -81,7 +82,7 @@ export const MainPage = defineComponent({
 					/>
 
 					<Batch
-						key={`${this.state.currentFilter.type}-${this.state.currentFilter.id}`}
+						//key={`${this.state.currentFilter.type}-${this.state.currentFilter.id}`}
 						filterType={this.state.currentFilter.type}
 						filterId={this.state.currentFilter.id}
 						onCardClick={storeId => navigate(`/store/${storeId}`)}
