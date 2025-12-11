@@ -95,7 +95,7 @@ export const OrderPage = defineComponent({
                                                     on: {
                                                         click: (e: Event) => {
                                                             e.stopPropagation()
-                                                            navigate(`/stores/${store.id}`)
+                                                            navigate(`/store/${store.id}`)
                                                         }
                                                     },
                                                 }}
