@@ -151,7 +151,6 @@ export const SearchModal = defineComponent({
 		const props = this.props as SearchModalProps
 		const { isLoading, results } = this.state
 
-		const filteredResults = results
 		return (
 			<div
 				class={styles.searchModal}
@@ -176,13 +175,14 @@ export const SearchModal = defineComponent({
 								<div class={styles.spinner}></div>
 								<p>Ищем...</p>
 							</div>
-						) : filteredResults.length === 0 ? (
+						) : results.length === 0 ? (
 							<div class={styles.noResults}>
+								<p>Ничего не найдено по запросу "{props.searchQuery}"</p>
 								<p>Попробуйте изменить поисковый запрос</p>
 							</div>
 						) : (
 							<div class={styles.results}>
-								{filteredResults.map((result, index) => (
+								{results.map((result, index) => (
 									<div key={index} class={styles.resultGroup}>
 										{result.store && (
 											<div
@@ -220,20 +220,23 @@ export const SearchModal = defineComponent({
 											<div class={styles.itemsList}>
 												{result.items.slice(0, 3).map((item, idx) => (
 													<ProductCard
-														{...{
-															on: {
-																click: () =>
-																	this.handleStoreClick(
-																		`stores/${result.store.id}`,
-																	),
-															},
-														}}
+														key={idx}
 														product={{
 															id: item.id,
 															name: item.name,
 															description: '',
 															price: item.price,
 															card_img: item.card_img,
+														}}
+														{...{
+															on: {
+																click: (e: Event) => {
+																	e.stopPropagation()
+																	this.handleStoreClick(
+																		`stores/${result.store.id}`,
+																	)
+																},
+															},
 														}}
 													/>
 												))}
