@@ -6,6 +6,7 @@ import { defineComponent } from '@antiquemouse/framework'
 import { addToCart } from '../../modules/cartManager'
 import { navigate } from '../../modules/router'
 import { Item, Store, StoreApi } from '../../modules/storeApi'
+import { History } from '../../components/History/History'
 import styles from './StorePage.module.scss'
 
 interface StorePageState {
