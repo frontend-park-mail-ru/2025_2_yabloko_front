@@ -24,7 +24,7 @@ export const SearchBar = defineComponent({
 				class={styles.searchBar}
 				{...{
 					on: {
-						submit: (e: Event) => {
+						click: (e: Event) => {
 							e.preventDefault()
 							props.onSearch?.(searchQuery)
 						},
