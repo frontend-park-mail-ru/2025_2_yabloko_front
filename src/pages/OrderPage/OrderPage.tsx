@@ -10,6 +10,7 @@ export const OrderPage = defineComponent({
 	state() {
 		return {
 			order: null as any,
+            stores: [],
 			isLoading: true,
 		}
 	},
@@ -18,15 +19,30 @@ export const OrderPage = defineComponent({
 		try {
 			const orderId = window.location.pathname.split('/').pop() || ''
 			const orderData = await OrderApi.getOrderById(orderId)
-			this.updateState({ order: orderData, isLoading: false })
+            const stores = this.getStoreList(orderData);
+			this.updateState({ order: orderData, stores: stores, isLoading: false })
 		} catch (error) {
 			console.error('Error loading order:', error)
 			this.updateState({ isLoading: false })
 		}
 	},
 
+    getStoreList(order: any) {
+    const seen = new Set();
+    const uniqueStores = [];
+
+    for (const item of order.items) {
+        if (!seen.has(item.store_id)) {
+        seen.add(item.store_id);
+        uniqueStores.push({ id: item.store_id, name: item.store_name });
+        }
+    }
+
+    return uniqueStores;
+    },
+
 	render() {
-		const { order, isLoading } = this.state
+		const { order, stores, isLoading } = this.state
 
 		if (isLoading) {
 			return (
@@ -60,7 +76,7 @@ export const OrderPage = defineComponent({
 				/>
 
 				<div class={styles.orderPage__container}>
-					<h1>Заказ №{order.id.substring(0, 8)}</h1>
+					<h1>Заказ № {order.id.substring(0, 8)}</h1>
 					<div class={styles.orderPage__content}>
 						<div class={styles.orderPage__info}>
 							<div>
@@ -70,6 +86,19 @@ export const OrderPage = defineComponent({
 								<div>
 									<strong>Дата:</strong> {formattedDate}
 								</div>
+								{stores.map(store => (
+									<div class={styles.orderItem}>
+										<div>
+											<div>
+												<strong onClick = {() => {
+                                                    navigate(`/stores/${store.store_id}`)
+                                                }
+                                                }>{store.store_name}</strong>
+											</div>
+										</div>
+									</div>
+								))}
+								<h3>Доставка и оплата:</h3>
 								<div>
 									<strong>Итого:</strong> {order.total.toLocaleString('ru-RU')}{' '}
 									₽
