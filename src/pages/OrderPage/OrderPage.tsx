@@ -90,10 +90,13 @@ export const OrderPage = defineComponent({
 									<div class={styles.orderItem}>
 										<div>
 											<div>
-												<strong onClick = {() => {
-                                                    navigate(`/stores/${store.id}`)
-                                                }
-                                                }>{store.name}</strong>
+												<strong
+													onClick={() => {
+														navigate(`/stores/${store.id}`)
+													}}
+												>
+													{store.name}
+												</strong>
 											</div>
 										</div>
 									</div>
@@ -108,25 +111,25 @@ export const OrderPage = defineComponent({
 
 						<div class={styles.orderPage__items}>
 							<h3>Состав заказа:</h3>
-							{order.stores.flatMap(store => {
-                                store.items.map(item => (
-								<div class={styles.orderItem}>
-									<img
-										src={`${API.SERVICES.PICS}/images/items/${item.card_img}`}
-										class={styles.orderItem__image}
-									/>
-									<div>
-										<div class={styles.orderItem__name}>{item.name}</div>
+							{order.stores.flatMap(store =>
+								store.items.map(item => (
+									<div class={styles.orderItem} key={item.id}>
+										<img
+											src={`${API.SERVICES.PICS}/images/items/${item.card_img}`}
+											class={styles.orderItem__image}
+										/>
 										<div>
-											{item.price} ₽ × {item.quantity}
-										</div>
-										<div>
-											<strong>{item.price * item.quantity} ₽</strong>
+											<div class={styles.orderItem__name}>{item.name}</div>
+											<div>
+												{item.price} ₽ × {item.quantity}
+											</div>
+											<div>
+												<strong>{item.price * item.quantity} ₽</strong>
+											</div>
 										</div>
 									</div>
-								</div>
-							))
-                            })}
+								)),
+							)}
 						</div>
 					</div>
 				</div>
