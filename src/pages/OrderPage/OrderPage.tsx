@@ -109,7 +109,7 @@ export const OrderPage = defineComponent({
 						<div class={styles.orderPage__items}>
 							<h3>Состав заказа:</h3>
 							{order.stores.flatMap(store => {
-                                store.item.map(item => (
+                                store.items.map(item => (
 								<div class={styles.orderItem}>
 									<img
 										src={`${API.SERVICES.PICS}/images/items/${item.card_img}`}
