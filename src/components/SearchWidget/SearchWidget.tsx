@@ -180,7 +180,6 @@ export const SearchModal = defineComponent({
 						) : results.length === 0 ? (
 							<div class={styles.noResults}>
 								<p>Ничего не найдено по запросу "{props.searchQuery}"</p>
-								<p>Попробуйте изменить поисковый запрос</p>
 							</div>
 						) : (
 							<div class={styles.results}>
