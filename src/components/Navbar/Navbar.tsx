@@ -14,6 +14,7 @@ import styles from './Navbar.module.scss'
 interface NavbarProps {
 	onLogoClick?: () => void
 	onSearch?: (query: string) => void
+	onSearchClick?: () => void // Новый пропс для открытия модалки
 	onCartClick?: () => void
 	onHistoryClick?: () => void
 }
@@ -99,8 +100,9 @@ export const Navbar = defineComponent({
 					<SearchBar
 						placeholder="Поиск ресторанов и категорий"
 						onSearch={props.onSearch}
+						onClick={props.onSearchClick} // Передаем пропс в SearchBar
 					/>
-					{window.location.pathname == "/" ? <CitySelector /> : null}
+					{window.location.pathname == '/' ? <CitySelector /> : null}
 				</div>
 				<div class={styles.navbar__right}>
 					<div class={styles.navbar__cartWrapper}>

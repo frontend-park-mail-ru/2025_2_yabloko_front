@@ -5,6 +5,7 @@ import { Cart } from '../../components/Cart/Cart'
 import { Footer } from '../../components/Footer/Footer'
 import { History } from '../../components/History/History'
 import { Navbar } from '../../components/Navbar/Navbar'
+import { SearchModal } from '../../components/SearchWidget/SearchWidget'
 import { navigate } from '../../modules/router'
 import { StoreApi } from '../../modules/storeApi'
 import styles from './MainPage.module.scss'
@@ -14,6 +15,7 @@ export const MainPage = defineComponent({
 		return {
 			isCartOpen: false,
 			isHistoryOpen: false,
+			isSearchOpen: false,
 			tags: [] as any[],
 			categories: [] as any[],
 			isLoading: true,
@@ -43,6 +45,14 @@ export const MainPage = defineComponent({
 		this.updateState({ isHistoryOpen: false })
 	},
 
+	openSearch() {
+		this.updateState({ isSearchOpen: true })
+	},
+
+	closeSearch() {
+		this.updateState({ isSearchOpen: false })
+	},
+
 	handleFilterChange(type: 'all' | 'tag' | 'category', id: string) {
 		this.updateState({ currentFilter: { type, id } })
 	},
@@ -54,11 +64,11 @@ export const MainPage = defineComponent({
 					<Navbar
 						onLogoClick={() => navigate('/')}
 						onLoginClick={() => navigate('/auth')}
+						onSearchClick={() => this.openSearch()}
 						onCartClick={() => this.openCart()}
 						onHistoryClick={() => this.openHistory()}
 					/>
-					<div class={styles.mainPage__content}>
-					</div>
+					<div class={styles.mainPage__content}></div>
 					<Footer />
 				</div>
 			)
@@ -69,6 +79,7 @@ export const MainPage = defineComponent({
 				<Navbar
 					onLogoClick={() => navigate('/')}
 					onLoginClick={() => navigate('/auth')}
+					onSearchClick={() => this.openSearch()}
 					onCartClick={() => this.openCart()}
 					onHistoryClick={() => this.openHistory()}
 				/>
@@ -96,6 +107,9 @@ export const MainPage = defineComponent({
 				) : null}
 				{this.state.isHistoryOpen ? (
 					<History onClose={() => this.closeHistory()} />
+				) : null}
+				{this.state.isSearchOpen ? (
+					<SearchModal onClose={() => this.closeSearch()} />
 				) : null}
 			</div>
 		)

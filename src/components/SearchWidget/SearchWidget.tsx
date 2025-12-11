@@ -1,34 +1,12 @@
 import { defineComponent } from '@antiquemouse/framework'
-import { searchStoresWithItems } from '../../modules/storeApi'
-import { ProductCard } from '../ProductCard/ProductCard'
+import { StoreApi } from '../../modules/storeApi' // Используем твой StoreApi
+import { navigate } from '../../modules/router' // Добавляем навигацию
 import { Card } from '../Card/Card'
+import { ProductCard } from '../ProductCard/ProductCard'
 import styles from './SearchModal.module.scss'
 
 interface SearchModalProps {
 	onClose: () => void
-}
-
-interface SearchResult {
-	store: {
-		id: string
-		name: string
-		description: string
-		city_id: string
-		address: string
-		card_img: string
-		rating: number
-		tags_id: string[]
-		categories_id: string[]
-		open_at: string
-		closed_at: string
-	}
-	items: Array<{
-		id: string
-		name: string
-		price: number
-		types_id: string[]
-		card_img: string
-	}>
 }
 
 export const SearchModal = defineComponent({
@@ -36,7 +14,7 @@ export const SearchModal = defineComponent({
 		return {
 			searchQuery: '',
 			isLoading: false,
-			results: [] as SearchResult[],
+			results: [] as any[], // Используем тип из StoreApi
 			activeTab: 'all', // 'all' | 'stores' | 'items'
 			filters: {
 				minPrice: '',
@@ -50,15 +28,20 @@ export const SearchModal = defineComponent({
 		}
 	},
 
+	// Дебаунс таймер
+	debounceTimer: null as any,
+
 	async performSearch() {
 		if (this.state.searchQuery.trim().length < 2) {
+			this.updateState({ results: [] })
 			return
 		}
 
 		this.updateState({ isLoading: true })
 
 		try {
-			const results = await searchStoresWithItems({
+			// Используем метод из StoreApi
+			const results = await StoreApi.searchStoresWithItems({
 				search: this.state.searchQuery,
 				limit: 20,
 				min_price: this.state.filters.minPrice
@@ -67,16 +50,25 @@ export const SearchModal = defineComponent({
 				max_price: this.state.filters.maxPrice
 					? Number(this.state.filters.maxPrice)
 					: undefined,
-				item_type: this.state.filters.selectedTypes,
-				tag_id: this.state.filters.selectedTags,
-				category_id: this.state.filters.selectedCategories,
+				item_type:
+					this.state.filters.selectedTypes.length > 0
+						? this.state.filters.selectedTypes
+						: undefined,
+				tag_id:
+					this.state.filters.selectedTags.length > 0
+						? this.state.filters.selectedTags
+						: undefined,
+				category_id:
+					this.state.filters.selectedCategories.length > 0
+						? this.state.filters.selectedCategories
+						: undefined,
 				city_id: this.state.filters.cityId || undefined,
 			})
 
-			this.updateState({ results, isLoading: false })
+			this.updateState({ results: results || [], isLoading: false })
 		} catch (error) {
 			console.error('Search failed:', error)
-			this.updateState({ isLoading: false })
+			this.updateState({ isLoading: false, results: [] })
 		}
 	},
 
@@ -105,7 +97,10 @@ export const SearchModal = defineComponent({
 	handleFilterChange(filterName: string, value: any) {
 		const filters = { ...this.state.filters, [filterName]: value }
 		this.updateState({ filters })
-		this.performSearch()
+		clearTimeout(this.debounceTimer)
+		this.debounceTimer = setTimeout(() => {
+			this.performSearch()
+		}, 300)
 	},
 
 	handleToggleFilters() {
@@ -113,15 +108,34 @@ export const SearchModal = defineComponent({
 	},
 
 	handleStoreClick(storeId: string) {
-		// Переход на страницу магазина
 		this.props.onClose()
 		navigate(`/store/${storeId}`)
 	},
 
 	handleItemClick(itemId: string, storeId: string) {
-		// Переход к товару в магазине
 		this.props.onClose()
-		navigate(`/store/${storeId}?item=${itemId}`)
+		navigate(`/store/${storeId}?highlight=${itemId}`) // Меняем item на highlight
+	},
+
+	// Вспомогательные функции для отображения
+	formatPrice(price: number): string {
+		return new Intl.NumberFormat('ru-RU').format(price)
+	},
+
+	truncate(text: string, length: number = 40): string {
+		if (!text) return ''
+		return text.length > length ? text.substring(0, length) + '...' : text
+	},
+
+	getTotalStoresCount(): number {
+		return this.state.results.length
+	},
+
+	getTotalItemsCount(): number {
+		return this.state.results.reduce(
+			(sum, result) => sum + (result.items?.length || 0),
+			0,
+		)
 	},
 
 	renderFilters() {
@@ -135,6 +149,7 @@ export const SearchModal = defineComponent({
 						<input
 							type="number"
 							placeholder="От"
+							min="0"
 							value={this.state.filters.minPrice}
 							onInput={e =>
 								this.handleFilterChange(
@@ -147,6 +162,7 @@ export const SearchModal = defineComponent({
 						<input
 							type="number"
 							placeholder="До"
+							min="0"
 							value={this.state.filters.maxPrice}
 							onInput={e =>
 								this.handleFilterChange(
@@ -157,9 +173,47 @@ export const SearchModal = defineComponent({
 						/>
 					</div>
 				</div>
-
-				{/* Здесь можно добавить выбор тегов, категорий, города через выпадающие списки */}
+				{/* Можно добавить больше фильтров позже */}
 			</div>
+		)
+	},
+
+	renderStoreCard(store: any) {
+		return (
+			<Card className={styles.storeCard}>
+				<div class={styles.storeCardContent}>
+					{store.card_img && (
+						<img
+							src={store.card_img}
+							alt={store.name}
+							class={styles.storeImage}
+						/>
+					)}
+					<div class={styles.storeInfo}>
+						<h4 class={styles.storeName}>{this.truncate(store.name)}</h4>
+						{store.address && (
+							<div class={styles.storeAddress}>
+								{this.truncate(store.address, 30)}
+							</div>
+						)}
+						{store.rating && (
+							<div class={styles.storeRating}>★ {store.rating}</div>
+						)}
+					</div>
+				</div>
+			</Card>
+		)
+	},
+
+	renderItemCard(item: any) {
+		return (
+			<ProductCard
+				id={item.id}
+				name={this.truncate(item.name, 25)}
+				price={item.price}
+				image={item.card_img}
+				compact={true}
+			/>
 		)
 	},
 
@@ -171,9 +225,13 @@ export const SearchModal = defineComponent({
 		const filteredResults = results.filter(result => {
 			if (activeTab === 'all') return true
 			if (activeTab === 'stores') return result.store
-			if (activeTab === 'items') return result.items.length > 0
+			if (activeTab === 'items') return result.items?.length > 0
 			return true
 		})
+
+		// Получаем счетчики
+		const storesCount = this.getTotalStoresCount()
+		const itemsCount = this.getTotalItemsCount()
 
 		return (
 			<div
@@ -230,19 +288,19 @@ export const SearchModal = defineComponent({
 							class={`${styles.tab} ${activeTab === 'all' ? styles.active : ''}`}
 							onClick={() => this.handleTabChange('all')}
 						>
-							Все ({results.length})
+							Все ({storesCount})
 						</button>
 						<button
 							class={`${styles.tab} ${activeTab === 'stores' ? styles.active : ''}`}
 							onClick={() => this.handleTabChange('stores')}
 						>
-							Магазины ({results.length})
+							Магазины ({storesCount})
 						</button>
 						<button
 							class={`${styles.tab} ${activeTab === 'items' ? styles.active : ''}`}
 							onClick={() => this.handleTabChange('items')}
 						>
-							Товары ({results.reduce((sum, r) => sum + r.items.length, 0)})
+							Товары ({itemsCount})
 						</button>
 					</div>
 
@@ -260,44 +318,34 @@ export const SearchModal = defineComponent({
 						) : filteredResults.length === 0 ? (
 							<div class={styles.noResults}>
 								<p>Ничего не найдено по запросу "{searchQuery}"</p>
-								<p>Попробуйте изменить поисковый запрос или фильтры</p>
+								<p>Попробуйте изменить поисковый запрос</p>
 							</div>
 						) : (
 							<div class={styles.results}>
-								{filteredResults.map(result => (
-									<div class={styles.resultGroup}>
+								{filteredResults.map((result, index) => (
+									<div key={index} class={styles.resultGroup}>
 										{/* Магазин */}
-										<div
-											class={styles.storeResult}
-											onClick={() => this.handleStoreClick(result.store.id)}
-										>
-											<StoreCard
-												id={result.store.id}
-												name={result.store.name}
-												rating={result.store.rating}
-												address={result.store.address}
-												card_img={result.store.card_img}
-												isCompact
-											/>
-										</div>
+										{result.store && (
+											<div
+												class={styles.storeResult}
+												onClick={() => this.handleStoreClick(result.store.id)}
+											>
+												{this.renderStoreCard(result.store)}
+											</div>
+										)}
 
 										{/* Товары магазина */}
-										{result.items.length > 0 && (
+										{result.items?.length > 0 && (
 											<div class={styles.itemsList}>
-												{result.items.slice(0, 3).map(item => (
+												{result.items.slice(0, 3).map((item, idx) => (
 													<div
+														key={idx}
 														class={styles.itemResult}
 														onClick={() =>
 															this.handleItemClick(item.id, result.store.id)
 														}
 													>
-														<ItemCard
-															id={item.id}
-															name={item.name}
-															price={item.price}
-															card_img={item.card_img}
-															isCompact
-														/>
+														{this.renderItemCard(item)}
 													</div>
 												))}
 												{result.items.length > 3 && (
