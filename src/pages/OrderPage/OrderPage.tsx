@@ -52,16 +52,16 @@ export const OrderPage = defineComponent({
 
 		return (
 			<div class={styles.orderPage}>
-                <Navbar
-                    onLogoClick={() => navigate('/')}
-                    onLoginClick={() => navigate('/auth')}
-                    onCartClick={() => this.openCart()}
-                    onHistoryClick={() => this.openHistory()}
-                />
+				<Navbar
+					onLogoClick={() => navigate('/')}
+					onLoginClick={() => navigate('/auth')}
+					onCartClick={() => this.openCart()}
+					onHistoryClick={() => this.openHistory()}
+				/>
 
 				<div class={styles.orderPage__container}>
+					<h1>Заказ №{order.id.substring(0, 8)}</h1>
 					<div class={styles.orderPage__content}>
-						<h1>Заказ №{order.id.substring(0, 8)}</h1>
 						<div class={styles.orderPage__info}>
 							<div>
 								<div>
@@ -81,7 +81,10 @@ export const OrderPage = defineComponent({
 							<h3>Состав заказа:</h3>
 							{order.items.map(item => (
 								<div class={styles.orderItem}>
-									<img src={`${API.SERVICES.PICS}/images/stores/${item.card_img}`} class={styles.orderItem__image} />
+									<img
+										src={`${API.SERVICES.PICS}/images/items/${item.card_img}`}
+										class={styles.orderItem__image}
+									/>
 									<div>
 										<div class={styles.orderItem__name}>{item.name}</div>
 										<div>
