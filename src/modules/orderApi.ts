@@ -84,12 +84,6 @@ export class OrderApi {
 
 	static async yooKassaPayment(params: FakePaymentParams): Promise<void> {
 		const response = await API.post('ORDER', `/payments`, params)
-
-		console.log('📦 Полный ответ:', response)
-		console.log('📄 Body:', response.body)
-		console.log('🎯 Confirmation:', response.body?.confirmation)
-		console.log('🔗 URL:', response.body?.confirmation?.confirmation_url)
-
 		if (response.service.success) {
 			window.location.href = response.body.confirmation.confirmation_url;
 		}

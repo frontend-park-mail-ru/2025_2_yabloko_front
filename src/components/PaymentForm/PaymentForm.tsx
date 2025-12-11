@@ -23,7 +23,7 @@ export const PaymentForm = defineComponent({
 			amount: response.total.toString(),
 			currency: "RUB",
 			description: "Этот функциона в разработке",
-			return_url: window.location.origin + `/order/${response.id}`,
+			return_url: window.location.origin + `/orders/${response.id}`,
 		}
 		await OrderApi.yooKassaPayment(payParams)
 	},
