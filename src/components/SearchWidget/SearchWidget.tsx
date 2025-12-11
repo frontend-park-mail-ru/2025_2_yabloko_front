@@ -1,21 +1,21 @@
 import { defineComponent } from '@antiquemouse/framework'
-import { StoreApi } from '../../modules/storeApi' // Используем твой StoreApi
-import { navigate } from '../../modules/router' // Добавляем навигацию
+import { navigate } from '../../modules/router'
+import { StoreApi } from '../../modules/storeApi'
 import { Card } from '../Card/Card'
 import { ProductCard } from '../ProductCard/ProductCard'
-import styles from './SearchWidget.module.scss'
+import styles from './SearchModal.module.scss'
 
 interface SearchModalProps {
 	onClose: () => void
+	searchQuery: string // Принимаем запрос из навбара
 }
 
 export const SearchModal = defineComponent({
 	state() {
 		return {
-			searchQuery: '',
 			isLoading: false,
-			results: [] as any[], // Используем тип из StoreApi
-			activeTab: 'all', // 'all' | 'stores' | 'items'
+			results: [] as any[],
+			activeTab: 'all',
 			filters: {
 				minPrice: '',
 				maxPrice: '',
@@ -28,21 +28,24 @@ export const SearchModal = defineComponent({
 		}
 	},
 
-	// Дебаунс таймер
 	debounceTimer: null as any,
 
+	async onMounted() {
+		// Автоматически запускаем поиск при открытии модалки
+		this.performSearch()
+	},
+
 	async performSearch() {
-		if (this.state.searchQuery.trim().length < 2) {
-			this.updateState({ results: [] })
+		const searchQuery = this.props.searchQuery
+		if (!searchQuery || searchQuery.trim().length < 2) {
 			return
 		}
 
 		this.updateState({ isLoading: true })
 
 		try {
-			// Используем метод из StoreApi
 			const results = await StoreApi.searchStoresWithItems({
-				search: this.state.searchQuery,
+				search: searchQuery,
 				limit: 20,
 				min_price: this.state.filters.minPrice
 					? Number(this.state.filters.minPrice)
@@ -50,18 +53,9 @@ export const SearchModal = defineComponent({
 				max_price: this.state.filters.maxPrice
 					? Number(this.state.filters.maxPrice)
 					: undefined,
-				item_type:
-					this.state.filters.selectedTypes.length > 0
-						? this.state.filters.selectedTypes
-						: undefined,
-				tag_id:
-					this.state.filters.selectedTags.length > 0
-						? this.state.filters.selectedTags
-						: undefined,
-				category_id:
-					this.state.filters.selectedCategories.length > 0
-						? this.state.filters.selectedCategories
-						: undefined,
+				item_type: this.state.filters.selectedTypes,
+				tag_id: this.state.filters.selectedTags,
+				category_id: this.state.filters.selectedCategories,
 				city_id: this.state.filters.cityId || undefined,
 			})
 
@@ -70,24 +64,6 @@ export const SearchModal = defineComponent({
 			console.error('Search failed:', error)
 			this.updateState({ isLoading: false, results: [] })
 		}
-	},
-
-	handleSearchInput(e: InputEvent) {
-		const target = e.target as HTMLInputElement
-		this.updateState({ searchQuery: target.value })
-
-		// Дебаунс для поиска
-		clearTimeout(this.debounceTimer)
-		this.debounceTimer = setTimeout(() => {
-			this.performSearch()
-		}, 300)
-	},
-
-	handleClearSearch() {
-		this.updateState({
-			searchQuery: '',
-			results: [],
-		})
 	},
 
 	handleTabChange(tab: string) {
@@ -114,10 +90,9 @@ export const SearchModal = defineComponent({
 
 	handleItemClick(itemId: string, storeId: string) {
 		this.props.onClose()
-		navigate(`/store/${storeId}?highlight=${itemId}`) // Меняем item на highlight
+		navigate(`/store/${storeId}?highlight=${itemId}`)
 	},
 
-	// Вспомогательные функции для отображения
 	formatPrice(price: number): string {
 		return new Intl.NumberFormat('ru-RU').format(price)
 	},
@@ -151,12 +126,15 @@ export const SearchModal = defineComponent({
 							placeholder="От"
 							min="0"
 							value={this.state.filters.minPrice}
-							onInput={e =>
-								this.handleFilterChange(
-									'minPrice',
-									(e.target as HTMLInputElement).value,
-								)
-							}
+							{...{
+								on: {
+									input: (e: InputEvent) =>
+										this.handleFilterChange(
+											'minPrice',
+											(e.target as HTMLInputElement).value,
+										),
+								},
+							}}
 						/>
 						<span>-</span>
 						<input
@@ -164,16 +142,18 @@ export const SearchModal = defineComponent({
 							placeholder="До"
 							min="0"
 							value={this.state.filters.maxPrice}
-							onInput={e =>
-								this.handleFilterChange(
-									'maxPrice',
-									(e.target as HTMLInputElement).value,
-								)
-							}
+							{...{
+								on: {
+									input: (e: InputEvent) =>
+										this.handleFilterChange(
+											'maxPrice',
+											(e.target as HTMLInputElement).value,
+										),
+								},
+							}}
 						/>
 					</div>
 				</div>
-				{/* Можно добавить больше фильтров позже */}
 			</div>
 		)
 	},
@@ -219,9 +199,8 @@ export const SearchModal = defineComponent({
 
 	render() {
 		const props = this.props as SearchModalProps
-		const { searchQuery, isLoading, results, activeTab } = this.state
+		const { isLoading, results, activeTab } = this.state
 
-		// Фильтрация результатов по вкладкам
 		const filteredResults = results.filter(result => {
 			if (activeTab === 'all') return true
 			if (activeTab === 'stores') return result.store
@@ -229,121 +208,129 @@ export const SearchModal = defineComponent({
 			return true
 		})
 
-		// Получаем счетчики
 		const storesCount = this.getTotalStoresCount()
 		const itemsCount = this.getTotalItemsCount()
 
 		return (
 			<div
 				class={styles.searchModal}
-				on={{
-					click: (e: Event) => {
-						if (e.target === e.currentTarget) {
-							props.onClose()
-						}
+				{...{
+					on: {
+						click: (e: Event) => {
+							if (e.target === e.currentTarget) {
+								props.onClose()
+							}
+						},
 					},
 				}}
 			>
 				<div class={styles.searchModal__container}>
-					{/* Шапка с поиском */}
 					<div class={styles.searchModal__header}>
-						<div class={styles.searchInputWrapper}>
-							<input
-								type="text"
-								class={styles.searchInput}
-								placeholder="Поиск магазинов и товаров..."
-								value={searchQuery}
-								onInput={this.handleSearchInput.bind(this)}
-								autofocus
-							/>
-							{searchQuery && (
-								<button
-									class={styles.clearButton}
-									onClick={this.handleClearSearch.bind(this)}
-								>
-									✕
-								</button>
-							)}
-							{isLoading && <div class={styles.spinner}></div>}
+						<div class={styles.searchQueryDisplay}>
+							<h3>Результаты поиска: "{props.searchQuery}"</h3>
 						</div>
 
 						<button
 							class={styles.filtersButton}
-							onClick={this.handleToggleFilters.bind(this)}
+							{...{
+								on: {
+									click: this.handleToggleFilters.bind(this),
+								},
+							}}
 						>
 							Фильтры
 						</button>
 
-						<button class={styles.closeButton} onClick={props.onClose}>
+						<button
+							class={styles.closeButton}
+							{...{
+								on: {
+									click: props.onClose,
+								},
+							}}
+						>
 							✕
 						</button>
 					</div>
 
-					{/* Фильтры */}
 					{this.renderFilters()}
 
-					{/* Табы */}
 					<div class={styles.tabs}>
 						<button
 							class={`${styles.tab} ${activeTab === 'all' ? styles.active : ''}`}
-							onClick={() => this.handleTabChange('all')}
+							{...{
+								on: {
+									click: () => this.handleTabChange('all'),
+								},
+							}}
 						>
 							Все ({storesCount})
 						</button>
 						<button
 							class={`${styles.tab} ${activeTab === 'stores' ? styles.active : ''}`}
-							onClick={() => this.handleTabChange('stores')}
+							{...{
+								on: {
+									click: () => this.handleTabChange('stores'),
+								},
+							}}
 						>
 							Магазины ({storesCount})
 						</button>
 						<button
 							class={`${styles.tab} ${activeTab === 'items' ? styles.active : ''}`}
-							onClick={() => this.handleTabChange('items')}
+							{...{
+								on: {
+									click: () => this.handleTabChange('items'),
+								},
+							}}
 						>
 							Товары ({itemsCount})
 						</button>
 					</div>
 
-					{/* Результаты */}
 					<div class={styles.searchModal__body}>
-						{searchQuery.length < 2 ? (
-							<div class={styles.placeholder}>
-								<p>Введите минимум 2 символа для поиска</p>
-							</div>
-						) : isLoading ? (
+						{isLoading ? (
 							<div class={styles.loading}>
 								<div class={styles.spinner}></div>
 								<p>Ищем...</p>
 							</div>
 						) : filteredResults.length === 0 ? (
 							<div class={styles.noResults}>
-								<p>Ничего не найдено по запросу "{searchQuery}"</p>
+								<p>Ничего не найдено по запросу "{props.searchQuery}"</p>
 								<p>Попробуйте изменить поисковый запрос</p>
 							</div>
 						) : (
 							<div class={styles.results}>
 								{filteredResults.map((result, index) => (
 									<div key={index} class={styles.resultGroup}>
-										{/* Магазин */}
 										{result.store && (
 											<div
 												class={styles.storeResult}
-												onClick={() => this.handleStoreClick(result.store.id)}
+												{...{
+													on: {
+														click: () => this.handleStoreClick(result.store.id),
+													},
+												}}
 											>
 												{this.renderStoreCard(result.store)}
 											</div>
 										)}
 
-										{/* Товары магазина */}
 										{result.items?.length > 0 && (
 											<div class={styles.itemsList}>
 												{result.items.slice(0, 3).map((item, idx) => (
 													<div
 														key={idx}
 														class={styles.itemResult}
-														onClick={() =>
-															this.handleItemClick(item.id, result.store.id)
-														}
+														{...{
+															on: {
+																click: () =>
+																	this.handleItemClick(
+																		item.id,
+																		result.store.id,
+																	),
+															},
+														}}
 													>
 														{this.renderItemCard(item)}
 													</div>

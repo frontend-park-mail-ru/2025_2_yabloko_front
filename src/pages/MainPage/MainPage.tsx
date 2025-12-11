@@ -16,6 +16,7 @@ export const MainPage = defineComponent({
 			isCartOpen: false,
 			isHistoryOpen: false,
 			isSearchOpen: false,
+			searchQuery: '', // Храним запрос здесь
 			tags: [] as any[],
 			categories: [] as any[],
 			isLoading: true,
@@ -45,12 +46,18 @@ export const MainPage = defineComponent({
 		this.updateState({ isHistoryOpen: false })
 	},
 
-	openSearch() {
-		this.updateState({ isSearchOpen: true })
+	handleSearch(query: string) {
+		this.updateState({
+			isSearchOpen: true,
+			searchQuery: query,
+		})
 	},
 
 	closeSearch() {
-		this.updateState({ isSearchOpen: false })
+		this.updateState({
+			isSearchOpen: false,
+			searchQuery: '',
+		})
 	},
 
 	handleFilterChange(type: 'all' | 'tag' | 'category', id: string) {
@@ -64,7 +71,7 @@ export const MainPage = defineComponent({
 					<Navbar
 						onLogoClick={() => navigate('/')}
 						onLoginClick={() => navigate('/auth')}
-						onSearchClick={() => this.openSearch()}
+						onSearch={query => this.handleSearch(query)}
 						onCartClick={() => this.openCart()}
 						onHistoryClick={() => this.openHistory()}
 					/>
@@ -79,7 +86,7 @@ export const MainPage = defineComponent({
 				<Navbar
 					onLogoClick={() => navigate('/')}
 					onLoginClick={() => navigate('/auth')}
-					onSearchClick={() => this.openSearch()}
+					onSearch={query => this.handleSearch(query)}
 					onCartClick={() => this.openCart()}
 					onHistoryClick={() => this.openHistory()}
 				/>
@@ -109,7 +116,10 @@ export const MainPage = defineComponent({
 					<History onClose={() => this.closeHistory()} />
 				) : null}
 				{this.state.isSearchOpen ? (
-					<SearchModal onClose={() => this.closeSearch()} />
+					<SearchModal
+						onClose={() => this.closeSearch()}
+						searchQuery={this.state.searchQuery}
+					/>
 				) : null}
 			</div>
 		)

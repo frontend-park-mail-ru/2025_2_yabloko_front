@@ -100,7 +100,6 @@ export const Navbar = defineComponent({
 					<SearchBar
 						placeholder="Поиск ресторанов и категорий"
 						onSearch={props.onSearch}
-						onClick={props.onSearchClick} // Передаем пропс в SearchBar
 					/>
 					{window.location.pathname == '/' ? <CitySelector /> : null}
 				</div>
