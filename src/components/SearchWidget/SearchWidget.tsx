@@ -3,7 +3,7 @@ import { navigate } from '../../modules/router'
 import { StoreApi } from '../../modules/storeApi'
 import { Card } from '../Card/Card'
 import { ProductCard } from '../ProductCard/ProductCard'
-import styles from './SearchModal.module.scss'
+import styles from './SearchWidget.module.scss'
 
 interface SearchModalProps {
 	onClose: () => void
