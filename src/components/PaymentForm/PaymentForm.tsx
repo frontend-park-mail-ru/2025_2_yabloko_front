@@ -17,15 +17,18 @@ export const PaymentForm = defineComponent({
 	props: [] as (keyof PaymentFormProps)[],
 
 	async handlePay() {
-		const response = await OrderApi.createOrder()
-		const payParams = {
-			order_id: response.id,
-			amount: response.total.toString(),
-			currency: "RUB",
-			description: "Этот функциона в разработке",
-			return_url: window.location.origin + `/orders/${response.id}`,
+		const isNotEmpty = (await StoreApi.getUserCart()).total_price
+		if (isNotEmpty != 0) {
+			const response = await OrderApi.createOrder()
+			const payParams = {
+				order_id: response.id,
+				amount: response.total.toString(),
+				currency: "RUB",
+				description: "Этот функциона в разработке",
+				return_url: window.location.origin + `/orders/${response.id}`,
+			}
+			await OrderApi.yooKassaPayment(payParams)
 		}
-		await OrderApi.yooKassaPayment(payParams)
 	},
 
 	render() {
