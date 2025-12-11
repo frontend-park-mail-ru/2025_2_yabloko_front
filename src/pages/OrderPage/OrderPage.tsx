@@ -89,19 +89,17 @@ export const OrderPage = defineComponent({
 								<h3>Рестораны:</h3>
 								{stores.map(store => (
 									<div class={styles.orderItem}>
-										<div>
-											<strong
-                                                {...{
-                                                    on: {
-                                                        click: (e: Event) => {
-                                                            e.stopPropagation()
-                                                            navigate(`/store/${store.id}`)
-                                                        }
-                                                    },
-                                                }}
-											>
-												{store.name}
-											</strong>
+										<div
+											{...{
+												on: {
+													click: (e: Event) => {
+														e.stopPropagation()
+														navigate(`/store/${store.id}`)
+													},
+												},
+											}}
+										>
+											<strong>{store.name}</strong>
 										</div>
 									</div>
 								))}
