@@ -17,7 +17,7 @@ export const PaymentForm = defineComponent({
 	props: [] as (keyof PaymentFormProps)[],
 
 	async handlePay() {
-		const isNotEmpty = (await StoreApi.getUserCart()).total_price
+		const isNotEmpty = (await StoreApi.getUserCart()).items.length
 		if (isNotEmpty != 0) {
 			const response = await OrderApi.createOrder()
 			const payParams = {
