@@ -57,9 +57,7 @@ export const MainPage = defineComponent({
 						onCartClick={() => this.openCart()}
 						onHistoryClick={() => this.openHistory()}
 					/>
-					<div class={styles.mainPage__content}>
-						<div>Загрузка...</div>
-					</div>
+
 					<Footer />
 				</div>
 			)
