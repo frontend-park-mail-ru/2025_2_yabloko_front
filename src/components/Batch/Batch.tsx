@@ -60,12 +60,6 @@ export const Batch = defineComponent({
 						/>
 					))}
 				</div>
-
-				{stores.length === 0 && (
-					<div style={{ padding: '40px', textAlign: 'center' }}>
-						Нет ресторанов по выбранному фильтру
-					</div>
-				)}
 			</div>
 		)
 	},
