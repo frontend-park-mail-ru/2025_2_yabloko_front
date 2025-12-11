@@ -91,9 +91,9 @@ export const OrderPage = defineComponent({
 										<div>
 											<div>
 												<strong onClick = {() => {
-                                                    navigate(`/stores/${store.store_id}`)
+                                                    navigate(`/stores/${store.id}`)
                                                 }
-                                                }>{store.store_name}</strong>
+                                                }>{store.name}</strong>
 											</div>
 										</div>
 									</div>
@@ -108,7 +108,8 @@ export const OrderPage = defineComponent({
 
 						<div class={styles.orderPage__items}>
 							<h3>Состав заказа:</h3>
-							{order.stores.items.map(item => (
+							{order.stores.array.forEach(store => {
+                                store.item.map(item => (
 								<div class={styles.orderItem}>
 									<img
 										src={`${API.SERVICES.PICS}/images/items/${item.card_img}`}
@@ -124,7 +125,8 @@ export const OrderPage = defineComponent({
 										</div>
 									</div>
 								</div>
-							))}
+							))
+                            });}
 						</div>
 					</div>
 				</div>
