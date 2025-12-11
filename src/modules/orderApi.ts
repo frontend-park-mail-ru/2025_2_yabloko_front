@@ -86,7 +86,7 @@ export class OrderApi {
 		const response = await API.post('ORDER', `/payments`, params)
 
 		if (response.service.success) {
-			window.location.href = response.body.return_url
+			window.location.href = response.body.confirmation.confirmation_url;
 		}
 	}
 }
