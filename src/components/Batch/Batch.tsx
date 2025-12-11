@@ -41,7 +41,7 @@ export const Batch = defineComponent({
 
 		if (isLoading) {
 			return (
-				<div style={{ padding: '40px', textAlign: 'center' }}>Загрузка...</div>
+				<div style={{ padding: '40px', textAlign: 'center' }}></div>
 			)
 		}
 
