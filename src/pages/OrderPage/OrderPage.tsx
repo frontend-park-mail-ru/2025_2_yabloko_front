@@ -108,7 +108,7 @@ export const OrderPage = defineComponent({
 
 						<div class={styles.orderPage__items}>
 							<h3>Состав заказа:</h3>
-							{order.stores.array.forEach(store => {
+							{order.stores.flatMap(store => {
                                 store.item.map(item => (
 								<div class={styles.orderItem}>
 									<img
