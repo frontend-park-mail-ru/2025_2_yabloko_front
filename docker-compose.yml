@@ -3,11 +3,10 @@ services:
     build: .
     container_name: frontend
     networks:
-      - backend
+      - backend_backend
     ports:
       - '3000:3000'
 
 networks:
-  backend:
+  backend_backend:
     external: true
-    name: backend
