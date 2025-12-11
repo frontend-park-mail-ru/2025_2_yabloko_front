@@ -165,7 +165,9 @@ export const SearchModal = defineComponent({
 				}}
 			>
 				<div class={styles.searchModal__container}>
-					<h3>Результаты поиска: "{props.searchQuery}"</h3>
+					<h3 class={styles.searchTitle}>
+						Результаты поиска: "{props.searchQuery}"
+					</h3>
 
 					{this.renderFilters()}
 
@@ -186,13 +188,11 @@ export const SearchModal = defineComponent({
 									<div key={index} class={styles.resultGroup}>
 										{result.store && (
 											<div
-												className={styles.storeCard}
+												class={styles.storeCard}
 												{...{
 													on: {
 														click: () =>
-															this.handleStoreClick(
-																`stores/${result.store.id}`,
-															),
+															this.handleResultClick(result.store.id),
 													},
 												}}
 											>
@@ -232,9 +232,7 @@ export const SearchModal = defineComponent({
 															on: {
 																click: (e: Event) => {
 																	e.stopPropagation()
-																	this.handleStoreClick(
-																		`stores/${result.store.id}`,
-																	)
+																	this.handleResultClick(result.store.id)
 																},
 															},
 														}}
