@@ -42,16 +42,16 @@ export interface GetOrderParams {
 
 export class OrderApi {
 	static async getOrders(params: GetOrderParams = {}): Promise<Order[]> {
-        const queryParams = new URLSearchParams()
+		const queryParams = new URLSearchParams()
 
-        if (params.limit) queryParams.append('limit', params.limit.toString())
-        if (params.lastId) queryParams.append('lastId', params.lastId)
-        if (params.status) queryParams.append('status', params.status)
+		if (params.limit) queryParams.append('limit', params.limit.toString())
+		if (params.lastId) queryParams.append('lastId', params.lastId)
+		if (params.status) queryParams.append('status', params.status)
 		if (params.desc !== undefined)
 			queryParams.append('desc', params.desc.toString())
 
-        const queryString = queryParams.toString()
-        const url = `/orders${queryString ? `?${queryString}` : ''}`
+		const queryString = queryParams.toString()
+		const url = `/orders${queryString ? `?${queryString}` : ''}`
 
 		const response = await API.get('ORDER', url)
 		return response.body ?? []
@@ -80,5 +80,13 @@ export class OrderApi {
 
 		const url = `http://90.156.218.233:8084/api/v0/fake-payment?${queryParams.toString()}`
 		window.location.href = url
+	}
+
+	static async yooKassaPayment(params: FakePaymentParams): Promise<void> {
+		const response = await API.post('ORDER', `/payments`, params)
+
+		if (response.service.success) {
+			window.location.href = response.body.co
+		}
 	}
 }

@@ -18,13 +18,14 @@ export const PaymentForm = defineComponent({
 
 	async handlePay() {
 		const response = await OrderApi.createOrder()
-		//await StoreApi.updateCart([])
 		const payParams = {
 			order_id: response.id,
-			price: response.total.toString(),
-			return_url: window.location.origin + '/',
+			amount: response.total.toString(),
+			currency: "RUB",
+			description: "Этот функциона в разработке",
+			return_url: window.location.origin + `/order/${response.id}`,
 		}
-		await OrderApi.fakePayment(payParams)
+		await OrderApi.yooKassaPayment(payParams)
 	},
 
 	render() {
