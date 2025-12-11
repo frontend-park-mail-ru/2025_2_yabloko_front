@@ -32,8 +32,8 @@ export const OrderPage = defineComponent({
     const uniqueStores = [];
 
     for (const store of order.stores) {
-        if (!seen.has(store.store_id)) {
-        seen.add(store.store_id);
+        if (!seen.has(store.id)) {
+        seen.add(store.id);
         uniqueStores.push({ id: store.id, name: store.name });
         }
     }
@@ -93,7 +93,10 @@ export const OrderPage = defineComponent({
 											<strong
                                                 {...{
                                                     on: {
-                                                        click: navigate(`/stores/${store.id}`),
+                                                        click: (e: Event) => {
+                                                            e.stopPropagation()
+                                                            navigate(`/stores/${store.id}`)
+                                                        }
                                                     },
                                                 }}
 											>
