@@ -31,10 +31,10 @@ export const OrderPage = defineComponent({
     const seen = new Set();
     const uniqueStores = [];
 
-    for (const item of order.items) {
-        if (!seen.has(item.store_id)) {
-        seen.add(item.store_id);
-        uniqueStores.push({ id: item.store_id, name: item.store_name });
+    for (const store of order.stores) {
+        if (!seen.has(store.store_id)) {
+        seen.add(store.store_id);
+        uniqueStores.push({ id: store.id, name: store.name });
         }
     }
 
@@ -108,7 +108,7 @@ export const OrderPage = defineComponent({
 
 						<div class={styles.orderPage__items}>
 							<h3>Состав заказа:</h3>
-							{order.items.map(item => (
+							{order.stores.items.map(item => (
 								<div class={styles.orderItem}>
 									<img
 										src={`${API.SERVICES.PICS}/images/items/${item.card_img}`}
