@@ -30,17 +30,19 @@ export const PaymentForm = defineComponent({
 
 	async handlePromo() {
 		const discount = await OrderApi.checkPromo(this.props.promoCode)
-		if (discount.absoluteDiscount != 0) {
+		const relativeDiscount = Number(discount.relativeDiscount)
+		const absoluteDiscount = Number(discount.absoluteDiscount)
+
+		if (absoluteDiscount != 0) {
 			this.updateState({
-				finalPrice: this.props.total - discount.absoluteDiscount,
+				finalPrice: this.props.total - absoluteDiscount,
 			})
-		} else if (discount.relativeDiscount != 0) {
+		} else if (relativeDiscount != 0) {
 			this.updateState({
-				finalPrice: this.props.total * (1 - discount.relativeDiscount / 100),
+				finalPrice: this.props.total * (1 - relativeDiscount / 100),
 			})
 		}
 	},
-
 	async handlePay() {
 		const isNotEmpty = (await StoreApi.getUserCart()).items.length
 		if (isNotEmpty != 0) {

@@ -41,8 +41,8 @@ export interface GetOrderParams {
 }
 
 export interface Discount {
-	relativeDiscount: number
-	absoluteDiscount: number
+	relativeDiscount: string
+	absoluteDiscount: string
 }
 
 
@@ -83,7 +83,7 @@ export class OrderApi {
 		if (response.service.success) {
 			return response.body
 		} else {
-			return {relativeDiscount: 0, absoluteDiscount: 0}
+			return {relativeDiscount: "0", absoluteDiscount: "0"}
 		}
 	}
 
