@@ -27,16 +27,18 @@ export const PaymentForm = defineComponent({
 	async handlePromo() {
 		const discount = await OrderApi.checkPromo(this.props.promoCode)
 		if (discount.absoluteDiscount != 0) {
-			this.updateState({finalPrice: this.props.total - discount.absoluteDiscount})
+			this.updateState({
+				finalPrice: this.props.total - discount.absoluteDiscount,
+			})
 		} else if (discount.relativeDiscount != 0) {
 			this.updateState({
 				finalPrice: this.props.total * (1 - discount.absoluteDiscount),
 			})
 		} else {
-			console.log("idi nahui")
+			console.log('idi nahui')
 		}
 	},
-
+	
 	async handlePay() {
 		const isNotEmpty = (await StoreApi.getUserCart()).items.length
 		if (isNotEmpty != 0) {
@@ -80,12 +82,8 @@ export const PaymentForm = defineComponent({
 							type="button"
 							variant="accent"
 							text="Применить"
-							{...{
-								on: {
-									click(e: Event) {
-										() => this.handlePromo()
-									},
-								},
+							onClick={() => {
+								this.handlePromo()
 							}}
 						/>
 					</div>
@@ -99,12 +97,8 @@ export const PaymentForm = defineComponent({
 							type="button"
 							variant="success"
 							text="Оплатить"
-							{...{
-								on: {
-									click(e: Event) {
-										() => this.handlePay()
-									},
-								},
+							onClick={() => {
+								this.handlePay()
 							}}
 						/>
 					</div>
