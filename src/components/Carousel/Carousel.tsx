@@ -20,7 +20,7 @@ export const Carousel = defineComponent({
 	async loadRecommendations() {
 		this.updateState({ loading: true })
 		try {
-			const items = await StoreApi.getRecommendedItems(20)
+			const items = await StoreApi.getRecommendedItems(5)
 			this.updateState({ items, loading: false })
 		} catch (error) {
 			this.updateState({ loading: false })
