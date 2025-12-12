@@ -92,9 +92,8 @@ export const MainPage = defineComponent({
 					onHistoryClick={() => this.openHistory()}
 				/>
 
-				<Carousel/>
-
 				<div class={styles.mainPage__content}>
+					<Carousel />
 					<CardsHeader
 						tags={this.state.tags}
 						categories={this.state.categories}
