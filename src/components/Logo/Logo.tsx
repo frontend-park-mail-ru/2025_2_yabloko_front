@@ -13,7 +13,7 @@ export const Logo = defineComponent({
 		const sizes = {
 			small: '2rem',
 			medium: '2rem',
-			large: '12rem',
+			large: '10rem',
 		}
 
 		return (
