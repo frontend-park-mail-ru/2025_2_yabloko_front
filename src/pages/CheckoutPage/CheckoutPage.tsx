@@ -14,6 +14,7 @@ import { navigate } from '../../modules/router'
 import styles from './CheckoutPage.module.scss'
 
 interface CheckoutPageState {
+	isFast: boolean;
 	promoCode: string
 	items: any[]
 	isLoading: boolean
@@ -22,6 +23,7 @@ interface CheckoutPageState {
 export const CheckoutPage = defineComponent({
 	state(): CheckoutPageState {
 		return {
+			isFast: false,
 			promoCode: '',
 			items: [],
 			isLoading: false,
@@ -67,10 +69,14 @@ export const CheckoutPage = defineComponent({
 	},
 
 	getTotal(): number {
-		return this.state.items.reduce(
+		let total = this.state.items.reduce(
 			(sum, item) => sum + item.price * item.quantity,
 			0,
 		)
+		if (this.state.isFast) {
+			total += 100
+		}
+		return total
 	},
 
 	handleSubmit(e: Event) {
@@ -115,12 +121,30 @@ export const CheckoutPage = defineComponent({
 									variant="accent"
 									disabled={true}
 									text="Стандарт 0₽"
+									{...{
+										on: {
+											click(e: Event) {
+												e.stopPropagation()
+												e.preventDefault()
+												this.updateState({ isFast: false })
+											},
+										},
+									}}
 								/>
 								<Button
 									type="button"
 									variant="success"
 									disabled={true}
 									text="Быстро 100₽"
+									{...{
+										on: {
+											click(e: Event) {
+												e.stopPropagation()
+												e.preventDefault()
+												this.updateState({ isFast: true })
+											},
+										},
+									}}
 								/>
 							</div>
 							<PersonalInfo readonly={true} />

@@ -40,6 +40,12 @@ export interface GetOrderParams {
 	desc?: boolean
 }
 
+export interface Discount {
+	relativeDiscount: number
+	absoluteDiscount: number
+}
+
+
 export class OrderApi {
 	static async getOrders(params: GetOrderParams = {}): Promise<Order[]> {
 		const queryParams = new URLSearchParams()
@@ -62,14 +68,23 @@ export class OrderApi {
 		return response.body ?? null
 	}
 
-	static async createOrder(): Promise<OrderInfo> {
-		const response = await API.post('ORDER', `/orders`)
+	static async createOrder(isFast: boolean, comment: string, promo: string): Promise<OrderInfo> {
+		const response = await API.post('ORDER', `/orders`, {isFast, comment, promo})
 		return response.body ?? null
 	}
 
 	static async getOrderStatusById(id: string): Promise<string> {
 		const response = await API.get('ORDER', `/orders/${id}/status`)
 		return response.body ?? null
+	}
+
+	static async checkPromo(promo: string): Promise<Discount> {
+		const response = await API.post('ORDER', `/promo/check`, {promo})
+		if (response.service.success) {
+			return response.body
+		} else {
+			return {relativeDiscount: 0, absoluteDiscount: 0}
+		}
 	}
 
 	static async fakePayment(params: FakePaymentParams): Promise<void> {

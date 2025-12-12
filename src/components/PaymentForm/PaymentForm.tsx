@@ -5,26 +5,51 @@ import { Button } from '../Button/Button'
 import styles from './PaymentForm.module.scss'
 
 interface PaymentFormProps {
-	paymentMethod: 'card' | 'cash' | 'online'
 	total: number
 	promoCode: string
+	comment: string
 	onPromoChange: (code: string) => void
-	onApplyPromo: () => void
-	onChangePayment: () => void
+}
+
+interface PaymentFormState {
+	finalPrice: number
 }
 
 export const PaymentForm = defineComponent({
 	props: [] as (keyof PaymentFormProps)[],
 
+	state(): PaymentFormState {
+		return {
+			finalPrice: 0,
+		}
+	},
+
+	async handlePromo() {
+		const discount = await OrderApi.checkPromo(this.props.promoCode)
+		if (discount.absoluteDiscount != 0) {
+			this.updateState({finalPrice: this.total - discount.absoluteDiscount})
+		} else if (discount.relativeDiscount != 0) {
+			this.updateState({
+				finalPrice: this.total * (1 - discount.absoluteDiscount),
+			})
+		} else {
+			console.log("idi nahui")
+		}
+	},
+
 	async handlePay() {
 		const isNotEmpty = (await StoreApi.getUserCart()).items.length
 		if (isNotEmpty != 0) {
-			const response = await OrderApi.createOrder()
+			const response = await OrderApi.createOrder(
+				this.isFast,
+				this.comment,
+				this.promoCode,
+			)
 			const payParams = {
 				order_id: response.id,
 				amount: response.total.toString(),
-				currency: "RUB",
-				description: "Этот функциона в разработке",
+				currency: 'RUB',
+				description: 'Этот функциона в разработке',
 				return_url: window.location.origin + `/orders/${response.id}`,
 			}
 			await OrderApi.yooKassaPayment(payParams)
@@ -55,7 +80,9 @@ export const PaymentForm = defineComponent({
 							type="button"
 							variant="accent"
 							text="Применить"
-							onClick={() => props.onApplyPromo()}
+							onClick={() => {
+								this.handlePromo()
+							}}
 							disabled={true}
 						/>
 					</div>
