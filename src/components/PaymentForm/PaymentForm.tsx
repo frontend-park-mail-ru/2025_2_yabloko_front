@@ -32,20 +32,18 @@ export const PaymentForm = defineComponent({
 			})
 		} else if (discount.relativeDiscount != 0) {
 			this.updateState({
-				finalPrice: this.props.total * (1 - discount.absoluteDiscount),
+				finalPrice: this.props.total * (1 - discount.relativeDiscount / 100),
 			})
-		} else {
-			console.log('idi nahui')
 		}
 	},
-	
+
 	async handlePay() {
 		const isNotEmpty = (await StoreApi.getUserCart()).items.length
 		if (isNotEmpty != 0) {
 			const response = await OrderApi.createOrder(
-				this.isFast,
-				this.comment,
-				this.promoCode,
+				false,
+				this.props.comment,
+				this.props.promoCode,
 			)
 			const payParams = {
 				order_id: response.id,
