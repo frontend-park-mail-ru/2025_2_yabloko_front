@@ -68,8 +68,16 @@ export class OrderApi {
 		return response.body ?? null
 	}
 
-	static async createOrder(isFast: boolean, comment: string, promo: string): Promise<OrderInfo> {
-		const response = await API.post('ORDER', `/orders`, {isFast, comment, promo})
+	static async createOrder(
+		isFast: boolean,
+		comment: string,
+		promo: string,
+	): Promise<OrderInfo> {
+		const response = await API.post('ORDER', `/orders`, {
+			isFast,
+			comment,
+			promo,
+		})
 		return response.body ?? null
 	}
 
@@ -79,11 +87,14 @@ export class OrderApi {
 	}
 
 	static async checkPromo(promo: string): Promise<Discount> {
-		const response = await API.post('ORDER', `/promo/check`, {promo})
+		const response = await API.post('ORDER', `/promo/check`, { promo })
 		if (response.service.success) {
-			return response.body
+			return {
+				relativeDiscount: response.body.relative_discount,
+				absoluteDiscount: response.body.absolute_discount,
+			}
 		} else {
-			return {relativeDiscount: "0", absoluteDiscount: "0"}
+			return { relativeDiscount: '0', absoluteDiscount: '0' }
 		}
 	}
 
@@ -100,7 +111,7 @@ export class OrderApi {
 	static async yooKassaPayment(params: FakePaymentParams): Promise<void> {
 		const response = await API.post('ORDER', `/payments`, params)
 		if (response.service.success) {
-			window.location.href = response.body.confirmation.confirmation_url;
+			window.location.href = response.body.confirmation.confirmation_url
 		}
 	}
 }
