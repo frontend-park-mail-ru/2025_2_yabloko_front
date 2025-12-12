@@ -3,7 +3,7 @@ import { navigate } from '../../modules/router'
 import { StoreApi } from '../../modules/storeApi'
 import { Button } from '../Button/Button'
 import { ProductCard } from '../ProductCard/ProductCard'
-import styles from './SearchBar.module.scss'
+import styles from './Search.module.scss'
 
 interface SearchWithModalProps {
 	placeholder?: string
