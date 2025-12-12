@@ -20,8 +20,12 @@ export const PaymentForm = defineComponent({
 
 	state(): PaymentFormState {
 		return {
-			finalPrice: this.props.total,
+			finalPrice: 0,
 		}
+	},
+
+	async onMounted() {
+		this.updateState({ finalPrice: this.props.total })
 	},
 
 	async handlePromo() {
@@ -58,6 +62,7 @@ export const PaymentForm = defineComponent({
 
 	render() {
 		const props = this.props as PaymentFormProps
+		const { finalPrice } = this.state
 
 		const handlePromoInput = (e: Event) => {
 			props.onPromoChange((e.target as HTMLInputElement).value)
@@ -90,7 +95,7 @@ export const PaymentForm = defineComponent({
 				<div class={styles.payment__section}>
 					<h2>Итого:</h2>
 					<div class={styles.payment__row}>
-						<div>{this.state.finalPrice} ₽</div>
+						<div>{finalPrice || props.total} ₽</div>
 						<Button
 							type="button"
 							variant="success"
