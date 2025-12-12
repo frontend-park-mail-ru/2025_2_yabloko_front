@@ -139,6 +139,21 @@
   &::-webkit-scrollbar {
     height: 6px;
   }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+    
+    &:hover {
+      background: #555;
+    }
+  }
+}
 
 .loading,
 .noResults {
