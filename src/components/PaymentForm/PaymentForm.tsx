@@ -97,7 +97,7 @@ export const PaymentForm = defineComponent({
 				<div class={styles.payment__section}>
 					<h2>Итого:</h2>
 					<div class={styles.payment__row}>
-						<div>{finalPrice} ₽</div>
+						<div>{finalPrice || props.total} ₽</div>
 						<Button
 							type="button"
 							variant="success"
