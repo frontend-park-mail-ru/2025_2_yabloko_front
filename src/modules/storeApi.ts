@@ -108,6 +108,15 @@ export interface SearchStoresWithItemsParams {
 	max_price?: number
 }
 
+export interface Recommendation {
+	id: string
+	name: string
+	price: number
+	card_img: string
+	types_id?: string[]
+	store_id: string
+}
+
 export interface StoreWithItems {
 	store: Store
 	items: Item[]
@@ -254,7 +263,15 @@ export class StoreApi {
 		return response.body ?? []
 	}
 
-	// В файле StoreApi добавляем:
+
+	/**
+	 * Получить рекомендованные товары
+	 */
+	static async getRecommendedItems(limit: number = 10): Promise<Recommendation[]> {
+		const response = await API.get('STORE', `/recommend/home?limit=${limit}`)
+		return response.body || []
+		}
+
 
 /**
  * Поиск магазинов с товарами

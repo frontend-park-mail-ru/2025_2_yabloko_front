@@ -9,6 +9,7 @@ import { SearchModal } from '../../components/SearchWidget/SearchWidget'
 import { navigate } from '../../modules/router'
 import { StoreApi } from '../../modules/storeApi'
 import styles from './MainPage.module.scss'
+import { Carousel } from '../../components/Carousel/Carousel'
 
 export const MainPage = defineComponent({
 	state() {
@@ -90,6 +91,8 @@ export const MainPage = defineComponent({
 					onCartClick={() => this.openCart()}
 					onHistoryClick={() => this.openHistory()}
 				/>
+
+				<Carousel/>
 
 				<div class={styles.mainPage__content}>
 					<CardsHeader
