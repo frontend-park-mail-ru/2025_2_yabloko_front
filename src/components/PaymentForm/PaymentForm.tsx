@@ -20,7 +20,7 @@ export const PaymentForm = defineComponent({
 
 	state(): PaymentFormState {
 		return {
-			finalPrice: 0,
+			finalPrice: this.props.total,
 		}
 	},
 
@@ -47,7 +47,7 @@ export const PaymentForm = defineComponent({
 			)
 			const payParams = {
 				order_id: response.id,
-				amount: response.total.toString(),
+				amount: this.state.finalPrice.toString(),
 				currency: 'RUB',
 				description: 'Этот функциона в разработке',
 				return_url: window.location.origin + `/orders/${response.id}`,
@@ -90,7 +90,7 @@ export const PaymentForm = defineComponent({
 				<div class={styles.payment__section}>
 					<h2>Итого:</h2>
 					<div class={styles.payment__row}>
-						<div>{props.total} ₽</div>
+						<div>{this.state.finalPrice} ₽</div>
 						<Button
 							type="button"
 							variant="success"
