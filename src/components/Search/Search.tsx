@@ -26,14 +26,12 @@ export const SearchBar = defineComponent({
 
 	debounceTimer: null as any,
 
-	// Обработка ввода в поле поиска
 	handleInput(e: InputEvent) {
 		const target = e.target as HTMLInputElement
 		const value = target.value
 
 		this.updateState({ searchQuery: value })
 
-		// Дебаунс поиска
 		clearTimeout(this.debounceTimer)
 		this.debounceTimer = setTimeout(() => {
 			if (value.trim().length >= 2) {
@@ -44,14 +42,13 @@ export const SearchBar = defineComponent({
 		}, 300)
 	},
 
-	// Открыть модалку при фокусе
 	handleFocus() {
-		if (this.state.searchQuery.trim().length >= 2) {
+		if (this.state.searchQuery.trim().length >= 2 && !this.state.isModalOpen) {
 			this.updateState({ isModalOpen: true })
+			this.performSearch(this.state.searchQuery)
 		}
 	},
 
-	// Открыть модалку при клике на кнопку "Найти"
 	handleSubmit(e: Event) {
 		e.preventDefault()
 		if (this.state.searchQuery.trim().length >= 2) {
@@ -60,7 +57,6 @@ export const SearchBar = defineComponent({
 		}
 	},
 
-	// Закрыть модалку
 	closeModal() {
 		this.updateState({
 			isModalOpen: false,
@@ -69,7 +65,6 @@ export const SearchBar = defineComponent({
 		})
 	},
 
-	// Выполнить поиск
 	async performSearch(query: string) {
 		this.updateState({ isLoading: true })
 
@@ -92,14 +87,13 @@ export const SearchBar = defineComponent({
 			this.updateState({
 				results: results || [],
 				isLoading: false,
-				isModalOpen: true, // Открываем модалку с результатами
+				isModalOpen: true,
 			})
 		} catch (error) {
-			console.error('Search failed:', error)
 			this.updateState({
 				isLoading: false,
 				results: [],
-				isModalOpen: true, // Все равно открываем модалку
+				isModalOpen: true,
 			})
 		}
 	},
@@ -109,79 +103,27 @@ export const SearchBar = defineComponent({
 		navigate(`/stores/${storeId}`)
 	},
 
-	// Остановить всплытие кликов внутри модалки
 	handleModalClick(e: Event) {
 		e.stopPropagation()
 	},
 
-	// Закрыть модалку только при клике на оверлей
 	handleOverlayClick(e: Event) {
 		if (e.target === e.currentTarget) {
 			this.closeModal()
 		}
 	},
 
-	renderFilters() {
-		if (!this.state.showFilters) return null
-
-		return (
-			<div
-				class={styles.filters}
-				{...{ on: { click: this.handleModalClick.bind(this) } }}
-			>
-				<div class={styles.filterGroup}>
-					<label>Цена</label>
-					<div class={styles.priceInputs}>
-						<input
-							type="number"
-							placeholder="От"
-							min="0"
-							value={this.state.filters.minPrice}
-							{...{
-								on: {
-									input: (e: InputEvent) => {
-										e.stopPropagation()
-										// handleFilterChange нужно добавить если нужны фильтры
-									},
-									click: this.handleModalClick.bind(this),
-								},
-							}}
-						/>
-						<span>-</span>
-						<input
-							type="number"
-							placeholder="До"
-							min="0"
-							value={this.state.filters.maxPrice}
-							{...{
-								on: {
-									input: (e: InputEvent) => {
-										e.stopPropagation()
-										// handleFilterChange нужно добавить если нужны фильтры
-									},
-									click: this.handleModalClick.bind(this),
-								},
-							}}
-						/>
-					</div>
-				</div>
-			</div>
-		)
-	},
-
 	render() {
 		const { searchQuery, isModalOpen, isLoading, results } = this.state
-		const placeholder = this.props.placeholder || 'Поиск ресторанов и категорий'
 
 		return (
 			<div class={styles.searchWithModal}>
-				{/* Поле поиска (всегда видимо) */}
 				<form
 					class={styles.searchBar}
 					{...{
 						on: {
 							submit: this.handleSubmit.bind(this),
-							click: this.handleModalClick.bind(this), // Останавливаем всплытие
+							click: this.handleModalClick.bind(this),
 						},
 					}}
 				>
@@ -193,7 +135,7 @@ export const SearchBar = defineComponent({
 					/>
 					<input
 						type="text"
-						placeholder={placeholder}
+						placeholder="Поиск ресторанов и категорий"
 						value={searchQuery}
 						class={styles.searchBar__input}
 						{...{
@@ -212,7 +154,6 @@ export const SearchBar = defineComponent({
 					/>
 				</form>
 
-				{/* Модалка с результатами */}
 				{isModalOpen && (
 					<div
 						class={styles.searchModal}
@@ -230,45 +171,13 @@ export const SearchBar = defineComponent({
 								},
 							}}
 						>
-							<h3
-								class={styles.searchTitle}
-								{...{ on: { click: this.handleModalClick.bind(this) } }}
-							>
-								Результаты поиска: "{searchQuery}"
-							</h3>
+							<h3 class={styles.searchTitle}>"{searchQuery}"</h3>
 
-							{this.renderFilters()}
-
-							<div
-								class={styles.searchModal__body}
-								{...{ on: { click: this.handleModalClick.bind(this) } }}
-							>
-								{isLoading ? (
-									<div
-										class={styles.loading}
-										{...{ on: { click: this.handleModalClick.bind(this) } }}
-									>
-										<div class={styles.spinner}></div>
-										<p>Ищем...</p>
-									</div>
-								) : results.length === 0 ? (
-									<div
-										class={styles.noResults}
-										{...{ on: { click: this.handleModalClick.bind(this) } }}
-									>
-										<p>Ничего не найдено по запросу "{searchQuery}"</p>
-									</div>
-								) : (
-									<div
-										class={styles.results}
-										{...{ on: { click: this.handleModalClick.bind(this) } }}
-									>
+							<div class={styles.searchModal__body}>
+								{results.length === 0 ? null : (
+									<div class={styles.results}>
 										{results.map((result, index) => (
-											<div
-												key={index}
-												class={styles.resultGroup}
-												{...{ on: { click: this.handleModalClick.bind(this) } }}
-											>
+											<div key={index} class={styles.resultGroup}>
 												{result.store && (
 													<div
 														class={styles.storeCard}
@@ -302,13 +211,8 @@ export const SearchBar = defineComponent({
 												)}
 
 												{result.items?.length > 0 && (
-													<div
-														class={styles.itemsList}
-														{...{
-															on: { click: this.handleModalClick.bind(this) },
-														}}
-													>
-														{result.items.slice(0, 3).map((item, idx) => (
+													<div class={styles.itemsList}>
+														{result.items.map((item, idx) => (
 															<ProductCard
 																key={idx}
 																product={{
