@@ -1,9 +1,7 @@
 .searchWithModal {
   position: relative;
-  z-index: 10000; // Большой z-index чтобы быть выше всего
+  z-index: 10000;
 }
-
-// Стили для поля поиска (из Search.module.scss)
 .searchBar {
 	display: flex;
 	align-items: center;
@@ -12,7 +10,7 @@
 	background-color: var(--color-light);
 	height: 2.4rem;
 	position: relative;
-	z-index: 10001; // Еще выше
+	z-index: 10001;
 
 	&__icon {
 		width: 1rem;
@@ -34,21 +32,19 @@
 	}
 }
 
-// Стили для модалки (из SearchWidget.module.scss)
 .searchModal {
-  position: fixed;
-  top: 0;
+  position: relative;
+  top: 5m;
   left: 0;
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 9999; // Ниже чем поле поиска, но выше всего остального
+  z-index: 9999; 
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 80px; // Отступ для навбара
-  
-  // "Дырка" для навбара
+  padding-top: 80px;
+
   &::before {
     content: '';
     position: absolute;
@@ -87,7 +83,6 @@
   padding: 20px;
 }
 
-// Остальные стили из SearchWidget.module.scss (storeCard, itemsList, etc.)
 .resultGroup {
   border: 1px solid #eee;
   border-radius: 8px;

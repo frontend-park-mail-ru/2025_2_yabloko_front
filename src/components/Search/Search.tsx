@@ -5,10 +5,6 @@ import { Button } from '../Button/Button'
 import { ProductCard } from '../ProductCard/ProductCard'
 import styles from './Search.module.scss'
 
-interface SearchWithModalProps {
-	placeholder?: string
-}
-
 export const SearchBar = defineComponent({
 	state() {
 		return {
