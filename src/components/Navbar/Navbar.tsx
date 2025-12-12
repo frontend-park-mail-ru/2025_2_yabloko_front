@@ -99,7 +99,7 @@ export const Navbar = defineComponent({
 					<Logo size="medium" onClick={props.onLogoClick} />
 					<SearchBar
 						placeholder="Поиск ресторанов и категорий"
-						onSearch={props.onSearch}
+						//onSearch={props.onSearch}
 					/>
 					{window.location.pathname == '/' ? <CitySelector /> : null}
 				</div>
