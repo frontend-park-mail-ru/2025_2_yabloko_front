@@ -79,7 +79,7 @@ export class OrderApi {
 	}
 
 	static async checkPromo(promo: string): Promise<Discount> {
-		const response = await API.post('ORDER', `/promo/check`, {promo})
+		const response = await API.post('ORDER', `orders/promo/check`, {promo})
 		if (response.service.success) {
 			return response.body
 		} else {
