@@ -80,10 +80,15 @@ export const PaymentForm = defineComponent({
 							type="button"
 							variant="accent"
 							text="Применить"
-							onClick={() => {
-								this.handlePromo()
+							{...{
+								on: {
+									click(e: Event) {
+										e.stopPropagation()
+										e.preventDefault()
+										this.handlePromo()
+									},
+								},
 							}}
-							disabled={true}
 						/>
 					</div>
 				</div>
@@ -96,8 +101,14 @@ export const PaymentForm = defineComponent({
 							type="button"
 							variant="success"
 							text="Оплатить"
-							onClick={() => {
-								this.handlePay()
+							{...{
+								on: {
+									click(e: Event) {
+										e.stopPropagation()
+										e.preventDefault()
+										this.handlePay()
+									},
+								},
 							}}
 						/>
 					</div>
