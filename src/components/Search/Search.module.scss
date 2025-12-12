@@ -33,9 +33,9 @@
 }
 
 .searchModal {
-  position: relative;
-  top: 5m;
-  left: 0;
+  position: fixed;
+  top: 5rem;
+  left: 5rem;
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
