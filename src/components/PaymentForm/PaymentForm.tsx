@@ -54,7 +54,7 @@ export const PaymentForm = defineComponent({
 			const payParams = {
 				order_id: response.id,
 				amount:
-					this.state.finalPrice.toString() || this.state.total.toString(),
+					this.state.finalPrice.toString() || this.props.total.toString(),
 				currency: 'RUB',
 				description: 'Этот функциона в разработке',
 				return_url: window.location.origin + `/orders/${response.id}`,
