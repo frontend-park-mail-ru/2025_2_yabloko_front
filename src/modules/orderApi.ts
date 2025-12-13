@@ -70,8 +70,8 @@ export class OrderApi {
 
 	static async createOrder(
 		isFast: boolean,
-		comment: string,
-		promo: string,
+		comment?: string,
+		promo?: string,
 	): Promise<OrderInfo> {
 		const response = await API.post('ORDER', `/orders`, {
 			isFast,
