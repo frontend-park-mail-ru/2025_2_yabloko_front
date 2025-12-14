@@ -3,6 +3,7 @@ import { navigate } from '../../modules/router'
 import { StoreApi } from '../../modules/storeApi'
 import { ProductCard } from '../ProductCard/ProductCard'
 import styles from './Carousel.module.scss'
+import { addToCart } from '../../modules/cartManager'
 
 export const Carousel = defineComponent({
 	state() {
@@ -56,6 +57,7 @@ export const Carousel = defineComponent({
 		navigate(`/store/${storeId}`)
 	},
 
+    
 	render() {
 		const { items, loading, currentIndex } = this.state
 		console.log(
@@ -116,6 +118,14 @@ export const Carousel = defineComponent({
 										price: currentItem.price,
 										card_img: `/images/items/${currentItem.card_img}`,
 									}}
+									onAddToCart={addToCart({
+										id: currentItem.id,
+										name: currentItem.name,
+										price: currentItem.price,
+										quantity: 1,
+										card_img: currentItem.card_img,
+										options: [],
+									})}
 									large={true}
 								/>
 							</div>

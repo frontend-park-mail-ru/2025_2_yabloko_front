@@ -17,6 +17,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard = defineComponent({
+	
 	render() {
 		const props = this.props as ProductCardProps
 		const { product, onAddToCart, large } = props
