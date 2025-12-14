@@ -450,17 +450,6 @@ export const PersonalInfo = defineComponent({
 					) : null}
 				</div>
 
-				<div class={styles.personalInfoForm__field}>
-					<textarea
-						placeholder="Комментарий"
-						value={this.state.comment}
-						rows={3}
-						on={{ input: this.handleChange('comment') }}
-						class={styles.personalInfoForm__textarea}
-						disabled={this.props.readonly}
-					></textarea>
-				</div>
-
 				{!this.props.readonly ? (
 					<Button
 						type="button"
