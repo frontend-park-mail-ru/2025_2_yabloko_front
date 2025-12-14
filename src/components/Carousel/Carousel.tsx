@@ -20,8 +20,9 @@ export const Carousel = defineComponent({
 	async loadRecommendations() {
 		this.updateState({ loading: true })
 		try {
-			const items = await StoreApi.getRecommendedItems(5)
-			console.log('Рекомендации загружены:', items) // Для отладки
+			const response = await StoreApi.getRecommendedItems(5)
+            const items = response.item || []
+			console.log('Рекомендации загружены:', items) 
 			this.updateState({
 				items,
 				loading: false,

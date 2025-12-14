@@ -122,6 +122,10 @@ export interface StoreWithItems {
 	items: Item[]
 }
 
+export interface RecommendationsResponse {
+	items: Recommendation[]
+}
+
 
 export class StoreApi {
 	/**
@@ -263,52 +267,54 @@ export class StoreApi {
 		return response.body ?? []
 	}
 
-
 	/**
 	 * Получить рекомендованные товары
 	 */
-	static async getRecommendedItems(limit: number = 10): Promise<Recommendation[]> {
+	static async getRecommendedItems(
+		limit: number = 10,
+	): Promise<RecommendationsResponse> {
 		const response = await API.get('RECS', `/recommend/home?limit=${limit}`)
 		return response.body || []
+	}
+
+	/**
+	 * Поиск магазинов с товарами
+	 * Эластик-серч по магазинам и товарам одновременно
+	 */
+	static async searchStoresWithItems(
+		params: SearchStoresWithItemsParams = {},
+	): Promise<StoreWithItems[]> {
+		const queryParams = new URLSearchParams()
+
+		if (params.search) queryParams.append('search', params.search)
+		if (params.limit) queryParams.append('limit', params.limit.toString())
+		if (params.last_id) queryParams.append('last_id', params.last_id)
+		if (params.city_id) queryParams.append('city_id', params.city_id)
+		if (params.min_price)
+			queryParams.append('min_price', params.min_price.toString())
+		if (params.max_price)
+			queryParams.append('max_price', params.max_price.toString())
+
+		// Массивы параметров
+		if (params.tag_id?.length) {
+			params.tag_id.forEach(tag => queryParams.append('tag_id', tag))
+		}
+		if (params.category_id?.length) {
+			params.category_id.forEach(cat => queryParams.append('category_id', cat))
+		}
+		if (params.item_type?.length) {
+			params.item_type.forEach(type => queryParams.append('item_type', type))
 		}
 
+		const url = `/stores/search/items${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
 
-/**
- * Поиск магазинов с товарами
- * Эластик-серч по магазинам и товарам одновременно
- */
-static async searchStoresWithItems(
-  params: SearchStoresWithItemsParams = {}
-): Promise<StoreWithItems[]> {
-  const queryParams = new URLSearchParams()
-
-  if (params.search) queryParams.append('search', params.search)
-  if (params.limit) queryParams.append('limit', params.limit.toString())
-  if (params.last_id) queryParams.append('last_id', params.last_id)
-  if (params.city_id) queryParams.append('city_id', params.city_id)
-  if (params.min_price) queryParams.append('min_price', params.min_price.toString())
-  if (params.max_price) queryParams.append('max_price', params.max_price.toString())
-  
-  // Массивы параметров
-  if (params.tag_id?.length) {
-    params.tag_id.forEach(tag => queryParams.append('tag_id', tag))
-  }
-  if (params.category_id?.length) {
-    params.category_id.forEach(cat => queryParams.append('category_id', cat))
-  }
-  if (params.item_type?.length) {
-    params.item_type.forEach(type => queryParams.append('item_type', type))
-  }
-
-  const url = `/stores/search/items${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
-  
-  try {
-    const response = await API.get('STORE', url)
-    // Предполагаем, что бекенд возвращает массив магазинов с товарами
-    return response.body || []
-  } catch (error) {
-    console.error('Search stores with items error:', error)
-    return []
-  }
-}
+		try {
+			const response = await API.get('STORE', url)
+			// Предполагаем, что бекенд возвращает массив магазинов с товарами
+			return response.body || []
+		} catch (error) {
+			console.error('Search stores with items error:', error)
+			return []
+		}
+	}
 }
