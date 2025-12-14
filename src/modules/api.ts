@@ -10,12 +10,12 @@ export interface APIresponse {
 
 export class API {
 	public static readonly SERVICES = {
-		AUTH: 'http://90.156.218.233:8082/api/v0',
-		PROFILE: 'http://90.156.218.233:8081/api/v0',
-		STORE: 'http://90.156.218.233:8080/api/v0',
-		ORDER: 'http://90.156.218.233:8084/api/v0',
-		RECS: 'http://90.156.218.233:8085/api/v0',
-		PICS: 'http://90.156.218.233:8080',
+		AUTH: 'http://90.156.218.233/api/v0',
+		PROFILE: 'http://90.156.218.233/api/v0',
+		STORE: 'http://90.156.218.233/api/v0',
+		ORDER: 'http://90.156.218.233/api/v0',
+		RECS: 'http://90.156.218.233/api/v0',
+		PICS: 'http://90.156.218.233',
 	}
 
 	private static csrfRequest: Promise<string> | null = null
