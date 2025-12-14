@@ -230,10 +230,6 @@ export const PersonalInfo = defineComponent({
 		} = this.state
 		const citySuggestions = this.getCitySuggestions()
 
-		if (isLoading) {
-			return <div>Загрузка...</div>
-		}
-
 		return (
 			<div class={styles.personalInfoForm}>
 				<div class={styles.personalInfoForm__field}>
