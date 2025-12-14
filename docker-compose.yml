@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    container_name: 2025_2_yabloko_frontend
+    container_name: frontend
     networks:
       - 2025_2_yabloko_backend
     ports:
