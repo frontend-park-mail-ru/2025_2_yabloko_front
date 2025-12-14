@@ -10,6 +10,7 @@
         flex-direction: column;
         gap: 0.5rem;
         width: 100%;
+        position: relative;
     }
 
     &__input,
@@ -56,12 +57,12 @@
     }
 }
 
-.historySection {
+.addressHistorySection {
     margin-bottom: 1rem;
     position: relative;
 }
 
-.historyButton {
+.addressHistoryButton {
     background: var(--color-light);
     border: 1px solid var(--color-input-stroke);
     border-radius: var(--border-radius-large);
@@ -77,7 +78,7 @@
     }
 }
 
-.historyList {
+.addressHistoryList {
     position: absolute;
     top: 100%;
     left: 0;
@@ -91,7 +92,7 @@
     overflow-y: auto;
 }
 
-.historyItem {
+.addressHistoryItem {
     padding: 0.75rem;
     border-bottom: 1px solid var(--color-input-stroke);
     cursor: pointer;

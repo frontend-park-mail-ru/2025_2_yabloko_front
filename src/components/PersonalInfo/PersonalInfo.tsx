@@ -10,11 +10,6 @@ interface PersonalInfoProps {
 	readonly?: boolean
 }
 
-interface SavedAddress {
-	city: string
-	address: string
-}
-
 export const PersonalInfo = defineComponent({
 	props: [] as (keyof PersonalInfoProps)[],
 
@@ -33,7 +28,7 @@ export const PersonalInfo = defineComponent({
 			addressSuggestions: [] as any[],
 			showAddressSuggestions: false,
 			isAddressLoading: false,
-			savedAddresses: [] as SavedAddress[],
+			addressHistory: [] as string[], // массив строк "ул Бабушкина, д 12"
 			showAddressHistory: false,
 		}
 	},
@@ -65,24 +60,21 @@ export const PersonalInfo = defineComponent({
 				const profile = response.body
 				const city = this.state.cities.find(c => c.id === profile.city_id)
 
-				// Берем историю адресов
+				// Берем историю адресов - это массив строк
 				const history = profile.addresses_history || []
-				const savedAddresses = history
-					.map((addr: any) => {
-						const cityObj = this.state.cities.find(c => c.id === addr.city_id)
-						return {
-							city: cityObj ? cityObj.name : '',
-							address: addr.address || '',
-						}
-					})
-					.filter((addr: SavedAddress) => addr.city && addr.address)
+
+				// Добавляем текущий адрес в историю если он есть
+				const addressHistory = [...history]
+				if (profile.address && !addressHistory.includes(profile.address)) {
+					addressHistory.unshift(profile.address)
+				}
 
 				this.updateState({
 					email: profile.email || '',
 					fullName: profile.name || '',
 					city: city ? city.name : '',
 					address: profile.address || '',
-					savedAddresses,
+					addressHistory,
 				})
 			}
 		} catch (error) {
@@ -90,10 +82,10 @@ export const PersonalInfo = defineComponent({
 		}
 	},
 
-	selectAddressFromHistory(address: SavedAddress) {
+	// Выбор адреса из истории
+	selectAddressFromHistory(address: string) {
 		this.updateState({
-			city: address.city,
-			address: address.address,
+			address: address,
 			showAddressHistory: false,
 		})
 	},
@@ -240,7 +232,7 @@ export const PersonalInfo = defineComponent({
 			addressSuggestions,
 			showAddressSuggestions,
 			isAddressLoading,
-			savedAddresses,
+			addressHistory,
 			showAddressHistory,
 		} = this.state
 		const citySuggestions = this.getCitySuggestions()
@@ -278,30 +270,30 @@ export const PersonalInfo = defineComponent({
 
 				<h2 class={styles.personalInfoForm__title}>Адрес доставки</h2>
 
-				{savedAddresses.length > 0 && (
-					<div class={styles.historySection}>
+				{/* КНОПКА И СПИСОК ИСТОРИИ АДРЕСОВ */}
+				{addressHistory.length > 0 && (
+					<div class={styles.addressHistorySection}>
 						<button
 							type="button"
-							class={styles.historyButton}
+							class={styles.addressHistoryButton}
 							onClick={() =>
 								this.updateState({ showAddressHistory: !showAddressHistory })
 							}
 						>
 							{showAddressHistory
-								? 'Скрыть историю'
-								: 'Показать историю адресов'}
+								? 'Скрыть историю адресов'
+								: 'Выбрать из истории адресов'}
 						</button>
 
 						{showAddressHistory && (
-							<div class={styles.historyList}>
-								{savedAddresses.map((addr, index) => (
+							<div class={styles.addressHistoryList}>
+								{addressHistory.map((address, index) => (
 									<div
 										key={index}
-										class={styles.historyItem}
-										onClick={() => this.selectAddressFromHistory(addr)}
+										class={styles.addressHistoryItem}
+										onClick={() => this.selectAddressFromHistory(address)}
 									>
-										<span class={styles.historyCity}>{addr.city}</span>
-										<span class={styles.historyAddress}>{addr.address}</span>
+										{address}
 									</div>
 								))}
 							</div>
