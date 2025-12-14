@@ -18,6 +18,6 @@ jobs:
                   key: ${{ secrets.SSH_KEY_PRIME }}
                   script: |
                       cd ~/2025_2_yabloko_front
-                      git pull origin feature/history
+                      sudo git pull origin feature/history
                       docker compose up -d --build
                       docker restart nginx
