@@ -28,7 +28,7 @@ export const PersonalInfo = defineComponent({
 			addressSuggestions: [] as any[],
 			showAddressSuggestions: false,
 			isAddressLoading: false,
-			addressHistory: [] as string[], // массив строк "ул Бабушкина, д 12"
+			addressHistory: [] as string[],
 			showAddressHistory: false,
 		}
 	},
@@ -60,10 +60,7 @@ export const PersonalInfo = defineComponent({
 				const profile = response.body
 				const city = this.state.cities.find(c => c.id === profile.city_id)
 
-				// Берем историю адресов - это массив строк
 				const history = profile.addresses_history || []
-
-				// Добавляем текущий адрес в историю если он есть
 				const addressHistory = [...history]
 				if (profile.address && !addressHistory.includes(profile.address)) {
 					addressHistory.unshift(profile.address)
@@ -82,148 +79,6 @@ export const PersonalInfo = defineComponent({
 		}
 	},
 
-	// Выбор адреса из истории
-	selectAddressFromHistory(address: string) {
-		this.updateState({
-			address: address,
-			showAddressHistory: false,
-		})
-	},
-
-	getCitySuggestions() {
-		if (!this.state.city) return []
-		return this.state.cities
-			.filter(city =>
-				city.name.toLowerCase().includes(this.state.city.toLowerCase()),
-			)
-			.slice(0, 5)
-	},
-
-	handleCitySelect(cityName: string) {
-		const cityInput = document.querySelector(
-			`.${styles.personalInfoForm__input}[placeholder="Введите город"]`,
-		) as HTMLInputElement
-		if (cityInput) {
-			cityInput.value = cityName
-		}
-
-		this.updateState({
-			city: cityName,
-			showCitySuggestions: false,
-		})
-	},
-
-	async handleAddressInput(value: string) {
-		this.updateState({
-			address: value,
-			showAddressSuggestions: true,
-		})
-
-		if (value.length < 2 || !this.state.city) {
-			this.updateState({ addressSuggestions: [] })
-			return
-		}
-
-		this.updateState({ isAddressLoading: true })
-
-		try {
-			const suggestions = await SuggestApi.suggestAddress(
-				value,
-				this.state.city,
-			)
-			this.updateState({
-				addressSuggestions: suggestions,
-				isAddressLoading: false,
-			})
-		} catch (error) {
-			console.error(error)
-			this.updateState({ isAddressLoading: false })
-		}
-	},
-
-	handleAddressSelect(suggestion: any) {
-		const addressInput = document.querySelector(
-			`.${styles.personalInfoForm__input}[placeholder="Улица, дом, корпус, квартира"]`,
-		) as HTMLInputElement
-		if (addressInput) {
-			addressInput.value = suggestion.displayValue
-		}
-
-		this.updateState({
-			address: suggestion.displayValue || suggestion.value,
-			addressSuggestions: [],
-			showAddressSuggestions: false,
-		})
-	},
-
-	validateField(field: string, value: string): string {
-		switch (field) {
-			case 'fullName':
-				if (!value) return 'Имя обязательно'
-				if (value.length < 2) return 'Имя слишком короткое'
-				if (!/^[а-яёА-ЯЁ\-\s]+$/.test(value))
-					return 'Только кириллица, пробелы и тире'
-				return ''
-			case 'city':
-				if (!value) return 'Город обязателен'
-				if (!this.state.cities.some(city => city.name === value)) {
-					return 'Город не найден в списке доступных'
-				}
-				return ''
-			case 'address':
-				if (!value) return 'Адрес обязателен'
-				if (value.length < 5) return 'Адрес слишком короткий'
-				return ''
-			default:
-				return ''
-		}
-	},
-
-	handleChange(field: string) {
-		return (e: Event) => {
-			if (this.props.readonly) return
-			const value = (e.target as HTMLInputElement | HTMLTextAreaElement).value
-			const error = this.validateField(field, value)
-			this.updateState({
-				[field]: value,
-				errors: {
-					...this.state.errors,
-					[field]: error,
-				},
-			})
-		}
-	},
-
-	validateAll(): boolean {
-		const { fullName, city, address } = this.state
-		const errors: Record<string, string> = {}
-		errors.fullName = this.validateField('fullName', fullName)
-		errors.city = this.validateField('city', city)
-		errors.address = this.validateField('address', address)
-		this.updateState({ errors })
-		return !Object.values(errors).some(error => error !== '')
-	},
-
-	async handleSave() {
-		if (!this.validateAll()) return
-		const user = authManager.getUser()
-		if (!user) return
-		this.updateState({ isSaving: true })
-		try {
-			const city = this.state.cities.find(c => c.name === this.state.city)
-			const updates = {
-				name: this.state.fullName,
-				address: this.state.address,
-				city_id: city ? city.id : '',
-			}
-			await profileApi.updateProfile(user.id, updates)
-		} catch (error) {
-			console.error(error)
-		} finally {
-			this.updateState({ isSaving: false })
-		}
-	},
-
 	render() {
 		const {
 			errors,
@@ -234,8 +89,137 @@ export const PersonalInfo = defineComponent({
 			isAddressLoading,
 			addressHistory,
 			showAddressHistory,
+			cities,
 		} = this.state
-		const citySuggestions = this.getCitySuggestions()
+
+		const getCitySuggestions = () => {
+			if (!this.state.city) return []
+			return cities
+				.filter(city =>
+					city.name.toLowerCase().includes(this.state.city.toLowerCase()),
+				)
+				.slice(0, 5)
+		}
+
+		const citySuggestions = getCitySuggestions()
+
+		const selectAddressFromHistory = (address: string) => {
+			this.updateState({
+				address: address,
+				showAddressHistory: false,
+			})
+		}
+
+		const handleCitySelect = (cityName: string) => {
+			this.updateState({
+				city: cityName,
+				showCitySuggestions: false,
+			})
+		}
+
+		const handleAddressInput = async (value: string) => {
+			this.updateState({
+				address: value,
+				showAddressSuggestions: true,
+			})
+
+			if (value.length < 2 || !this.state.city) {
+				this.updateState({ addressSuggestions: [] })
+				return
+			}
+
+			this.updateState({ isAddressLoading: true })
+
+			try {
+				const suggestions = await SuggestApi.suggestAddress(
+					value,
+					this.state.city,
+				)
+				this.updateState({
+					addressSuggestions: suggestions,
+					isAddressLoading: false,
+				})
+			} catch (error) {
+				console.error(error)
+				this.updateState({ isAddressLoading: false })
+			}
+		}
+
+		const handleAddressSelect = (suggestion: any) => {
+			this.updateState({
+				address: suggestion.displayValue || suggestion.value,
+				addressSuggestions: [],
+				showAddressSuggestions: false,
+			})
+		}
+
+		const validateField = (field: string, value: string): string => {
+			switch (field) {
+				case 'fullName':
+					if (!value) return 'Имя обязательно'
+					if (value.length < 2) return 'Имя слишком короткое'
+					if (!/^[а-яёА-ЯЁ\-\s]+$/.test(value))
+						return 'Только кириллица, пробелы и тире'
+					return ''
+				case 'city':
+					if (!value) return 'Город обязателен'
+					if (!cities.some(city => city.name === value)) {
+						return 'Город не найден в списке доступных'
+					}
+					return ''
+				case 'address':
+					if (!value) return 'Адрес обязателен'
+					if (value.length < 5) return 'Адрес слишком короткий'
+					return ''
+				default:
+					return ''
+			}
+		}
+
+		const handleChange = (field: string) => {
+			return (e: Event) => {
+				if (this.props.readonly) return
+				const value = (e.target as HTMLInputElement | HTMLTextAreaElement).value
+				const error = validateField(field, value)
+				this.updateState({
+					[field]: value,
+					errors: {
+						...this.state.errors,
+						[field]: error,
+					},
+				})
+			}
+		}
+
+		const validateAll = (): boolean => {
+			const { fullName, city, address } = this.state
+			const errors: Record<string, string> = {}
+			errors.fullName = validateField('fullName', fullName)
+			errors.city = validateField('city', city)
+			errors.address = validateField('address', address)
+			this.updateState({ errors })
+			return !Object.values(errors).some(error => error !== '')
+		}
+
+		const handleSave = async () => {
+			if (!validateAll()) return
+			const user = authManager.getUser()
+			if (!user) return
+			this.updateState({ isSaving: true })
+			try {
+				const city = cities.find(c => c.name === this.state.city)
+				const updates = {
+					name: this.state.fullName,
+					address: this.state.address,
+					city_id: city ? city.id : '',
+				}
+				await profileApi.updateProfile(user.id, updates)
+			} catch (error) {
+				console.error(error)
+			} finally {
+				this.updateState({ isSaving: false })
+			}
+		}
 
 		return (
 			<div class={styles.personalInfoForm}>
@@ -244,7 +228,7 @@ export const PersonalInfo = defineComponent({
 						type="email"
 						placeholder="Электронная почта"
 						value={this.state.email}
-						on={{ input: this.handleChange('email') }}
+						oninput={handleChange('email')}
 						class={`${styles.personalInfoForm__input} ${errors.email ? styles.personalInfoForm__input_error : ''}`}
 						required
 						disabled={true}
@@ -256,7 +240,7 @@ export const PersonalInfo = defineComponent({
 						type="text"
 						placeholder="Имя и фамилия"
 						value={this.state.fullName}
-						on={{ input: this.handleChange('fullName') }}
+						oninput={handleChange('fullName')}
 						class={`${styles.personalInfoForm__input} ${errors.fullName ? styles.personalInfoForm__input_error : ''}`}
 						required
 						disabled={this.props.readonly}
@@ -275,14 +259,9 @@ export const PersonalInfo = defineComponent({
 						<button
 							type="button"
 							class={styles.addressHistoryButton}
-							{...{
-								on: {
-									click: () =>
-										this.updateState({
-											showAddressHistory: !showAddressHistory,
-										}),
-								},
-							}}
+							onclick={() =>
+								this.updateState({ showAddressHistory: !showAddressHistory })
+							}
 						>
 							{showAddressHistory
 								? 'Скрыть историю адресов'
@@ -295,11 +274,7 @@ export const PersonalInfo = defineComponent({
 									<div
 										key={index}
 										class={styles.addressHistoryItem}
-										{...{
-											on: {
-												click: () => this.selectAddressFromHistory(address),
-											},
-										}}
+										onclick={() => selectAddressFromHistory(address)}
 									>
 										{address}
 									</div>
@@ -316,20 +291,18 @@ export const PersonalInfo = defineComponent({
 							type="text"
 							placeholder="Введите город"
 							value={this.state.city}
-							on={{
-								input: (e: Event) => {
-									const value = (e.target as HTMLInputElement).value
-									this.updateState({
-										city: value,
-										showCitySuggestions: true,
-									})
-								},
-								focus: () => this.updateState({ showCitySuggestions: true }),
-								blur: () => {
-									setTimeout(() => {
-										this.updateState({ showCitySuggestions: false })
-									}, 200)
-								},
+							oninput={(e: Event) => {
+								const value = (e.target as HTMLInputElement).value
+								this.updateState({
+									city: value,
+									showCitySuggestions: true,
+								})
+							}}
+							onfocus={() => this.updateState({ showCitySuggestions: true })}
+							onblur={() => {
+								setTimeout(() => {
+									this.updateState({ showCitySuggestions: false })
+								}, 200)
 							}}
 							class={`${styles.personalInfoForm__input} ${errors.city ? styles.personalInfoForm__input_error : ''}`}
 							required
@@ -341,13 +314,9 @@ export const PersonalInfo = defineComponent({
 									<div
 										key={city.id}
 										class={styles.suggestion}
-										{...{
-											on: {
-												mousedown: (e: Event) => {
-													e.preventDefault()
-													this.handleCitySelect(city.name)
-												},
-											},
+										onmousedown={(e: Event) => {
+											e.preventDefault()
+											handleCitySelect(city.name)
 										}}
 									>
 										{city.name}
@@ -368,21 +337,20 @@ export const PersonalInfo = defineComponent({
 							type="text"
 							placeholder="Улица, дом, корпус, квартира"
 							value={this.state.address}
-							on={{
-								input: (e: Event) => {
-									const value = (e.target as HTMLInputElement).value
-									this.handleAddressInput(value)
-								},
-								focus: () =>
-									this.updateState({
-										showAddressSuggestions: true,
-										showAddressHistory: false,
-									}),
-								blur: () => {
-									setTimeout(() => {
-										this.updateState({ showAddressSuggestions: false })
-									}, 200)
-								},
+							oninput={(e: Event) => {
+								const value = (e.target as HTMLInputElement).value
+								handleAddressInput(value)
+							}}
+							onfocus={() =>
+								this.updateState({
+									showAddressSuggestions: true,
+									showAddressHistory: false,
+								})
+							}
+							onblur={() => {
+								setTimeout(() => {
+									this.updateState({ showAddressSuggestions: false })
+								}, 200)
 							}}
 							class={`${styles.personalInfoForm__input} ${errors.address ? styles.personalInfoForm__input_error : ''}`}
 							required
@@ -397,13 +365,9 @@ export const PersonalInfo = defineComponent({
 									<div
 										key={index}
 										class={styles.suggestion}
-										{...{
-											on: {
-												mousedown: (e: Event) => {
-													e.preventDefault()
-													this.handleAddressSelect(suggestion)
-												},
-											},
+										onmousedown={(e: Event) => {
+											e.preventDefault()
+											handleAddressSelect(suggestion)
 										}}
 									>
 										{suggestion.displayValue || suggestion.value}
@@ -422,7 +386,7 @@ export const PersonalInfo = defineComponent({
 						placeholder="Комментарий"
 						value={this.state.comment}
 						rows={3}
-						on={{ input: this.handleChange('comment') }}
+						oninput={handleChange('comment')}
 						class={styles.personalInfoForm__textarea}
 						disabled={this.props.readonly}
 					></textarea>
@@ -433,7 +397,7 @@ export const PersonalInfo = defineComponent({
 						type="button"
 						variant="accent"
 						text={isSaving ? 'Сохранение...' : 'Сохранить'}
-						onClick={() => this.handleSave()}
+						onclick={handleSave}
 						disabled={isSaving}
 					/>
 				) : null}
