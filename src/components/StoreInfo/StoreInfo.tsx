@@ -31,7 +31,7 @@ export const StoreInfo = defineComponent({
 					{store.card_img && (
 						<img
 							class={styles.storeInfo__image}
-							src={`https://208.208.203/images/stores/${store.card_img}`}
+							src={`https://89.208.208.203/images/stores/${store.card_img}`}
 							alt={store.name}
 						/>
 					)}
