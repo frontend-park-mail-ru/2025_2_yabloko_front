@@ -58,8 +58,9 @@ export const Carousel = defineComponent({
 		const { items, loading } = this.state
 
 		if (!loading && (!items || items.length === 0)) {
-			return null
+			return <div></div>
 		}
+
 		return (
 			<div class={styles.carouselContainer}>
 				<h3 class={styles.title}>Рекомендуем</h3>
@@ -73,27 +74,23 @@ export const Carousel = defineComponent({
 						{loading ? (
 							<div class={styles.loading}>Загрузка...</div>
 						) : (
-							items.map(item => {
-								if (!item) return null
-
-								return (
-									<div
-										key={item.id}
-										class={styles.item}
-										onClick={() => this.handleItemClick(item.id, item.store_id)}
-									>
-										<ProductCard
-											product={{
-												id: item.id,
-												name: item.name || 'Без названия',
-												description: '',
-												price: item.price || 0,
-												card_img: item.card_img || '',
-											}}
-										/>
-									</div>
-								)
-							})
+							items.map(item => (
+								<div
+									key={item.id}
+									class={styles.item}
+									onClick={() => this.handleItemClick(item.id, item.store_id)}
+								>
+									<ProductCard
+										product={{
+											id: item.id,
+											name: item.name,
+											description: '',
+											price: item.price,
+											card_img: item.card_img,
+										}}
+									/>
+								</div>
+							))
 						)}
 					</div>
 
