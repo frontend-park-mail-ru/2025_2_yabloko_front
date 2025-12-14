@@ -17,7 +17,7 @@ export const MainPage = defineComponent({
 			isCartOpen: false,
 			isHistoryOpen: false,
 			isSearchOpen: false,
-			searchQuery: '', // Храним запрос здесь
+			searchQuery: '',
 			tags: [] as any[],
 			categories: [] as any[],
 			isLoading: true,
