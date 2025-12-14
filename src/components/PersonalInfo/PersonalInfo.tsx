@@ -30,6 +30,7 @@ export const PersonalInfo = defineComponent({
 			isAddressLoading: false,
 			addressHistory: [] as string[],
 			showAddressHistory: false,
+			addressInputFocused: false,
 		}
 	},
 
@@ -100,16 +101,21 @@ export const PersonalInfo = defineComponent({
 	async handleAddressInput(value: string) {
 		this.updateState({
 			address: value,
-			showAddressSuggestions: true,
+			showAddressSuggestions: value.length > 0,
 			showAddressHistory:
-				value.length === 0 && this.state.addressHistory.length > 0,
+				value.length === 0 &&
+				this.state.addressHistory.length > 0 &&
+				this.state.addressInputFocused,
 		})
 
 		if (value.length < 2 || !this.state.city) {
 			this.updateState({
 				addressSuggestions: [],
+				showAddressSuggestions: false,
 				showAddressHistory:
-					value.length === 0 && this.state.addressHistory.length > 0,
+					value.length === 0 &&
+					this.state.addressHistory.length > 0 &&
+					this.state.addressInputFocused,
 			})
 			return
 		}
@@ -146,6 +152,7 @@ export const PersonalInfo = defineComponent({
 			address: suggestion.displayValue || suggestion.value,
 			addressSuggestions: [],
 			showAddressSuggestions: false,
+			showAddressHistory: false,
 		})
 	},
 
@@ -160,6 +167,7 @@ export const PersonalInfo = defineComponent({
 		this.updateState({
 			address: address,
 			showAddressHistory: false,
+			showAddressSuggestions: false,
 		})
 	},
 
@@ -255,6 +263,7 @@ export const PersonalInfo = defineComponent({
 			isAddressLoading,
 			addressHistory,
 			showAddressHistory,
+			addressInputFocused,
 		} = this.state
 		const citySuggestions = this.getCitySuggestions()
 
@@ -307,7 +316,11 @@ export const PersonalInfo = defineComponent({
 									})
 								},
 								focus: () => this.updateState({ showCitySuggestions: true }),
-								blur: () => this.updateState({ showCitySuggestions: false }),
+								blur: () =>
+									setTimeout(
+										() => this.updateState({ showCitySuggestions: false }),
+										200,
+									),
 							}}
 							class={`${styles.personalInfoForm__input} ${errors.city ? styles.personalInfoForm__input_error : ''}`}
 							required
@@ -353,7 +366,7 @@ export const PersonalInfo = defineComponent({
 								},
 								focus: () => {
 									this.updateState({
-										showAddressSuggestions: true,
+										addressInputFocused: true,
 										showAddressHistory:
 											this.state.address.length === 0 &&
 											this.state.addressHistory.length > 0,
@@ -362,6 +375,7 @@ export const PersonalInfo = defineComponent({
 								blur: () => {
 									setTimeout(() => {
 										this.updateState({
+											addressInputFocused: false,
 											showAddressSuggestions: false,
 											showAddressHistory: false,
 										})
@@ -372,11 +386,9 @@ export const PersonalInfo = defineComponent({
 							required
 							disabled={this.props.readonly}
 						/>
-						{isAddressLoading ? (
-							<div class={styles.loading}>Загрузка...</div>
-						) : null}
 
-						{showAddressHistory && addressHistory.length > 0 ? (
+						{/* Блок истории адресов */}
+						{showAddressHistory && addressHistory.length > 0 && (
 							<div class={styles.suggestions}>
 								<div class={styles.suggestionsTitle}>История адресов:</div>
 								{addressHistory.map((address, index) => (
@@ -395,6 +407,13 @@ export const PersonalInfo = defineComponent({
 										{address}
 									</div>
 								))}
+							</div>
+						)}
+
+						{/* Блок подсказок адреса */}
+						{isAddressLoading ? (
+							<div class={styles.suggestions}>
+								<div class={styles.loading}>Загрузка...</div>
 							</div>
 						) : null}
 
