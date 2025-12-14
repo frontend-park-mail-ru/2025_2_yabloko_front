@@ -117,6 +117,7 @@ export const Carousel = defineComponent({
 										card_img: `/images/items/${currentItem.card_img}`,
 									}}
 									onAddToCart={(productId: string) => {
+										const { items } = this.state
 										const itemToAdd = items.find(item => item.id === productId)
 										if (itemToAdd) {
 											addToCart({
