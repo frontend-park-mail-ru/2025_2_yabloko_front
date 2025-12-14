@@ -35,18 +35,20 @@ export const Carousel = defineComponent({
 	nextItem() {
 		const { items, currentIndex } = this.state
 		if (items.length === 0) return
-		console.log('Next clicked')
+		console.log('Next item, current:', currentIndex, 'total:', items.length)
 
 		const nextIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1
+		console.log('Next index:', nextIndex)
 		this.updateState({ currentIndex: nextIndex })
 	},
 
 	prevItem() {
 		const { items, currentIndex } = this.state
 		if (items.length === 0) return
-		console.log('Prev clicked') 
+		console.log('Prev item, current:', currentIndex, 'total:', items.length)
 
 		const prevIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1
+		console.log('Prev index:', prevIndex)
 		this.updateState({ currentIndex: prevIndex })
 	},
 
@@ -56,12 +58,19 @@ export const Carousel = defineComponent({
 
 	render() {
 		const { items, loading, currentIndex } = this.state
+		console.log(
+			'Render carousel, currentIndex:',
+			currentIndex,
+			'items:',
+			items.length,
+		)
 
 		if (!loading && (!items || items.length === 0)) {
 			return <div></div>
 		}
 
 		const currentItem = items[currentIndex]
+		console.log('Current item:', currentItem?.name)
 
 		return (
 			<div class={styles.carouselContainer}>
@@ -70,10 +79,14 @@ export const Carousel = defineComponent({
 				<div class={styles.wrapper}>
 					<button
 						class={`${styles.button} ${styles.buttonLeft}`}
-						onClick={(e: Event) => {
-							e.preventDefault()
-							e.stopPropagation()
-							this.prevItem()
+						{...{
+							on: {
+								click: (e: Event) => {
+									e.preventDefault()
+									e.stopPropagation()
+									this.prevItem()
+								},
+							},
 						}}
 					>
 						‹
@@ -82,12 +95,18 @@ export const Carousel = defineComponent({
 					<div class={styles.center}>
 						{loading ? (
 							<div class={styles.loading}>Загрузка...</div>
-						) : (
+						) : currentItem ? (
 							<div
 								class={styles.item}
-								onClick={() =>
-									this.handleItemClick(currentItem.id, currentItem.store_id)
-								}
+								{...{
+									on: {
+										click: () =>
+											this.handleItemClick(
+												currentItem.id,
+												currentItem.store_id,
+											),
+									},
+								}}
 							>
 								<ProductCard
 									product={{
@@ -100,15 +119,21 @@ export const Carousel = defineComponent({
 									large={true}
 								/>
 							</div>
+						) : (
+							<div class={styles.loading}>Нет товаров</div>
 						)}
 					</div>
 
 					<button
 						class={`${styles.button} ${styles.buttonRight}`}
-						onClick={(e: Event) => {
-							e.preventDefault()
-							e.stopPropagation()
-							this.nextItem()
+						{...{
+							on: {
+								click: (e: Event) => {
+									e.preventDefault()
+									e.stopPropagation()
+									this.nextItem()
+								},
+							},
 						}}
 					>
 						›
