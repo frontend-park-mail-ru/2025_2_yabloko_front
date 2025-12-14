@@ -118,14 +118,16 @@ export const Carousel = defineComponent({
 										price: currentItem.price,
 										card_img: `/images/items/${currentItem.card_img}`,
 									}}
-									onAddToCart={addToCart({
-										id: currentItem.id,
-										name: currentItem.name,
-										price: currentItem.price,
-										quantity: 1,
-										card_img: currentItem.card_img,
-										options: [],
-									})}
+									onAddToCart={() => {
+										addToCart({
+											id: currentItem.id,
+											name: currentItem.name,
+											price: currentItem.price,
+											quantity: 1,
+											card_img: currentItem.card_img,
+											options: [],
+										})
+									}}
 									large={true}
 								/>
 							</div>
