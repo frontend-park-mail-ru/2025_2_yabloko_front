@@ -93,6 +93,14 @@ export const PersonalInfo = defineComponent({
 		})
 	},
 
+	handleAddressSelect(suggestion: any) {
+		this.updateState({
+			address: suggestion.displayValue || suggestion.value,
+			addressSuggestions: [],
+			showAddressSuggestions: false,
+		})
+	},
+
 	async handleAddressInput(value: string) {
 		this.updateState({
 			address: value,
@@ -119,14 +127,6 @@ export const PersonalInfo = defineComponent({
 			console.error(error)
 			this.updateState({ isAddressLoading: false })
 		}
-	},
-
-	handleAddressSelect(suggestion: any) {
-		this.updateState({
-			address: suggestion.displayValue || suggestion.value,
-			addressSuggestions: [],
-			showAddressSuggestions: false,
-		})
 	},
 
 	validateField(field: string, value: string): string {
@@ -197,6 +197,50 @@ export const PersonalInfo = defineComponent({
 		}
 	},
 
+	// === НОВЫЕ МЕТОДЫ ДЛЯ ОБРАБОТКИ СОБЫТИЙ ===
+
+	handleCityInput(e: Event) {
+		const value = (e.target as HTMLInputElement).value
+		this.updateState({
+			city: value,
+			showCitySuggestions: true,
+		})
+	},
+
+	handleCityFocus() {
+		this.updateState({ showCitySuggestions: true })
+	},
+
+	handleCityBlur() {
+		setTimeout(() => {
+			this.updateState({ showCitySuggestions: false })
+		}, 200)
+	},
+
+	handleAddressInputEvent(e: Event) {
+		const value = (e.target as HTMLInputElement).value
+		this.handleAddressInput(value)
+	},
+
+	handleAddressFocus() {
+		this.updateState({
+			showAddressSuggestions: true,
+			showAddressHistory: false,
+		})
+	},
+
+	handleAddressBlur() {
+		setTimeout(() => {
+			this.updateState({ showAddressSuggestions: false })
+		}, 200)
+	},
+
+	toggleAddressHistory() {
+		this.updateState({
+			showAddressHistory: !this.state.showAddressHistory,
+		})
+	},
+
 	render() {
 		const {
 			errors,
@@ -256,12 +300,7 @@ export const PersonalInfo = defineComponent({
 						<button
 							type="button"
 							class={styles.addressHistoryButton}
-							on={{
-								click: () =>
-									this.updateState({
-										showAddressHistory: !showAddressHistory,
-									}),
-							}}
+							on={{ click: this.toggleAddressHistory }}
 						>
 							{showAddressHistory
 								? 'Скрыть историю адресов'
@@ -294,19 +333,9 @@ export const PersonalInfo = defineComponent({
 							placeholder="Введите город"
 							value={this.state.city}
 							on={{
-								input: (e: Event) => {
-									const value = (e.target as HTMLInputElement).value
-									this.updateState({
-										city: value,
-										showCitySuggestions: true,
-									})
-								},
-								focus: () => this.updateState({ showCitySuggestions: true }),
-								blur: () => {
-									setTimeout(() => {
-										this.updateState({ showCitySuggestions: false })
-									}, 200)
-								},
+								input: this.handleCityInput,
+								focus: this.handleCityFocus,
+								blur: this.handleCityBlur,
 							}}
 							class={`${styles.personalInfoForm__input} ${errors.city ? styles.personalInfoForm__input_error : ''}`}
 							required
@@ -344,20 +373,9 @@ export const PersonalInfo = defineComponent({
 							placeholder="Улица, дом, корпус, квартира"
 							value={this.state.address}
 							on={{
-								input: (e: Event) => {
-									const value = (e.target as HTMLInputElement).value
-									this.handleAddressInput(value)
-								},
-								focus: () =>
-									this.updateState({
-										showAddressSuggestions: true,
-										showAddressHistory: false,
-									}),
-								blur: () => {
-									setTimeout(() => {
-										this.updateState({ showAddressSuggestions: false })
-									}, 200)
-								},
+								input: this.handleAddressInputEvent,
+								focus: this.handleAddressFocus,
+								blur: this.handleAddressBlur,
 							}}
 							class={`${styles.personalInfoForm__input} ${errors.address ? styles.personalInfoForm__input_error : ''}`}
 							required
