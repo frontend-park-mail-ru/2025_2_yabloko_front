@@ -55,7 +55,7 @@ export const Carousel = defineComponent({
 		const { items, loading, hasRecommendations } = this.state
 
 		if (!loading && !hasRecommendations) {
-			return null
+			return <div></div>
 		}
 
 		return (
