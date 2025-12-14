@@ -120,6 +120,7 @@ export const Carousel = defineComponent({
 										const { items } = this.state
 										const itemToAdd = items.find(item => item.id === productId)
 										if (itemToAdd) {
+											console.log(itemToAdd.id)
 											addToCart({
 												id: itemToAdd.id,
 												name: itemToAdd.name,

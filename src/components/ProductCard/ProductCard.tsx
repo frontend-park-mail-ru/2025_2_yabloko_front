@@ -25,6 +25,7 @@ export const ProductCard = defineComponent({
 		const handleAddClick = (e: Event) => {
 			e.stopPropagation()
 			e.preventDefault()
+			console.log(product.id)
 			onAddToCart?.(product.id)
 		}
 
