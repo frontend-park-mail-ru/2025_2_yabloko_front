@@ -28,7 +28,7 @@ export const PersonalInfo = defineComponent({
 			addressSuggestions: [] as any[],
 			showAddressSuggestions: false,
 			isAddressLoading: false,
-			addressHistory: [] as string[], // массив строк "ул Бабушкина, д 12"
+			addressHistory: [] as string[],
 			showAddressHistory: false,
 		}
 	},
@@ -60,10 +60,7 @@ export const PersonalInfo = defineComponent({
 				const profile = response.body
 				const city = this.state.cities.find(c => c.id === profile.city_id)
 
-				// Берем историю адресов - это массив строк
 				const history = profile.addresses_history || []
-
-				// Добавляем текущий адрес в историю если он есть
 				const addressHistory = [...history]
 				if (profile.address && !addressHistory.includes(profile.address)) {
 					addressHistory.unshift(profile.address)
@@ -82,7 +79,6 @@ export const PersonalInfo = defineComponent({
 		}
 	},
 
-	// Выбор адреса из истории
 	selectAddressFromHistory(address: string) {
 		this.updateState({
 			address: address,
@@ -244,7 +240,7 @@ export const PersonalInfo = defineComponent({
 						type="email"
 						placeholder="Электронная почта"
 						value={this.state.email}
-						on={{ input: this.handleChange('email') }}
+						{...{ on: { input: this.handleChange('email') } }}
 						class={`${styles.personalInfoForm__input} ${errors.email ? styles.personalInfoForm__input_error : ''}`}
 						required
 						disabled={true}
@@ -256,7 +252,7 @@ export const PersonalInfo = defineComponent({
 						type="text"
 						placeholder="Имя и фамилия"
 						value={this.state.fullName}
-						on={{ input: this.handleChange('fullName') }}
+						{...{ on: { input: this.handleChange('fullName') } }}
 						class={`${styles.personalInfoForm__input} ${errors.fullName ? styles.personalInfoForm__input_error : ''}`}
 						required
 						disabled={this.props.readonly}
@@ -270,16 +266,19 @@ export const PersonalInfo = defineComponent({
 
 				<h2 class={styles.personalInfoForm__title}>Адрес доставки</h2>
 
-				{/* КНОПКА И СПИСОК ИСТОРИИ АДРЕСОВ */}
 				{addressHistory.length > 0 && (
 					<div class={styles.addressHistorySection}>
 						<button
 							type="button"
 							class={styles.addressHistoryButton}
-							{... {on: {click :() =>
-								this.updateState({ showAddressHistory: !showAddressHistory })
-							}
-						}}
+							{...{
+								on: {
+									click: () =>
+										this.updateState({
+											showAddressHistory: !showAddressHistory,
+										}),
+								},
+							}}
 						>
 							{showAddressHistory
 								? 'Скрыть историю адресов'
@@ -292,7 +291,11 @@ export const PersonalInfo = defineComponent({
 									<div
 										key={index}
 										class={styles.addressHistoryItem}
-										onClick={() => this.selectAddressFromHistory(address)}
+										{...{
+											on: {
+												click: () => this.selectAddressFromHistory(address),
+											},
+										}}
 									>
 										{address}
 									</div>
@@ -309,19 +312,21 @@ export const PersonalInfo = defineComponent({
 							type="text"
 							placeholder="Введите город"
 							value={this.state.city}
-							on={{
-								input: (e: Event) => {
-									const value = (e.target as HTMLInputElement).value
-									this.updateState({
-										city: value,
-										showCitySuggestions: true,
-									})
-								},
-								focus: () => this.updateState({ showCitySuggestions: true }),
-								blur: () => {
-									setTimeout(() => {
-										this.updateState({ showCitySuggestions: false })
-									}, 200)
+							{...{
+								on: {
+									input: (e: Event) => {
+										const value = (e.target as HTMLInputElement).value
+										this.updateState({
+											city: value,
+											showCitySuggestions: true,
+										})
+									},
+									focus: () => this.updateState({ showCitySuggestions: true }),
+									blur: () => {
+										setTimeout(() => {
+											this.updateState({ showCitySuggestions: false })
+										}, 200)
+									},
 								},
 							}}
 							class={`${styles.personalInfoForm__input} ${errors.city ? styles.personalInfoForm__input_error : ''}`}
@@ -361,20 +366,22 @@ export const PersonalInfo = defineComponent({
 							type="text"
 							placeholder="Улица, дом, корпус, квартира"
 							value={this.state.address}
-							on={{
-								input: (e: Event) => {
-									const value = (e.target as HTMLInputElement).value
-									this.handleAddressInput(value)
-								},
-								focus: () =>
-									this.updateState({
-										showAddressSuggestions: true,
-										showAddressHistory: false,
-									}),
-								blur: () => {
-									setTimeout(() => {
-										this.updateState({ showAddressSuggestions: false })
-									}, 200)
+							{...{
+								on: {
+									input: (e: Event) => {
+										const value = (e.target as HTMLInputElement).value
+										this.handleAddressInput(value)
+									},
+									focus: () =>
+										this.updateState({
+											showAddressSuggestions: true,
+											showAddressHistory: false,
+										}),
+									blur: () => {
+										setTimeout(() => {
+											this.updateState({ showAddressSuggestions: false })
+										}, 200)
+									},
 								},
 							}}
 							class={`${styles.personalInfoForm__input} ${errors.address ? styles.personalInfoForm__input_error : ''}`}
@@ -415,7 +422,7 @@ export const PersonalInfo = defineComponent({
 						placeholder="Комментарий"
 						value={this.state.comment}
 						rows={3}
-						on={{ input: this.handleChange('comment') }}
+						{...{ on: { input: this.handleChange('comment') } }}
 						class={styles.personalInfoForm__textarea}
 						disabled={this.props.readonly}
 					></textarea>
@@ -426,7 +433,7 @@ export const PersonalInfo = defineComponent({
 						type="button"
 						variant="accent"
 						text={isSaving ? 'Сохранение...' : 'Сохранить'}
-						onClick={() => this.handleSave()}
+						{...{ on: { click: () => this.handleSave() } }}
 						disabled={isSaving}
 					/>
 				) : null}
