@@ -35,6 +35,7 @@ export const Carousel = defineComponent({
 	nextItem() {
 		const { items, currentIndex } = this.state
 		if (items.length === 0) return
+		console.log('Next clicked')
 
 		const nextIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1
 		this.updateState({ currentIndex: nextIndex })
@@ -43,6 +44,7 @@ export const Carousel = defineComponent({
 	prevItem() {
 		const { items, currentIndex } = this.state
 		if (items.length === 0) return
+		console.log('Prev clicked') 
 
 		const prevIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1
 		this.updateState({ currentIndex: prevIndex })
@@ -65,12 +67,19 @@ export const Carousel = defineComponent({
 			<div class={styles.carouselContainer}>
 				<h3 class={styles.title}>Рекомендуем</h3>
 
-				<div class={styles.carouselWrapper}>
-					<button class={styles.scrollButton} onClick={() => this.prevItem()}>
+				<div class={styles.wrapper}>
+					<button
+						class={`${styles.button} ${styles.buttonLeft}`}
+						onClick={(e: Event) => {
+							e.preventDefault()
+							e.stopPropagation()
+							this.prevItem()
+						}}
+					>
 						‹
 					</button>
 
-					<div class={styles.carousel}>
+					<div class={styles.center}>
 						{loading ? (
 							<div class={styles.loading}>Загрузка...</div>
 						) : (
@@ -94,7 +103,14 @@ export const Carousel = defineComponent({
 						)}
 					</div>
 
-					<button class={styles.scrollButton} onClick={() => this.nextItem()}>
+					<button
+						class={`${styles.button} ${styles.buttonRight}`}
+						onClick={(e: Event) => {
+							e.preventDefault()
+							e.stopPropagation()
+							this.nextItem()
+						}}
+					>
 						›
 					</button>
 				</div>
