@@ -29,6 +29,7 @@ export const PersonalInfo = defineComponent({
 			showAddressSuggestions: false,
 			isAddressLoading: false,
 			addressesHistory: [] as string[],
+			historyAddressInput: '',
 			showHistorySuggestions: false,
 		}
 	},
