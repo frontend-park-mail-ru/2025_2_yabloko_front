@@ -1,7 +1,7 @@
 .carouselContainer {
 	width: 100%;
 	max-width: 1200px;
-	margin: 40px auto;
+	margin: 10px auto;
 	padding: 20px;
 	box-sizing: border-box;
 }
@@ -51,17 +51,6 @@
 	transition: all 0.2s ease;
 	flex-shrink: 0;
 	position: relative;
-	
-	&:hover {
-		background: #f8f8f8;
-		border-color: #007bff;
-		color: #007bff;
-		transform: scale(1.1);
-	}
-	
-	&:active {
-		transform: scale(0.95);
-	}
 }
 
 .buttonLeft {
