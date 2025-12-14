@@ -122,7 +122,7 @@ export const Carousel = defineComponent({
 											name: currentItem.name,
 											price: currentItem.price,
 											quantity: 1,
-											card_img: `/images/items/${currentItem.card_img}`,
+											card_img: currentItem.card_img,
 											options: [],
 										})
 									}}
