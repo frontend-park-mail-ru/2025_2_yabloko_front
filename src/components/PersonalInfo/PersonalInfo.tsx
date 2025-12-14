@@ -228,7 +228,7 @@ export const PersonalInfo = defineComponent({
 						type="email"
 						placeholder="Электронная почта"
 						value={this.state.email}
-						oninput={handleChange('email')}
+						{...{ on: { input: handleChange('email') } }}
 						class={`${styles.personalInfoForm__input} ${errors.email ? styles.personalInfoForm__input_error : ''}`}
 						required
 						disabled={true}
@@ -240,16 +240,16 @@ export const PersonalInfo = defineComponent({
 						type="text"
 						placeholder="Имя и фамилия"
 						value={this.state.fullName}
-						oninput={handleChange('fullName')}
+						{...{ on: { input: handleChange('fullName') } }}
 						class={`${styles.personalInfoForm__input} ${errors.fullName ? styles.personalInfoForm__input_error : ''}`}
 						required
 						disabled={this.props.readonly}
 					/>
-					{errors.fullName ? (
+					{errors.fullName && (
 						<div class={`${styles.personalInfoForm__error} ${styles.active}`}>
 							{errors.fullName}
 						</div>
-					) : null}
+					)}
 				</div>
 
 				<h2 class={styles.personalInfoForm__title}>Адрес доставки</h2>
@@ -259,9 +259,14 @@ export const PersonalInfo = defineComponent({
 						<button
 							type="button"
 							class={styles.addressHistoryButton}
-							onclick={() =>
-								this.updateState({ showAddressHistory: !showAddressHistory })
-							}
+							{...{
+								on: {
+									click: () =>
+										this.updateState({
+											showAddressHistory: !showAddressHistory,
+										}),
+								},
+							}}
 						>
 							{showAddressHistory
 								? 'Скрыть историю адресов'
@@ -274,7 +279,9 @@ export const PersonalInfo = defineComponent({
 									<div
 										key={index}
 										class={styles.addressHistoryItem}
-										onclick={() => selectAddressFromHistory(address)}
+										{...{
+											on: { click: () => selectAddressFromHistory(address) },
+										}}
 									>
 										{address}
 									</div>
@@ -291,43 +298,51 @@ export const PersonalInfo = defineComponent({
 							type="text"
 							placeholder="Введите город"
 							value={this.state.city}
-							oninput={(e: Event) => {
-								const value = (e.target as HTMLInputElement).value
-								this.updateState({
-									city: value,
-									showCitySuggestions: true,
-								})
-							}}
-							onfocus={() => this.updateState({ showCitySuggestions: true })}
-							onblur={() => {
-								setTimeout(() => {
-									this.updateState({ showCitySuggestions: false })
-								}, 200)
+							{...{
+								on: {
+									input: (e: Event) => {
+										const value = (e.target as HTMLInputElement).value
+										this.updateState({
+											city: value,
+											showCitySuggestions: true,
+										})
+									},
+									focus: () => this.updateState({ showCitySuggestions: true }),
+									blur: () => {
+										setTimeout(() => {
+											this.updateState({ showCitySuggestions: false })
+										}, 200)
+									},
+								},
 							}}
 							class={`${styles.personalInfoForm__input} ${errors.city ? styles.personalInfoForm__input_error : ''}`}
 							required
 							disabled={this.props.readonly}
 						/>
-						{showCitySuggestions && citySuggestions.length > 0 ? (
+						{showCitySuggestions && citySuggestions.length > 0 && (
 							<div class={styles.suggestions}>
 								{citySuggestions.map(city => (
 									<div
 										key={city.id}
 										class={styles.suggestion}
-										onmousedown={(e: Event) => {
-											e.preventDefault()
-											handleCitySelect(city.name)
+										{...{
+											on: {
+												mousedown: (e: Event) => {
+													e.preventDefault()
+													handleCitySelect(city.name)
+												},
+											},
 										}}
 									>
 										{city.name}
 									</div>
 								))}
 							</div>
-						) : null}
+						)}
 					</div>
-					{errors.city ? (
+					{errors.city && (
 						<div class={styles.personalInfoForm__error}>{errors.city}</div>
-					) : null}
+					)}
 				</div>
 
 				<div class={styles.personalInfoForm__field}>
@@ -337,48 +352,53 @@ export const PersonalInfo = defineComponent({
 							type="text"
 							placeholder="Улица, дом, корпус, квартира"
 							value={this.state.address}
-							oninput={(e: Event) => {
-								const value = (e.target as HTMLInputElement).value
-								handleAddressInput(value)
-							}}
-							onfocus={() =>
-								this.updateState({
-									showAddressSuggestions: true,
-									showAddressHistory: false,
-								})
-							}
-							onblur={() => {
-								setTimeout(() => {
-									this.updateState({ showAddressSuggestions: false })
-								}, 200)
+							{...{
+								on: {
+									input: (e: Event) => {
+										const value = (e.target as HTMLInputElement).value
+										handleAddressInput(value)
+									},
+									focus: () =>
+										this.updateState({
+											showAddressSuggestions: true,
+											showAddressHistory: false,
+										}),
+									blur: () => {
+										setTimeout(() => {
+											this.updateState({ showAddressSuggestions: false })
+										}, 200)
+									},
+								},
 							}}
 							class={`${styles.personalInfoForm__input} ${errors.address ? styles.personalInfoForm__input_error : ''}`}
 							required
 							disabled={this.props.readonly}
 						/>
-						{isAddressLoading ? (
-							<div class={styles.loading}>Загрузка...</div>
-						) : null}
-						{showAddressSuggestions && addressSuggestions.length > 0 ? (
+						{isAddressLoading && <div class={styles.loading}>Загрузка...</div>}
+						{showAddressSuggestions && addressSuggestions.length > 0 && (
 							<div class={styles.suggestions}>
 								{addressSuggestions.map((suggestion, index) => (
 									<div
 										key={index}
 										class={styles.suggestion}
-										onmousedown={(e: Event) => {
-											e.preventDefault()
-											handleAddressSelect(suggestion)
+										{...{
+											on: {
+												mousedown: (e: Event) => {
+													e.preventDefault()
+													handleAddressSelect(suggestion)
+												},
+											},
 										}}
 									>
 										{suggestion.displayValue || suggestion.value}
 									</div>
 								))}
 							</div>
-						) : null}
+						)}
 					</div>
-					{errors.address ? (
+					{errors.address && (
 						<div class={styles.personalInfoForm__error}>{errors.address}</div>
-					) : null}
+					)}
 				</div>
 
 				<div class={styles.personalInfoForm__field}>
@@ -386,21 +406,21 @@ export const PersonalInfo = defineComponent({
 						placeholder="Комментарий"
 						value={this.state.comment}
 						rows={3}
-						oninput={handleChange('comment')}
+						{...{ on: { input: handleChange('comment') } }}
 						class={styles.personalInfoForm__textarea}
 						disabled={this.props.readonly}
 					></textarea>
 				</div>
 
-				{!this.props.readonly ? (
+				{!this.props.readonly && (
 					<Button
 						type="button"
 						variant="accent"
 						text={isSaving ? 'Сохранение...' : 'Сохранить'}
-						onclick={handleSave}
+						{...{ on: { click: handleSave } }}
 						disabled={isSaving}
 					/>
-				) : null}
+				)}
 			</div>
 		)
 	},
