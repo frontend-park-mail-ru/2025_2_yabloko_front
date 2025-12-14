@@ -29,8 +29,7 @@ export const PersonalInfo = defineComponent({
 			showAddressSuggestions: false,
 			isAddressLoading: false,
 			addressHistory: [] as string[],
-			showAddressHistory: false,
-			addressInputFocused: false,
+			showAddressHistoryDropdown: false,
 		}
 	},
 
@@ -101,28 +100,19 @@ export const PersonalInfo = defineComponent({
 	async handleAddressInput(value: string) {
 		this.updateState({
 			address: value,
-			showAddressSuggestions: value.length > 0,
-			showAddressHistory:
-				value.length === 0 &&
-				this.state.addressHistory.length > 0 &&
-				this.state.addressInputFocused,
+			showAddressSuggestions: true,
 		})
 
 		if (value.length < 2 || !this.state.city) {
 			this.updateState({
 				addressSuggestions: [],
 				showAddressSuggestions: false,
-				showAddressHistory:
-					value.length === 0 &&
-					this.state.addressHistory.length > 0 &&
-					this.state.addressInputFocused,
 			})
 			return
 		}
 
 		this.updateState({
 			isAddressLoading: true,
-			showAddressHistory: false,
 		})
 
 		try {
@@ -152,7 +142,6 @@ export const PersonalInfo = defineComponent({
 			address: suggestion.displayValue || suggestion.value,
 			addressSuggestions: [],
 			showAddressSuggestions: false,
-			showAddressHistory: false,
 		})
 	},
 
@@ -166,7 +155,13 @@ export const PersonalInfo = defineComponent({
 
 		this.updateState({
 			address: address,
-			showAddressHistory: false,
+			showAddressHistoryDropdown: false,
+		})
+	},
+
+	toggleAddressHistoryDropdown() {
+		this.updateState({
+			showAddressHistoryDropdown: !this.state.showAddressHistoryDropdown,
 			showAddressSuggestions: false,
 		})
 	},
@@ -262,8 +257,7 @@ export const PersonalInfo = defineComponent({
 			showAddressSuggestions,
 			isAddressLoading,
 			addressHistory,
-			showAddressHistory,
-			addressInputFocused,
+			showAddressHistoryDropdown,
 		} = this.state
 		const citySuggestions = this.getCitySuggestions()
 
@@ -353,7 +347,20 @@ export const PersonalInfo = defineComponent({
 				</div>
 
 				<div class={styles.personalInfoForm__field}>
-					<h3 class={styles.personalInfoForm__addressLabel}>Адрес</h3>
+					<div class={styles.addressHeader}>
+						<h3 class={styles.personalInfoForm__addressLabel}>Адрес</h3>
+						{addressHistory.length > 0 && (
+							<button
+								type="button"
+								class={styles.addressHistoryButton}
+								onClick={() => this.toggleAddressHistoryDropdown()}
+								disabled={this.props.readonly}
+							>
+								История адресов
+							</button>
+						)}
+					</div>
+
 					<div class={styles.cityWrapper}>
 						<input
 							type="text"
@@ -366,18 +373,14 @@ export const PersonalInfo = defineComponent({
 								},
 								focus: () => {
 									this.updateState({
-										addressInputFocused: true,
-										showAddressHistory:
-											this.state.address.length === 0 &&
-											this.state.addressHistory.length > 0,
+										showAddressSuggestions: true,
+										showAddressHistoryDropdown: false,
 									})
 								},
 								blur: () => {
 									setTimeout(() => {
 										this.updateState({
-											addressInputFocused: false,
 											showAddressSuggestions: false,
-											showAddressHistory: false,
 										})
 									}, 200)
 								},
@@ -387,8 +390,8 @@ export const PersonalInfo = defineComponent({
 							disabled={this.props.readonly}
 						/>
 
-						{/* Блок истории адресов */}
-						{showAddressHistory && addressHistory.length > 0 && (
+						{/* Выпадающий список истории адресов */}
+						{showAddressHistoryDropdown && addressHistory.length > 0 && (
 							<div class={styles.suggestions}>
 								<div class={styles.suggestionsTitle}>История адресов:</div>
 								{addressHistory.map((address, index) => (
@@ -410,7 +413,7 @@ export const PersonalInfo = defineComponent({
 							</div>
 						)}
 
-						{/* Блок подсказок адреса */}
+						{/* Подсказки адреса */}
 						{isAddressLoading ? (
 							<div class={styles.suggestions}>
 								<div class={styles.loading}>Загрузка...</div>
