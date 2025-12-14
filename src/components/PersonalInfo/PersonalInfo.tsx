@@ -398,6 +398,7 @@ export const PersonalInfo = defineComponent({
 							disabled={this.props.readonly}
 						/>
 
+						{/* Выпадающий список истории адресов */}
 						{showAddressHistoryDropdown && addressHistory.length > 0 && (
 							<div class={styles.addressHistoryList}>
 								{addressHistory.map((address, index) => (
@@ -419,10 +420,9 @@ export const PersonalInfo = defineComponent({
 							</div>
 						)}
 
+						{/* Подсказки адреса */}
 						{isAddressLoading ? (
-							<div class={styles.suggestions}>
-								<div class={styles.loading}>Загрузка...</div>
-							</div>
+							<div class={styles.loading}>Загрузка...</div>
 						) : null}
 
 						{showAddressSuggestions && addressSuggestions.length > 0 ? (
