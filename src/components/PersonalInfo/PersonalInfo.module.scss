@@ -1,4 +1,4 @@
-.personal-info-form {
+.personalInfoForm {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -15,7 +15,7 @@
     &__input,
     &__textarea {
         width: 100%;
-        padding: 0.75rem; 
+        padding: 0.75rem;
         border: 1px solid var(--color-input-stroke);
         border-radius: var(--border-radius-large);
         font-size: 1rem;
@@ -34,22 +34,6 @@
         color: var(--color-text);
     }
 
-    &__address-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        width: 100%;
-        flex-wrap: nowrap;
-        gap: 1rem;
-    }
-
-    &__address-item {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        flex: 1;
-    }
-
     &__address-label {
         margin: 0;
         font-size: 1rem;
@@ -57,19 +41,7 @@
         white-space: nowrap;
     }
 
-    &__address-input {
-        flex: 1;
-        height: 2.75rem; 
-        width: 2.75rem;
-        border-radius: var(--border-radius-small);
-        border: 1px solid var(--color-input-stroke);
-        padding: 0 0.75rem;
-        font-size: 1rem;
-        text-align: center;
-    }
-
-     &__input_error,
-    &__address-input_error {
+    &__input_error {
         border-color: var(--color-err) !important;
     }
 
@@ -77,20 +49,64 @@
         font-size: 1rem;
         color: var(--color-err);
         display: none;
-        align-self: center;
 
         &.active {
             display: block;
         }
+    }
+}
 
-        &.inactive {
-            display: none;
-        }
+.historySection {
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.historyButton {
+    background: var(--color-light);
+    border: 1px solid var(--color-input-stroke);
+    border-radius: var(--border-radius-large);
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    
+    &:hover {
+        background: var(--color-light-hover);
+    }
+}
+
+.historyList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid var(--color-input-stroke);
+    border-radius: var(--border-radius-large);
+    margin-top: 4px;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.historyItem {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--color-input-stroke);
+    cursor: pointer;
+    
+    &:hover {
+        background: var(--color-light-hover);
+    }
+    
+    &:last-child {
+        border-bottom: none;
     }
 }
 
 .cityWrapper {
-    position: relative; 
+    position: relative;
 }
 
 .suggestions {
@@ -122,14 +138,10 @@
     &:hover {
         background-color: #f8f9fa;
     }
-
-    &:active {
-        background-color: #e9ecef;
-    }
 }
 
 .loading {
-    position: absolute; 
+    position: absolute;
     top: 100%;
     left: 0;
     right: 0;
@@ -141,4 +153,5 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     margin-top: 4px;
+    z-index: 1001;
 }
