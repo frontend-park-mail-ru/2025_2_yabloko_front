@@ -9,7 +9,7 @@ export const Carousel = defineComponent({
 		return {
 			items: [] as any[],
 			loading: false,
-			scrollPosition: 0,
+			currentIndex: 0,
 		}
 	},
 
@@ -32,20 +32,20 @@ export const Carousel = defineComponent({
 		}
 	},
 
-	scrollLeft() {
-		const container = this.refs.carousel as HTMLElement
-		if (container) {
-			container.scrollLeft -= 300
-			this.updateState({ scrollPosition: container.scrollLeft })
-		}
+	nextItem() {
+		const { items, currentIndex } = this.state
+		if (items.length === 0) return
+
+		const nextIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1
+		this.updateState({ currentIndex: nextIndex })
 	},
 
-	scrollRight() {
-		const container = this.refs.carousel as HTMLElement
-		if (container) {
-			container.scrollLeft += 300
-			this.updateState({ scrollPosition: container.scrollLeft })
-		}
+	prevItem() {
+		const { items, currentIndex } = this.state
+		if (items.length === 0) return
+
+		const prevIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1
+		this.updateState({ currentIndex: prevIndex })
 	},
 
 	handleItemClick(itemId: string, storeId: string) {
@@ -53,52 +53,62 @@ export const Carousel = defineComponent({
 	},
 
 	render() {
-		const { items, loading } = this.state
+		const { items, loading, currentIndex } = this.state
 
 		if (!loading && (!items || items.length === 0)) {
 			return <div></div>
 		}
+
+		const currentItem = items[currentIndex]
 
 		return (
 			<div class={styles.carouselContainer}>
 				<h3 class={styles.title}>Рекомендуем</h3>
 
 				<div class={styles.carouselWrapper}>
-					<button class={styles.scrollButton} onClick={() => this.scrollLeft()}>
+					<button class={styles.scrollButton} onClick={() => this.prevItem()}>
 						‹
 					</button>
 
-					<div ref="carousel" class={styles.carousel}>
+					<div class={styles.carousel}>
 						{loading ? (
 							<div class={styles.loading}>Загрузка...</div>
 						) : (
-							items.map(item => (
-								<div
-									key={item.id}
-									class={styles.item}
-									onClick={() => this.handleItemClick(item.id, item.store_id)}
-								>
-									<ProductCard
-										product={{
-											id: item.id,
-											name: item.name,
-											description: '',
-											price: item.price,
-											card_img: item.card_img,
-										}}
-									/>
-								</div>
-							))
+							<div
+								class={styles.item}
+								onClick={() =>
+									this.handleItemClick(currentItem.id, currentItem.store_id)
+								}
+							>
+								<ProductCard
+									product={{
+										id: currentItem.id,
+										name: currentItem.name,
+										description: '',
+										price: currentItem.price,
+										card_img: currentItem.card_img,
+									}}
+								/>
+							</div>
 						)}
 					</div>
 
-					<button
-						class={styles.scrollButton}
-						onClick={() => this.scrollRight()}
-					>
+					<button class={styles.scrollButton} onClick={() => this.nextItem()}>
 						›
 					</button>
 				</div>
+
+				{!loading && items.length > 1 && (
+					<div class={styles.dots}>
+						{items.map((_, index) => (
+							<button
+								key={index}
+								class={`${styles.dot} ${index === currentIndex ? styles.dotActive : ''}`}
+								onClick={() => this.updateState({ currentIndex: index })}
+							/>
+						))}
+					</div>
+				)}
 			</div>
 		)
 	},
