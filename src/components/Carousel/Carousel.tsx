@@ -10,6 +10,7 @@ export const Carousel = defineComponent({
 			items: [] as any[],
 			loading: false,
 			scrollPosition: 0,
+			hasRecommendations: true,
 		}
 	},
 
@@ -21,9 +22,16 @@ export const Carousel = defineComponent({
 		this.updateState({ loading: true })
 		try {
 			const items = await StoreApi.getRecommendedItems(5)
-			this.updateState({ items, loading: false })
+			this.updateState({
+				items,
+				loading: false,
+				hasRecommendations: items && items.length > 0,
+			})
 		} catch (error) {
-			this.updateState({ loading: false })
+			this.updateState({
+				loading: false,
+				hasRecommendations: false,
+			})
 		}
 	},
 
@@ -44,7 +52,11 @@ export const Carousel = defineComponent({
 	},
 
 	render() {
-		const { items, loading } = this.state
+		const { items, loading, hasRecommendations } = this.state
+
+		if (!loading && !hasRecommendations) {
+			return null
+		}
 
 		return (
 			<div class={styles.carouselContainer}>
@@ -58,8 +70,6 @@ export const Carousel = defineComponent({
 					<div ref="carousel" class={styles.carousel}>
 						{loading ? (
 							<div class={styles.loading}>Загрузка...</div>
-						) : items.length === 0 ? (
-							<div class={styles.empty}>Нет рекомендаций</div>
 						) : (
 							items.map(item => (
 								<div
