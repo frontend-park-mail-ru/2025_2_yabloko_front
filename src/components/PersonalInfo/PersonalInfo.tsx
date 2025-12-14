@@ -349,12 +349,18 @@ export const PersonalInfo = defineComponent({
 				<div class={styles.personalInfoForm__field}>
 					<div class={styles.addressHeader}>
 						<h3 class={styles.personalInfoForm__addressLabel}>Адрес</h3>
-						{addressHistory.length > 0 && (
+						{addressHistory.length > 0 && !this.props.readonly && (
 							<button
 								type="button"
 								class={styles.addressHistoryButton}
-								onClick={() => this.toggleAddressHistoryDropdown()}
-								disabled={this.props.readonly}
+								{...{
+									on: {
+										click: (e: Event) => {
+											e.preventDefault()
+											this.toggleAddressHistoryDropdown()
+										},
+									},
+								}}
 							>
 								История адресов
 							</button>
