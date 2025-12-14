@@ -86,7 +86,7 @@ export const Carousel = defineComponent({
 										name: currentItem.name,
 										description: '',
 										price: currentItem.price,
-										card_img: `/items/${currentItem.card_img}`,
+										card_img: `/images/items/${currentItem.card_img}`,
 									}}
 									large={true}
 								/>
