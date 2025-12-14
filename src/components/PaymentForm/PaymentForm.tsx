@@ -44,8 +44,15 @@ export const PaymentForm = defineComponent({
 		}
 	},
 	async handlePay() {
+		if (this.props.total === 0 && this.state.finalPrice === 0) {
+			return
+		}
+
 		const isNotEmpty = (await StoreApi.getUserCart()).items.length
 		if (isNotEmpty != 0) {
+			const amountToPay =
+				this.state.finalPrice === 0 ? this.props.total : this.state.finalPrice
+
 			const response = await OrderApi.createOrder(
 				false,
 				this.props.comment,
@@ -53,8 +60,7 @@ export const PaymentForm = defineComponent({
 			)
 			const payParams = {
 				order_id: response.id,
-				amount:
-					this.state.finalPrice.toString() || this.props.total.toString(),
+				amount: amountToPay.toString(),
 				currency: 'RUB',
 				description: 'Этот функциона в разработке',
 				return_url: window.location.origin + `/orders/${response.id}`,
@@ -98,7 +104,7 @@ export const PaymentForm = defineComponent({
 				<div class={styles.payment__section}>
 					<h2>Итого:</h2>
 					<div class={styles.payment__row}>
-						<div>{finalPrice || props.total} ₽</div>
+						<div>{finalPrice === 0 ? props.total : finalPrice} ₽</div>
 						<Button
 							type="button"
 							variant="success"
