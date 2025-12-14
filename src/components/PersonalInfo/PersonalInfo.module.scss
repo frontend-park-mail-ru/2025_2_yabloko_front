@@ -35,7 +35,7 @@
         color: var(--color-text);
     }
 
-    &__address-label {
+    &__addressLabel {
         margin: 0;
         font-size: 1rem;
         color: var(--color-text);
@@ -57,10 +57,11 @@
     }
 }
 
-.addressHistorySection {
-    margin-bottom: 1rem;
-    position: relative;
-    z-index: 10000;
+.addressHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
 }
 
 .addressHistoryButton {
@@ -71,8 +72,7 @@
     font-size: 0.9rem;
     color: var(--color-text);
     cursor: pointer;
-    width: 100%;
-    text-align: left;
+    transition: all 0.2s;
     
     &:hover {
         background: var(--color-light-hover);
@@ -156,44 +156,4 @@
     border-radius: 8px;
     margin-top: 4px;
     z-index: 1001;
-}
-
-.addressHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.addressHistoryButton {
-  background: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 6px 12px;
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-  transition: all 0.2s;
-  
-  &:hover {
-    background-color: #f5f5f5;
-    border-color: #999;
-  }
-  
-  &:active {
-    background-color: #e0e0e0;
-  }
-  
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-}
-
-.suggestionsTitle {
-  padding: 8px 12px;
-  font-size: 12px;
-  color: #666;
-  border-bottom: 1px solid #eee;
-  background-color: #f9f9f9;
 }

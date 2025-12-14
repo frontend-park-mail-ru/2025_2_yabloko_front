@@ -24,12 +24,12 @@ export const PersonalInfo = defineComponent({
 			cities: [] as City[],
 			isLoading: false,
 			isSaving: false,
-			showCitySuggestions: false,
+			showCitySuggestions: null as boolean | null,
 			addressSuggestions: [] as any[],
-			showAddressSuggestions: false,
+			showAddressSuggestions: null as boolean | null,
 			isAddressLoading: false,
 			addressHistory: [] as string[],
-			showAddressHistoryDropdown: false,
+			showAddressHistoryDropdown: null as boolean | null,
 		}
 	},
 
@@ -93,7 +93,7 @@ export const PersonalInfo = defineComponent({
 
 		this.updateState({
 			city: cityName,
-			showCitySuggestions: false,
+			showCitySuggestions: null,
 		})
 	},
 
@@ -106,7 +106,7 @@ export const PersonalInfo = defineComponent({
 		if (value.length < 2 || !this.state.city) {
 			this.updateState({
 				addressSuggestions: [],
-				showAddressSuggestions: false,
+				showAddressSuggestions: null,
 			})
 			return
 		}
@@ -141,7 +141,7 @@ export const PersonalInfo = defineComponent({
 		this.updateState({
 			address: suggestion.displayValue || suggestion.value,
 			addressSuggestions: [],
-			showAddressSuggestions: false,
+			showAddressSuggestions: null,
 		})
 	},
 
@@ -155,14 +155,16 @@ export const PersonalInfo = defineComponent({
 
 		this.updateState({
 			address: address,
-			showAddressHistoryDropdown: false,
+			showAddressHistoryDropdown: null,
 		})
 	},
 
 	toggleAddressHistoryDropdown() {
 		this.updateState({
-			showAddressHistoryDropdown: !this.state.showAddressHistoryDropdown,
-			showAddressSuggestions: false,
+			showAddressHistoryDropdown: this.state.showAddressHistoryDropdown
+				? null
+				: true,
+			showAddressSuggestions: null,
 		})
 	},
 
@@ -312,7 +314,7 @@ export const PersonalInfo = defineComponent({
 								focus: () => this.updateState({ showCitySuggestions: true }),
 								blur: () =>
 									setTimeout(
-										() => this.updateState({ showCitySuggestions: false }),
+										() => this.updateState({ showCitySuggestions: null }),
 										200,
 									),
 							}}
@@ -380,13 +382,13 @@ export const PersonalInfo = defineComponent({
 								focus: () => {
 									this.updateState({
 										showAddressSuggestions: true,
-										showAddressHistoryDropdown: false,
+										showAddressHistoryDropdown: null,
 									})
 								},
 								blur: () => {
 									setTimeout(() => {
 										this.updateState({
-											showAddressSuggestions: false,
+											showAddressSuggestions: null,
 										})
 									}, 200)
 								},
@@ -396,14 +398,12 @@ export const PersonalInfo = defineComponent({
 							disabled={this.props.readonly}
 						/>
 
-						{/* Выпадающий список истории адресов */}
 						{showAddressHistoryDropdown && addressHistory.length > 0 && (
-							<div class={styles.suggestions}>
-								<div class={styles.suggestionsTitle}>История адресов:</div>
+							<div class={styles.addressHistoryList}>
 								{addressHistory.map((address, index) => (
 									<div
 										key={`history-${index}`}
-										class={styles.suggestion}
+										class={styles.addressHistoryItem}
 										{...{
 											on: {
 												mousedown: (e: Event) => {
@@ -419,7 +419,6 @@ export const PersonalInfo = defineComponent({
 							</div>
 						)}
 
-						{/* Подсказки адреса */}
 						{isAddressLoading ? (
 							<div class={styles.suggestions}>
 								<div class={styles.loading}>Загрузка...</div>
