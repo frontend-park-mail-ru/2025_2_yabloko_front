@@ -86,8 +86,9 @@ export const Carousel = defineComponent({
 										name: currentItem.name,
 										description: '',
 										price: currentItem.price,
-										card_img: currentItem.card_img,
+										card_img: `/items/${currentItem.card_img}`,
 									}}
+									large={true}
 								/>
 							</div>
 						)}
@@ -97,18 +98,6 @@ export const Carousel = defineComponent({
 						›
 					</button>
 				</div>
-
-				{!loading && items.length > 1 && (
-					<div class={styles.dots}>
-						{items.map((_, index) => (
-							<button
-								key={index}
-								class={`${styles.dot} ${index === currentIndex ? styles.dotActive : ''}`}
-								onClick={() => this.updateState({ currentIndex: index })}
-							/>
-						))}
-					</div>
-				)}
 			</div>
 		)
 	},
