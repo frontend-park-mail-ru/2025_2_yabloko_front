@@ -1,9 +1,9 @@
 import { defineComponent } from '@antiquemouse/framework'
+import { addToCart } from '../../modules/cartManager'
 import { navigate } from '../../modules/router'
 import { StoreApi } from '../../modules/storeApi'
 import { ProductCard } from '../ProductCard/ProductCard'
 import styles from './Carousel.module.scss'
-import { addToCart } from '../../modules/cartManager'
 
 export const Carousel = defineComponent({
 	state() {
@@ -23,7 +23,7 @@ export const Carousel = defineComponent({
 		try {
 			const items = await StoreApi.getRecommendedItems(5)
 			this.updateState({
-				items,
+				items: items || [],
 				loading: false,
 			})
 		} catch (error) {
@@ -36,20 +36,14 @@ export const Carousel = defineComponent({
 	nextItem() {
 		const { items, currentIndex } = this.state
 		if (items.length === 0) return
-		console.log('Next item, current:', currentIndex, 'total:', items.length)
-
 		const nextIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1
-		console.log('Next index:', nextIndex)
 		this.updateState({ currentIndex: nextIndex })
 	},
 
 	prevItem() {
 		const { items, currentIndex } = this.state
 		if (items.length === 0) return
-		console.log('Prev item, current:', currentIndex, 'total:', items.length)
-
 		const prevIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1
-		console.log('Prev index:', prevIndex)
 		this.updateState({ currentIndex: prevIndex })
 	},
 
@@ -57,22 +51,14 @@ export const Carousel = defineComponent({
 		navigate(`/store/${storeId}`)
 	},
 
-    
 	render() {
 		const { items, loading, currentIndex } = this.state
-		console.log(
-			'Render carousel, currentIndex:',
-			currentIndex,
-			'items:',
-			items.length,
-		)
 
 		if (!loading && (!items || items.length === 0)) {
 			return <div></div>
 		}
 
 		const currentItem = items[currentIndex]
-		console.log('Current item:', currentItem?.name)
 
 		return (
 			<div class={styles.carouselContainer}>
@@ -81,14 +67,10 @@ export const Carousel = defineComponent({
 				<div class={styles.wrapper}>
 					<button
 						class={`${styles.button} ${styles.buttonLeft}`}
-						{...{
-							on: {
-								click: (e: Event) => {
-									e.preventDefault()
-									e.stopPropagation()
-									this.prevItem()
-								},
-							},
+						onClick={(e: Event) => {
+							e.preventDefault()
+							e.stopPropagation()
+							this.prevItem()
 						}}
 					>
 						‹
@@ -100,15 +82,9 @@ export const Carousel = defineComponent({
 						) : currentItem ? (
 							<div
 								class={styles.item}
-								{...{
-									on: {
-										click: () =>
-											this.handleItemClick(
-												currentItem.id,
-												currentItem.store_id,
-											),
-									},
-								}}
+								onClick={() =>
+									this.handleItemClick(currentItem.id, currentItem.store_id)
+								}
 							>
 								<ProductCard
 									product={{
@@ -116,7 +92,7 @@ export const Carousel = defineComponent({
 										name: currentItem.name,
 										description: '',
 										price: currentItem.price,
-										card_img: `/images/items/${currentItem.card_img}`,
+										card_img: currentItem.card_img,
 									}}
 									onAddToCart={() => {
 										addToCart({
@@ -138,14 +114,10 @@ export const Carousel = defineComponent({
 
 					<button
 						class={`${styles.button} ${styles.buttonRight}`}
-						{...{
-							on: {
-								click: (e: Event) => {
-									e.preventDefault()
-									e.stopPropagation()
-									this.nextItem()
-								},
-							},
+						onClick={(e: Event) => {
+							e.preventDefault()
+							e.stopPropagation()
+							this.nextItem()
 						}}
 					>
 						›
