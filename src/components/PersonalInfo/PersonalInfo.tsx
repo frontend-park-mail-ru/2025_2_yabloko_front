@@ -351,7 +351,7 @@ export const PersonalInfo = defineComponent({
 				<div class={styles.personalInfoForm__field}>
 					<div class={styles.addressHeader}>
 						<h3 class={styles.personalInfoForm__addressLabel}>Адрес</h3>
-						{addressHistory.length > 0 && !this.props.readonly && (
+						{addressHistory.length > 0 && !this.props.readonly ? (
 							<button
 								type="button"
 								class={styles.addressHistoryButton}
@@ -366,7 +366,7 @@ export const PersonalInfo = defineComponent({
 							>
 								История адресов
 							</button>
-						)}
+						) : null}
 					</div>
 
 					<div class={styles.cityWrapper}>
@@ -398,8 +398,7 @@ export const PersonalInfo = defineComponent({
 							disabled={this.props.readonly}
 						/>
 
-						{/* Выпадающий список истории адресов */}
-						{showAddressHistoryDropdown && addressHistory.length > 0 && (
+						{showAddressHistoryDropdown && addressHistory.length > 0 ? (
 							<div class={styles.addressHistoryList}>
 								{addressHistory.map((address, index) => (
 									<div
@@ -418,9 +417,8 @@ export const PersonalInfo = defineComponent({
 									</div>
 								))}
 							</div>
-						)}
+						) : null}
 
-						{/* Подсказки адреса */}
 						{isAddressLoading ? (
 							<div class={styles.loading}>Загрузка...</div>
 						) : null}
