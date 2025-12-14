@@ -272,9 +272,12 @@ export class StoreApi {
 	 */
 	static async getRecommendedItems(
 		limit: number = 10,
-	): Promise<RecommendationsResponse> {
+	): Promise<Recommendation[]> {
 		const response = await API.get('RECS', `/recommend/home?limit=${limit}`)
-		return response.body || []
+
+		// response.body = {items: [...]}, нужно извлечь items
+		const data = response.body as RecommendationsResponse
+		return data?.items || []
 	}
 
 	/**
