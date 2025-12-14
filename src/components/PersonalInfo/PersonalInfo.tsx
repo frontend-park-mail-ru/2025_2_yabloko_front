@@ -28,6 +28,8 @@ export const PersonalInfo = defineComponent({
 			addressSuggestions: [] as any[],
 			showAddressSuggestions: false,
 			isAddressLoading: false,
+			addressesHistory: [] as string[],
+			showHistorySuggestions: false,
 		}
 	},
 
@@ -64,6 +66,9 @@ export const PersonalInfo = defineComponent({
 					fullName: profile.name || '',
 					city: city ? city.name : '',
 					address: profile.address || '',
+					addressesHistory: Array.isArray(profile.addresses_history)
+						? [...profile.addresses_history]
+						: [],
 				})
 			}
 		} catch (error) {
@@ -91,6 +96,37 @@ export const PersonalInfo = defineComponent({
 		this.updateState({
 			city: cityName,
 			showCitySuggestions: false,
+		})
+	},
+
+	getHistorySuggestions() {
+		if (!this.state.historyAddressInput)
+			return this.state.addressesHistory.slice(0, 5)
+		const query = this.state.historyAddressInput.toLowerCase()
+		return this.state.addressesHistory
+			.filter(addr => addr.toLowerCase().includes(query))
+			.filter((v, i, a) => a.indexOf(v) === i)
+			.slice(0, 5)
+	},
+
+	handleHistoryAddressInput(value: string) {
+		this.updateState({
+			historyAddressInput: value,
+			showHistorySuggestions: true,
+		})
+	},
+
+	handleHistorySelect(addressValue: string) {
+		const input = document.querySelector(
+			`.${styles.personalInfoForm__input}[placeholder="Выберите из истории"]`,
+		) as HTMLInputElement
+		if (input) {
+			input.value = addressValue
+		}
+		this.updateState({
+			address: addressValue,
+			historyAddressInput: addressValue,
+			showHistorySuggestions: false,
 		})
 	},
 
@@ -227,9 +263,11 @@ export const PersonalInfo = defineComponent({
 			addressSuggestions,
 			showAddressSuggestions,
 			isAddressLoading,
+			addressesHistory,
+			showHistorySuggestions,
 		} = this.state
 		const citySuggestions = this.getCitySuggestions()
-
+		const historySuggestions = this.getHistorySuggestions()
 
 		return (
 			<div class={styles.personalInfoForm}>
@@ -292,12 +330,10 @@ export const PersonalInfo = defineComponent({
 									<div
 										key={city.id}
 										class={styles.suggestion}
-										{...{
-											on: {
-												mousedown: (e: Event) => {
-													e.preventDefault()
-													this.handleCitySelect(city.name)
-												},
+										on={{
+											mousedown: (e: Event) => {
+												e.preventDefault()
+												this.handleCitySelect(city.name)
 											},
 										}}
 									>
@@ -340,13 +376,10 @@ export const PersonalInfo = defineComponent({
 									<div
 										key={index}
 										class={styles.suggestion}
-										{...{
-											on: {
-												mousedown: (e: Event) => {
-													console.log(suggestion)
-													e.preventDefault()
-													this.handleAddressSelect(suggestion)
-												},
+										on={{
+											mousedown: (e: Event) => {
+												e.preventDefault()
+												this.handleAddressSelect(suggestion)
 											},
 										}}
 									>
@@ -360,6 +393,51 @@ export const PersonalInfo = defineComponent({
 						<div class={styles.personalInfoForm__error}>{errors.address}</div>
 					) : null}
 				</div>
+
+				{addressesHistory.length > 0 && !this.props.readonly ? (
+					<div class={styles.personalInfoForm__field}>
+						<h3 class={styles.personalInfoForm__addressLabel}>
+							Или выберите из истории
+						</h3>
+						<div class={styles.cityWrapper}>
+							<input
+								type="text"
+								placeholder="Выберите из истории"
+								value={this.state.historyAddressInput || ''}
+								on={{
+									input: (e: Event) => {
+										const value = (e.target as HTMLInputElement).value
+										this.handleHistoryAddressInput(value)
+									},
+									focus: () =>
+										this.updateState({ showHistorySuggestions: true }),
+									blur: () =>
+										this.updateState({ showHistorySuggestions: false }),
+								}}
+								class={styles.personalInfoForm__input}
+								disabled={this.props.readonly}
+							/>
+							{showHistorySuggestions && historySuggestions.length > 0 ? (
+								<div class={styles.suggestions}>
+									{historySuggestions.map((addr, index) => (
+										<div
+											key={`${addr}-${index}`}
+											class={styles.suggestion}
+											on={{
+												mousedown: (e: Event) => {
+													e.preventDefault()
+													this.handleHistorySelect(addr)
+												},
+											}}
+										>
+											{addr}
+										</div>
+									))}
+								</div>
+							) : null}
+						</div>
+					</div>
+				) : null}
 
 				<div class={styles.personalInfoForm__field}>
 					<textarea
