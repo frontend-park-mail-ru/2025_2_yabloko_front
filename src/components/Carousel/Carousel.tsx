@@ -116,15 +116,18 @@ export const Carousel = defineComponent({
 										price: currentItem.price,
 										card_img: `/images/items/${currentItem.card_img}`,
 									}}
-									onAddToCart={() => {
-										addToCart({
-											id: currentItem.id,
-											name: currentItem.name,
-											price: currentItem.price,
-											quantity: 1,
-											card_img: `/images/items/${currentItem.card_img}`,
-											options: [],
-										})
+									onAddToCart={(productId: string) => {
+										const itemToAdd = items.find(item => item.id === productId)
+										if (itemToAdd) {
+											addToCart({
+												id: itemToAdd.id,
+												name: itemToAdd.name,
+												price: itemToAdd.price,
+												quantity: 1,
+												card_img: itemToAdd.card_img,
+												options: [],
+											})
+										}
 									}}
 									large={true}
 								/>
