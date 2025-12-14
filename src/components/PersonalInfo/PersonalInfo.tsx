@@ -276,9 +276,10 @@ export const PersonalInfo = defineComponent({
 						<button
 							type="button"
 							class={styles.addressHistoryButton}
-							onClick={() =>
+							{... {on: {click :() =>
 								this.updateState({ showAddressHistory: !showAddressHistory })
 							}
+						}}
 						>
 							{showAddressHistory
 								? 'Скрыть историю адресов'
