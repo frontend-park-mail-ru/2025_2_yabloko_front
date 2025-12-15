@@ -104,7 +104,7 @@ export class OrderApi {
 		queryParams.append('return_url', params.return_url)
 		if (params.price) queryParams.append('price', params.price)
 
-		const url = `https://89.208.208.203:8084/api/v0/fake-payment?${queryParams.toString()}`
+		const url = `https://no.noideas.ru/api/v0/fake-payment?${queryParams.toString()}`
 		window.location.href = url
 	}
 

@@ -10,12 +10,12 @@ export interface APIresponse {
 
 export class API {
 	public static readonly SERVICES = {
-		AUTH: 'https://89.208.208.203/api/v0',
-		PROFILE: 'https://89.208.208.203/api/v0',
-		STORE: 'https://89.208.208.203/api/v0',
-		ORDER: 'https://89.208.208.203/api/v0',
-		RECS: 'https://89.208.208.203/api/v0',
-		PICS: 'https://89.208.208.203',
+		AUTH: 'https://no.noideas.ru/api/v0',
+		PROFILE: 'https://no.noideas.ru/api/v0',
+		STORE: 'https://no.noideas.ru/api/v0',
+		ORDER: 'https://no.noideas.ru/api/v0',
+		RECS: 'https://no.noideas.ru/api/v0',
+		PICS: 'https://no.noideas.ru',
 	}
 
 	private static csrfRequest: Promise<string> | null = null
