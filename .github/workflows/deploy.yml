@@ -22,6 +22,7 @@ jobs:
                       sudo npm i
                       sudo npm run bundle
                       cd ~/2025_2_Yabloko
+                      docker rm -f nginx
                       docker compose up -d --build nginx
 
             - name: Send Telegram notification
