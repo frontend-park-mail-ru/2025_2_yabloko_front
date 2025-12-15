@@ -1,4 +1,5 @@
 const path = require('path')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const stringReplaceLoader = {
 	loader: 'string-replace-loader',
@@ -66,8 +67,6 @@ const resolveScripts = {
 const distPath = path.resolve(__dirname, 'dist')
 const mode = process.env.PRODUCTION == 'true' ? 'production' : 'development'
 
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-
 module.exports = [
 	{
 		mode,
@@ -78,6 +77,7 @@ module.exports = [
 		output: {
 			filename: 'bundle.js',
 			path: distPath,
+			clean: true,
 		},
 		plugins: [
 			new CopyWebpackPlugin({
