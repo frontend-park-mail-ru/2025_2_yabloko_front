@@ -78,7 +78,7 @@ module.exports = [
 		output: {
 			filename: 'bundle.js',
 			path: distPath,
-			clean: true,
+			clean: false,
 		},
 		plugins: [
 			new HtmlWebpackPlugin({
