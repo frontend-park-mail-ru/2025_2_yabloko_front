@@ -11,8 +11,8 @@ app.use(express.static(DIST_DIR))
 app.use('/static', express.static(path.join(__dirname, '..', 'public')))
 app.use('/dist', express.static(path.join(__dirname, '..', 'dist')))
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(DIST_DIR, 'index.html'))
+app.use((req, res) => {
+	res.sendFile(path.join(DIST_DIR, 'index.html'))
 })
 
 const PORT = 3000
