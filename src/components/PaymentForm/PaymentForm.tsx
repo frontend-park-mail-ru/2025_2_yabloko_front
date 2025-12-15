@@ -43,6 +43,7 @@ export const PaymentForm = defineComponent({
 			})
 		}
 	},
+
 	async handlePay() {
 		if (this.props.total === 0 && this.state.finalPrice === 0) {
 			return
@@ -62,7 +63,7 @@ export const PaymentForm = defineComponent({
 				order_id: response.id,
 				amount: amountToPay.toString(),
 				currency: 'RUB',
-				description: 'Этот функциона в разработке',
+				description: 'Этот функционал в разработке',
 				return_url: window.location.origin + `/orders/${response.id}`,
 			}
 			await OrderApi.yooKassaPayment(payParams)
