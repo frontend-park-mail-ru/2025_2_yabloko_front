@@ -19,9 +19,10 @@ jobs:
                   script: |
                       cd ~/2025_2_yabloko_front
                       sudo git pull origin feature/history
-                      npm i
-                      docker compose up -d --build
-                      docker restart nginx
+                      sudo npm i
+                      sudo npm run bundle
+                      cd ~/2025_2_Yabloko
+                      docker compose up -d --build nginx
 
             - name: Send Telegram notification
               uses: appleboy/telegram-action@master
