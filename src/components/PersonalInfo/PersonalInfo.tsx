@@ -61,18 +61,27 @@ export const PersonalInfo = defineComponent({
 				const profile = response.body
 				const city = this.state.cities.find(c => c.id === profile.city_id)
 
+				const addressHistory = profile.addresses_history || []
+				const uniqueAddresses = addressHistory
+					.reverse()
+					.filter((address: string, index: number, arr: string[]) =>
+						arr.indexOf(address) === index
+					)
+					.reverse()
+
 				this.updateState({
 					email: profile.email || '',
 					fullName: profile.name || '',
 					city: city ? city.name : '',
 					address: profile.address || '',
-					addressHistory: profile.addresses_history || [],
+					addressHistory: uniqueAddresses,
 				})
 			}
 		} catch (error) {
 			console.error(error)
 		}
 	},
+
 
 	getCitySuggestions() {
 		if (!this.state.city) return []
@@ -432,7 +441,6 @@ export const PersonalInfo = defineComponent({
 										{...{
 											on: {
 												mousedown: (e: Event) => {
-													console.log(suggestion)
 													e.preventDefault()
 													this.handleAddressSelect(suggestion)
 												},
