@@ -1,72 +1,73 @@
-.store-info {
-	position: relative;
-	width: 100%;
-	height: 20rem;
-	background: var(--color-light);
-	border-radius: var(--border-radius-large);
-	box-shadow: var(--shadow);
-	overflow: hidden;
-
-	&__image-wrapper {
+.storeInfo {
+	&__imageWrapper {
 		position: relative;
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
+		display: flex;
+		flex-direction: column;
 	}
 
 	&__image {
 		width: 100%;
-		height: 100%;
+		height: 200px;
 		object-fit: cover;
-		display: block;
+		border-radius: var(--border-radius-large);
+		margin-bottom: 1rem;
 	}
 
-	&--primary {
-		position: absolute;
-		top: 1.5rem;
-		left: 1.5rem;
-		color: var(--color-light);
-		background: rgba(0, 0, 0, 0.6);
-		padding: 0.5rem 1.5rem;
-		border-radius: var(--border-radius-small);
+	.storeInfoPrimary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 1rem;
 	}
 
 	&__title {
 		margin: 0;
 		font-size: 1.5rem;
-		font-weight: 700;
-		line-height: 1.2;
-		display: inline;
+		color: var(--color-text);
+	}
+
+	&__ratingContainer {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
 	}
 
 	&__rating {
-		font-size: 1.1rem;
+		font-size: 1rem;
+		color: var(--color-primary);
 		font-weight: 600;
-		display: inline;
-		margin-left: 0.5rem;
 	}
 
-	&--secondary {
-		position: absolute;
-		bottom: 1.5rem;
-		left: 1.5rem;
-		color: var(--color-light);
-		background: rgba(0, 0, 0, 0.6);
-		padding: 0.5rem 1.5rem;
-		border-radius: var(--border-radius-small);
-		max-width: 80%;
+	&__reviewsButton {
+		background: var(--color-light);
+		border: 1px solid var(--color-input-stroke);
+		border-radius: var(--border-radius-large);
+		padding: 0.5rem 1rem;
+		font-size: 0.9rem;
+		color: var(--color-text);
+		cursor: pointer;
+		transition: all 0.2s;
+
+		&:hover {
+			background: var(--color-light-hover);
+			border-color: var(--color-primary);
+			color: var(--color-primary);
+		}
+	}
+
+	.storeInfoSecondary {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
 	}
 
 	&__detail {
-		font-size: 0.95rem;
-		line-height: 1.4;
-		margin: 0.25rem 0;
+		font-size: 0.9rem;
+		color: var(--color-text);
 
-		&strong {
-		color: var(--color-light);
-		font-weight: 600;
-	}
-
+		strong {
+			color: var(--color-text);
+			font-weight: 600;
+		}
 	}
 }
-
