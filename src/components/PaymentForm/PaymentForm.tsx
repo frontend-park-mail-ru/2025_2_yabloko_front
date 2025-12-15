@@ -7,14 +7,12 @@ import styles from './PaymentForm.module.scss'
 interface PaymentFormProps {
 	total: number
 	promoCode: string
-	isFast: boolean
 	comment: string
 	onPromoChange: (code: string) => void
 }
 
 interface PaymentFormState {
 	finalPrice: number
-	basePrice: number
 }
 
 export const PaymentForm = defineComponent({
@@ -23,18 +21,11 @@ export const PaymentForm = defineComponent({
 	state(): PaymentFormState {
 		return {
 			finalPrice: 0,
-			basePrice: 0,
 		}
 	},
 
 	async onMounted() {
-		const basePrice = this.props.total
-		const priceWithFast = this.props.isFast ? basePrice + 100 : basePrice
-
-		this.updateState({
-			finalPrice: priceWithFast,
-			basePrice: priceWithFast,
-		})
+		this.updateState({ finalPrice: this.props.total })
 	},
 
 	async handlePromo() {
@@ -42,29 +33,26 @@ export const PaymentForm = defineComponent({
 		const relativeDiscount = Number(discount.relativeDiscount)
 		const absoluteDiscount = Number(discount.absoluteDiscount)
 
-		let discountedPrice = this.state.basePrice
-
 		if (absoluteDiscount != 0) {
-			discountedPrice = this.state.basePrice - absoluteDiscount
+			this.updateState({
+				finalPrice: this.props.total - absoluteDiscount,
+			})
 		} else if (relativeDiscount != 0) {
-			discountedPrice = this.state.basePrice * (1 - relativeDiscount / 100)
+			this.updateState({
+				finalPrice: this.props.total * (1 - relativeDiscount / 100),
+			})
 		}
-
-		this.updateState({
-			finalPrice: discountedPrice,
-		})
 	},
-
 	async handlePay() {
-		const amountToPay =
-			this.state.finalPrice === 0 ? this.state.basePrice : this.state.finalPrice
-
-		if (amountToPay === 0) {
+		if (this.props.total === 0 && this.state.finalPrice === 0) {
 			return
 		}
 
 		const isNotEmpty = (await StoreApi.getUserCart()).items.length
 		if (isNotEmpty != 0) {
+			const amountToPay =
+				this.state.finalPrice === 0 ? this.props.total : this.state.finalPrice
+
 			const response = await OrderApi.createOrder(
 				false,
 				this.props.comment,
@@ -74,7 +62,7 @@ export const PaymentForm = defineComponent({
 				order_id: response.id,
 				amount: amountToPay.toString(),
 				currency: 'RUB',
-				description: 'Этот функционал в разработке',
+				description: 'Этот функциона в разработке',
 				return_url: window.location.origin + `/orders/${response.id}`,
 			}
 			await OrderApi.yooKassaPayment(payParams)
@@ -83,7 +71,7 @@ export const PaymentForm = defineComponent({
 
 	render() {
 		const props = this.props as PaymentFormProps
-		const { finalPrice, basePrice } = this.state
+		const { finalPrice } = this.state
 
 		const handlePromoInput = (e: Event) => {
 			props.onPromoChange((e.target as HTMLInputElement).value)
@@ -115,18 +103,8 @@ export const PaymentForm = defineComponent({
 
 				<div class={styles.payment__section}>
 					<h2>Итого:</h2>
-					<div class={styles.payment__details}>
-						{props.isFast ? (
-							<div class={styles.payment__fastDelivery}>
-								<div>Быстрая доставка: +100 ₽</div>
-								<div>Базовая сумма: {props.total} ₽</div>
-							</div>
-						) : null}
-					</div>
 					<div class={styles.payment__row}>
-						<div class={styles.payment__total}>
-							{finalPrice === 0 ? basePrice : finalPrice} ₽
-						</div>
+						<div>{finalPrice === 0 ? props.total : finalPrice} ₽</div>
 						<Button
 							type="button"
 							variant="success"
