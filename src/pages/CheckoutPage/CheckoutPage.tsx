@@ -114,8 +114,8 @@ export const CheckoutPage = defineComponent({
 					<h1>Оформление заказа</h1>
 					<div class={styles.checkoutPage__form}>
 						<form on={{ submit: (e: Event) => this.handleSubmit(e) }}>
-							<h2>Условия доставки</h2>
-							<div class={styles.checkoutPage__conditional}>
+							<h2>Контактные данные</h2>
+							{/* <div class={styles.checkoutPage__conditional}>
 								<div class={styles.checkoutPage__conditional}>
 									<Button
 										type="button"
@@ -130,7 +130,7 @@ export const CheckoutPage = defineComponent({
 										onClick={() => this.updateState({ isFast: true })}
 									/>
 								</div>
-							</div>
+							</div> */}
 							<PersonalInfo readonly={true} />
 						</form>
 
