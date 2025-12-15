@@ -178,6 +178,7 @@ export const CheckoutPage = defineComponent({
 
 							<PaymentForm
 								total={total}
+								isFast={this.state.isFast}
 								promoCode={this.state.promoCode}
 								onPromoChange={code => this.updateState({ promoCode: code })}
 								onApplyPromo={() => {}}
