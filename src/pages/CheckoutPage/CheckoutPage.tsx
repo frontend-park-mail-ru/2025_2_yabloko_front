@@ -116,34 +116,20 @@ export const CheckoutPage = defineComponent({
 						<form on={{ submit: (e: Event) => this.handleSubmit(e) }}>
 							<h2>Условия доставки</h2>
 							<div class={styles.checkoutPage__conditional}>
-								<Button
-									type="button"
-									variant="accent"
-									text="Стандарт 0₽"
-									{...{
-										on: {
-											click(e: Event) {
-												e.stopPropagation()
-												e.preventDefault()
-												this.updateState({ isFast: false })
-											},
-										},
-									}}
-								/>
-								<Button
-									type="button"
-									variant="success"
-									text="Быстро 100₽"
-									{...{
-										on: {
-											click(e: Event) {
-												e.stopPropagation()
-												e.preventDefault()
-												this.updateState({ isFast: true })
-											},
-										},
-									}}
-								/>
+								<div class={styles.checkoutPage__conditional}>
+									<Button
+										type="button"
+										variant={!this.state.isFast ? 'accent' : 'secondary'}
+										text="Стандарт 0₽"
+										onClick={() => this.updateState({ isFast: false })}
+									/>
+									<Button
+										type="button"
+										variant={this.state.isFast ? 'success' : 'secondary'}
+										text="Быстро 100₽"
+										onClick={() => this.updateState({ isFast: true })}
+									/>
+								</div>
 							</div>
 							<PersonalInfo readonly={true} />
 						</form>
