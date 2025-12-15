@@ -99,4 +99,14 @@ module.exports = [
 			}),
 		],
 	},
+	{
+		mode,
+		entry: './sw.ts',
+		module: webpackModule,
+		resolve: resolveScripts,
+		output: {
+			filename: 'sw.js',
+			path: distPath,
+		},
+	},
 ]
