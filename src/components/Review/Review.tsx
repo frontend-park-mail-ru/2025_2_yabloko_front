@@ -55,7 +55,7 @@ export const Review = defineComponent({
 		try {
 			await StoreApi.addReview(
 				this.props.storeId,
-				this.state.newRating.toString(), 
+				this.state.newRating, 
 				this.state.newReview,
 			)
 
