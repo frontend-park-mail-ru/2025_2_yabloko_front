@@ -119,7 +119,6 @@ export const CheckoutPage = defineComponent({
 								<Button
 									type="button"
 									variant="accent"
-									disabled={true}
 									text="Стандарт 0₽"
 									{...{
 										on: {
@@ -134,7 +133,6 @@ export const CheckoutPage = defineComponent({
 								<Button
 									type="button"
 									variant="success"
-									disabled={true}
 									text="Быстро 100₽"
 									{...{
 										on: {
