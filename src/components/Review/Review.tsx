@@ -1,4 +1,5 @@
 import { defineComponent } from '@antiquemouse/framework'
+import { StoreApi } from '../../modules/storeApi'
 import styles from './Review.module.scss'
 
 interface ReviewProps {
@@ -14,7 +15,7 @@ export const Review = defineComponent({
 		return {
 			reviews: [] as any[],
 			newReview: '',
-			newRating: 5,
+			newRating: '5',
 			isLoading: false,
 			isSubmitting: false,
 			error: '',
@@ -28,14 +29,12 @@ export const Review = defineComponent({
 	async loadReviews() {
 		this.updateState({ isLoading: true })
 		try {
-			// Здесь будет API запрос для получения отзывов
-			// const response = await StoreApi.getReviews(this.props.storeId)
-			// this.updateState({ reviews: response })
-
-			// Заглушка для примера
+			// Правильный вызов API с использованием this.props
+			const reviews = await StoreApi.getReviews(this.props.storeId)
 			this.updateState({
-				reviews: [],
+				reviews: reviews || [],
 				isLoading: false,
+				error: '',
 			})
 		} catch (error) {
 			console.error(error)
@@ -49,20 +48,20 @@ export const Review = defineComponent({
 	async handleSubmitReview() {
 		if (!this.state.newReview.trim()) return
 
-		this.updateState({ isSubmitting: true })
+		this.updateState({ isSubmitting: true, error: '' })
 		try {
-			// Здесь будет API запрос для отправки отзыва
-			// await StoreApi.submitReview({
-			//     storeId: this.props.storeId,
-			//     rating: this.state.newRating,
-			//     comment: this.state.newReview
-			// })
+			// Отправка отзыва через API
+			await StoreApi.addReview(
+				this.props.storeId,
+				this.state.newRating,
+				this.state.newReview,
+			)
 
 			// Обновляем список отзывов
 			await this.loadReviews()
 			this.updateState({
 				newReview: '',
-				newRating: 5,
+				newRating: '5',
 				isSubmitting: false,
 			})
 		} catch (error) {
@@ -121,10 +120,11 @@ export const Review = defineComponent({
 										<button
 											key={star}
 											type="button"
-											class={`${styles.star} ${star <= newRating ? styles.star_active : ''}`}
+											class={`${styles.star} ${star <= parseInt(newRating) ? styles.star_active : ''}`}
 											{...{
 												on: {
-													click: () => this.updateState({ newRating: star }),
+													click: () =>
+														this.updateState({ newRating: star.toString() }),
 												},
 											}}
 										>
@@ -158,6 +158,7 @@ export const Review = defineComponent({
 							>
 								{isSubmitting ? 'Отправка...' : 'Отправить отзыв'}
 							</button>
+							{error ? <div class={styles.formError}>{error}</div> : null}
 						</div>
 
 						<div class={styles.reviewsList}>
@@ -182,11 +183,15 @@ export const Review = defineComponent({
 													{review.user_name || 'Анонимный пользователь'}
 												</div>
 												<div class={styles.review__rating}>
-													{'★'.repeat(review.rating)}
-													{'☆'.repeat(5 - review.rating)}
+													{'★'.repeat(parseInt(review.rating))}
+													{'☆'.repeat(5 - parseInt(review.rating))}
 												</div>
 												<div class={styles.review__date}>
-													{new Date(review.created_at).toLocaleDateString()}
+													{review.created_at
+														? new Date(review.created_at).toLocaleDateString(
+																'ru-RU',
+															)
+														: ''}
 												</div>
 											</div>
 											<div class={styles.review__comment}>{review.comment}</div>

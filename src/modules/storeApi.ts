@@ -126,6 +126,11 @@ export interface RecommendationsResponse {
 	items: Recommendation[]
 }
 
+export interface Review {
+	rating: string,
+	comment: string,
+}
+
 
 export class StoreApi {
 	/**
@@ -278,6 +283,25 @@ export class StoreApi {
 		// response.body = {items: [...]}, нужно извлечь items
 		const data = response.body as RecommendationsResponse
 		return data?.items || []
+	}
+
+	/**
+	 * Получить список категорий
+	 */
+	static async getReviews(storeId: string): Promise<Review[]> {
+		const response = await API.get('STORE', `/stores/${storeId}/reviews`)
+		return response.body ?? []
+	}
+
+	/**
+	 * Получить рекомендованные товары
+	 */
+	static async addReview(storeId: string, rating: string, comment: string): Promise<void> {
+		const response = await API.post('STORE', `/stores/${storeId}/reviews/add`, {
+			rating,
+			comment,
+		})
+
 	}
 
 	/**
