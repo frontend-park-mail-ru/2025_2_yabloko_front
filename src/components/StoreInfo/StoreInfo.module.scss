@@ -1,29 +1,34 @@
 .storeInfo {
 	&__imageWrapper {
 		position: relative;
-		display: flex;
-		flex-direction: column;
+		width: 100%;
+		border-radius: var(--border-radius-large);
+		overflow: hidden;
 	}
 
 	&__image {
 		width: 100%;
 		height: 200px;
 		object-fit: cover;
-		border-radius: var(--border-radius-large);
-		margin-bottom: 1rem;
 	}
 
 	.storeInfoPrimary {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		padding: 1rem;
+		background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		justify-content: space-between;
-		margin-bottom: 1rem;
 	}
 
 	&__title {
 		margin: 0;
 		font-size: 1.5rem;
-		color: var(--color-text);
+		color: white;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 	}
 
 	&__ratingContainer {
@@ -34,39 +39,48 @@
 
 	&__rating {
 		font-size: 1rem;
-		color: var(--color-primary);
+		color: white;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 		font-weight: 600;
 	}
 
 	&__reviewsButton {
-		background: var(--color-light);
-		border: 1px solid var(--color-input-stroke);
+		background: rgba(255, 255, 255, 0.9);
+		border: none;
 		border-radius: var(--border-radius-large);
-		padding: 0.5rem 1rem;
+		padding: 0.4rem 0.8rem;
 		font-size: 0.9rem;
 		color: var(--color-text);
 		cursor: pointer;
 		transition: all 0.2s;
+		font-weight: 500;
 
 		&:hover {
-			background: var(--color-light-hover);
-			border-color: var(--color-primary);
+			background: white;
 			color: var(--color-primary);
+			transform: translateY(-1px);
 		}
 	}
 
 	.storeInfoSecondary {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		padding: 1rem;
+		background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
+		gap: 0.25rem;
 	}
 
 	&__detail {
 		font-size: 0.9rem;
-		color: var(--color-text);
+		color: white;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 
 		strong {
-			color: var(--color-text);
+			color: white;
 			font-weight: 600;
 		}
 	}
