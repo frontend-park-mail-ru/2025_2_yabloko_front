@@ -89,11 +89,11 @@ module.exports = [
 				patterns: [
 					{
 						from: 'public/icons',
-						to: 'icons',
+						to: 'static/icons',
 					},
 					{
 						from: 'public/images',
-						to: 'images',
+						to: 'static/images',
 					},
 				],
 			}),
