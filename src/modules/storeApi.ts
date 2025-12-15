@@ -296,7 +296,7 @@ export class StoreApi {
 	/**
 	 * Получить рекомендованные товары
 	 */
-	static async addReview(storeId: string, rating: string, comment: string): Promise<void> {
+	static async addReview(storeId: string, rating: number, comment: string): Promise<void> {
 		const response = await API.post('STORE', `/stores/${storeId}/reviews/add`, {
 			rating,
 			comment,

@@ -15,10 +15,11 @@ export const Review = defineComponent({
 		return {
 			reviews: [] as any[],
 			newReview: '',
-			newRating: '5',
+			newRating: 5,
 			isLoading: false,
 			isSubmitting: false,
 			error: '',
+			formError: '',
 		}
 	},
 
@@ -39,35 +40,36 @@ export const Review = defineComponent({
 			console.error(error)
 			this.updateState({
 				isLoading: false,
-				error: 'Не удалось загрузить отзывы',
+				error: 'Не удалось загрузить отзывов',
 			})
 		}
 	},
 
 	async handleSubmitReview() {
-		if (!this.state.newReview.trim()) return
+		if (!this.state.newReview.trim()) {
+			this.updateState({ formError: 'Введите текст отзыва' })
+			return
+		}
 
-		this.updateState({ isSubmitting: true, error: '' })
+		this.updateState({ isSubmitting: true, formError: '' })
 		try {
-			// Отправка отзыва через API
 			await StoreApi.addReview(
 				this.props.storeId,
-				this.state.newRating,
+				this.state.newRating.toString(), 
 				this.state.newReview,
 			)
 
-			// Обновляем список отзывов
 			await this.loadReviews()
 			this.updateState({
 				newReview: '',
-				newRating: '5',
+				newRating: 5,
 				isSubmitting: false,
 			})
 		} catch (error) {
 			console.error(error)
 			this.updateState({
 				isSubmitting: false,
-				error: 'Не удалось отправить отзыв',
+				formError: 'Не удалось отправить отзыв',
 			})
 		}
 	},
@@ -80,8 +82,15 @@ export const Review = defineComponent({
 
 	render() {
 		const props = this.props as ReviewProps
-		const { reviews, newReview, newRating, isLoading, isSubmitting, error } =
-			this.state
+		const {
+			reviews,
+			newReview,
+			newRating,
+			isLoading,
+			isSubmitting,
+			error,
+			formError,
+		} = this.state
 
 		return (
 			<div
@@ -119,11 +128,10 @@ export const Review = defineComponent({
 										<button
 											key={star}
 											type="button"
-											class={`${styles.star} ${star <= parseInt(newRating) ? styles.star_active : ''}`}
+											class={`${styles.star} ${star <= newRating ? styles.star_active : ''}`}
 											{...{
 												on: {
-													click: () =>
-														this.updateState({ newRating: star.toString() }),
+													click: () => this.updateState({ newRating: star }),
 												},
 											}}
 										>
@@ -140,23 +148,29 @@ export const Review = defineComponent({
 									on: {
 										input: (e: Event) => {
 											const value = (e.target as HTMLTextAreaElement).value
-											this.updateState({ newReview: value })
+											this.updateState({
+												newReview: value,
+												formError: value.trim() ? '' : this.state.formError,
+											})
 										},
 									},
 								}}
 								rows={4}
 							/>
+							{formError ? (
+								<div class={styles.formError}>{formError}</div>
+							) : null}
 							<button
-								class={styles.reviewForm__submit}
+								class={`${styles.reviewForm__submit} ${!newReview.trim() ? styles.reviewForm__submit_disabled : ''}`}
 								{...{
 									on: {
 										click: () => this.handleSubmitReview(),
 									},
 								}}
+								disabled={isSubmitting}
 							>
 								{isSubmitting ? 'Отправка...' : 'Отправить отзыв'}
 							</button>
-							{error ? <div class={styles.formError}>{error}</div> : null}
 						</div>
 
 						<div class={styles.reviewsList}>
@@ -181,8 +195,10 @@ export const Review = defineComponent({
 													{review.user_name || 'Анонимный пользователь'}
 												</div>
 												<div class={styles.review__rating}>
-													{'★'.repeat(parseInt(review.rating))}
-													{'☆'.repeat(5 - parseInt(review.rating))}
+													{'★'.repeat(Math.floor(parseFloat(review.rating)))}
+													{'☆'.repeat(
+														5 - Math.floor(parseFloat(review.rating)),
+													)}
 												</div>
 												<div class={styles.review__date}>
 													{review.created_at
