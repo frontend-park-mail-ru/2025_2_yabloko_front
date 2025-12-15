@@ -22,10 +22,9 @@ jobs:
                       sudo git reset --hard origin/feature/history
                       sudo npm ci
                       sudo npm run bundle
-                      ls -la dist/
                       cd ~/2025_2_Yabloko
                       docker compose down nginx
-                      docker compose up -d ngin
+                      docker compose up -d nginx
 
             - name: Send Telegram notification
               uses: appleboy/telegram-action@master
