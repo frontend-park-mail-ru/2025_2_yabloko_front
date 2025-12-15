@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const stringReplaceLoader = {
 	loader: 'string-replace-loader',
@@ -83,6 +84,18 @@ module.exports = [
 			new HtmlWebpackPlugin({
 				template: './public/index.html',
 				inject: 'body',
+			}),
+			new CopyWebpackPlugin({
+				patterns: [
+					{
+						from: 'public/icons',
+						to: 'icons',
+					},
+					{
+						from: 'public/images',
+						to: 'images',
+					},
+				],
 			}),
 		],
 	},

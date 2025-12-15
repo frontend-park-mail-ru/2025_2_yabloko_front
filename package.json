@@ -31,6 +31,7 @@
 		"@babel/preset-typescript": "^7.27.1",
 		"@typescript-eslint/eslint-plugin": "^8.46.0",
 		"@typescript-eslint/parser": "^8.46.0",
+		"copy-webpack-plugin": "^13.0.1",
 		"css-loader": "^6.11.0",
 		"eslint": "^9.37.0",
 		"eslint-config-prettier": "^10.1.8",
