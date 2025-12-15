@@ -52,27 +52,28 @@ export const StoreInfo = defineComponent({
 						/>
 					) : null}
 
-					<div class={styles.storeInfoPrimary}>
+					<div class={styles.storeInfoHeader}>
 						<h1 class={styles.storeInfo__title}>{store.name}</h1>
-						<div class={styles.storeInfo__ratingContainer}>
-							{store.rating ? (
-								<span class={styles.storeInfo__rating}>★ {store.rating}</span>
-							) : null}
-							<button
-								type="button"
-								class={styles.storeInfo__reviewsButton}
-								{...{
-									on: {
-										click: () => this.openReviewsModal(),
-									},
-								}}
-							>
-								Отзывы
-							</button>
-						</div>
+						<button
+							type="button"
+							class={styles.storeInfo__reviewsButton}
+							{...{
+								on: {
+									click: () => this.openReviewsModal(),
+								},
+							}}
+						>
+							Отзывы
+						</button>
 					</div>
 
-					<div class={styles.storeInfoSecondary}>
+					<div class={styles.storeInfoDetails}>
+						{store.rating ? (
+							<div class={styles.storeInfo__detail}>
+								<strong>Рейтинг:</strong> ★ {store.rating}
+							</div>
+						) : null}
+
 						{store.address ? (
 							<div class={styles.storeInfo__detail}>
 								<strong>Адрес:</strong> {store.address}
