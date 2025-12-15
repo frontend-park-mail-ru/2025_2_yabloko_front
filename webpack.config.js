@@ -66,6 +66,8 @@ const resolveScripts = {
 const distPath = path.resolve(__dirname, 'dist')
 const mode = process.env.PRODUCTION == 'true' ? 'production' : 'development'
 
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+
 module.exports = [
 	{
 		mode,
@@ -77,5 +79,12 @@ module.exports = [
 			filename: 'bundle.js',
 			path: distPath,
 		},
+		plugins: [
+			new CopyWebpackPlugin({
+				patterns: [
+					{ from: 'public', to: '.' }, 
+				],
+			}),
+		],
 	},
 ]
