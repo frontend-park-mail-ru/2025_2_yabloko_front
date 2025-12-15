@@ -18,12 +18,14 @@ jobs:
                   key: ${{ secrets.SSH_KEY_PRIME }}
                   script: |
                       cd ~/2025_2_yabloko_front
-                      sudo git pull origin feature/history
-                      sudo npm i
+                      sudo git fetch origin feature/history
+                      sudo git reset --hard origin/feature/history
+                      sudo npm ci
                       sudo npm run bundle
+                      ls -la dist/
                       cd ~/2025_2_Yabloko
-                      docker rm -f nginx
-                      docker compose up -d --build nginx
+                      docker compose down nginx
+                      docker compose up -d ngin
 
             - name: Send Telegram notification
               uses: appleboy/telegram-action@master
