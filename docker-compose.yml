@@ -1,5 +1,5 @@
 services:
-  app:
+  frontend:
     build: .
     container_name: frontend
     networks:
