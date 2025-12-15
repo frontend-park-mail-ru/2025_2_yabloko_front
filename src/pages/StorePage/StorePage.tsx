@@ -6,6 +6,7 @@ import { defineComponent } from '@antiquemouse/framework'
 import { addToCart } from '../../modules/cartManager'
 import { navigate } from '../../modules/router'
 import { Item, Store, StoreApi } from '../../modules/storeApi'
+import { History } from '../../components/History/History'
 import styles from './StorePage.module.scss'
 
 interface StorePageState {
@@ -29,6 +30,14 @@ export const StorePage = defineComponent({
 
 	closeCart() {
 		this.updateState({ isCartOpen: false })
+	},
+
+	openHistory() {
+		this.updateState({ isHistoryOpen: true })
+	},
+
+	closeHistory() {
+		this.updateState({ isHistoryOpen: false })
 	},
 
 	async onMounted() {
@@ -61,14 +70,10 @@ export const StorePage = defineComponent({
 			return (
 				<div class={styles.storePage}>
 					<Navbar
-						userAuthed={false}
-						onLogoClick={() => {
-							navigate('/')
-						}}
-						onLoginClick={() => {
-							navigate('/auth')
-						}}
+						onLogoClick={() => navigate('/')}
+						onLoginClick={() => navigate('/auth')}
 						onCartClick={() => this.openCart()}
+						onHistoryClick={() => this.openHistory()}
 					/>
 					<div class={styles.storePage__container}></div>
 					{isCartOpen ? <Cart onClose={() => this.closeCart()} /> : null}
@@ -87,10 +92,9 @@ export const StorePage = defineComponent({
 					}}
 					onCartClick={() => this.openCart()}
 				/>
-				<div class={styles.storePage__container}
-				>
+				<div class={styles.storePage__container}>
 					<StoreInfo store={store} />
-					
+
 					<ProductsBatch
 						products={products}
 						onAddToCart={productId => {
@@ -102,14 +106,18 @@ export const StorePage = defineComponent({
 									price: product.price,
 									quantity: 1,
 									card_img: product.card_img,
-									options: []
+									options: [],
 								})
 							}
 						}}
 					/>
-
 				</div>
-				{isCartOpen ? <Cart onClose={() => this.closeCart()} /> : null}
+				{this.state.isCartOpen ? (
+					<Cart onClose={() => this.closeCart()} />
+				) : null}
+				{this.state.isHistoryOpen ? (
+					<History onClose={() => this.closeHistory()} />
+				) : null}
 			</div>
 		)
 	},

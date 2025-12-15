@@ -2,63 +2,69 @@ import { defineComponent } from '@antiquemouse/framework'
 import styles from './CardsHeader.module.scss'
 
 interface CardsHeaderProps {
-	onFilterChange?: (filter: string) => void
-	onSortToggle?: () => void
+	onFilterChange?: (type: 'all' | 'tag' | 'category', id: string) => void
+	tags: any[]
+	categories: any[]
+	currentFilter: any
 }
 
 export const CardsHeader = defineComponent({
 	render() {
 		const props = this.props as CardsHeaderProps
-
-		const handleFilterClick = (filter: string) => {
-			props.onFilterChange?.(filter)
-		}
-
-		const handleSortClick = () => {
-			props.onSortToggle?.()
-		}
-
-		const filters = [
-			{ key: 'all', label: 'Все', active: true },
-			{ key: 'pickup', label: 'Самовывоз' },
-			{ key: 'burgers', label: 'Бургеры' },
-			{ key: 'sushi', label: 'Суши' },
-			{ key: 'pizza', label: 'Пицца' },
-			{ key: 'wok', label: 'Вок' },
-			{ key: 'pasta', label: 'Паста' },
-			{ key: 'breakfast', label: 'Завтраки' },
-		]
+		const { currentFilter } = props
 
 		return (
 			<div class={styles.cardsHeader}>
 				<h2 class={styles.cardsHeader__title}>Рестораны</h2>
 				<div class={styles.cardsHeader__filters}>
-					{filters.map(filter => (
+					<button
+						class={
+							currentFilter?.type === 'all'
+								? `${styles.filter__button} ${styles.filter__button_active}`
+								: styles.filter__button
+						}
+						{...{
+							on: {
+								click: () => props.onFilterChange?.('all', 'all')
+							}
+						}}
+					>
+						Все
+					</button>
+
+					{props.categories.map(category => (
 						<button
-							class={[
-								styles.filter__button,
-								filter.active ? styles['filter__button--active'] : '',
-							]
-								.filter(Boolean)
-								.join(' ')}
-							on={{ click: () => handleFilterClick(filter.key) }}
+							class={
+								currentFilter?.type === 'category' && currentFilter?.id === category.id
+									? `${styles.filter__button} ${styles.filter__button_active}`
+									: styles.filter__button
+							}
+							{...{
+								on: {
+									click: () => props.onFilterChange?.('category', category.id)
+								}
+							}}
 						>
-							{filter.label}
+							{category.name}
 						</button>
 					))}
 
-					<div class={styles.cardsHeader__more}>
+					{props.tags.map(tag => (
 						<button
-							class={styles.filter__moreButton}
-							on={{ click: () => handleFilterClick('more') }}
+							class={
+								currentFilter?.type === 'tag' && currentFilter?.id === tag.id
+									? `${styles.filter__button} ${styles.filter__button_active}`
+									: styles.filter__button
+							}
+							{...{
+								on: {
+									click: () => props.onFilterChange?.('tag', tag.id)
+								}
+							}}
 						>
-							Ещё
+							{tag.name}
 						</button>
-					</div>
-
-					<div class={styles.cardsHeader__sort} on={{ click: handleSortClick }}>
-						<span>Сортировка</span>
-					</div>
+					))}
 				</div>
 			</div>
 		)

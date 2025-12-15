@@ -1,10 +1,10 @@
 import { createApp } from '@antiquemouse/framework'
+import { CheckoutPage } from '../pages/CheckoutPage/CheckoutPage'
 import { LoginPage } from '../pages/LoginPage/LoginPage'
 import { MainPage } from '../pages/MainPage/MainPage'
-import { CheckoutPage } from '../pages/OrderPage/OrderPage'
+import { OrderPage } from '../pages/OrderPage/OrderPage'
 import { ProfilePage } from '../pages/ProfilePage/ProfilePage'
 import { StorePage } from '../pages/StorePage/StorePage'
-import { authManager } from './authManager'
 
 interface Page {
 	component: any
@@ -17,6 +17,7 @@ const pathsPages: { [key: string]: Page } = {
 	'/checkout': { component: CheckoutPage, title: 'AppleClub - оформление' },
 	'/profile': { component: ProfilePage, title: 'AppleClub - профиль' },
 	'/store/:id': { component: StorePage, title: 'AppleClub - магазин' },
+	'/orders/:id': { component: OrderPage, title: 'AppleClub - заказ' },
 }
 
 let currentApp: any = null
@@ -33,9 +34,9 @@ export async function loadPath(
 	let route = path
 	if (path.startsWith('/store/') && !(path in pathsPages)) {
 		route = '/store/:id'
-	}
-
-	if (!(route in pathsPages)) {
+	} else if (path.startsWith('/orders/') && !(path in pathsPages)) {
+		route = '/orders/:id'
+	} else if (!(path in pathsPages)) {
 		route = '/auth'
 	}
 
@@ -80,6 +81,8 @@ window.addEventListener('popstate', () => {
 	let route = path
 	if (path.startsWith('/store/') && !(path in pathsPages)) {
 		route = '/store/:id'
+	} else if (path.startsWith('/orders/') && !(path in pathsPages)) {
+		route = '/orders/:id'
 	} else if (!(path in pathsPages)) {
 		route = '/auth'
 	}
@@ -95,6 +98,8 @@ export function initRouter(): void {
 	let route = path
 	if (path.startsWith('/store/') && !(path in pathsPages)) {
 		route = '/store/:id'
+	} else if (path.startsWith('/orders/') && !(path in pathsPages)) {
+		route = '/orders/:id'
 	} else if (!(path in pathsPages)) {
 		route = '/auth'
 	}

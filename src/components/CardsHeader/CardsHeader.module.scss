@@ -62,17 +62,18 @@
         transition: all 0.2s ease;
         box-sizing: border-box;
 
-        &--active,
+        &_active,
         &:hover {
             background: var(--color-light);
             border-color: var(--color-primary);
+            font-weight: 600;
         }
     }
 
     &__more {
         &Button {
             outline: none;
-			text-align: left;
+            text-align: left;
             border-radius: var(--border-radius-large);
             border: 1px solid transparent;
             background: transparent;

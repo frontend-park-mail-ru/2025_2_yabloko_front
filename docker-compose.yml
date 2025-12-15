@@ -1,5 +1,12 @@
 services:
-  app:
+  frontend:
     build: .
+    container_name: frontend
+    networks:
+      - 2025_2_yabloko_backend
     ports:
-      - '80:3000'
+      - '3000:3000'
+
+networks:
+  2025_2_yabloko_backend:
+    external: true

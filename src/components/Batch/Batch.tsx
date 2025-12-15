@@ -1,108 +1,65 @@
 import { defineComponent } from '@antiquemouse/framework'
-import { Store, StoreApi } from '../../modules/storeApi'
+import { StoreApi } from '../../modules/storeApi'
 import { Card } from '../Card/Card'
 import styles from './Batch.module.scss'
 
-interface BatchState {
-	stores: Store[]
-	isLoading: boolean
-	hasMore: boolean
-	lastId: string | null
-}
-
 export const Batch = defineComponent({
-	state(): BatchState {
+	state() {
 		return {
 			stores: [],
-			isLoading: false,
-			hasMore: true,
-			lastId: null,
+			isLoading: true,
 		}
 	},
 
-	observer: null as IntersectionObserver | null,
+	async onMounted() {
+		await this.loadStores()
+	},
 
-	async loadStores(isLoadMore: boolean = false) {
-		if (this.state.isLoading) {
-			return
-		}
-
-		this.updateState({ isLoading: true })
-
+	async loadStores() {
 		try {
-			const response = await StoreApi.getStores({
-				limit: this.props.batchSize || 12,
-				lastId: isLoadMore ? this.state.lastId : null,
-			})
+			const params: any = { limit: 12 }
 
-			if (response && Array.isArray(response)) {
-				const newStores = response
-				const newLastId = newStores[newStores.length - 1]?.id || null
+			const filterType = this.props.filterType || 'all'
+			const filterId = this.props.filterId || 'all'
 
-				this.updateState({
-					stores: isLoadMore ? [...this.state.stores, ...newStores] : newStores,
-					lastId: newLastId,
-					hasMore: newStores.length === (this.props.batchSize || 12),
-					isLoading: false,
-				})
+			if (filterType === 'tag' && filterId !== 'all') {
+				params.tagId = filterId
+			} else if (filterType === 'category' && filterId !== 'all') {
+				params.category = filterId
 			}
+
+			const stores = await StoreApi.getStores(params)
+			this.updateState({ stores, isLoading: false })
 		} catch (error) {
-			console.warn(error)
+			console.error('Error loading stores:', error)
 			this.updateState({ isLoading: false })
 		}
 	},
 
-	loadMore() {
-		if (this.state.hasMore && !this.state.isLoading) {
-			this.loadStores(true)
-		}
-	},
-
-	onMounted() {
-		this.loadStores()
-
-		queueMicrotask(() => {
-			const trigger = document.getElementById('loadTrigger')
-			if (trigger && this.state.hasMore) {
-				this.observer = new IntersectionObserver(entries => {
-					if (
-						entries[0].isIntersecting &&
-						this.state.hasMore &&
-						!this.state.isLoading
-					) {
-						this.loadMore()
-					}
-				})
-				this.observer.observe(trigger)
-			}
-		})
-	},
-
-	onUnmounted() {
-		if (this.observer) {
-			this.observer.disconnect()
-		}
-	},
-
 	render() {
-		const { stores, isLoading, hasMore } = this.state
+		const { stores, isLoading } = this.state
+
+		if (isLoading) {
+			return (
+				<div style={{ padding: '40px', textAlign: 'center' }}></div>
+			)
+		}
 
 		return (
 			<div class={styles.batch}>
 				<div class={styles.batch__grid}>
 					{stores.map(store => (
 						<Card
-							key={store.store_id}
+							key={store.id}
 							store={store}
-							onCardClick={this.props.onCardClick}
+							onCardClick={
+								this.props.onCardClick
+									? () => this.props.onCardClick(store.id)
+									: null
+							}
 						/>
 					))}
 				</div>
-				<div
-					id="loadTrigger"
-					class="batch-trigger"
-					style={{ display: hasMore && !isLoading ? 'block' : 'none' }}
-				></div>
 			</div>
 		)
 	},

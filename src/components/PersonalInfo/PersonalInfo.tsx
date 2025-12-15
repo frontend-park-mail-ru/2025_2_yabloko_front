@@ -24,10 +24,12 @@ export const PersonalInfo = defineComponent({
 			cities: [] as City[],
 			isLoading: false,
 			isSaving: false,
-			showCitySuggestions: false,
+			showCitySuggestions: null as boolean | null,
 			addressSuggestions: [] as any[],
-			showAddressSuggestions: false,
+			showAddressSuggestions: null as boolean | null,
 			isAddressLoading: false,
+			addressHistory: [] as string[],
+			showAddressHistoryDropdown: null as boolean | null,
 		}
 	},
 
@@ -59,17 +61,27 @@ export const PersonalInfo = defineComponent({
 				const profile = response.body
 				const city = this.state.cities.find(c => c.id === profile.city_id)
 
+				const addressHistory = profile.addresses_history || []
+				const uniqueAddresses = addressHistory
+					.reverse()
+					.filter((address: string, index: number, arr: string[]) =>
+						arr.indexOf(address) === index
+					)
+					.reverse()
+
 				this.updateState({
 					email: profile.email || '',
 					fullName: profile.name || '',
 					city: city ? city.name : '',
 					address: profile.address || '',
+					addressHistory: uniqueAddresses,
 				})
 			}
 		} catch (error) {
 			console.error(error)
 		}
 	},
+
 
 	getCitySuggestions() {
 		if (!this.state.city) return []
@@ -90,7 +102,7 @@ export const PersonalInfo = defineComponent({
 
 		this.updateState({
 			city: cityName,
-			showCitySuggestions: false,
+			showCitySuggestions: null,
 		})
 	},
 
@@ -101,11 +113,16 @@ export const PersonalInfo = defineComponent({
 		})
 
 		if (value.length < 2 || !this.state.city) {
-			this.updateState({ addressSuggestions: [] })
+			this.updateState({
+				addressSuggestions: [],
+				showAddressSuggestions: null,
+			})
 			return
 		}
 
-		this.updateState({ isAddressLoading: true })
+		this.updateState({
+			isAddressLoading: true,
+		})
 
 		try {
 			const suggestions = await SuggestApi.suggestAddress(
@@ -133,7 +150,30 @@ export const PersonalInfo = defineComponent({
 		this.updateState({
 			address: suggestion.displayValue || suggestion.value,
 			addressSuggestions: [],
-			showAddressSuggestions: false,
+			showAddressSuggestions: null,
+		})
+	},
+
+	handleAddressHistorySelect(address: string) {
+		const addressInput = document.querySelector(
+			`.${styles.personalInfoForm__input}[placeholder="Улица, дом, корпус, квартира"]`,
+		) as HTMLInputElement
+		if (addressInput) {
+			addressInput.value = address
+		}
+
+		this.updateState({
+			address: address,
+			showAddressHistoryDropdown: null,
+		})
+	},
+
+	toggleAddressHistoryDropdown() {
+		this.updateState({
+			showAddressHistoryDropdown: this.state.showAddressHistoryDropdown
+				? null
+				: true,
+			showAddressSuggestions: null,
 		})
 	},
 
@@ -227,12 +267,10 @@ export const PersonalInfo = defineComponent({
 			addressSuggestions,
 			showAddressSuggestions,
 			isAddressLoading,
+			addressHistory,
+			showAddressHistoryDropdown,
 		} = this.state
 		const citySuggestions = this.getCitySuggestions()
-
-		if (isLoading) {
-			return <div>Загрузка...</div>
-		}
 
 		return (
 			<div class={styles.personalInfoForm}>
@@ -283,7 +321,11 @@ export const PersonalInfo = defineComponent({
 									})
 								},
 								focus: () => this.updateState({ showCitySuggestions: true }),
-								blur: () => this.updateState({ showCitySuggestions: false }),
+								blur: () =>
+									setTimeout(
+										() => this.updateState({ showCitySuggestions: null }),
+										200,
+									),
 							}}
 							class={`${styles.personalInfoForm__input} ${errors.city ? styles.personalInfoForm__input_error : ''}`}
 							required
@@ -316,7 +358,26 @@ export const PersonalInfo = defineComponent({
 				</div>
 
 				<div class={styles.personalInfoForm__field}>
-					<h3 class={styles.personalInfoForm__addressLabel}>Адрес</h3>
+					<div class={styles.addressHeader}>
+						<h3 class={styles.personalInfoForm__addressLabel}>Адрес</h3>
+						{addressHistory.length > 0 && !this.props.readonly ? (
+							<button
+								type="button"
+								class={styles.addressHistoryButton}
+								{...{
+									on: {
+										click: (e: Event) => {
+											e.preventDefault()
+											this.toggleAddressHistoryDropdown()
+										},
+									},
+								}}
+							>
+								История адресов
+							</button>
+						) : null}
+					</div>
+
 					<div class={styles.cityWrapper}>
 						<input
 							type="text"
@@ -327,26 +388,59 @@ export const PersonalInfo = defineComponent({
 									const value = (e.target as HTMLInputElement).value
 									this.handleAddressInput(value)
 								},
-								focus: () => this.updateState({ showAddressSuggestions: true }),
-								blur: () => this.updateState({ showAddressSuggestions: false }),
+								focus: () => {
+									this.updateState({
+										showAddressSuggestions: true,
+										showAddressHistoryDropdown: null,
+									})
+								},
+								blur: () => {
+									setTimeout(() => {
+										this.updateState({
+											showAddressSuggestions: null,
+										})
+									}, 200)
+								},
 							}}
 							class={`${styles.personalInfoForm__input} ${errors.address ? styles.personalInfoForm__input_error : ''}`}
 							required
 							disabled={this.props.readonly}
 						/>
+
+						{showAddressHistoryDropdown && addressHistory.length > 0 ? (
+							<div class={styles.addressHistoryList}>
+								{addressHistory.map((address, index) => (
+									<div
+										key={`history-${index}`}
+										class={styles.addressHistoryItem}
+										{...{
+											on: {
+												mousedown: (e: Event) => {
+													e.preventDefault()
+													this.handleAddressHistorySelect(address)
+												},
+											},
+										}}
+									>
+										{address}
+									</div>
+								))}
+							</div>
+						) : null}
+
 						{isAddressLoading ? (
 							<div class={styles.loading}>Загрузка...</div>
 						) : null}
+
 						{showAddressSuggestions && addressSuggestions.length > 0 ? (
 							<div class={styles.suggestions}>
 								{addressSuggestions.map((suggestion, index) => (
 									<div
-										key={index}
+										key={`suggestion-${index}`}
 										class={styles.suggestion}
 										{...{
 											on: {
 												mousedown: (e: Event) => {
-													console.log(suggestion)
 													e.preventDefault()
 													this.handleAddressSelect(suggestion)
 												},
@@ -362,17 +456,6 @@ export const PersonalInfo = defineComponent({
 					{errors.address ? (
 						<div class={styles.personalInfoForm__error}>{errors.address}</div>
 					) : null}
-				</div>
-
-				<div class={styles.personalInfoForm__field}>
-					<textarea
-						placeholder="Комментарий"
-						value={this.state.comment}
-						rows={3}
-						on={{ input: this.handleChange('comment') }}
-						class={styles.personalInfoForm__textarea}
-						disabled={this.props.readonly}
-					></textarea>
 				</div>
 
 				{!this.props.readonly ? (

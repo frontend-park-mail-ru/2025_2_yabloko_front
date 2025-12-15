@@ -1,0 +1,76 @@
+.carouselContainer {
+	width: 100%;
+	max-width: 1200px;
+	margin: 5px auto;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.title {
+	text-align: center;
+	margin-bottom: 40px;
+	font-size: 28px;
+	color: #333;
+	font-weight: 600;
+}
+
+.wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 40px;
+	position: relative;
+}
+
+.center {
+	flex: 1;
+	max-width: 700px;
+	min-height: 300px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.item {
+	width: 100%;
+    max-width: 1000px;
+	cursor: pointer;
+	transition: transform 0.3s ease;
+}
+
+.button {
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	background: var(--color-accent);
+	color: var(--color-light);
+	font-size: 28px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.2s ease;
+	flex-shrink: 0;
+    border: none;
+	outline: none;
+	position: relative;
+}
+
+.buttonLeft {
+	order: 1;
+}
+
+.center {
+	order: 2;
+}
+
+.buttonRight {
+	order: 3;
+}
+
+.loading {
+	text-align: center;
+	padding: 100px 0;
+	font-size: 18px;
+	color: #666;
+}

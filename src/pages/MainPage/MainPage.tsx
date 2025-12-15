@@ -1,22 +1,34 @@
+import { defineComponent } from '@antiquemouse/framework'
 import { Batch } from '../../components/Batch/Batch'
 import { CardsHeader } from '../../components/CardsHeader/CardsHeader'
 import { Cart } from '../../components/Cart/Cart'
 import { Footer } from '../../components/Footer/Footer'
+import { History } from '../../components/History/History'
 import { Navbar } from '../../components/Navbar/Navbar'
-import { defineComponent } from '@antiquemouse/framework'
+import { SearchModal } from '../../components/SearchWidget/SearchWidget'
 import { navigate } from '../../modules/router'
+import { StoreApi } from '../../modules/storeApi'
 import styles from './MainPage.module.scss'
-
-interface MainPageProps {
-	onCardClick?: (storeId: number) => void
-}
+import { Carousel } from '../../components/Carousel/Carousel'
 
 export const MainPage = defineComponent({
 	state() {
 		return {
-			batchSize: 16,
 			isCartOpen: false,
+			isHistoryOpen: false,
+			isSearchOpen: false,
+			searchQuery: '',
+			tags: [] as any[],
+			categories: [] as any[],
+			isLoading: true,
+			currentFilter: { type: 'all', id: 'all' },
 		}
+	},
+
+	async onMounted() {
+		const tags = await StoreApi.getTags()
+		const categories = await StoreApi.getCategories()
+		this.updateState({ tags, categories, isLoading: false })
 	},
 
 	openCart() {
@@ -27,37 +39,90 @@ export const MainPage = defineComponent({
 		this.updateState({ isCartOpen: false })
 	},
 
+	openHistory() {
+		this.updateState({ isHistoryOpen: true })
+	},
+
+	closeHistory() {
+		this.updateState({ isHistoryOpen: false })
+	},
+
+	handleSearch(query: string) {
+		this.updateState({
+			isSearchOpen: true,
+			searchQuery: query,
+		})
+	},
+
+	closeSearch() {
+		this.updateState({
+			isSearchOpen: false,
+			searchQuery: '',
+		})
+	},
+
+	handleFilterChange(type: 'all' | 'tag' | 'category', id: string) {
+		this.updateState({ currentFilter: { type, id } })
+	},
+
 	render() {
-		const props = this.props as MainPageProps
+		if (this.state.isLoading) {
+			return (
+				<div class={styles.mainPage}>
+					<Navbar
+						onLogoClick={() => navigate('/')}
+						onLoginClick={() => navigate('/auth')}
+						onSearch={query => this.handleSearch(query)}
+						onCartClick={() => this.openCart()}
+						onHistoryClick={() => this.openHistory()}
+					/>
+					<div class={styles.mainPage__content}></div>
+					<Footer />
+				</div>
+			)
+		}
 
 		return (
 			<div class={styles.mainPage}>
 				<Navbar
-					onLogoClick={() => {
-						navigate('/')
-					}}
-					onLoginClick={() => {
-						navigate('/auth')
-					}}
+					onLogoClick={() => navigate('/')}
+					onLoginClick={() => navigate('/auth')}
+					onSearch={query => this.handleSearch(query)}
 					onCartClick={() => this.openCart()}
+					onHistoryClick={() => this.openHistory()}
 				/>
-				<CardsHeader />
-				<div class={styles.mainPage__container}>
-					<Batch
-						batchSize={this.state.batchSize}
-						onCardClick={props.onCardClick}
+
+				<div class={styles.mainPage__content}>
+					<Carousel/>
+					<CardsHeader
+						tags={this.state.tags}
+						categories={this.state.categories}
+						currentFilter={this.state.currentFilter}
+						onFilterChange={(type, id) => this.handleFilterChange(type, id)}
 					/>
+
 					<Batch
-						batchSize={this.state.batchSize}
-						onCardClick={props.onCardClick}
-					/>
-					<Batch
-						batchSize={this.state.batchSize}
-						onCardClick={props.onCardClick}
+						key={`${this.state.currentFilter.type}-${this.state.currentFilter.id}`}
+						filterType={this.state.currentFilter.type}
+						filterId={this.state.currentFilter.id}
+						onCardClick={storeId => navigate(`/store/${storeId}`)}
 					/>
 				</div>
+
 				<Footer />
-				{this.state.isCartOpen ? <Cart onClose={() => this.closeCart()} /> : ''}
+
+				{this.state.isCartOpen ? (
+					<Cart onClose={() => this.closeCart()} />
+				) : null}
+				{this.state.isHistoryOpen ? (
+					<History onClose={() => this.closeHistory()} />
+				) : null}
+				{this.state.isSearchOpen ? (
+					<SearchModal
+						onClose={() => this.closeSearch()}
+						searchQuery={this.state.searchQuery}
+					/>
+				) : null}
 			</div>
 		)
 	},

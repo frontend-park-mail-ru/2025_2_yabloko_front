@@ -1,72 +1,81 @@
-.store-info {
-	position: relative;
-	width: 100%;
-	height: 20rem;
-	background: var(--color-light);
-	border-radius: var(--border-radius-large);
-	box-shadow: var(--shadow);
-	overflow: hidden;
-
-	&__image-wrapper {
+.storeInfo {
+	&__imageWrapper {
 		position: relative;
 		width: 100%;
-		height: 100%;
+		border-radius: var(--border-radius-large);
 		overflow: hidden;
 	}
 
 	&__image {
 		width: 100%;
-		height: 100%;
+		height: 200px;
 		object-fit: cover;
-		display: block;
 	}
 
-	&--primary {
+	.storeInfoPrimary {
 		position: absolute;
-		top: 1.5rem;
-		left: 1.5rem;
-		color: var(--color-light);
-		background: rgba(0, 0, 0, 0.6);
-		padding: 0.5rem 1.5rem;
-		border-radius: var(--border-radius-small);
+		top: 0;
+		left: 0;
+		right: 0;
+		padding: 1rem;
+		background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
 	}
 
 	&__title {
 		margin: 0;
 		font-size: 1.5rem;
-		font-weight: 700;
-		line-height: 1.2;
-		display: inline;
+		color: white;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+	}
+
+	&__ratingContainer {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
 	}
 
 	&__rating {
-		font-size: 1.1rem;
+		font-size: 1rem;
+		color: white;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 		font-weight: 600;
-		display: inline;
-		margin-left: 0.5rem;
 	}
 
-	&--secondary {
+	&__reviewsButton {
+		background: rgba(255, 255, 255, 0.9);
+		border: none;
+		border-radius: var(--border-radius-large);
+		padding: 0.4rem 0.8rem;
+		font-size: 0.9rem;
+		color: var(--color-text);
+		cursor: pointer;
+		transition: all 0.2s;
+		font-weight: 500;
+	}
+
+	.storeInfoSecondary {
 		position: absolute;
-		bottom: 1.5rem;
-		left: 1.5rem;
-		color: var(--color-light);
-		background: rgba(0, 0, 0, 0.6);
-		padding: 0.5rem 1.5rem;
-		border-radius: var(--border-radius-small);
-		max-width: 80%;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		padding: 1rem;
+		background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%);
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
 	}
 
 	&__detail {
-		font-size: 0.95rem;
-		line-height: 1.4;
-		margin: 0.25rem 0;
+		font-size: 0.9rem;
+		color: white;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 
-		&strong {
-		color: var(--color-light);
-		font-weight: 600;
-	}
-
+		strong {
+			color: white;
+			font-weight: 600;
+		}
 	}
 }
-

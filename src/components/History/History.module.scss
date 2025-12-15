@@ -1,4 +1,4 @@
-.cart {
+.history {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -7,7 +7,7 @@
 	background: rgba(0, 0, 0, 0.5);
 	display: flex;
 	justify-content: flex-end;
-	z-index: 2;
+	z-index: 1;
 
 	&__container {
 		width: 400px;
@@ -33,11 +33,6 @@
 		font-size: 1.2rem;
 	}
 
-	&__total {
-		font-weight: bold;
-		font-size: 1.1rem;
-	}
-
 	&__close {
 		background: none;
 		border: none;
@@ -59,22 +54,7 @@
 		margin: 50px 0;
 	}
 
-	&__footer {
-		padding: 20px;
-		border-top: 1px solid #eee;
-		justify-content: center;
-	}
-
 	&__button {
 		width: 100%;
 	}
-
-	 &__checkout {
-        width: 100%;
-        transition: opacity 0.2s ease;
-
-        &:hover {
-            opacity: 0.9;
-        }
-    }
 }

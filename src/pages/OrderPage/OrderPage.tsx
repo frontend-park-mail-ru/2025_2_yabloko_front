@@ -1,167 +1,141 @@
-import { Button } from '../../components/Button/Button'
-import { CartItem as CartItemComponent } from '../../components/CartItem/CartItem'
+import { defineComponent } from '@antiquemouse/framework'
 import { Footer } from '../../components/Footer/Footer'
 import { Navbar } from '../../components/Navbar/Navbar'
-import { PaymentForm } from '../../components/PaymentForm/PaymentForm'
-import { PersonalInfo } from '../../components/PersonalInfo/PersonalInfo'
-import { defineComponent } from '@antiquemouse/framework'
-import {
-	getCartFromStorage,
-	removeFromCart,
-	updateQuantity,
-} from '../../modules/cartManager'
-import { navigate } from '../../modules/router'
+import { OrderApi } from '../../modules/orderApi'
 import styles from './OrderPage.module.scss'
+import { API } from '../../modules/api'
+import { navigate } from '../../modules/router'
 
-interface CheckoutPageState {
-	promoCode: string
-	items: any[]
-	isLoading: boolean
-}
-
-export const CheckoutPage = defineComponent({
-	state(): CheckoutPageState {
+export const OrderPage = defineComponent({
+	state() {
 		return {
-			promoCode: '',
-			items: [],
-			isLoading: false,
+			order: null as any,
+            stores: [],
+			isLoading: true,
 		}
 	},
 
 	async onMounted() {
-		await this.loadCartItems()
-	},
-
-	async loadCartItems() {
-		const items = await getCartFromStorage()
-		this.updateState({ items })
-	},
-
-	async handleIncrease(id: string) {
-		const item = this.state.items.find(i => i.id === id)
-		if (item) {
-			await updateQuantity(id, item.quantity + 1)
-			const items = await getCartFromStorage()
-			this.updateState({ items })
+		try {
+			const orderId = window.location.pathname.split('/').pop() || ''
+			const orderData = await OrderApi.getOrderById(orderId)
+            const stores = this.getStoreList(orderData);
+			this.updateState({ order: orderData, stores: stores, isLoading: false })
+		} catch (error) {
+			console.error('Error loading order:', error)
+			this.updateState({ isLoading: false })
 		}
 	},
 
-	async handleDecrease(id: string) {
-		const item = this.state.items.find(i => i.id === id)
-		if (!item) return
-		if (item.quantity <= 1) {
-			await removeFromCart(id)
-			const items = await getCartFromStorage()
-			this.updateState({ items })
-		} else {
-			await updateQuantity(id, item.quantity - 1)
-			const items = await getCartFromStorage()
-			this.updateState({ items })
-		}
-	},
+    getStoreList(order: any) {
+    const seen = new Set();
+    const uniqueStores = [];
 
-	async handleRemove(id: string) {
-		await removeFromCart(id)
-		const items = await getCartFromStorage()
-		this.updateState({ items })
-	},
+    for (const store of order.stores) {
+        if (!seen.has(store.id)) {
+        seen.add(store.id);
+        uniqueStores.push({ id: store.id, name: store.name });
+        }
+    }
 
-	getTotal(): number {
-		return this.state.items.reduce(
-			(sum, item) => sum + item.price * item.quantity,
-			0,
-		)
-	},
-
-	handleSubmit(e: Event) {
-		e.preventDefault()
-		navigate('/order/success')
-	},
+    return uniqueStores;
+    },
 
 	render() {
-		const { items, isLoading } = this.state
-		const total = this.getTotal()
+		const { order, stores, isLoading } = this.state
 
 		if (isLoading) {
 			return (
-				<div class={styles.checkoutPage}>
-					<Navbar
-						onLogoClick={() => navigate('/')}
-						onLoginClick={() => navigate('/auth')}
-					/>
-					<div class={styles.checkoutPage__loading}>
-						<h2>Загрузка данных...</h2>
-					</div>
+				<div class={styles.orderPage}>
+					<Navbar />
+					<div>Загрузка...</div>
 					<Footer />
 				</div>
 			)
 		}
 
+		if (!order) {
+			return (
+				<div class={styles.orderPage}>
+					<Navbar />
+					<div>Заказ не найден</div>
+					<Footer />
+				</div>
+			)
+		}
+
+		const formattedDate = new Date(order.created_at).toLocaleDateString('ru-RU')
+
 		return (
-			<div class={styles.checkoutPage}>
+			<div class={styles.orderPage}>
 				<Navbar
 					onLogoClick={() => navigate('/')}
 					onLoginClick={() => navigate('/auth')}
+					onCartClick={() => this.openCart()}
+					onHistoryClick={() => this.openHistory()}
 				/>
 
-				<div class={styles.checkoutPage__container}>
-					<h1>Оформление заказа</h1>
-					<div class={styles.checkoutPage__form}>
-						<form on={{ submit: (e: Event) => this.handleSubmit(e) }}>
-							<h2>Условия доставки</h2>
-							<div class={styles.checkoutPage__conditional}>
-								<Button
-									type="button"
-									variant="accent"
-									disabled={true}
-									text="Стандарт 0₽"
-								/>
-								<Button
-									type="button"
-									variant="success"
-									disabled={true}
-									text="Быстро 100₽"
-								/>
-							</div>
-							<PersonalInfo readonly={true} />
-						</form>
-
-						<div class={styles.checkoutPage__order}>
-							<div class={styles.checkoutPage__orderCard}>
-								<h2 class={styles.checkoutPage__orderTitle}>Ваш заказ</h2>
-								<div class={styles.checkoutPage__cartBody}>
-									<div class={styles.checkoutPage__cartItems}>
-										{items.length > 0 ? (
-											items.map(item => (
-												<CartItemComponent
-													key={item.id}
-													id={item.id}
-													name={item.name}
-													price={item.price}
-													quantity={item.quantity}
-													card_img={item.card_img}
-													onIncrease={() => this.handleIncrease(item.id)}
-													onDecrease={() => this.handleDecrease(item.id)}
-													onRemove={() => this.handleRemove(item.id)}
-												/>
-											))
-										) : (
-											<p class="cart-empty">Корзина пуста</p>
-										)}
+				<div class={styles.orderPage__container}>
+					<h1>Заказ № {order.id.substring(0, 8)}</h1>
+					<div class={styles.orderPage__content}>
+						<div class={styles.orderPage__info}>
+							<div>
+								<div>
+									<strong>Статус:</strong> {order.status}
+								</div>
+								<div>
+									<strong>Дата:</strong> {formattedDate}
+								</div>
+								<h3>Рестораны:</h3>
+								{stores.map(store => (
+									<div class={styles.orderItem}>
+										<div
+											{...{
+												on: {
+													click: (e: Event) => {
+														e.stopPropagation()
+														navigate(`/store/${store.id}`)
+													},
+												},
+											}}
+										>
+											<strong>{store.name}</strong>
+										</div>
 									</div>
+								))}
+								<h3>Доставка и оплата:</h3>
+								<div>
+									<strong>Итого:</strong> {order.total.toLocaleString('ru-RU')}{' '}
+									₽
 								</div>
 							</div>
+						</div>
 
-							<PaymentForm
-								total={total}
-								promoCode={this.state.promoCode}
-								onPromoChange={code => this.updateState({ promoCode: code })}
-								onApplyPromo={() => {}}
-								onChangePayment={() => {}}
-							/>
+						<div class={styles.orderPage__items}>
+							<h3>Состав заказа:</h3>
+							{order.stores.flatMap(store =>
+								store.items.map(item => (
+									<div class={styles.orderItem} key={item.id}>
+										<img
+											src={`${API.SERVICES.PICS}/images/items/${item.card_img}`}
+											class={styles.orderItem__image}
+										/>
+										<div>
+											<div class={styles.orderItem__name}>{item.name}</div>
+											<div>
+												{item.price} ₽ × {item.quantity}
+											</div>
+											<div>
+												<strong>{item.price * item.quantity} ₽</strong>
+											</div>
+										</div>
+									</div>
+								)),
+							)}
 						</div>
 					</div>
 				</div>
+
 				<Footer />
 			</div>
 		)

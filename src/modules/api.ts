@@ -10,10 +10,12 @@ export interface APIresponse {
 
 export class API {
 	public static readonly SERVICES = {
-		AUTH: 'http://90.156.218.233:8082/api/v0',
-		PROFILE: 'http://90.156.218.233:8081/api/v0',
-		STORE: 'http://90.156.218.233:8080/api/v0',
-		PICS: 'http://90.156.218.233:8080',
+		AUTH: 'https://no.noideas.ru/api/v0',
+		PROFILE: 'https://no.noideas.ru/api/v0',
+		STORE: 'https://no.noideas.ru/api/v0',
+		ORDER: 'https://no.noideas.ru/api/v0',
+		RECS: 'https://no.noideas.ru/api/v0',
+		PICS: 'https://no.noideas.ru',
 	}
 
 	private static csrfRequest: Promise<string> | null = null
@@ -53,7 +55,7 @@ export class API {
 			})
 
 			if (!response.ok) {
-				throw new Error(`HTTP ${response.status}: Failed to get CSRF token`)
+				throw new Error(`HTTPS ${response.status}: Failed to get CSRF token`)
 			}
 
 			const text = await response.text()
@@ -182,8 +184,8 @@ export class API {
 			if (isError) {
 				const errorMessage =
 					typeof rawData === 'object' && rawData !== null
-						? rawData.message || rawData.error || `HTTP ${response.status}`
-						: `HTTP ${response.status}`
+						? rawData.message || rawData.error || `HTTPS ${response.status}`
+						: `HTTPS ${response.status}`
 
 				return {
 					service: {
@@ -202,7 +204,7 @@ export class API {
 			return {
 				service: {
 					success: '',
-					error: `HTTP ${response.status}: failed to parse response`,
+					error: `HTTPS ${response.status}: failed to parse response`,
 				},
 				body: null,
 			}

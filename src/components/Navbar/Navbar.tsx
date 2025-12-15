@@ -14,7 +14,9 @@ import styles from './Navbar.module.scss'
 interface NavbarProps {
 	onLogoClick?: () => void
 	onSearch?: (query: string) => void
+	onSearchClick?: () => void // Новый пропс для открытия модалки
 	onCartClick?: () => void
+	onHistoryClick?: () => void
 }
 
 interface NavbarState {
@@ -97,9 +99,9 @@ export const Navbar = defineComponent({
 					<Logo size="medium" onClick={props.onLogoClick} />
 					<SearchBar
 						placeholder="Поиск ресторанов и категорий"
-						onSearch={props.onSearch}
+						//onSearch={props.onSearch}
 					/>
-					<CitySelector />
+					{window.location.pathname == '/' ? <CitySelector /> : null}
 				</div>
 				<div class={styles.navbar__right}>
 					<div class={styles.navbar__cartWrapper}>
@@ -121,6 +123,7 @@ export const Navbar = defineComponent({
 								src="/static/icons/checklist.png"
 								alt="История"
 								text="История"
+								onClick={props.onHistoryClick}
 							/>,
 							<IconButton
 								src={userAvatar || '/static/icons/user.png'}

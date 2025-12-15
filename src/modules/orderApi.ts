@@ -33,35 +33,85 @@ export interface FakePaymentParams {
     return_url?: string,
 }
 
+export interface GetOrderParams {
+	limit?: number
+	lastId?: string
+	status?: string
+	desc?: boolean
+}
+
+export interface Discount {
+	relativeDiscount: string
+	absoluteDiscount: string
+}
+
+
 export class OrderApi {
-	static async getOrders(): Promise<Order[]> {
-		const response = await API.get('STORE', '/orders')
+	static async getOrders(params: GetOrderParams = {}): Promise<Order[]> {
+		const queryParams = new URLSearchParams()
+
+		if (params.limit) queryParams.append('limit', params.limit.toString())
+		if (params.lastId) queryParams.append('lastId', params.lastId)
+		if (params.status) queryParams.append('status', params.status)
+		if (params.desc !== undefined)
+			queryParams.append('desc', params.desc.toString())
+
+		const queryString = queryParams.toString()
+		const url = `/orders${queryString ? `?${queryString}` : ''}`
+
+		const response = await API.get('ORDER', url)
 		return response.body ?? []
 	}
 
 	static async getOrderById(id: string): Promise<Order> {
-		const response = await API.get('STORE', `/orders/${id}`)
+		const response = await API.get('ORDER', `/orders/${id}`)
 		return response.body ?? null
 	}
 
-    static async createOrder(): Promise<OrderInfo>{
-        const response = await API.post('STORE', `/orders`)
+	static async createOrder(
+		isFast: boolean,
+		comment?: string,
+		promo?: string,
+	): Promise<OrderInfo> {
+		const response = await API.post('ORDER', `/orders`, {
+			isFast,
+			comment,
+			promo,
+		})
 		return response.body ?? null
-    }
+	}
 
 	static async getOrderStatusById(id: string): Promise<string> {
-		const response = await API.get('STORE', `/orders/${id}/status`)
+		const response = await API.get('ORDER', `/orders/${id}/status`)
 		return response.body ?? null
+	}
+
+	static async checkPromo(promo: string): Promise<Discount> {
+		const response = await API.post('ORDER', `/promo/check`, { promo })
+		if (response.service.success) {
+			return {
+				relativeDiscount: response.body.relative_discount,
+				absoluteDiscount: response.body.absolute_discount,
+			}
+		} else {
+			return { relativeDiscount: '0', absoluteDiscount: '0' }
+		}
 	}
 
 	static async fakePayment(params: FakePaymentParams): Promise<void> {
+		const queryParams = new URLSearchParams()
+		queryParams.append('order_id', params.order_id)
+		queryParams.append('return_url', params.return_url)
+		if (params.price) queryParams.append('price', params.price)
 
-        const queryParams = new URLSearchParams()
-        queryParams.append('order_id', params.order_id)
-        queryParams.append('return_url', params.return_url)
-        if (params.price) queryParams.append('price', params.price)
+		const url = `https://no.noideas.ru/api/v0/fake-payment?${queryParams.toString()}`
+		window.location.href = url
+	}
 
-        const url = `http://90.156.218.233:8080/api/v0/fake-payment?${queryParams.toString()}`
-        window.location.href = url
+	static async yooKassaPayment(params: FakePaymentParams): Promise<void> {
+		const response = await API.post('ORDER', `/payments`, params)
+		if (response.service.success) {
+			window.location.href = response.body.confirmation.confirmation_url
+		}
 	}
 }

@@ -1,12 +1,17 @@
-.search-bar {
+.searchWithModal {
+  position: relative;
+  z-index: 10000;
+}
+.searchBar {
 	display: flex;
 	align-items: center;
 	border: 0.1rem solid var(--color-accent);
 	border-radius: var(--border-radius-large);
 	background-color: var(--color-light);
 	height: 2.4rem;
+	position: relative;
+	z-index: 10001;
 
-	
 	&__icon {
 		width: 1rem;
 		height: 1rem;
@@ -25,5 +30,131 @@
 	&:hover {
 		border-color: var(--color-accent-hover);
 	}
+}
 
+.searchModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999; 
+  display: flex;
+  align-items: flex-start;
+  padding-top: 80px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: transparent;
+    pointer-events: none;
+  }
+}
+
+.searchModal__container {
+  position: absolute;
+  top: 5.5rem;
+  left: 4.5rem;
+  z-index: 10000;
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  max-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.searchTitle {
+  padding: 20px 20px 0 20px;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.searchModal__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.resultGroup {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.storeCard {
+  margin: 0;
+  cursor: pointer;
+  padding: 16px;
+  
+  &:hover {
+    background: #f9f9f9;
+  }
+}
+
+.storeCardContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.storeImage {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.storeInfo {
+  flex: 1;
+}
+
+.storeName {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.storeRating {
+  font-size: 14px;
+  color: #ff9500;
+  font-weight: 500;
+}
+
+.itemsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  padding: 16px;
+  border-top: 1px solid #eee;
+}
+
+.loading,
+.noResults {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-top-color: #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

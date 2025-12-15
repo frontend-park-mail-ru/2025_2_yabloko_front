@@ -12,7 +12,8 @@ export interface Store {
 	open_at?: string
 	closed_at?: string
 	city_id?: string
-	tags?: string[]
+	tags_id?: string[]
+	categories_id?: string[]
 	delivery_time?: string
 }
 
@@ -90,6 +91,47 @@ export interface Cart {
 	items: CartItem[]
 }
 
+export interface Category {
+	id: string
+	name: string
+}
+
+export interface SearchStoresWithItemsParams {
+	search?: string
+	limit?: number
+	last_id?: string
+	tag_id?: string[]
+	category_id?: string[]
+	city_id?: string
+	item_type?: string[]
+	min_price?: number
+	max_price?: number
+}
+
+export interface Recommendation {
+	id: string
+	name: string
+	price: number
+	card_img: string
+	types_id?: string[]
+	store_id: string
+}
+
+export interface StoreWithItems {
+	store: Store
+	items: Item[]
+}
+
+export interface RecommendationsResponse {
+	items: Recommendation[]
+}
+
+export interface Review {
+	rating: number,
+	comment: string,
+}
+
+
 export class StoreApi {
 	/**
 	 * Получить список магазинов
@@ -104,7 +146,7 @@ export class StoreApi {
 		if (params.desc !== undefined)
 			queryParams.append('desc', params.desc.toString())
 		if (params.search) queryParams.append('search', params.search)
-		if (params.category) queryParams.append('category', params.category)
+		if (params.category) queryParams.append('category_id', params.category)
 		if (params.cityID) queryParams.append('city_id', params.cityID)
 
 		const queryString = queryParams.toString()
@@ -217,4 +259,89 @@ export class StoreApi {
 		return response.body ?? []
 	}
 
+	static async getTags(): Promise<Tag[]> {
+		const response = await API.get('STORE', '/stores/tags')
+		return response.body ?? []
+	}
+
+	/**
+	 * Получить список категорий
+	 */
+	static async getCategories(): Promise<Category[]> {
+		const response = await API.get('STORE', '/stores/categories')
+		return response.body ?? []
+	}
+
+	/**
+	 * Получить рекомендованные товары
+	 */
+	static async getRecommendedItems(
+		limit: number = 10,
+	): Promise<Recommendation[]> {
+		const response = await API.get('RECS', `/recommend/home?limit=${limit}`)
+
+		// response.body = {items: [...]}, нужно извлечь items
+		const data = response.body as RecommendationsResponse
+		return data?.items || []
+	}
+
+	/**
+	 * Получить список категорий
+	 */
+	static async getReviews(storeId: string): Promise<Review[]> {
+		const response = await API.get('STORE', `/stores/${storeId}/reviews`)
+		return response.body ?? []
+	}
+
+	/**
+	 * Получить рекомендованные товары
+	 */
+	static async addReview(storeId: string, rating: number, comment: string): Promise<void> {
+		const response = await API.post('STORE', `/stores/${storeId}/reviews/add`, {
+			rating,
+			comment,
+		})
+
+	}
+
+	/**
+	 * Поиск магазинов с товарами
+	 * Эластик-серч по магазинам и товарам одновременно
+	 */
+	static async searchStoresWithItems(
+		params: SearchStoresWithItemsParams = {},
+	): Promise<StoreWithItems[]> {
+		const queryParams = new URLSearchParams()
+
+		if (params.search) queryParams.append('search', params.search)
+		if (params.limit) queryParams.append('limit', params.limit.toString())
+		if (params.last_id) queryParams.append('last_id', params.last_id)
+		if (params.city_id) queryParams.append('city_id', params.city_id)
+		if (params.min_price)
+			queryParams.append('min_price', params.min_price.toString())
+		if (params.max_price)
+			queryParams.append('max_price', params.max_price.toString())
+
+		// Массивы параметров
+		if (params.tag_id?.length) {
+			params.tag_id.forEach(tag => queryParams.append('tag_id', tag))
+		}
+		if (params.category_id?.length) {
+			params.category_id.forEach(cat => queryParams.append('category_id', cat))
+		}
+		if (params.item_type?.length) {
+			params.item_type.forEach(type => queryParams.append('item_type', type))
+		}
+
+		const url = `/stores/search/items${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
+
+		try {
+			const response = await API.get('STORE', url)
+			// Предполагаем, что бекенд возвращает массив магазинов с товарами
+			return response.body || []
+		} catch (error) {
+			console.error('Search stores with items error:', error)
+			return []
+		}
+	}
 }

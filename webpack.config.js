@@ -1,4 +1,6 @@
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const stringReplaceLoader = {
 	loader: 'string-replace-loader',
@@ -76,6 +78,38 @@ module.exports = [
 		output: {
 			filename: 'bundle.js',
 			path: distPath,
+			publicPath: '/',
+			clean: false,
+		},
+		plugins: [
+			new HtmlWebpackPlugin({
+				template: './public/index.html',
+				inject: 'body',
+			}),
+			new CopyWebpackPlugin({
+				patterns: [
+					{
+						from: 'public/icons',
+						to: 'static/icons',
+					},
+					{
+						from: 'public/images',
+						to: 'static/images',
+					},
+				],
+			}),
+		],
+	},
+	{
+		mode,
+		devtool: false,
+		entry: './src/sw.ts',
+		module: webpackModule,
+		resolve: resolveScripts,
+		output: {
+			filename: 'sw.js',
+			path: distPath,
+			clean: false,
 		},
 	},
 ]

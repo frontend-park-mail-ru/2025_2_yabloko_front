@@ -1,0 +1,42 @@
+name: Deploy Frontend
+
+on:
+    push:
+        branches:
+            - feature/history
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Deploy via SSH
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.SERVER_HOST }}
+                  username: ${{ secrets.SERVER_USER }}
+                  key: ${{ secrets.SSH_KEY_PRIME }}
+                  script: |
+                      cd ~/2025_2_yabloko_front
+                      sudo git fetch origin feature/history
+                      sudo git reset --hard origin/feature/history
+                      sudo npm ci
+                      sudo npm run bundle
+                      cd ~/2025_2_Yabloko
+                      docker compose down nginx
+                      docker compose up -d nginx
+
+            - name: Send Telegram notification
+              uses: appleboy/telegram-action@master
+              with:
+                  to: ${{ secrets.ALERT_TELEGRAM_CHAT_ID }}
+                  token: ${{ secrets.ALERT_TELEGRAM_BOT_TOKEN }}
+                  message: |
+                      ✅ Frontend deployed successfully!
+                        Adik approved this commit and take you chance to test it on users =)
+                      Repository: ${{ github.repository }}
+                      Branch: ${{ github.ref_name }}
+                      Commit: ${{ github.event.head_commit.message }}
+                      Author: ${{ github.actor }}
+
+                      See changes: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
