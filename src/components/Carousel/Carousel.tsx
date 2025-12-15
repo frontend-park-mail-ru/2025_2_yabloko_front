@@ -53,7 +53,6 @@ export const Carousel = defineComponent({
 		navigate(`/store/${storeId}`)
 	},
 
-    
 	render() {
 		const { items, loading, currentIndex } = this.state
 
@@ -62,6 +61,7 @@ export const Carousel = defineComponent({
 		}
 
 		const currentItem = items[currentIndex]
+
 		return (
 			<div class={styles.carouselContainer}>
 				<h3 class={styles.title}>Рекомендуем</h3>
@@ -90,11 +90,12 @@ export const Carousel = defineComponent({
 								class={styles.item}
 								{...{
 									on: {
-										click: () =>
-											this.handleItemClick(
-												currentItem.id,
-												currentItem.store_id,
-											),
+										click: () => {
+											const actualItem = this.state.items[this.state.currentIndex]
+											if (actualItem) {
+												this.handleItemClick(actualItem.id, actualItem.store_id)
+											}
+										},
 									},
 								}}
 							>
