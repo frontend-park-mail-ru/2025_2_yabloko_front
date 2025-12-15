@@ -102,7 +102,7 @@ module.exports = [
 	{
 		mode,
 		devtool: false,
-		entry: './sw.ts',
+		entry: './src/sw.ts',
 		module: webpackModule,
 		resolve: resolveScripts,
 		output: {
