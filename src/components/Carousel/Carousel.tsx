@@ -36,20 +36,16 @@ export const Carousel = defineComponent({
 	nextItem() {
 		const { items, currentIndex } = this.state
 		if (items.length === 0) return
-		console.log('Next item, current:', currentIndex, 'total:', items.length)
 
 		const nextIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1
-		console.log('Next index:', nextIndex)
 		this.updateState({ currentIndex: nextIndex })
 	},
 
 	prevItem() {
 		const { items, currentIndex } = this.state
 		if (items.length === 0) return
-		console.log('Prev item, current:', currentIndex, 'total:', items.length)
 
 		const prevIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1
-		console.log('Prev index:', prevIndex)
 		this.updateState({ currentIndex: prevIndex })
 	},
 
@@ -60,12 +56,6 @@ export const Carousel = defineComponent({
     
 	render() {
 		const { items, loading, currentIndex } = this.state
-		console.log(
-			'Render carousel, currentIndex:',
-			currentIndex,
-			'items:',
-			items.length,
-		)
 
 		if (!loading && (!items || items.length === 0)) {
 			return <div></div>
@@ -120,7 +110,6 @@ export const Carousel = defineComponent({
 										const { items } = this.state
 										const itemToAdd = items.find(item => item.id === productId)
 										if (itemToAdd) {
-											console.log(itemToAdd.id)
 											addToCart({
 												id: itemToAdd.id,
 												name: itemToAdd.name,

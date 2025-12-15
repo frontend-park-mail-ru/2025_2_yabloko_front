@@ -154,7 +154,7 @@ export const SearchBar = defineComponent({
 					/>
 				</form>
 
-				{isModalOpen && (
+				{isModalOpen ? (
 					<div
 						class={styles.searchModal}
 						{...{
@@ -178,7 +178,7 @@ export const SearchBar = defineComponent({
 									<div class={styles.results}>
 										{results.map((result, index) => (
 											<div key={index} class={styles.resultGroup}>
-												{result.store && (
+												{result.store ? (
 													<div
 														class={styles.storeCard}
 														{...{
@@ -191,13 +191,13 @@ export const SearchBar = defineComponent({
 														}}
 													>
 														<div class={styles.storeCardContent}>
-															{result.store.card_img && (
+															{result.store.card_img ? (
 																<img
 																	src={result.store.card_img}
 																	alt={result.store.name}
 																	class={styles.storeImage}
 																/>
-															)}
+															) : null}
 															<div class={styles.storeInfo}>
 																<h4 class={styles.storeName}>
 																	{result.store.name}
@@ -208,9 +208,9 @@ export const SearchBar = defineComponent({
 															</div>
 														</div>
 													</div>
-												)}
+												) : null}
 
-												{result.items?.length > 0 && (
+												{result.items?.length > 0 ? (
 													<div class={styles.itemsList}>
 														{result.items.map((item, idx) => (
 															<ProductCard
@@ -233,7 +233,7 @@ export const SearchBar = defineComponent({
 															/>
 														))}
 													</div>
-												)}
+												) : null}
 											</div>
 										))}
 									</div>
@@ -241,7 +241,7 @@ export const SearchBar = defineComponent({
 							</div>
 						</div>
 					</div>
-				)}
+				) : null}
 			</div>
 		)
 	},
