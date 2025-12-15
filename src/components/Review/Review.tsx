@@ -29,7 +29,6 @@ export const Review = defineComponent({
 	async loadReviews() {
 		this.updateState({ isLoading: true })
 		try {
-			// Правильный вызов API с использованием this.props
 			const reviews = await StoreApi.getReviews(this.props.storeId)
 			this.updateState({
 				reviews: reviews || [],
@@ -154,7 +153,6 @@ export const Review = defineComponent({
 										click: () => this.handleSubmitReview(),
 									},
 								}}
-								disabled={isSubmitting || !newReview.trim()}
 							>
 								{isSubmitting ? 'Отправка...' : 'Отправить отзыв'}
 							</button>
