@@ -18,10 +18,11 @@ export const CardsHeader = defineComponent({
 				<h2 class={styles.cardsHeader__title}>Рестораны</h2>
 				<div class={styles.cardsHeader__filters}>
 					<button
-						class={`${styles.filter__button} ${currentFilter?.type === 'all'
-								? styles['filter__button--active']
-								: ''
-							}`}
+						class={
+							currentFilter?.type === 'all'
+								? `${styles.filter__button} ${styles.filter__button_active}`
+								: styles.filter__button
+						}
 						{...{
 							on: {
 								click: () => props.onFilterChange?.('all', 'all')
@@ -33,11 +34,11 @@ export const CardsHeader = defineComponent({
 
 					{props.categories.map(category => (
 						<button
-							class={`${styles.filter__button} ${currentFilter?.type === 'category' &&
-									currentFilter?.id === category.id
-									? styles['filter__button--active']
-									: ''
-								}`}
+							class={
+								currentFilter?.type === 'category' && currentFilter?.id === category.id
+									? `${styles.filter__button} ${styles.filter__button_active}`
+									: styles.filter__button
+							}
 							{...{
 								on: {
 									click: () => props.onFilterChange?.('category', category.id)
@@ -50,10 +51,11 @@ export const CardsHeader = defineComponent({
 
 					{props.tags.map(tag => (
 						<button
-							class={`${styles.filter__button} ${currentFilter?.type === 'tag' && currentFilter?.id === tag.id
-									? styles['filter__button--active']
-									: ''
-								}`}
+							class={
+								currentFilter?.type === 'tag' && currentFilter?.id === tag.id
+									? `${styles.filter__button} ${styles.filter__button_active}`
+									: styles.filter__button
+							}
 							{...{
 								on: {
 									click: () => props.onFilterChange?.('tag', tag.id)
