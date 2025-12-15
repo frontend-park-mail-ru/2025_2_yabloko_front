@@ -5,12 +5,14 @@ const path = require('path')
 
 const app = express()
 
-app.use('/static', express.static(path.join(__dirname, '..', 'public')))
-app.use('/dist', express.static(path.join(__dirname, '..', 'dist')))
 const DIST_DIR = path.join(__dirname, '..', 'public')
 
-app.get('/{*any}', (_, res) => {
-	res.sendFile(path.join(DIST_DIR, 'index.html'))
+app.use(express.static(DIST_DIR))
+app.use('/static', express.static(path.join(__dirname, '..', 'public')))
+app.use('/dist', express.static(path.join(__dirname, '..', 'dist')))
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(DIST_DIR, 'index.html'))
 })
 
 const PORT = 3000
