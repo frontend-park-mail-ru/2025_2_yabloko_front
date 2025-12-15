@@ -127,7 +127,7 @@ export interface RecommendationsResponse {
 }
 
 export interface Review {
-	rating: string,
+	rating: number,
 	comment: string,
 }
 
