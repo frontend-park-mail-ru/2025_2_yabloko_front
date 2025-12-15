@@ -1,5 +1,5 @@
 import { defineComponent } from '@antiquemouse/framework'
-import styles from './ReviewsModal.module.scss'
+import styles from './Review.module.scss'
 
 interface ReviewProps {
 	storeId: string
